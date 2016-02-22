@@ -9,6 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.os.Message;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg)
         {
+            Bundle bundle = msg.getData();
+            String string = bundle.getString("myKey");
             TextView myTextView = (TextView)findViewById(R.id.myTextView);
-            myTextView.setText("Button Pressed");
+            myTextView.setText(string);
         }
     };
 
@@ -36,25 +41,17 @@ public class MainActivity extends AppCompatActivity {
         {
             public void run()
             {
-                long endTime = System.currentTimeMillis() + 20 * 1000;
-                while (System.currentTimeMillis() < endTime) {
-                    synchronized (this) {
-                        try
-                        {
-                            wait(endTime - System.currentTimeMillis());
-                        } catch (Exception e)
-                        {
-
-                        }
-                    }
-                }
-                handler.sendEmptyMessage(0);
+                Message msg = handler.obtainMessage();
+                Bundle bundle = new Bundle();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy", Locale.UK);
+                String dateString = dateFormat.format(new Date());
+                bundle.putString("myKey", dateString);
+                msg.setData(bundle);
+                handler.sendMessage(msg);
             }
         };
         Thread mythread = new Thread(runnable);
         mythread.start();
-
-
     }
 
 
