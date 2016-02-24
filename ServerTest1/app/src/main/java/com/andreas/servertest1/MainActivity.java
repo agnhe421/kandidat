@@ -7,6 +7,7 @@ package com.andreas.servertest1;
 import android.os.Bundle;
 import android.app.Activity;
 import android.widget.TextView;
+import android.support.v7.app.*;
 
 public class MainActivity extends Activity
 {

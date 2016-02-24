@@ -17,7 +17,8 @@
         android:id="@+id/infoip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:text="InfoIP" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,7 +27,8 @@
         <TextView
             android:id="@+id/msg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Msg" />
     </ScrollView>
 
 </LinearLayout>
