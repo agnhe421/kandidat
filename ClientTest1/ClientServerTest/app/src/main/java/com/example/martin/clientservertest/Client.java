@@ -31,10 +31,10 @@ public class Client extends AsyncTask<Void, Void, Void> {
         Socket socket = null;
 
         try{
-            socket = new Socket(dstAddress, dstPort);
+
+            socket = new Socket(dstAddress, dstPort);           //Här ligger felet.
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
             byte[] buffer = new byte[1024];
-
             int bytesRead;
             InputStream inputStream = socket.getInputStream();
             //inputStream.read() will block if no data return
@@ -49,7 +49,7 @@ public class Client extends AsyncTask<Void, Void, Void> {
         }catch(IOException e){
             //
             e.printStackTrace();
-            response = "IOException: " + e.toString();
+            response = response +  "IOException: " + e.toString();
         } finally {
             if(socket != null){
                 try{
