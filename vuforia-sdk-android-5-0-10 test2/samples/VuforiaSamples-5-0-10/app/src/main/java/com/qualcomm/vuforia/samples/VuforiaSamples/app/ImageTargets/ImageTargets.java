@@ -126,7 +126,6 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
 
         Intent intent = new Intent(ImageTargets.this, GameActivity.class);
         startActivity(intent);
-        
     }
     
     // Process Single Tap event to trigger autofocus
@@ -428,6 +427,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             {
                 Log.e(LOGTAG, e.getString());
             }
+
             
             boolean result = CameraDevice.getInstance().setFocusMode(
                 CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
@@ -446,6 +446,8 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             Log.e(LOGTAG, exception.getString());
             showInitializationErrorMessage(exception.getString());
         }
+
+
     }
     
     

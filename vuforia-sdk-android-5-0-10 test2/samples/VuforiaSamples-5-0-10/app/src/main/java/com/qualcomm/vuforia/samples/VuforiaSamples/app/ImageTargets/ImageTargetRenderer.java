@@ -80,9 +80,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
         mActivity = activity;
         vuforiaAppSession = session;
 
-        libgdxRenderer test = new libgdxRenderer();
 
-        test.render();
     }
     
     
@@ -184,11 +182,9 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
 //        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 //        initialize(new com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.CustomTextureTest(), config);
 
-
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        
+
         State state = mRenderer.begin();
-        mRenderer.drawVideoBackground();
         
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         

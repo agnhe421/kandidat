@@ -1,10 +1,10 @@
 package com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -25,12 +25,12 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.qualcomm.QCAR.QCAR;
-import com.qualcomm.vuforia.ImageTarget;
+import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
-import com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargetRenderer;
-import com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets;
+import com.qualcomm.vuforia.Vec2I;
+import com.qualcomm.vuforia.VideoBackgroundConfig;
+import com.qualcomm.vuforia.VideoMode;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -68,52 +68,99 @@ public class CustomTextureTest extends InputAdapter implements ApplicationListen
     public Texture customTexture;
     public Shader shader;
 
-    Renderer mRenderer;
-
+    public Renderer mRenderer;
 
     @Override
     public void create () {
 
 
 
+        context = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.ROUNDROBIN, 2));
+        modelBatch = new ModelBatch(context);
+        environment = new Environment();
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, .4f, .4f, .4f, 1f));
+        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+
+        cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam.position.set(0f, 0f, 2f);
+        cam.lookAt(0,0,0);
+        cam.near = 1f;
+        cam.far = 300f;
+        cam.update();
+
+
+        Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
+
+        int height = Gdx.app.getGraphics().getHeight()/400;
+        int width = Gdx.app.getGraphics().getWidth()/400;
+
+
+
+        ModelBuilder modelBuilder = new ModelBuilder();
+        model = modelBuilder.createBox(width, height, 1,
+                new Material(TextureAttribute.createDiffuse(texture), new IntAttribute(BgTextureUnitAttribute.Type, 1)),
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates | VertexAttributes.Usage.Normal);
+        model.manageDisposable(texture);
+
+
+        renderable = new Renderable();
+        model.nodes.get(0).parts.get(0).setRenderable(renderable);
+        renderable.environment = environment;
+        shader = new BgTextureShader(renderable);
+        shader.init();
+        renderable.shader = shader; // comment this line to see the difference
 
 
 
 
+        customTexture = new Texture(Gdx.files.internal("egg.png"));
+        customTexture.bind(1);
+        Gdx.gl.glActiveTexture(0);
+
+//        VideoBackgroundConfig config = new VideoBackgroundConfig();
+//        config.setPosition(new Vec2I(100, 100));
+//
+//        Renderer.getInstance().setVideoBackgroundConfig(config);
+
+
+
+        Gdx.input.setInputProcessor(new InputMultiplexer(this, inputController = new CameraInputController(cam)));
     }
 
     @Override
     public void render () {
+        inputController.update();
 
-//
-//        ImageTargets a = new ImageTargets();
-//
-//        a.initApplicationAR();
-
-
-        GL20 gl = Gdx.gl20;
-        gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
+        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         Gdx.gl.glDisable(GL10.GL_CULL_FACE);
         Gdx.gl.glDisable(GL10.GL_DEPTH_TEST);
+
+
         Renderer.getInstance().begin();
 
-
-
-        Renderer.getInstance().drawVideoBackground();
-
-        Gdx.app.log("hej", "hej ");
+        Renderer.getInstance().bindVideoBackground(1);
 
 
         Renderer.getInstance().end();
 
+        Gdx.gl.glEnable(GL10.GL_DEPTH_TEST);
+        Gdx.gl.glEnable(GL10.GL_CULL_FACE);
 
+        context.begin();
+        modelBatch.begin(cam);
+        modelBatch.render(renderable);
+        modelBatch.end();
+        context.end();
     }
 
     @Override
     public void dispose () {
-
+        modelBatch.dispose();
+        model.dispose();
+        customTexture.dispose();
+        shader.dispose();
     }
 
     public boolean needsGL20 () {
