@@ -98,7 +98,14 @@
          </activity>
         
         <activity
-            android:name=".ui.ActivityList.ActivityLauncher"
+        android:name=".ui.ActivityList.ActivityLauncher"
+        android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
+        android:screenOrientation="portrait"
+        >
+    </activity>
+
+        <activity
+            android:name=".ui.ActivityList.GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             >

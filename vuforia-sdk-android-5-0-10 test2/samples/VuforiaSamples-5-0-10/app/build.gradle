@@ -43,4 +43,5 @@ android {
 dependencies {
     compile files("$VUFORIA_SDK_DIR/$JAR_DIR/Vuforia.jar")
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile "com.android.support:support-v4:18.0.+"
 }

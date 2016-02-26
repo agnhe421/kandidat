@@ -18,6 +18,10 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.qualcomm.vuforia.Matrix44F;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
@@ -33,6 +37,7 @@ import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleApplication3DM
 import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleUtils;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Teapot;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Texture;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.libgdxRenderer;
 
 
 // The renderer class for the ImageTargets sample. 
@@ -74,6 +79,10 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
     {
         mActivity = activity;
         vuforiaAppSession = session;
+
+        libgdxRenderer test = new libgdxRenderer();
+
+        test.render();
     }
     
     
@@ -172,6 +181,10 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
     // The render function.
     private void renderFrame()
     {
+//        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+//        initialize(new com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.CustomTextureTest(), config);
+
+
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         
         State state = mRenderer.begin();
@@ -305,5 +318,4 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
         mTextures = textures;
         
     }
-    
 }
