@@ -141,8 +141,7 @@ public class MainActivity extends ActionBarActivity {
 
             try {
                 socket = new Socket(dstAddress, dstPort);
-                dataOutputStream = new DataOutputStream(
-                        socket.getOutputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 dataInputStream = new DataInputStream(socket.getInputStream());
                 dataOutputStream.writeUTF(name);
                 dataOutputStream.flush();
