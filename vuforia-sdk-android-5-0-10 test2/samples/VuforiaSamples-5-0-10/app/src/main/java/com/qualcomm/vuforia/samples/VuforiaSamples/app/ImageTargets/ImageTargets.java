@@ -106,7 +106,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         super.onCreate(savedInstanceState);
         
         vuforiaAppSession = new SampleApplicationSession(this);
-        
+
         startLoadingAnimation();
         mDatasetStrings.add("StonesAndChips.xml");
         mDatasetStrings.add("Tarmac.xml");
@@ -114,35 +114,35 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         
         vuforiaAppSession
             .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        
+
         mGestureDetector = new GestureDetector(this, new GestureListener());
-        
+
         // Load any sample specific textures:
         mTextures = new Vector<Texture>();
         loadTextures();
-        
+
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
             "droid");
-
         Intent intent = new Intent(ImageTargets.this, GameActivity.class);
         startActivity(intent);
+
     }
-    
+
     // Process Single Tap event to trigger autofocus
     private class GestureListener extends
         GestureDetector.SimpleOnGestureListener
     {
         // Used to set autofocus one second after a manual focus is triggered
         private final Handler autofocusHandler = new Handler();
-        
-        
+
+
         @Override
         public boolean onDown(MotionEvent e)
         {
             return true;
         }
-        
-        
+
+
         @Override
         public boolean onSingleTapUp(MotionEvent e)
         {
@@ -154,20 +154,20 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
                 {
                     boolean result = CameraDevice.getInstance().setFocusMode(
                         CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO);
-                    
+
                     if (!result)
                         Log.e("SingleTapUp", "Unable to trigger focus");
                 }
             }, 1000L);
-            
+
             return true;
         }
     }
-    
-    
+
+
     // We want to load specific textures from the APK, which we will later use
     // for rendering.
-    
+
     private void loadTextures()
     {
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
@@ -177,24 +177,24 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotRed.png",
             getAssets()));
         mTextures.add(Texture.loadTextureFromApk("ImageTargets/Buildings.jpeg",
-            getAssets()));
+                getAssets()));
     }
-    
-    
+
+
     // Called when the activity will start interacting with the user.
     @Override
     protected void onResume()
     {
         Log.d(LOGTAG, "onResume");
         super.onResume();
-        
+
         // This is needed for some Droid devices to force portrait
         if (mIsDroidDevice)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        
+
         try
         {
             vuforiaAppSession.resumeAR();
@@ -202,41 +202,41 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         {
             Log.e(LOGTAG, e.getString());
         }
-        
+
         // Resume the GL view:
         if (mGlView != null)
         {
             mGlView.setVisibility(View.VISIBLE);
             mGlView.onResume();
         }
-        
+
     }
-    
-    
+
+
     // Callback for configuration changes the activity handles itself
     @Override
     public void onConfigurationChanged(Configuration config)
     {
         Log.d(LOGTAG, "onConfigurationChanged");
         super.onConfigurationChanged(config);
-        
+
         vuforiaAppSession.onConfigurationChanged();
     }
-    
-    
+
+
     // Called when the system is about to start resuming a previous activity.
     @Override
     protected void onPause()
     {
         Log.d(LOGTAG, "onPause");
         super.onPause();
-        
+
         if (mGlView != null)
         {
             mGlView.setVisibility(View.INVISIBLE);
             mGlView.onPause();
         }
-        
+
         // Turn off the flash
         if (mFlashOptionView != null && mFlash)
         {
@@ -249,7 +249,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
                 ((CheckBox) mFlashOptionView).setChecked(false);
             }
         }
-        
+
         try
         {
             vuforiaAppSession.pauseAR();
@@ -259,14 +259,14 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         }
     }
     
-    
+
     // The final call you receive before your activity is destroyed.
     @Override
     protected void onDestroy()
     {
         Log.d(LOGTAG, "onDestroy");
         super.onDestroy();
-        
+
         try
         {
             vuforiaAppSession.stopAR();
@@ -274,18 +274,19 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         {
             Log.e(LOGTAG, e.getString());
         }
-        
+
         // Unload texture:
         mTextures.clear();
         mTextures = null;
-        
+
         System.gc();
     }
-    
-    
+
+
     // Initializes AR application components.
     private void initApplicationAR()
     {
+
         // Create OpenGL ES view:
         int depthSize = 16;
         int stencilSize = 0;
@@ -297,33 +298,33 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         mRenderer = new ImageTargetRenderer(this, vuforiaAppSession);
         mRenderer.setTextures(mTextures);
         mGlView.setRenderer(mRenderer);
-        
+
     }
-    
-    
+
+
     private void startLoadingAnimation()
     {
         mUILayout = (RelativeLayout) View.inflate(this, R.layout.camera_overlay,
             null);
-        
+
         mUILayout.setVisibility(View.VISIBLE);
         mUILayout.setBackgroundColor(Color.BLACK);
-        
+
         // Gets a reference to the loading dialog
         loadingDialogHandler.mLoadingDialogContainer = mUILayout
             .findViewById(R.id.loading_indicator);
-        
+
         // Shows the loading indicator at start
         loadingDialogHandler
             .sendEmptyMessage(LoadingDialogHandler.SHOW_LOADING_DIALOG);
-        
+
         // Adds the inflated layout to the view
         addContentView(mUILayout, new LayoutParams(LayoutParams.MATCH_PARENT,
-            LayoutParams.MATCH_PARENT));
-        
+                LayoutParams.MATCH_PARENT));
+
     }
-    
-    
+
+
     // Methods to load and destroy tracking data.
     @Override
     public boolean doLoadTrackersData()
@@ -333,21 +334,21 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             .getTracker(ObjectTracker.getClassType());
         if (objectTracker == null)
             return false;
-        
+
         if (mCurrentDataset == null)
             mCurrentDataset = objectTracker.createDataSet();
-        
+
         if (mCurrentDataset == null)
             return false;
-        
+
         if (!mCurrentDataset.load(
             mDatasetStrings.get(mCurrentDatasetSelectionIndex),
             STORAGE_TYPE.STORAGE_APPRESOURCE))
             return false;
-        
+
         if (!objectTracker.activateDataSet(mCurrentDataset))
             return false;
-        
+
         int numTrackables = mCurrentDataset.getNumTrackables();
         for (int count = 0; count < numTrackables; count++)
         {
@@ -356,29 +357,29 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             {
                 trackable.startExtendedTracking();
             }
-            
+
             String name = "Current Dataset : " + trackable.getName();
             trackable.setUserData(name);
             Log.d(LOGTAG, "UserData:Set the following user data "
                 + (String) trackable.getUserData());
         }
-        
+
         return true;
     }
-    
-    
+
+
     @Override
     public boolean doUnloadTrackersData()
     {
         // Indicate if the trackers were unloaded correctly
         boolean result = true;
-        
+
         TrackerManager tManager = TrackerManager.getInstance();
         ObjectTracker objectTracker = (ObjectTracker) tManager
             .getTracker(ObjectTracker.getClassType());
         if (objectTracker == null)
             return false;
-        
+
         if (mCurrentDataset != null && mCurrentDataset.isActive())
         {
             if (objectTracker.getActiveDataSet().equals(mCurrentDataset)
@@ -389,10 +390,10 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             {
                 result = false;
             }
-            
+
             mCurrentDataset = null;
         }
-        
+
         return result;
     }
     
@@ -446,6 +447,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             Log.e(LOGTAG, exception.getString());
             showInitializationErrorMessage(exception.getString());
         }
+
 
 
     }
@@ -533,8 +535,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         }
         return result;
     }
-    
-    
+
     @Override
     public boolean doStartTrackers()
     {
@@ -573,7 +574,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         
         TrackerManager tManager = TrackerManager.getInstance();
         tManager.deinitTracker(ObjectTracker.getClassType());
-        
+
         return result;
     }
     
@@ -584,7 +585,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         // Process the Gestures
         if (mSampleAppMenu != null && mSampleAppMenu.processEvent(event))
             return true;
-        
+
         return mGestureDetector.onTouchEvent(event);
     }
     

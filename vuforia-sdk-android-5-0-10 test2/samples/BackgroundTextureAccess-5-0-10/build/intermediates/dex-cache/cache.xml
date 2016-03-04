@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/sofiekhullar/Desktop/kandidat/vuforia-sdk-android-5-0-10 test2/build/java/vuforia/Vuforia.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5649f0a8a49ca49701dc36af60f6c593ba4b3c2d">
+        <dex dex="/Users/sofiekhullar/Desktop/kandidat/vuforia-sdk-android-5-0-10 test2/samples/BackgroundTextureAccess-5-0-10/app/build/intermediates/pre-dexed/debug/Vuforia-35287b4fe66100a4d97cef00e71e664131ff4341.jar" />
+    </item>
+
+</items>

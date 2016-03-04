@@ -582,7 +582,7 @@ public class SampleApplicationSession implements UpdateCallbackInterface
         VideoBackgroundConfig config = new VideoBackgroundConfig();
         config.setEnabled(true);
         config.setPosition(new Vec2I(0, 0));
-        
+
         int xSize = 0, ySize = 0;
         if (mIsPortrait)
         {

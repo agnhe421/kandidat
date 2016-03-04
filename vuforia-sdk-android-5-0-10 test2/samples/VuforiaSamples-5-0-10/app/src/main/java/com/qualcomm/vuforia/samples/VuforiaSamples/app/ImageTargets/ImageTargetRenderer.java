@@ -227,7 +227,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
                 Matrix.scaleM(modelViewMatrix, 0, kBuildingScale,
                     kBuildingScale, kBuildingScale);
             }
-            
+
             Matrix.multiplyMM(modelViewProjection, 0, vuforiaAppSession
                 .getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
             

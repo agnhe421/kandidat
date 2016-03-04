@@ -31,10 +31,53 @@ import com.qualcomm.vuforia.State;
 import com.qualcomm.vuforia.Vec2I;
 import com.qualcomm.vuforia.VideoBackgroundConfig;
 import com.qualcomm.vuforia.VideoMode;
+import com.qualcomm.vuforia.samples.SampleApplication.SampleApplicationControl;
+import com.qualcomm.vuforia.samples.SampleApplication.SampleApplicationException;
+import com.qualcomm.vuforia.samples.SampleApplication.SampleApplicationSession;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class CustomTextureTest extends InputAdapter implements ApplicationListener {
+public class CustomTextureTest extends InputAdapter implements ApplicationListener, SampleApplicationControl {
+    @Override
+    public boolean doInitTrackers() {
+        return false;
+    }
+
+    @Override
+    public boolean doLoadTrackersData() {
+        return false;
+    }
+
+    @Override
+    public boolean doStartTrackers() {
+        return false;
+    }
+
+    @Override
+    public boolean doStopTrackers() {
+        return false;
+    }
+
+    @Override
+    public boolean doUnloadTrackersData() {
+        return false;
+    }
+
+    @Override
+    public boolean doDeinitTrackers() {
+        return false;
+    }
+
+    @Override
+    public void onInitARDone(SampleApplicationException e) {
+
+    }
+
+    @Override
+    public void onQCARUpdate(State state) {
+
+    }
+
     public static class BgTextureUnitAttribute extends IntAttribute {
         public static final String Alias = "bgTtextureUnit";
         public final static long Type = register(Alias);
@@ -70,10 +113,12 @@ public class CustomTextureTest extends InputAdapter implements ApplicationListen
 
     public Renderer mRenderer;
 
+    public SampleApplicationSession vuforiaAppSession;
+
     @Override
     public void create () {
 
-
+        vuforiaAppSession = new SampleApplicationSession(this);
 
         context = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.ROUNDROBIN, 2));
         modelBatch = new ModelBatch(context);
@@ -94,8 +139,6 @@ public class CustomTextureTest extends InputAdapter implements ApplicationListen
         int height = Gdx.app.getGraphics().getHeight()/400;
         int width = Gdx.app.getGraphics().getWidth()/400;
 
-
-
         ModelBuilder modelBuilder = new ModelBuilder();
         model = modelBuilder.createBox(width, height, 1,
                 new Material(TextureAttribute.createDiffuse(texture), new IntAttribute(BgTextureUnitAttribute.Type, 1)),
@@ -110,19 +153,9 @@ public class CustomTextureTest extends InputAdapter implements ApplicationListen
         shader.init();
         renderable.shader = shader; // comment this line to see the difference
 
-
-
-
         customTexture = new Texture(Gdx.files.internal("egg.png"));
         customTexture.bind(1);
         Gdx.gl.glActiveTexture(0);
-
-//        VideoBackgroundConfig config = new VideoBackgroundConfig();
-//        config.setPosition(new Vec2I(100, 100));
-//
-//        Renderer.getInstance().setVideoBackgroundConfig(config);
-
-
 
         Gdx.input.setInputProcessor(new InputMultiplexer(this, inputController = new CameraInputController(cam)));
     }
@@ -139,10 +172,7 @@ public class CustomTextureTest extends InputAdapter implements ApplicationListen
 
 
         Renderer.getInstance().begin();
-
         Renderer.getInstance().bindVideoBackground(1);
-
-
         Renderer.getInstance().end();
 
         Gdx.gl.glEnable(GL10.GL_DEPTH_TEST);
