@@ -135,7 +135,7 @@ public class test extends InputAdapter implements ApplicationListener {
 
 
         assets = new AssetManager();
-        assets.load("football.g3dj", Model.class);
+        assets.load("island4_main.g3dj", Model.class);
         loading = true;
 
         Gdx.input.setInputProcessor(new InputMultiplexer(this, inputController = new CameraInputController(cam)));
@@ -143,17 +143,17 @@ public class test extends InputAdapter implements ApplicationListener {
 
 
     private void doneLoading () {
-        Model ship = assets.get("football.g3dj", Model.class);
+        Model ship = assets.get("island4_main.g3dj", Model.class);
         String id = ship.nodes.get(0).id;
 
         ball = new Ball(ship, id);
 
-        Node node = ball.getNode(id);
-        ball.transform.set(node.globalTransform);
-//        node.translation.set(0, 2, 0);
-        node.scale.set(1, 1, 1);
-//        node.rotation.idt();
-        ball.calculateTransforms();
+//        Node node = ball.getNode(id);
+//        ball.transform.set(node.globalTransform);
+////        node.translation.set(0, 2, 0);
+////        node.scale.set(1, 1, 1);
+////        node.rotation.idt();
+//        ball.calculateTransforms();
 
         instances.add(ball);
         ball.setPosition(1f, 1.5f, 1f);

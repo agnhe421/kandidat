@@ -2,6 +2,7 @@ package com.mygdx.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.mygdx.game.GdxTest;
 import com.mygdx.game.test;
 import com.mygdx.game.testing;
 
