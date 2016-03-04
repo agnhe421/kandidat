@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.MyGdxGame;
 
 import java.util.Map;
@@ -23,6 +24,7 @@ public class LoadingScreen implements Screen {
     private final MyGdxGame app;
     private ShapeRenderer shapeRenderer;
     private float progress;
+    private Image splashImg;
 
     public LoadingScreen(final MyGdxGame app)
     {
@@ -68,7 +70,7 @@ public class LoadingScreen implements Screen {
         progress = MathUtils.lerp(progress, app.assets.getProgress(),0.1f);
         if(app.assets.update() && progress >= app.assets.getProgress() - 0.01f) // retunerar false tills alla assets är inladdade
         {
-            app.setScreen(app.splashScreen); // Kan vara splashscreen också
+            app.setScreen(app.mainMenyScreen); // Kan vara splashscreen också
         }
     }
 
