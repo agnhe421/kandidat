@@ -4,9 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -19,13 +24,14 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att impo
 /**
  * Created by sofiekhullar on 16-03-02.
  */
-public class SplashScreen implements Screen {
+public class SettingScreen implements Screen {
 
     private final MyGdxGame app;
     private Stage stage;
-    private Image splashImg;
+    private TextButton buttonBack;
+    private Skin skin;
 
-    public  SplashScreen(final MyGdxGame app){
+    public SettingScreen(final MyGdxGame app){
         this.app = app;
         this.stage = new Stage(new StretchViewport(MyGdxGame.V_HEIGTH ,MyGdxGame.V_WIDTH, app.camera )); // kan hatera olika skärmstorlekar
     }
@@ -36,27 +42,13 @@ public class SplashScreen implements Screen {
         System.out.println("Show");
         Gdx.input.setInputProcessor(stage); // hanterar olika input events
 
-        Runnable transitionRunnale = new Runnable() {
-            @Override
-            public void run() {
-                app.setScreen(app.mainMenyScreen);
-            }
-        };
+        this.skin = new Skin();
+        this.skin.addRegions(app.assets.get("ui/uiskin.atlas" , TextureAtlas.class));
+        this.skin.add("default-font", app.font24); // Sätter defaulf font som vår ttf font
+        this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 
-        Texture splashTex = app.assets.get("badlogic.jpg", Texture.class);
-        splashImg = new Image(splashTex);
-        splashImg.setOrigin(splashImg.getWidth() / 2, splashImg.getHeight() / 2);
-        splashImg.setPosition(stage.getWidth() / 2 - 128, stage.getHeight() + 128);
-        //splashImg.addAction(sequence(alpha(0f), fadeIn(2f))); // kallar första och avslutar den och sen går vidare
-        //splashImg.addAction(sequence(alpha(0f), parallel(moveBy(20,-30, 2f) ,fadeIn(2f))));
-        splashImg.addAction(sequence(alpha(0f), scaleBy(0.1f, 0.1f),
-                parallel(fadeIn(2f, Interpolation.pow2),
-                        scaleBy(0.5f, 0.5f, 2.5f, Interpolation.pow5),
-                        moveTo(stage.getWidth() / 2 - 128, stage.getHeight() / 2 - 128, 2f, Interpolation.swing)),
-                delay(1.5f), fadeOut(1f), run(transitionRunnale)));
-
-        stage.addActor(splashImg);
-    }
+        initButtons();
+        }
 
     @Override
     public void render(float delta) {
@@ -67,7 +59,7 @@ public class SplashScreen implements Screen {
         stage.draw();
 
         app.batch.begin();
-        app.font24.draw(app.batch, "Screen: SPLASH", 20, 20);
+        app.font24.draw(app.batch, "Screen: SETTING", 20, 20);
         app.batch.end();
     }
 
@@ -97,5 +89,20 @@ public class SplashScreen implements Screen {
     public void dispose() {
         System.out.println("dispose");
         stage.dispose();
+    }
+
+    private void initButtons() {
+        buttonBack = new TextButton("Back", skin, "default");
+        buttonBack.setPosition(20,app.camera.viewportHeight - 60);
+        buttonBack.setSize(280, 60);
+        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonBack.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                app.setScreen(app.mainMenyScreen);
+            }
+        });
+
+        stage.addActor(buttonBack);
     }
 }

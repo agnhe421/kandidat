@@ -1,18 +1,18 @@
-package com.mygdx.game;import com.badlogic.gdx.ApplicationListener;
+package com.mygdx.game;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.MainMenyScreen;
-import com.mygdx.game.screens.PlayScreen;
-import com.mygdx.game.screens.SplashScreen;
+import com.mygdx.game.screens.LobbyScreen;
+import com.mygdx.game.screens.SettingScreen;
 
 public class MyGdxGame extends Game {
 
@@ -25,9 +25,9 @@ public class MyGdxGame extends Game {
 	public OrthographicCamera camera;
 	public AssetManager assets;
 	public LoadingScreen loadingScreen;
-	public SplashScreen splashScreen;
+	public SettingScreen settingScreen;
 	public MainMenyScreen mainMenyScreen;
-	public PlayScreen playScreen;
+	public LobbyScreen lobbyScreen;
 
 
 	@Override
@@ -43,9 +43,9 @@ public class MyGdxGame extends Game {
 		font24.setColor(Color.BLACK) ;
 
 		loadingScreen = new LoadingScreen(this);
-		splashScreen = new SplashScreen(this);
+		settingScreen = new SettingScreen(this);
 		mainMenyScreen = new MainMenyScreen(this);
-		playScreen = new PlayScreen(this);
+		lobbyScreen = new LobbyScreen(this);
 
 		this.setScreen(loadingScreen);
 	}
@@ -58,10 +58,8 @@ public class MyGdxGame extends Game {
 		{
 			Gdx.app.exit();
 		}
-		//batch.begin();
-		//font.draw(batch, "Hello World", 200, 200);
-		//batch.end();
-		super.render(); // VIKTIGT ATT DET ÄR SUPER
+
+		super.render(); // måste vara super.render
 	}
 
 	@Override
@@ -82,9 +80,9 @@ public class MyGdxGame extends Game {
 		font24.dispose();
 		assets.dispose();
 		loadingScreen.dispose();
-		splashScreen.dispose();
+		settingScreen.dispose();
 		mainMenyScreen.dispose();
-		playScreen.dispose();
+		lobbyScreen.dispose();
 	}
 
 	// Hur man lägger till egna ttf fonts i Libgdx

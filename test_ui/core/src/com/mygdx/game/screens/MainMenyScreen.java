@@ -3,17 +3,18 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
-
-import javax.sound.midi.Sequence;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att importera!
 
@@ -21,12 +22,17 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att impo
  * Created by sofiekhullar on 16-03-02.
  */
 public class MainMenyScreen implements Screen {
-
+    // App reference
     private final MyGdxGame app;
+    // Stage vars
     private Stage stage;
     private Skin skin;
-    private TextButton buttonPlay, buttonExit;
+    // Buttons
+    private TextButton buttonPlay, buttonSetting, buttonExit;
+    // Texture
+    private Texture background;
 
+    public static float SCALE_RATIO = 1680 / Gdx.graphics.getWidth();
 
     public MainMenyScreen(final MyGdxGame app)
     {
@@ -40,9 +46,11 @@ public class MainMenyScreen implements Screen {
         stage.clear();
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/uiskin.atlas" , TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
         this.skin.add("default-font", app.font24); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+
+        background = app.assets.get("img/b.jpg", Texture.class);
 
         initButtons();
     }
@@ -54,13 +62,13 @@ public class MainMenyScreen implements Screen {
 
         update(delta);
 
-        stage.draw();
-
         app.batch.begin();
+        app.batch.draw(background,0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         app.font24.draw(app.batch, "Screen: MAINMENY", 20, 20);
         app.batch.end();
 
-
+        // Måste göras sist!
+        stage.draw();
     }
 
     public void update(float delta)
@@ -102,12 +110,23 @@ public class MainMenyScreen implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.playScreen);
+                app.setScreen(app.lobbyScreen);
+            }
+        });
+
+        buttonSetting = new TextButton("Settings", skin, "default");
+        buttonSetting.setPosition(70, 190);
+        buttonSetting.setSize(280, 60);
+        buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonSetting.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                app.setScreen(app.settingScreen);
             }
         });
 
         buttonExit = new TextButton("Exit", skin, "default");
-        buttonExit.setPosition(70, 190);
+        buttonExit.setPosition(70, 120);
         buttonExit.setSize(280, 60);
         buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonExit.addListener(new ClickListener() {
@@ -116,9 +135,8 @@ public class MainMenyScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-
         stage.addActor(buttonPlay);
+        stage.addActor(buttonSetting);
         stage.addActor(buttonExit);
-
     }
 }

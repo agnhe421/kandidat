@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,7 +20,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att impo
 /**
  * Created by sofiekhullar on 16-03-04.
  */
-public class PlayScreen implements Screen {
+public class LobbyScreen implements Screen {
     // App reference
     private final MyGdxGame app;
 
@@ -35,7 +36,10 @@ public class PlayScreen implements Screen {
     // Nav button
     private TextButton buttonBack;
 
-    public PlayScreen(final MyGdxGame app)
+    // Texture
+    private Texture background;
+
+    public LobbyScreen(final MyGdxGame app)
     {
         this.app = app;
         this.stage = new Stage(new StretchViewport(MyGdxGame.V_HEIGTH ,MyGdxGame.V_WIDTH, app.camera ));
@@ -52,6 +56,8 @@ public class PlayScreen implements Screen {
         this.skin.add("default-font", app.font24); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 
+        background = app.assets.get("img/b.jpg", Texture.class);
+
         initNavigationButton();
         initGrid();
 
@@ -64,11 +70,12 @@ public class PlayScreen implements Screen {
 
         update(delta);
 
-        stage.draw();
-
         app.batch.begin();
+        app.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); // måste göras först
         app.font24.draw(app.batch, "Screen: PLAY", 20, 20);
         app.batch.end();
+
+        stage.draw();
     }
 
 
