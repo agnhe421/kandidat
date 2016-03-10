@@ -123,8 +123,8 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
 
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
             "droid");
-        Intent intent = new Intent(ImageTargets.this, GameActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(ImageTargets.this, GameActivity.class);
+        //startActivity(intent);
 
     }
 

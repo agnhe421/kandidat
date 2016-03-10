@@ -10,6 +10,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 
 import java.util.Map;
@@ -22,23 +29,26 @@ import javafx.application.Application;
 public class LoadingScreen implements Screen {
     // App reference
     private final MyGdxGame app;
+    // Stage vars
+    private Rectangle viewport;
     // Progressbar
     private ShapeRenderer shapeRenderer;
     private float progress;
-
     // Texture
-    private Texture startImageTexture;
+    private Texture startImage;
     private Texture backgroundImage;
 
     public LoadingScreen(final MyGdxGame app)
     {
         this.app = app;
         this.shapeRenderer = new ShapeRenderer();
+        this.viewport = new Rectangle();
+
     }
 
     private void queueAsset()
     {
-        app.assets.load("img/b.jpg", Texture.class);
+        app.assets.load("img/background1.jpg", Texture.class);
         app.assets.load("img/badlogic.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
     }
@@ -46,10 +56,11 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         System.out.println("LOADING");
-        startImageTexture = new Texture(Gdx.files.internal("img/badlogic.jpg")); // Kan göras på ett bättre sätt?
-        backgroundImage = new Texture(Gdx.files.internal("img/b.jpg"));
+        startImage = new Texture(Gdx.files.internal("img/badlogic.jpg")); // Kan göras på ett bättre sätt?
+        backgroundImage = new Texture(Gdx.files.internal("img/background1.jpg"));
 
         shapeRenderer.setProjectionMatrix(app.camera.combined); // viktigt för att shaprenderer ska ha relativ storlek
+
         this.progress = 0f;
         queueAsset();
     }
@@ -59,20 +70,23 @@ public class LoadingScreen implements Screen {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // set viewport
+        Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
+                (int) viewport.width, (int) viewport.height);
         update(delta);
 
         app.batch.begin();
-        app.batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        app.batch.draw(backgroundImage, Gdx.graphics.getHeight()/ 2 - backgroundImage.getHeight()/2, Gdx.graphics.getWidth() / 2 -backgroundImage.getWidth()/2);
         app.font24.draw(app.batch, "Screen: LOADING", 20, 20);
-        app.batch.draw(startImageTexture, Gdx.graphics.getHeight()/ 2, Gdx.graphics.getWidth() / 2);
+        app.batch.draw(startImage, Gdx.graphics.getHeight()/ 2 - startImage.getHeight()/2, Gdx.graphics.getWidth() / 2 -startImage.getWidth()/2);
         app.batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rect(32, app.camera.viewportHeight / 2 - 150, app.camera.viewportWidth - 64, 16);
+        shapeRenderer.rect(32, app.camera.viewportHeight/2, app.camera.viewportWidth - 64, 70);
 
         shapeRenderer.setColor(Color.PINK);
-        shapeRenderer.rect(32, app.camera.viewportHeight / 2 - 150, progress * (app.camera.viewportWidth - 64), 16);
+        shapeRenderer.rect(32, Gdx.graphics.getHeight()/ 2, progress * (Gdx.graphics.getWidth() - 64), 70);
         shapeRenderer.end();
     }
 
@@ -80,13 +94,35 @@ public class LoadingScreen implements Screen {
         progress = MathUtils.lerp(progress, app.assets.getProgress(),0.1f);
         if(app.assets.update() && progress >= app.assets.getProgress() - 0.01f) // retunerar false tills alla assets är inladdade
         {
-            app.setScreen(app.mainMenyScreen); // Kan vara splashscreen också
+            app.setScreen(app.mainMenyScreen);
         }
     }
 
     @Override
     public void resize(int width, int height) {
+        //calculate new viewport
+        float aspectRatio = (float)width/(float)height;
+        float scale = 1f;
+        Vector2 crop = new Vector2(0f, 0f);
 
+        if(aspectRatio > app.ASPECT_RATIO)
+        {
+            scale = (float)height/(float)app.VIRTUAL_HEIGHT;
+            crop.x = (width - app.VIRTUAL_WIDTH*scale)/2f;
+        }
+        else if(aspectRatio < app.ASPECT_RATIO)
+        {
+            scale = (float)width/(float)app.VIRTUAL_WIDTH;
+            crop.y = (height - app.VIRTUAL_HEIGHT*scale)/2f;
+        }
+        else
+        {
+            scale = (float)width/(float)app.VIRTUAL_WIDTH;
+        }
+
+        float w = (float)app.VIRTUAL_WIDTH*scale;
+        float h = (float)app.VIRTUAL_HEIGHT*scale;
+        viewport = new Rectangle(crop.x, crop.y, w, h);
     }
 
     @Override

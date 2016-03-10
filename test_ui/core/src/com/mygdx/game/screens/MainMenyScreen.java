@@ -3,17 +3,24 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att importera!
@@ -27,17 +34,21 @@ public class MainMenyScreen implements Screen {
     // Stage vars
     private Stage stage;
     private Skin skin;
+    private Rectangle viewport;
     // Buttons
     private TextButton buttonPlay, buttonSetting, buttonExit;
     // Texture
     private Texture background;
+    // width och heigth
+    private float w = Gdx.graphics.getWidth();
+    private float h = Gdx.graphics.getHeight();
 
-    public static float SCALE_RATIO = 1680 / Gdx.graphics.getWidth();
 
     public MainMenyScreen(final MyGdxGame app)
     {
         this.app = app;
-        this.stage = new Stage(new StretchViewport(MyGdxGame.V_HEIGTH ,MyGdxGame.V_WIDTH, app.camera ));
+        this.stage = new Stage(new StretchViewport(w , h, app.camera));
+        this.viewport = new Rectangle();
     }
     @Override
     public void show() {
@@ -50,8 +61,7 @@ public class MainMenyScreen implements Screen {
         this.skin.add("default-font", app.font24); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 
-        background = app.assets.get("img/b.jpg", Texture.class);
-
+        background = app.assets.get("img/background1.jpg", Texture.class);
         initButtons();
     }
 
@@ -60,10 +70,14 @@ public class MainMenyScreen implements Screen {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // set viewport
+        Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
+                (int) viewport.width, (int) viewport.height);
+
         update(delta);
 
         app.batch.begin();
-        app.batch.draw(background,0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        app.batch.draw(background, Gdx.graphics.getHeight()/ 2 - background.getHeight()/2, Gdx.graphics.getWidth() / 2 -background.getWidth()/2);
         app.font24.draw(app.batch, "Screen: MAINMENY", 20, 20);
         app.batch.end();
 
@@ -78,7 +92,29 @@ public class MainMenyScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        //calculate new viewport
+        float aspectRatio = (float)width/(float)height;
+        float scale = 1f;
+        Vector2 crop = new Vector2(0f, 0f);
 
+        if(aspectRatio > app.ASPECT_RATIO)
+        {
+            scale = (float)height/(float)app.VIRTUAL_HEIGHT;
+            crop.x = (width - app.VIRTUAL_WIDTH*scale)/2f;
+        }
+        else if(aspectRatio < app.ASPECT_RATIO)
+        {
+            scale = (float)width/(float)app.VIRTUAL_WIDTH;
+            crop.y = (height - app.VIRTUAL_HEIGHT*scale)/2f;
+        }
+        else
+        {
+            scale = (float)width/(float)app.VIRTUAL_WIDTH;
+        }
+
+        float w = (float)app.VIRTUAL_WIDTH*scale;
+        float h = (float)app.VIRTUAL_HEIGHT*scale;
+        viewport = new Rectangle(crop.x, crop.y, w, h);
     }
 
     @Override
@@ -103,9 +139,13 @@ public class MainMenyScreen implements Screen {
 
     private void initButtons()
     {
+        int size_x = 280;
+        int size_y = 60;
+        int space = 70;
+
         buttonPlay = new TextButton("Play",skin, "default");
-        buttonPlay.setPosition(70, 260);
-        buttonPlay.setSize(280, 60);
+        buttonPlay.setPosition(Gdx.graphics.getWidth()/ 2 - size_x/2, Gdx.graphics.getHeight()/2 - size_y/2);
+        buttonPlay.setSize(size_x, size_y);
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonPlay.addListener(new ClickListener() {
             @Override
@@ -115,8 +155,8 @@ public class MainMenyScreen implements Screen {
         });
 
         buttonSetting = new TextButton("Settings", skin, "default");
-        buttonSetting.setPosition(70, 190);
-        buttonSetting.setSize(280, 60);
+        buttonSetting.setPosition(Gdx.graphics.getWidth()/ 2 - size_x/2, Gdx.graphics.getHeight()/2 - size_y/2 - space);
+        buttonSetting.setSize(size_x, size_y);
         buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonSetting.addListener(new ClickListener() {
             @Override
@@ -126,8 +166,8 @@ public class MainMenyScreen implements Screen {
         });
 
         buttonExit = new TextButton("Exit", skin, "default");
-        buttonExit.setPosition(70, 120);
-        buttonExit.setSize(280, 60);
+        buttonExit.setPosition(Gdx.graphics.getWidth()/ 2 - size_x/2, Gdx.graphics.getHeight()/2 - size_y/2 - space*2);
+        buttonExit.setSize(size_x, size_y);
         buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonExit.addListener(new ClickListener() {
             @Override
