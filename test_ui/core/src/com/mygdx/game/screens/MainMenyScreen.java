@@ -29,7 +29,7 @@ public class MainMenyScreen implements Screen {
     private Skin skin;
     private Rectangle viewport;
     // Buttons
-    private TextButton button,buttonPlay, buttonSetting, buttonExit;
+    private TextButton button,buttonPlay, buttonSetting, buttonScore;
     TextButton.TextButtonStyle textButtonStyle;
     TextureAtlas buttonAtlas;
     // Texture
@@ -55,7 +55,7 @@ public class MainMenyScreen implements Screen {
         this.skin.addRegions(app.assets.get("ui/menuskin.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/menuskin.json"));
-        
+
         background = app.assets.get("img/background1.jpg", Texture.class);
         initButtons();
     }
@@ -138,9 +138,9 @@ public class MainMenyScreen implements Screen {
         int size_y = 60;
         int space = 70;
 
-        buttonPlay = new TextButton("Play",skin, "default");
-        buttonPlay.setPosition(Gdx.graphics.getWidth()/ 2 - size_x/2, Gdx.graphics.getHeight()/2 - size_y/2);
-        buttonPlay.setSize(size_x, size_y);
+        buttonPlay = new TextButton("",skin, "default");
+        buttonPlay.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        //buttonPlay.setSize(size_x, size_y);
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonPlay.addListener(new ClickListener() {
             @Override
@@ -149,9 +149,9 @@ public class MainMenyScreen implements Screen {
             }
         });
 
-        buttonSetting = new TextButton("Settings", skin, "default");
-        buttonSetting.setPosition(Gdx.graphics.getWidth()/ 2 - size_x/2, Gdx.graphics.getHeight()/2 - size_y/2 - space);
-        buttonSetting.setSize(size_x, size_y);
+        buttonSetting = new TextButton("", skin, "default2");
+        buttonSetting.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - space);
+        //buttonSetting.setSize(size_x, size_y);
         buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonSetting.addListener(new ClickListener() {
             @Override
@@ -160,18 +160,18 @@ public class MainMenyScreen implements Screen {
             }
         });
 
-        buttonExit = new TextButton("Exit", skin, "default");
-        buttonExit.setPosition(Gdx.graphics.getWidth()/ 2 - size_x/2, Gdx.graphics.getHeight()/2 - size_y/2 - space*2);
-        buttonExit.setSize(size_x, size_y);
-        buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-        buttonExit.addListener(new ClickListener() {
+        buttonScore = new TextButton("", skin, "default3");
+        buttonScore.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - space * 2);
+        //buttonScore.setSize(size_x, size_y);
+        buttonScore.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonScore.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                System.out.println("Score kommer!");
             }
         });
         stage.addActor(buttonPlay);
         stage.addActor(buttonSetting);
-        stage.addActor(buttonExit);
+        stage.addActor(buttonScore);
     }
 }

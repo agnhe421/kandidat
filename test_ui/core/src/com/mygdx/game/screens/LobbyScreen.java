@@ -49,10 +49,15 @@ public class LobbyScreen implements Screen {
         System.out.println("Show");
         Gdx.input.setInputProcessor(stage); // hanterar olika input events
 
+        /*this.skin = new Skin();
+        //this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+        this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font*/
+
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/uiskin.atlas" , TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/menuskin.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+        this.skin.load(Gdx.files.internal("ui/menuskin.json"));
 
         background = app.assets.get("img/background1.jpg", Texture.class);
 
@@ -133,9 +138,9 @@ public class LobbyScreen implements Screen {
         int size_x = 280;
         int size_y = 60;
 
-        buttonBack = new TextButton("Back", skin, "default");
-        buttonBack.setSize(size_x, size_y);
-        buttonBack.setPosition(Gdx.graphics.getWidth() / 2 - size_x / 2, Gdx.graphics.getHeight() / 2 - size_y / 2);
+        buttonBack = new TextButton("", skin, "default4");
+        //buttonBack.setSize(size_x, size_y);
+        buttonBack.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override

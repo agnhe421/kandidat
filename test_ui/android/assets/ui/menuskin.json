@@ -9,6 +9,9 @@
 },
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
   default: { down: playButton, up: playButton, font: default-font, fontColor: white },
+  default2: { down: settings, up: settings, font: default-font, fontColor: white },
+  default3: { down: score, up: score, font: default-font, fontColor: white },
+  default4: { down: back, up: back, font: default-font, fontColor: white },
   toggle: { down: playButton, up: playButton, checked: playButton, font: default-font, fontColor: white, downFontColor: red }
   }
 }
