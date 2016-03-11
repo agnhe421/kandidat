@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -67,8 +69,7 @@ public class CreateServer extends Thread
                 dSocket.receive(dPacket);
 
                 msg = getClass().getName() + ">>>Discovery packet recieved from: " + dPacket.getAddress().getHostAddress() + "\n";
-                msg += getClass().getName() + ">>>Packet received; data: " + new String(dPacket.getData()) + "\n";
-
+                msg += getClass().getName() + ">>>Packet received; data: " + new String(dPacket.getData()).trim() + "\n";
                 String message = new String(dPacket.getData()).trim();
                 if(message.equals("DISCOVER_FUIFSERVER_REQUEST"))
                 {

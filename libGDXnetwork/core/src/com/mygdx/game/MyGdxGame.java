@@ -39,7 +39,7 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 	BitmapFont font;
 	int screenWidth, screenHeight;
 	private String msg = "Can't touch dis.", error = "I am error.", serverip = "IP";
-	boolean joinbool, createbool;
+	boolean joinbool, createbool, hardexit = false;
 	CreateServer create;
 	JoinServer join;
 	Skin skin;
@@ -48,11 +48,6 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 	TextButton.TextButtonStyle buttonCreateStyle, buttonJoinStyle;
 	public AssetManager assManager;
 	public ServerInterface sInterface;
-
-	public MyGdxGame(ServerInterface sInterface)
-	{
-		this.sInterface = sInterface;
-	}
 
 	/*class TouchInfo
 	{
@@ -108,7 +103,28 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				createbool = true;
-				if(!create.isAlive())
+				if(joinbool && createbool)
+				{
+					Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
+					create.stopServer();
+					join.disconnect();
+					try
+					{
+						join.join();
+						create.join();
+					}catch(InterruptedException e)
+					{
+						e.printStackTrace();
+						Gdx.app.log("EXCEPTION: ", e.toString());
+					}
+					create = null;
+					join = null;
+					createbool = false;
+					joinbool = false;
+					hardexit = true;
+					Gdx.app.exit();
+				}
+				else if(!create.isAlive())
 				{
 					create.start();
 					serverip = "IP: " + create.getIpAddress() + ":" + create.SOCKETSERVERPORT;
@@ -150,16 +166,56 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				joinbool = true;
-
-				if(!join.isAlive())
+				if(joinbool && createbool) {
+					Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
+					if(create.isAlive())
+						create.stopServer();
+					if(join.isAlive())
+						join.disconnect();
+					try
+					{
+						join.join();
+						create.join();
+					}catch(InterruptedException e)
+					{
+						e.printStackTrace();
+						Gdx.app.log("EXCEPTION: ", e.toString());
+					}
+					create = null;
+					join = null;
+					createbool = false;
+					joinbool = false;
+					hardexit = true;
+					Gdx.app.exit();
+				}
+				else if(!join.isAlive())
 				{
 					join.start();
 					serverip = "Join Server Mode Activated!";
 				}
 				else
 				{
-					Gdx.app.log("ATTENTION: ", "Join server already active, exiting to prevent errors!");
-					Gdx.app.exit();
+					join.disconnect();
+					try
+					{
+						join.join();
+					}catch(InterruptedException e)
+					{
+						e.printStackTrace();
+						Gdx.app.log("EXCEPTION: ", e.toString());
+					}
+					if(join.isAlive())
+					{
+						Gdx.app.log("FATAL ERROR: ", "Thread still alive, exiting to prevent errors.");
+						Gdx.app.exit();
+					}
+					else
+					{
+						join = new JoinServer("172.20.10.5", 8080, "Temp");
+						join.start();
+						serverip = "Join Server Mode Activated!";
+					}
+
 				}
 				/*if(join.isConnected())
 				{
@@ -181,6 +237,8 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
+				if(createbool)
+					create.stopServer();
 				Gdx.app.log("ATTENTION: ", "Exit command executed.");
 				Gdx.app.exit();
 			}
@@ -260,20 +318,25 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 		glyphLayoutIP.setText(font, serverip);
 		float fontix = glyphLayoutIP.width/2, fontiy = glyphLayoutIP.height/2;
 		float x = screenWidth/2, y = screenHeight/2;
-		if(createbool)
+		if(!hardexit)
 		{
-			msg = create.getMsg();
-			error = create.getError();
-		}
-		else if(joinbool)
-		{
-			msg = join.getMsg();
-			error = join.getError();
-		}
-		else if(joinbool && createbool)
-		{
-			Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
-			Gdx.app.exit();
+			if(createbool)
+			{
+				msg = create.getMsg();
+				error = create.getError();
+			}
+			else if(joinbool)
+			{
+				msg = join.getMsg();
+				error = join.getError();
+			}
+			if(!join.isAlive() && joinbool)
+			{
+				serverip = "Join mode exited!";
+				msg = "msg";
+				joinbool = false;
+				join = new JoinServer("172.20.10.5", 8080, "Temp");
+			}
 		}
 		font.draw(batch, msg, x - fontx, y + fonty);
 		font.draw(batch, error, x - fontex, y + fontey - 300);

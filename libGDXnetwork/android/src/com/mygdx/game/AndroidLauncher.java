@@ -14,7 +14,7 @@ public class AndroidLauncher extends AndroidApplication {
 		serverCodeAndroid = new ServerCodeAndroid(this);
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new MyGdxGame(serverCodeAndroid), config);
+		initialize(new MyGdxGame(), config);
 	}
 
 

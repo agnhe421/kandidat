@@ -107,6 +107,14 @@ public class JoinServer extends Thread
                 //Controller_Base.setServerIp(receivePacket.getAddress());
                 serverIP = receivePacket.getAddress().toString();
             }
+            try
+            {
+                this.sleep(1000);
+            }catch(InterruptedException e)
+            {
+                e.printStackTrace();
+                error = "Exception: " + e.toString();
+            }
             c.close();
         }catch(SocketException e)
         {
@@ -204,6 +212,10 @@ public class JoinServer extends Thread
 
     public Boolean isConnected() {return connected;}
 
-    private void disconnect() { connected = false; }
+    public void disconnect()
+    {
+        connected = false;
+        c.close();
+    }
 
 }
