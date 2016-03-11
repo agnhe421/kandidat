@@ -13,6 +13,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -32,18 +36,26 @@ public class ActivityLauncher extends Activity implements SampleApplicationContr
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 //
 //        SampleApplicationSession vuforiaSession = new SampleApplicationSession(this);
-//        vuforiaSession.initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-
+//        vuforiaSession.initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRT);
+//
+//
 //        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-//        initialize(new com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.CustomTextureTest(), config);
-//OCH EXTENDS AndroidApplication!!
-
+//
+//        config.r = config.g = config.b = config.a = 8;
+//
+//        initializeForView(new com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.MyGdxGame(), config);
+////OCH EXTENDS AndroidApplication!!
+//
         Intent intent = new Intent(this,
                 com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets.class);
         startActivity(intent);
+
+
     }
 
 
