@@ -38,6 +38,7 @@ public class MyGdxGame extends Game {
 	public Camera camera;
 	private Rectangle viewport;
 
+
 	@Override
 	public void create() {
 

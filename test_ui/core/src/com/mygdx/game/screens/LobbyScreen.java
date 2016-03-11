@@ -37,10 +37,19 @@ public class LobbyScreen implements Screen {
     // Texture
     private Texture background;
 
+    // Nätverk
+    private String msg = "Can't touch dis.", error = "I am error.", serverip = "IP";
+    boolean joinbool, createbool, hardexit = false;
+    CreateServer create;
+    JoinServer join;
+    TextButton buttonCreate, buttonJoin, buttonExit;
+
     public LobbyScreen(final MyGdxGame app){
         this.app = app;
         this.stage = new Stage(new StretchViewport(w , h));
         this.viewport = new Rectangle();
+        this.create = new CreateServer();
+        this.join = new JoinServer("172.20.10.5", 8080, "Temp");
     }
 
     // Kallas varje gång man vill att denna screen ska visas
@@ -76,9 +85,30 @@ public class LobbyScreen implements Screen {
 
         update(delta);
 
+        if(createbool)
+        {
+            msg = create.getMsg();
+            error = create.getError();
+        }
+        else if(joinbool)
+        {
+            msg = join.getMsg();
+            error = join.getError();
+        }
+        if(!join.isAlive() && joinbool)
+        {
+            serverip = "Join mode exited!";
+            msg = "msg";
+            joinbool = false;
+            join = new JoinServer("172.20.10.5", 8080, "Temp");
+        }
+
         app.batch.begin();
         app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
         app.font50.draw(app.batch, "Screen: Lobby", 30, 30);
+        app.font50.draw(app.batch, msg, 500, 700);
+        app.font50.draw(app.batch, error, 500, 740);
+        app.font50.draw(app.batch, serverip, 500, 680);
         app.batch.end();
 
         stage.draw();
@@ -136,20 +166,182 @@ public class LobbyScreen implements Screen {
 
     private void initButtons() {
 
-        int size_x = 280;
-        int size_y = 60;
-
-        buttonBack = new TextButton("", skin, "default4");
-        //buttonBack.setSize(size_x, size_y);
-        buttonBack.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-        buttonBack.addListener(new ClickListener() {
+        float buttonSizeX = 250, buttonSizeY = 50;
+        buttonCreate = new TextButton("Create Server", skin, "default");
+        buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h/2 - 115 + buttonSizeY / 2);
+        buttonCreate.setSize(buttonSizeX, buttonSizeY);
+        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonCreate.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.mainMenyScreen);
+                //Set create state to true.
+                createbool = true;
+                //If both join state and create state is active at the same time, exit the application to prevent errors.
+                if(joinbool && createbool)
+                {
+                    Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
+                    //KILL EVERYTHING!!!
+                    if(create.isAlive())
+                        create.stopServer();
+                    if(join.isAlive())
+                        join.disconnect();
+                    //Hold until both threads are DEAD!!!
+                    try
+                    {
+                        join.join();
+                        create.join();
+                    }catch(InterruptedException e)
+                    {
+                        e.printStackTrace();
+                        Gdx.app.log("EXCEPTION: ", e.toString());
+                    }
+                    create = null;
+                    join = null;
+                    createbool = false;
+                    joinbool = false;
+                    hardexit = true;
+                    Gdx.app.exit();
+                }
+                //If the thread is inactive, start it.
+                else if(!create.isAlive())
+                {
+                    create.start();
+                    serverip = "IP: " + create.getIpAddress() + ":" + create.SOCKETSERVERPORT;
+                }
+                else
+                {
+                    //Kill the thread and reassign it so it can be started anew.
+                    Gdx.app.log("ATTENTION: ", "Stopping server.");
+                    create.stopServer();
+                    try
+                    {
+                        Gdx.app.log("ATTENTION: ", "Joining Threads.");
+                        create.join();
+                    }catch(InterruptedException e)
+                    {
+                        e.printStackTrace();
+                        Gdx.app.log("EXCEPTION: ", e.toString());
+                    }
+                    if(create.isAlive())
+                    {
+                        Gdx.app.log("FATAL ERROR: ", "Thread still alive, exiting to prevent errors.");
+                        Gdx.app.exit();
+                    }
+                    else
+                    {
+                        create = new CreateServer();
+                        create.start();
+                        serverip = "IP: " + create.getIpAddress() + ":" + create.SOCKETSERVERPORT;
+                    }
+
+                }
             }
         });
 
-        stage.addActor(buttonBack);
-    }
+        buttonJoin = new TextButton("Join Server", skin, "default");
+        buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h/2 - 190 + buttonSizeY / 2);
+        buttonJoin.setSize(buttonSizeX, buttonSizeY);
+        buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonJoin.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Set join state to true.
+                joinbool = true;
+                //If both join state and create state is active at the same time, exit the application to prevent errors.
+                if(joinbool && createbool) {
+                    Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
+                    //KILL EVERYTHING!!!
+                    if(create.isAlive())
+                        create.stopServer();
+                    if(join.isAlive())
+                        join.disconnect();
+                    //Hold until both threads are DEAD!!!
+                    try
+                    {
+                        join.join();
+                        create.join();
+                    }catch(InterruptedException e)
+                    {
+                        e.printStackTrace();
+                        Gdx.app.log("EXCEPTION: ", e.toString());
+                    }
+                    create = null;
+                    join = null;
+                    createbool = false;
+                    joinbool = false;
+                    hardexit = true;
+                    Gdx.app.exit();
+                }
+                //If the thread is inactive, start it.
+                else if(!join.isAlive())
+                {
+                    join.start();
+                    serverip = "Join Server Mode Activated!";
+                }
+                else
+                {
+                    //Kill the thread and reassign it so it can be started anew.
+                    join.disconnect();
+                    try
+                    {
+                        join.join();
+                    }catch(InterruptedException e)
+                    {
+                        e.printStackTrace();
+                        Gdx.app.log("EXCEPTION: ", e.toString());
+                    }
+                    if(join.isAlive())
+                    {
+                        Gdx.app.log("FATAL ERROR: ", "Thread still alive, exiting to prevent errors.");
+                        Gdx.app.exit();
+                    }
+                    else
+                    {
+                        join = new JoinServer("172.20.10.5", 8080, "Temp");
+                        join.start();
+                        serverip = "Join Server Mode Activated!";
+                    }
+
+                }
+            }
+        });
+
+        buttonExit = new TextButton("Exit app", skin, "default");
+        buttonExit.setPosition(0, h - buttonSizeY);
+        buttonExit.setSize(buttonSizeX, buttonSizeY);
+        buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonExit.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked(InputEvent event, float x, float y)
+            {
+                //KILL EVERYTHING!!!
+                if(createbool)
+                    create.stopServer();
+                if(joinbool)
+                    join.disconnect();
+                Gdx.app.log("ATTENTION: ", "Exit command executed.");
+                try
+                {
+                    join.join();
+                    create.join();
+                }catch(InterruptedException e)
+                {
+                    e.printStackTrace();
+                    Gdx.app.log("EXCEPTION: ", e.toString());
+                }
+                create = null;
+                join = null;
+                createbool = false;
+                joinbool = false;
+                hardexit = true;
+                Gdx.app.exit();
+            }
+        });
+
+
+        stage.addActor(buttonCreate);
+        stage.addActor(buttonJoin);
+        stage.addActor(buttonExit);
+}
 }
