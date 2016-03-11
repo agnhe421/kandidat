@@ -52,6 +52,7 @@ public class SettingScreen implements Screen {
     public void show() {
         System.out.println("Show");
         Gdx.input.setInputProcessor(stage); // hanterar olika input events
+        stage.clear();
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
