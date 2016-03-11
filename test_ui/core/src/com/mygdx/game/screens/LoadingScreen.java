@@ -42,6 +42,7 @@ public class LoadingScreen implements Screen {
         app.assets.load("img/background1.jpg", Texture.class);
         app.assets.load("img/badlogic.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
+        app.assets.load("ui/menuskin.pack", TextureAtlas.class);
     }
 
     @Override

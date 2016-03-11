@@ -29,7 +29,9 @@ public class MainMenyScreen implements Screen {
     private Skin skin;
     private Rectangle viewport;
     // Buttons
-    private TextButton buttonPlay, buttonSetting, buttonExit;
+    private TextButton button,buttonPlay, buttonSetting, buttonExit;
+    TextButton.TextButtonStyle textButtonStyle;
+    TextureAtlas buttonAtlas;
     // Texture
     private Texture background;
     // width och heigth
@@ -50,10 +52,10 @@ public class MainMenyScreen implements Screen {
         stage.clear();
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/menuskin.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/uiskin.json"));
-
+        this.skin.load(Gdx.files.internal("ui/menuskin.json"));
+        
         background = app.assets.get("img/background1.jpg", Texture.class);
         initButtons();
     }
