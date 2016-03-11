@@ -8,19 +8,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 
-import javafx.application.Application;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att importera!
 
 /**
@@ -41,10 +39,12 @@ public class SettingScreen implements Screen {
     // Texture
     private Texture background;
 
+    private Slider slider;
     public SettingScreen(final MyGdxGame app){
         this.app = app;
         this.stage = new Stage(new StretchViewport(w , h));
         this.viewport = new Rectangle();
+
     }
 
     // Kallas varje gång man vill att denna screen ska visas
@@ -54,13 +54,14 @@ public class SettingScreen implements Screen {
         Gdx.input.setInputProcessor(stage); // hanterar olika input events
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/uiskin.atlas" , TextureAtlas.class));
-        this.skin.add("default-font", app.font24); // Sätter defaulf font som vår ttf font
+        this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
-
         background = app.assets.get("img/background1.jpg", Texture.class);
 
+        initSlider();
         initButtons();
+
     }
 
     @Override
@@ -76,7 +77,8 @@ public class SettingScreen implements Screen {
 
         app.batch.begin();
         app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
-        app.font24.draw(app.batch, "Screen: SETTING", 20, 20);
+        app.font50.draw(app.batch, "Screen: SETTING", 30, 30);
+        app.font50.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
         app.batch.end();
 
         stage.draw();
@@ -130,6 +132,21 @@ public class SettingScreen implements Screen {
     public void dispose() {
         System.out.println("dispose");
         stage.dispose();
+    }
+
+    private void initSlider(){
+        //public Slider(float min, float max, float stepSize, boolean vertical, Slider.SliderStyle style)
+        slider = new Slider(50, 100, 1, false, skin);
+        slider.setAnimateDuration(0.3f);
+        slider.setPosition(w/2 -280/2, h/2 + 40);
+        slider.setSize(280, 50);
+        stage.addActor(slider);
+
+        slider.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.log("Music value", "slider: " + slider.getValue());
+            }
+        });
     }
 
     private void initButtons() {

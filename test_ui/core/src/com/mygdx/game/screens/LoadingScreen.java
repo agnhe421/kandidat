@@ -1,27 +1,16 @@
 package com.mygdx.game.screens;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
-
-import java.util.Map;
-
-import javafx.application.Application;
 
 /**
  * Created by sofiekhullar on 16-03-02.
@@ -37,7 +26,9 @@ public class LoadingScreen implements Screen {
     // Texture
     private Texture startImage;
     private Texture backgroundImage;
-
+    // width och heigth
+    private float w = Gdx.graphics.getWidth();
+    private float h = Gdx.graphics.getHeight();
     public LoadingScreen(final MyGdxGame app)
     {
         this.app = app;
@@ -77,16 +68,15 @@ public class LoadingScreen implements Screen {
 
         app.batch.begin();
         app.batch.draw(backgroundImage, Gdx.graphics.getHeight()/ 2 - backgroundImage.getHeight()/2, Gdx.graphics.getWidth() / 2 -backgroundImage.getWidth()/2);
-        app.font24.draw(app.batch, "Screen: LOADING", 20, 20);
-        app.batch.draw(startImage, Gdx.graphics.getHeight()/ 2 - startImage.getHeight()/2, Gdx.graphics.getWidth() / 2 -startImage.getWidth()/2);
+        app.font50.draw(app.batch, "Screen: LOADING", 30, 30);
         app.batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rect(32, app.camera.viewportHeight/2, app.camera.viewportWidth - 64, 70);
+        shapeRenderer.rect(32, h/6, w - 72, 70);
 
         shapeRenderer.setColor(Color.PINK);
-        shapeRenderer.rect(32, Gdx.graphics.getHeight()/ 2, progress * (Gdx.graphics.getWidth() - 64), 70);
+        shapeRenderer.rect(32, h/6, progress * (w - 72), 70);
         shapeRenderer.end();
     }
 

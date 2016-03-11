@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -14,8 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.MainMenyScreen;
 import com.mygdx.game.screens.LobbyScreen;
@@ -25,7 +22,7 @@ public class MyGdxGame extends Game {
 
 	//public Viewport viewport;
 	public SpriteBatch batch;
-	public BitmapFont font24;
+	public BitmapFont font50;
 
 	//public OrthographicCamera camera;
 	public AssetManager assets;
@@ -34,29 +31,22 @@ public class MyGdxGame extends Game {
 	public MainMenyScreen mainMenyScreen;
 	public LobbyScreen lobbyScreen;
 
-
 	public static final int VIRTUAL_WIDTH = 3840;
 	public static final int VIRTUAL_HEIGHT = 2160;
 	//public static final float ASPECT_RATIO = (float)VIRTUAL_WIDTH/(float)VIRTUAL_HEIGHT;
 	public static final float ASPECT_RATIO =  1.7f;
 	public Camera camera;
 	private Rectangle viewport;
-	private SpriteBatch sb;
-	private Texture backgroundImage;
 
 	@Override
 	public void create() {
 
-		sb = new SpriteBatch();
 		camera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
 		assets = new AssetManager();
 		batch = new SpriteBatch();
 
 		initFonts();
-
-		font24 = new BitmapFont();
-		font24.setColor(Color.BLACK) ;
 
 		loadingScreen = new LoadingScreen(this);
 		settingScreen = new SettingScreen(this);
@@ -81,7 +71,7 @@ public class MyGdxGame extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-		super.render(); // måste vara super.render
+		super.render();
 	}
 
 	@Override
@@ -123,7 +113,7 @@ public class MyGdxGame extends Game {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		font24.dispose();
+		font50.dispose();
 		assets.dispose();
 		loadingScreen.dispose();
 		settingScreen.dispose();
@@ -133,10 +123,11 @@ public class MyGdxGame extends Game {
 
 	// Hur man lägger till egna ttf fonts i Libgdx
 	private void initFonts(){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Arcon.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Moon.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		params.size = 50;
 		params.color = Color.BLACK;
-		font24 = generator.generateFont(params);
+		font50 = generator.generateFont(params);
+		generator.dispose();
 	}
 }
