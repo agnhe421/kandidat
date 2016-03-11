@@ -37,6 +37,8 @@ import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleApplication3DM
 import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleUtils;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Teapot;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Texture;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.CustomTextureTest;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.DataHolder;
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.libgdxRenderer;
 
 
@@ -82,6 +84,8 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
 
 
     }
+
+
 
 
     // Called to draw the current frame.
@@ -208,6 +212,12 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
                     .convertPose2GLMatrix(result.getPose());
             float[] modelViewMatrix = modelViewMatrix_Vuforia.getData();
 
+
+            Log.d("a ", result.getPose().getData()[0] + "  " + result.getPose().getData()[1] + "  " + result.getPose().getData()[2] + " " + result.getPose().getData()[3]);
+            Log.d("a ", result.getPose().getData()[4] + "  " + result.getPose().getData()[5] + "  " + result.getPose().getData()[6] + " " + result.getPose().getData()[7]);
+            Log.d("a ", result.getPose().getData()[8] + "  " + result.getPose().getData()[9] + "  " + result.getPose().getData()[10] + " " + result.getPose().getData()[11]);
+
+
             int textureIndex = trackable.getName().equalsIgnoreCase("stones") ? 0
                     : 1;
             textureIndex = trackable.getName().equalsIgnoreCase("tarmac") ? 2
@@ -222,6 +232,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
                         OBJECT_SCALE_FLOAT);
                 Matrix.scaleM(modelViewMatrix, 0, OBJECT_SCALE_FLOAT,
                         OBJECT_SCALE_FLOAT, OBJECT_SCALE_FLOAT);
+
             } else
             {
                 Matrix.rotateM(modelViewMatrix, 0, 90.0f, 1.0f, 0, 0);
@@ -229,8 +240,13 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
                         kBuildingScale, kBuildingScale);
             }
 
+
             Matrix.multiplyMM(modelViewProjection, 0, vuforiaAppSession
                     .getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
+
+            DataHolder.getInstance().setData(modelViewProjection);
+
+
 
             // activate the shader program and bind the vertex/normal/tex coords
             GLES20.glUseProgram(shaderProgramID);
@@ -315,4 +331,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
         mTextures = textures;
 
     }
+
 }
+

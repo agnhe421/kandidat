@@ -34,6 +34,7 @@ import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.DepthShaderProvider;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.qualcomm.QCAR.QCAR;
@@ -85,6 +86,7 @@ import javax.microedition.khronos.opengles.GL10;
         public RenderContext context;
         public Texture customTexture;
         public Shader shader;
+        public Matrix4 temp;
 
         @Override
         public void create () {
@@ -96,11 +98,15 @@ import javax.microedition.khronos.opengles.GL10;
             environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
             cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
             cam.position.set(0f, 0f, 2f);
-            cam.lookAt(0,0,0);
+            cam.lookAt(0, 0, 0);
             cam.near = 1f;
             cam.far = 300f;
             cam.update();
+
+
+
 
             Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
             ModelBuilder modelBuilder = new ModelBuilder();
@@ -108,6 +114,8 @@ import javax.microedition.khronos.opengles.GL10;
                     new Material(TextureAttribute.createDiffuse(texture), new IntAttribute(BgTextureUnitAttribute.Type, 1)),
                     VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates | VertexAttributes.Usage.Normal);
             model.manageDisposable(texture);
+
+
 
             renderable = new Renderable();
             model.nodes.get(0).parts.get(0).setRenderable(renderable);
@@ -127,17 +135,46 @@ import javax.microedition.khronos.opengles.GL10;
         public void render () {
             inputController.update();
 
+
+
 //            Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 //            Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
             Gdx.gl.glClearColor( 0, 0, 0, 0f );
-            Gdx.gl.glClear( GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT );
+            Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
+            float[] modelViewMatrix = DataHolder.getInstance().getData();
+
+            if(modelViewMatrix != null)
+            {
+
+                temp = new Matrix4(modelViewMatrix);
+
+                cam.combined.set(temp);
+
+//
+//                Gdx.app.log("---------------------------------------------","------------------------------------------------------------------");
+//                Gdx.app.log("aa", "" + modelViewMatrix[0] + "  " + modelViewMatrix[1] + "  " + modelViewMatrix[2] + "  " + modelViewMatrix[3]);
+//                Gdx.app.log("aa", "" + modelViewMatrix[4] + "  " + modelViewMatrix[5] + "  " + modelViewMatrix[6] + "  " + modelViewMatrix[7]);
+//                Gdx.app.log("a", "" + modelViewMatrix[8] + "  " + modelViewMatrix[9] + "  " + modelViewMatrix[10] + "  " + modelViewMatrix[11]);
+//                Gdx.app.log("aa", "" + modelViewMatrix[12] + "  " + modelViewMatrix[13] + "  " + modelViewMatrix[14] + "  " + modelViewMatrix[15]);
+//                Gdx.app.log("---------------------------------------------", "------------------------------------------------------------------");
+
+//                cam.view.mul(temp);
+
+            }
+
+
+
+//            cam.update();
+
+//            Gdx.app.log("mm", "" + cam.view);
             context.begin();
             modelBatch.begin(cam);
             modelBatch.render(renderable);
             modelBatch.end();
             context.end();
+
         }
 
         @Override
