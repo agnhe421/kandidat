@@ -1,9 +1,9 @@
 package com.mygdx.game;
 
-import java.io.IOException;
+/*import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map;*/
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -32,7 +32,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
+public class MyGdxGame extends ApplicationAdapter //implements InputProcessor (Legacy, used for early input.)
 {
 	SpriteBatch batch;
 	Texture img;
@@ -82,8 +82,6 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 		skin.addRegions(this.assManager.get("Knappar/uiskin.atlas", TextureAtlas.class));
 		skin.add("default-font", font);
 		skin.load(Gdx.files.internal("Knappar/uiskin.json"));
-		//font = new BitmapFont();
-		//Gdx.app.log("HEJ!!!", "DÄR!!!");
 		Gdx.input.setInputProcessor(stage);
 		/*for(int idf = 0; idf < 5; ++idf)
 		{
@@ -102,12 +100,18 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 		buttonCreate.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				//Set create state to true.
 				createbool = true;
+				//If both join state and create state is active at the same time, exit the application to prevent errors.
 				if(joinbool && createbool)
 				{
 					Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
-					create.stopServer();
-					join.disconnect();
+					//KILL EVERYTHING!!!
+					if(create.isAlive())
+						create.stopServer();
+					if(join.isAlive())
+						join.disconnect();
+					//Hold until both threads are DEAD!!!
 					try
 					{
 						join.join();
@@ -124,6 +128,7 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 					hardexit = true;
 					Gdx.app.exit();
 				}
+				//If the thread is inactive, start it.
 				else if(!create.isAlive())
 				{
 					create.start();
@@ -131,6 +136,7 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 				}
 				else
 				{
+					//Kill the thread and reassign it so it can be started anew.
 					Gdx.app.log("ATTENTION: ", "Stopping server.");
 					create.stopServer();
 					try
@@ -165,13 +171,17 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 		buttonJoin.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				//Set join state to true.
 				joinbool = true;
+				//If both join state and create state is active at the same time, exit the application to prevent errors.
 				if(joinbool && createbool) {
 					Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
+					//KILL EVERYTHING!!!
 					if(create.isAlive())
 						create.stopServer();
 					if(join.isAlive())
 						join.disconnect();
+					//Hold until both threads are DEAD!!!
 					try
 					{
 						join.join();
@@ -188,6 +198,7 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 					hardexit = true;
 					Gdx.app.exit();
 				}
+				//If the thread is inactive, start it.
 				else if(!join.isAlive())
 				{
 					join.start();
@@ -195,6 +206,7 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 				}
 				else
 				{
+					//Kill the thread and reassign it so it can be started anew.
 					join.disconnect();
 					try
 					{
@@ -237,9 +249,26 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
+				//KILL EVERYTHING!!!
 				if(createbool)
 					create.stopServer();
+				if(joinbool)
+					join.disconnect();
 				Gdx.app.log("ATTENTION: ", "Exit command executed.");
+				try
+				{
+					join.join();
+					create.join();
+				}catch(InterruptedException e)
+				{
+					e.printStackTrace();
+					Gdx.app.log("EXCEPTION: ", e.toString());
+				}
+				create = null;
+				join = null;
+				createbool = false;
+				joinbool = false;
+				hardexit = true;
 				Gdx.app.exit();
 			}
 		});

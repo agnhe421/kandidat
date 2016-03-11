@@ -13,6 +13,9 @@ import java.net.SocketException;
 
 /**
  * Created by Andreas on 2016-03-07.
+ * This was an attempt to create an android specific code interface.
+ * It may be necessary later if the current client/server code is
+ * insufficient.
  */
 public class ServerCodeAndroid implements ServerInterface
 {
