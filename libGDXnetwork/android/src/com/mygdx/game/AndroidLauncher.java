@@ -8,11 +8,13 @@ import com.mygdx.game.MyGdxGame;
 
 public class AndroidLauncher extends AndroidApplication {
 
+	ServerCodeAndroid serverCodeAndroid;
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		serverCodeAndroid = new ServerCodeAndroid(this);
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new MyGdxGame(), config);
+		initialize(new MyGdxGame(serverCodeAndroid), config);
 	}
 
 

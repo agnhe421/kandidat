@@ -1,5 +1,10 @@
 package com.example.agnes.chatserver;
 
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,11 +16,6 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-
-import android.support.v7.app.ActionBarActivity;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.os.Bundle;
 
 public class MainActivity extends ActionBarActivity {
 
