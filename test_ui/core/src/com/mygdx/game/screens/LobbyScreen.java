@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -166,9 +167,14 @@ public class LobbyScreen implements Screen {
 
     private void initButtons() {
 
+        Table table = new Table(skin);
+        table.setFillParent(true);
+        stage.addActor(table);
+        table.setDebug(true);
+
         float buttonSizeX = 250, buttonSizeY = 50;
         buttonCreate = new TextButton("Create Server", skin, "default");
-        buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h/2 - 115 + buttonSizeY / 2);
+        buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 115 + buttonSizeY / 2);
         buttonCreate.setSize(buttonSizeX, buttonSizeY);
         buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonCreate.addListener(new ClickListener() {
@@ -239,7 +245,7 @@ public class LobbyScreen implements Screen {
         });
 
         buttonJoin = new TextButton("Join Server", skin, "default");
-        buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h/2 - 190 + buttonSizeY / 2);
+        buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 190 + buttonSizeY / 2);
         buttonJoin.setSize(buttonSizeX, buttonSizeY);
         buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonJoin.addListener(new ClickListener() {
@@ -311,6 +317,8 @@ public class LobbyScreen implements Screen {
         buttonExit.setSize(buttonSizeX, buttonSizeY);
         buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonExit.addListener(new ClickListener()
+
+
         {
             @Override
             public void clicked(InputEvent event, float x, float y)
@@ -340,8 +348,17 @@ public class LobbyScreen implements Screen {
         });
 
 
-        stage.addActor(buttonCreate);
-        stage.addActor(buttonJoin);
-        stage.addActor(buttonExit);
+      //  stage.addActor(buttonCreate);
+      //  stage.addActor(buttonJoin);
+      //  stage.addActor(buttonExit);
+
+        table.add(buttonCreate).expandX();
+        table.row();
+        table.add(buttonJoin).expand();
+        table.row();
+        table.add(buttonExit).expand();
+
+
+        stage.addActor(table);
 }
 }

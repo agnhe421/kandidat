@@ -11,12 +11,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att importera!
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 /**
  * Created by sofiekhullar on 16-03-02.
@@ -37,6 +42,8 @@ public class MainMenyScreen implements Screen {
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
+
+    //private Table table = new Table(skin);
 
 
     public MainMenyScreen(final MyGdxGame app)
@@ -130,6 +137,8 @@ public class MainMenyScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        app.batch.dispose();
+
     }
 
     private void initButtons()
@@ -138,9 +147,14 @@ public class MainMenyScreen implements Screen {
         int size_y = 60;
         int space = 70;
 
+        Table table = new Table(skin);
+        stage.addActor(table);
+        table.setDebug(true);
+        table.setFillParent(true);
+       // table.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+
+
         buttonPlay = new TextButton("",skin, "default");
-        buttonPlay.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        //buttonPlay.setSize(size_x, size_y);
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonPlay.addListener(new ClickListener() {
             @Override
@@ -150,8 +164,9 @@ public class MainMenyScreen implements Screen {
         });
 
         buttonSetting = new TextButton("", skin, "default2");
-        buttonSetting.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - space);
+        //buttonSetting.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - space);
         //buttonSetting.setSize(size_x, size_y);
+
         buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonSetting.addListener(new ClickListener() {
             @Override
@@ -160,8 +175,9 @@ public class MainMenyScreen implements Screen {
             }
         });
 
+
         buttonScore = new TextButton("", skin, "default3");
-        buttonScore.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - space * 2);
+        //buttonScore.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - space * 2);
         //buttonScore.setSize(size_x, size_y);
         buttonScore.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonScore.addListener(new ClickListener() {
@@ -170,8 +186,12 @@ public class MainMenyScreen implements Screen {
                 System.out.println("Score kommer!");
             }
         });
-        stage.addActor(buttonPlay);
-        stage.addActor(buttonSetting);
-        stage.addActor(buttonScore);
+        table.add(buttonPlay).expand();
+        table.row();
+        table.add(buttonSetting).bottom().left().padBottom(20);
+        table.add(buttonScore).bottom().right().padBottom(20);
+
+        stage.addActor(table);
+
     }
 }
