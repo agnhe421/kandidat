@@ -16,13 +16,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.MainMenyScreen;
 import com.mygdx.game.screens.LobbyScreen;
+import com.mygdx.game.screens.PickScreen;
 import com.mygdx.game.screens.SettingScreen;
 
 public class MyGdxGame extends Game {
 
 	//public Viewport viewport;
 	public SpriteBatch batch;
-	public BitmapFont font50;
+	public BitmapFont font50, font120;
 
 	//public OrthographicCamera camera;
 	public AssetManager assets;
@@ -30,6 +31,7 @@ public class MyGdxGame extends Game {
 	public SettingScreen settingScreen;
 	public MainMenyScreen mainMenyScreen;
 	public LobbyScreen lobbyScreen;
+	public PickScreen pickScreen;
 
 	public static final int VIRTUAL_WIDTH = 3840;
 	public static final int VIRTUAL_HEIGHT = 2160;
@@ -53,6 +55,7 @@ public class MyGdxGame extends Game {
 		settingScreen = new SettingScreen(this);
 		mainMenyScreen = new MainMenyScreen(this);
 		lobbyScreen = new LobbyScreen(this);
+		pickScreen = new PickScreen(this);
 
 		this.setScreen(loadingScreen);
 	}
@@ -120,6 +123,7 @@ public class MyGdxGame extends Game {
 		settingScreen.dispose();
 		mainMenyScreen.dispose();
 		lobbyScreen.dispose();
+		pickScreen.dispose();
 	}
 
 	// Hur man lägger till egna ttf fonts i Libgdx
@@ -129,6 +133,10 @@ public class MyGdxGame extends Game {
 		params.size = 50;
 		params.color = Color.BLACK;
 		font50 = generator.generateFont(params);
+
+		params.size = 120;
+		params.color = Color.BLACK;
+		font120 = generator.generateFont(params);
 		generator.dispose();
 	}
 }

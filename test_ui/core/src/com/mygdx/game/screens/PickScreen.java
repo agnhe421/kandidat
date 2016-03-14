@@ -8,46 +8,50 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
-
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att importera!
 
+
 /**
- * Created by sofiekhullar on 16-03-02.
+ * Created by sofiekhullar on 16-03-14.
  */
-public class SettingScreen implements Screen {
+public class PickScreen implements Screen {
+
     // App reference
     private final MyGdxGame app;
     // Stage vars
     private Stage stage;
     private Rectangle viewport;
     private Skin skin;
-    // Buttons
-    private TextButton buttonBack;
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
+
     // Texture
     private Texture background;
+    private Texture badLogic;
+    private Image image;
+    private Table container;
 
-    private Slider slider;
-    public SettingScreen(final MyGdxGame app){
+    // Buttons
+    private TextButton buttonBack;
+
+    public PickScreen(final MyGdxGame app){
         this.app = app;
         this.stage = new Stage(new StretchViewport(w , h));
         this.viewport = new Rectangle();
-
     }
 
-    // Kallas varje gång man vill att denna screen ska visas
     @Override
     public void show() {
         System.out.println("Show");
@@ -58,15 +62,18 @@ public class SettingScreen implements Screen {
         this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
-        background = app.assets.get("img/background1.jpg", Texture.class);
 
-        initSlider();
+        badLogic = app.assets.get("img/badlogic.jpg", Texture.class);
+        background = app.assets.get("img/background1.jpg", Texture.class);
+        image = new Image(badLogic);
         initButtons();
+        initScrollMenu();
 
     }
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -78,11 +85,12 @@ public class SettingScreen implements Screen {
 
         app.batch.begin();
         app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
-        app.font50.draw(app.batch, "Screen: SETTING", 30, 30);
-        app.font50.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
+        app.font50.draw(app.batch, "Screen: PICKSCREEN", 30, 30);
+        app.font120.draw(app.batch, "Pick player", w/2 - 200, h - 100);
         app.batch.end();
 
         stage.draw();
+
     }
 
     public void update(float delta)
@@ -115,60 +123,83 @@ public class SettingScreen implements Screen {
         float w = (float)app.VIRTUAL_WIDTH*scale;
         float h = (float)app.VIRTUAL_HEIGHT*scale;
         viewport = new Rectangle(crop.x, crop.y, w, h);
+
     }
 
     @Override
     public void pause() {
+
     }
 
     @Override
     public void resume() {
+
     }
 
     @Override
     public void hide() {
+
     }
 
     @Override
     public void dispose() {
         stage.dispose();
-        background.dispose();
-        skin.dispose();
-        app.batch.dispose();
         app.font50.dispose();
-    }
-
-    private void initSlider(){
-        //public Slider(float min, float max, float stepSize, boolean vertical, Slider.SliderStyle style)
-        slider = new Slider(50, 100, 1, false, skin);
-        slider.setAnimateDuration(0.3f);
-        slider.setPosition(w/2 -280/2, h/2 + 40);
-        slider.setSize(280, 50);
-        stage.addActor(slider);
-
-        slider.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("Music value", "slider: " + slider.getValue());
-            }
-        });
+        app.font120.dispose();
+        app.batch.dispose();
     }
 
     private void initButtons() {
-
-        int size_x = 280;
-        int size_y = 60;
-
         buttonBack = new TextButton("Back", skin, "default");
-        buttonBack.setSize(size_x, size_y);
-        buttonBack.setPosition(Gdx.graphics.getWidth() / 2 - size_x / 2, Gdx.graphics.getHeight() / 2 - size_y / 2);
+        buttonBack.setPosition(20, Gdx.graphics.getHeight() - 30);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.mainMenyScreen);
+                app.setScreen(app.lobbyScreen);
             }
         });
-
         stage.addActor(buttonBack);
     }
+
+    private void initScrollMenu(){
+        // inizializzazione della tabella
+        container = new Table();
+        //container.setFillParent(true);
+        container.setSize(w / 2, h / 2);
+        //container.bottom();
+        container.setPosition(w / 2 - container.getWidth() / 2, h / 2 - container.getHeight() / 2);
+        stage.addActor(container);
+        container.debug();
+
+        Table table = new Table();
+        table.debug();
+        table.bottom();
+
+        final ScrollPane scroll = new ScrollPane(table, skin);
+        scroll.setupFadeScrollBars(0f, 0f);
+        scroll.setOverscroll(true,false);
+
+        InputListener stopTouchDown = new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                event.stop();
+                return false;
+            }
+        };
+
+        table.pad(0).defaults().space(10);
+
+        for (int i = 0; i < 5; i++) {
+            TextButton button = new TextButton(i + "dos", skin);
+            table.add(button).height(scroll.getHeight()).width(MyGdxGame.VIRTUAL_WIDTH/4).size(container.getWidth(), container.getHeight());
+            button.addListener(new ClickListener() {
+                public void clicked (InputEvent event, float x, float y) {
+                    System.out.println("click " + x + ", " + y);
+                }
+            });
+        }
+        container.add(scroll).expandY().fill().colspan(1);//.height(Gdx.graphics.getHeight() / 2);//
+        container.row().space(10).padBottom(10);
+    }
+
 }

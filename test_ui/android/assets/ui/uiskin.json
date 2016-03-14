@@ -15,6 +15,9 @@
   default-horizontal: { background: default-slider, knob: default-slider-knob },
   default-vertical: { background: default-slider, knob: default-round-large }
 },
+  com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+  default: { vScroll: default-scroll, hScrollKnob: default-round-large, background: default-rect, hScroll: default-scroll, vScrollKnob: default-round-large }
+},
   com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
     default-horizontal: { background: default-slider, knob: default-slider-knob },
     default-vertical: { background: default-slider, knob: default-round-large }
