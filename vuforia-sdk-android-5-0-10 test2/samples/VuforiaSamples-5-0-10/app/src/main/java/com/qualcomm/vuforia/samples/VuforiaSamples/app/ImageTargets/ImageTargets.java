@@ -10,10 +10,8 @@ package com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -54,8 +52,8 @@ import com.qualcomm.vuforia.samples.SampleApplication.utils.LoadingDialogHandler
 import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleApplicationGLView;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Texture;
 import com.qualcomm.vuforia.samples.VuforiaSamples.R;
-import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.CustomTextureTest;
-import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.GameActivity;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.libGDX.MyGdxGame;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.libGDX.testing;
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenu;
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
@@ -130,7 +128,7 @@ public class ImageTargets extends AndroidApplication implements SampleApplicatio
         config.r = config.g = config.b = config.a = 8;
 
         // Create the libgdx View
-        gameView = initializeForView(new CustomTextureTest(),config);
+        gameView = initializeForView(new testing(),config);
 
         if (graphics.getView() instanceof SurfaceView) {
             SurfaceView glView = (SurfaceView) graphics.getView();
@@ -155,7 +153,7 @@ public class ImageTargets extends AndroidApplication implements SampleApplicatio
         vuforiaAppSession
                 .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        mGestureDetector = new GestureDetector(this, new GestureListener());
+//        mGestureDetector = new GestureDetector(this, new GestureListener());
 
         // Load any sample specific textures:
         mTextures = new Vector<Texture>();
@@ -163,8 +161,7 @@ public class ImageTargets extends AndroidApplication implements SampleApplicatio
 
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
                 "droid");
-        //Intent intent = new Intent(ImageTargets.this, GameActivity.class);
-        //startActivity(intent);
+
 
 
     }
@@ -623,15 +620,15 @@ public class ImageTargets extends AndroidApplication implements SampleApplicatio
     }
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        // Process the Gestures
-        if (mSampleAppMenu != null && mSampleAppMenu.processEvent(event))
-            return true;
-
-        return mGestureDetector.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event)
+//    {
+//        // Process the Gestures
+//        if (mSampleAppMenu != null && mSampleAppMenu.processEvent(event))
+//            return true;
+//
+//        return mGestureDetector.onTouchEvent(event);
+//    }
 
 
     boolean isExtendedTrackingActive()

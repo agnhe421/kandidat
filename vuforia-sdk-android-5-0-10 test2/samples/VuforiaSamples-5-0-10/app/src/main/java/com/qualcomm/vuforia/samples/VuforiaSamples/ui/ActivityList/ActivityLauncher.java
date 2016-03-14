@@ -26,7 +26,6 @@ import com.qualcomm.vuforia.samples.SampleApplication.SampleApplicationControl;
 import com.qualcomm.vuforia.samples.SampleApplication.SampleApplicationException;
 import com.qualcomm.vuforia.samples.SampleApplication.SampleApplicationSession;
 import com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets;
-import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.MyGdxGame;
 
 
 // This activity starts activities which demonstrate the Vuforia features

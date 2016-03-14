@@ -87,7 +87,7 @@
          <activity
             android:name=".ui.ActivityList.ActivitySplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait"
+             android:screenOrientation="landscape"
             android:noHistory="true"
             >
             <intent-filter>
@@ -99,19 +99,12 @@
         
         <activity
         android:name=".ui.ActivityList.ActivityLauncher"
+            android:screenOrientation="landscape"
         android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-        android:screenOrientation="portrait"
         >
     </activity>
 
         <activity
-            android:name=".ui.ActivityList.GameActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait"
-            >
-        </activity>
-        
-         <activity
             android:name=".ui.ActivityList.AboutScreen"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
@@ -121,9 +114,18 @@
          
         <activity
             android:name=".app.ImageTargets.ImageTargets"
+            android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
         	android:theme="@style/SampleAppsTheme"
  	        android:launchMode="singleTask"
+            >
+        </activity>
+
+        <activity
+            android:name=".ui.ActivityList.GameActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
+            android:theme="@style/SampleAppsTheme"
+            android:launchMode="singleTask"
             >
         </activity>
         

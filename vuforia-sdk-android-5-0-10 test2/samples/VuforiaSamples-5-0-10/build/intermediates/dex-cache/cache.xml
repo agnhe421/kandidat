@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="D:\Program\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jar="D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\libs\gdx-bullet.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-068ee6d3f4a9cb9cd4a81903a0802d5a11b1482f.jar" />
+        sha1="07155cc662ff0bdabe0e5af99d8f722eb6553a77">
+        <dex dex="D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\build\intermediates\pre-dexed\debug\gdx-bullet-2123fd46d39d0c5742cc21bda0ed8c76dc264a11.jar" />
     </item>
 
 </items>

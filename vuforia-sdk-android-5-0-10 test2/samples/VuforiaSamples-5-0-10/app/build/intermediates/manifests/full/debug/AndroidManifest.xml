@@ -83,7 +83,7 @@
             android:name="com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.ActivitySplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -93,12 +93,7 @@
         <activity
             android:name="com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.ActivityLauncher"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.GameActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.AboutScreen"
@@ -108,6 +103,13 @@
         </activity>
         <activity
             android:name="com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/SampleAppsTheme" >
+        </activity>
+        <activity
+            android:name="com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:launchMode="singleTask"
             android:theme="@style/SampleAppsTheme" >

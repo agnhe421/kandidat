@@ -18,10 +18,6 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.qualcomm.vuforia.Matrix44F;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
@@ -37,9 +33,7 @@ import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleApplication3DM
 import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleUtils;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Teapot;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Texture;
-import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.CustomTextureTest;
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.DataHolder;
-import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.libgdxRenderer;
 
 
 // The renderer class for the ImageTargets sample. 
@@ -212,10 +206,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
                     .convertPose2GLMatrix(result.getPose());
             float[] modelViewMatrix = modelViewMatrix_Vuforia.getData();
 
-
-            Log.d("a ", result.getPose().getData()[0] + "  " + result.getPose().getData()[1] + "  " + result.getPose().getData()[2] + " " + result.getPose().getData()[3]);
-            Log.d("a ", result.getPose().getData()[4] + "  " + result.getPose().getData()[5] + "  " + result.getPose().getData()[6] + " " + result.getPose().getData()[7]);
-            Log.d("a ", result.getPose().getData()[8] + "  " + result.getPose().getData()[9] + "  " + result.getPose().getData()[10] + " " + result.getPose().getData()[11]);
 
 
             int textureIndex = trackable.getName().equalsIgnoreCase("stones") ? 0

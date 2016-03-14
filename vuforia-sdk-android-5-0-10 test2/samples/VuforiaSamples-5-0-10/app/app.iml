@@ -84,5 +84,7 @@
     <orderEntry type="library" exported="" name="Vuforia" level="project" />
     <orderEntry type="library" exported="" name="gdx-backend-android" level="project" />
     <orderEntry type="library" exported="" name="gdx" level="project" />
+    <orderEntry type="library" exported="" name="gdx-bullet-natives" level="project" />
+    <orderEntry type="library" exported="" name="gdx-bullet" level="project" />
   </component>
 </module>

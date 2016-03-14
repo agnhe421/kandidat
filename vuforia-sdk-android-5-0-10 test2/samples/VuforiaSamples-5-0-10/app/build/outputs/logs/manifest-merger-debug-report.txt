@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:2:1-196:12
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:2:1-198:12
 	package
 		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:3:5-58
 		INJECTED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml
@@ -50,7 +50,7 @@ ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSa
 	android:name
 		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:50:22-77
 application
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:62:5-194:19
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:62:5-196:19
 	android:label
 		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:64:9-41
 	android:launchMode
@@ -66,7 +66,7 @@ ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSa
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.ActivitySplashScreen
 ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:87:10-98:21
 	android:screenOrientation
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:90:13-49
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:90:14-51
 	android:noHistory
 		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:91:13-37
 	android:configChanges
@@ -86,116 +86,120 @@ ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSa
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.ActivityLauncher
 ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:100:9-105:16
 	android:screenOrientation
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:103:9-45
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:102:13-50
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:102:9-89
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:103:9-89
 	android:name
 		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:101:9-57
-activity#com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.GameActivity
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:107:9-112:20
+activity#com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.AboutScreen
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:107:9-113:20
 	android:screenOrientation
 		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:110:13-49
+	android:noHistory
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:111:13-37
 	android:configChanges
 		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:109:13-93
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:108:13-57
-activity#com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.AboutScreen
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:114:10-120:20
-	android:screenOrientation
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:117:13-49
-	android:noHistory
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:118:13-37
-	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:116:13-93
-	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:115:13-56
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:108:13-56
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:122:9-128:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:115:9-122:20
+	android:screenOrientation
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:117:13-50
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:126:11-42
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:120:11-42
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:124:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:118:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:125:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:119:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:123:13-58
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:116:13-58
+activity#com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.GameActivity
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:124:9-130:20
+	android:launchMode
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:128:13-44
+	android:configChanges
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:126:13-93
+	android:theme
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:127:13-51
+	android:name
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:125:13-57
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.TextRecognition.TextReco
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:130:9-136:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:132:9-138:20
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:134:12-43
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:136:12-43
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:132:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:134:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:133:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:135:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:131:13-57
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:133:13-57
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.CylinderTargets.CylinderTargets
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:138:9-144:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:140:9-146:20
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:142:11-42
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:144:11-42
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:140:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:142:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:141:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:143:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:139:13-64
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:141:13-64
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.FrameMarkers.FrameMarkers
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:146:9-152:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:148:9-154:20
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:150:11-42
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:152:11-42
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:148:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:150:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:149:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:151:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:147:13-58
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:149:13-58
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.VirtualButtons.VirtualButtons
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:154:9-160:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:156:9-162:20
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:158:11-42
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:160:11-42
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:156:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:158:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:157:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:159:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:155:13-62
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:157:13-62
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.UserDefinedTargets.UserDefinedTargets
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:162:9-168:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:164:9-170:20
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:166:11-42
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:168:11-42
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:164:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:166:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:165:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:167:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:163:13-70
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:165:13-70
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.MultiTargets.MultiTargets
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:170:9-176:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:172:9-178:20
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:174:11-42
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:176:11-42
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:172:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:174:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:173:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:175:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:171:13-58
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:173:13-58
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.CloudRecognition.CloudReco
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:178:9-184:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:180:9-186:20
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:182:11-42
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:184:11-42
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:180:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:182:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:181:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:183:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:179:13-59
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:181:13-59
 activity#com.qualcomm.vuforia.samples.VuforiaSamples.app.ObjectRecognition.ObjectTargets
-ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:186:9-192:20
+ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:188:9-194:20
 	android:launchMode
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:190:11-42
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:192:11-42
 	android:configChanges
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:188:13-93
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:190:13-93
 	android:theme
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:189:10-48
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:191:10-48
 	android:name
-		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:187:13-64
+		ADDED from D:\Program\Android\vuforia-sdk-android-5-0-10 test2\samples\VuforiaSamples-5-0-10\app\src\main\AndroidManifest.xml:189:13-64
