@@ -29,20 +29,19 @@ public class LobbyScreen implements Screen {
     private Stage stage;
     private Rectangle viewport;
     private Skin skin;
-    // Buttons
-    private TextButton buttonBack;
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
     // Texture
     private Texture background;
-
+    // Buttons
+    private TextButton buttonCreate, buttonJoin, buttonExit, buttonBack, ButtonSkipServer;
     // Nätverk
     private String msg = "Can't touch dis.", error = "I am error.", serverip = "IP";
     boolean joinbool, createbool, hardexit = false;
     CreateServer create;
     JoinServer join;
-    TextButton buttonCreate, buttonJoin, buttonExit;
+
 
     public LobbyScreen(final MyGdxGame app){
         this.app = app;
@@ -168,8 +167,7 @@ public class LobbyScreen implements Screen {
 
         float buttonSizeX = 250, buttonSizeY = 50;
         buttonCreate = new TextButton("Create Server", skin, "default");
-        buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h/2 - 115 + buttonSizeY / 2);
-        buttonCreate.setSize(buttonSizeX, buttonSizeY);
+        buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 115 + buttonSizeY / 2);
         buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonCreate.addListener(new ClickListener() {
             @Override
@@ -177,21 +175,18 @@ public class LobbyScreen implements Screen {
                 //Set create state to true.
                 createbool = true;
                 //If both join state and create state is active at the same time, exit the application to prevent errors.
-                if(joinbool && createbool)
-                {
+                if (joinbool && createbool) {
                     Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
                     //KILL EVERYTHING!!!
-                    if(create.isAlive())
+                    if (create.isAlive())
                         create.stopServer();
-                    if(join.isAlive())
+                    if (join.isAlive())
                         join.disconnect();
                     //Hold until both threads are DEAD!!!
-                    try
-                    {
+                    try {
                         join.join();
                         create.join();
-                    }catch(InterruptedException e)
-                    {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                         Gdx.app.log("EXCEPTION: ", e.toString());
                     }
@@ -203,32 +198,24 @@ public class LobbyScreen implements Screen {
                     Gdx.app.exit();
                 }
                 //If the thread is inactive, start it.
-                else if(!create.isAlive())
-                {
+                else if (!create.isAlive()) {
                     create.start();
                     serverip = "IP: " + create.getIpAddress() + ":" + create.SOCKETSERVERPORT;
-                }
-                else
-                {
+                } else {
                     //Kill the thread and reassign it so it can be started anew.
                     Gdx.app.log("ATTENTION: ", "Stopping server.");
                     create.stopServer();
-                    try
-                    {
+                    try {
                         Gdx.app.log("ATTENTION: ", "Joining Threads.");
                         create.join();
-                    }catch(InterruptedException e)
-                    {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                         Gdx.app.log("EXCEPTION: ", e.toString());
                     }
-                    if(create.isAlive())
-                    {
+                    if (create.isAlive()) {
                         Gdx.app.log("FATAL ERROR: ", "Thread still alive, exiting to prevent errors.");
                         Gdx.app.exit();
-                    }
-                    else
-                    {
+                    } else {
                         create = new CreateServer();
                         create.start();
                         serverip = "IP: " + create.getIpAddress() + ":" + create.SOCKETSERVERPORT;
@@ -239,8 +226,7 @@ public class LobbyScreen implements Screen {
         });
 
         buttonJoin = new TextButton("Join Server", skin, "default");
-        buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h/2 - 190 + buttonSizeY / 2);
-        buttonJoin.setSize(buttonSizeX, buttonSizeY);
+        buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 190 + buttonSizeY / 2 - 50);
         buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonJoin.addListener(new ClickListener() {
             @Override
@@ -248,20 +234,18 @@ public class LobbyScreen implements Screen {
                 //Set join state to true.
                 joinbool = true;
                 //If both join state and create state is active at the same time, exit the application to prevent errors.
-                if(joinbool && createbool) {
+                if (joinbool && createbool) {
                     Gdx.app.log("FATAL ERROR: ", "Cannot create both a server and join one.");
                     //KILL EVERYTHING!!!
-                    if(create.isAlive())
+                    if (create.isAlive())
                         create.stopServer();
-                    if(join.isAlive())
+                    if (join.isAlive())
                         join.disconnect();
                     //Hold until both threads are DEAD!!!
-                    try
-                    {
+                    try {
                         join.join();
                         create.join();
-                    }catch(InterruptedException e)
-                    {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                         Gdx.app.log("EXCEPTION: ", e.toString());
                     }
@@ -273,30 +257,22 @@ public class LobbyScreen implements Screen {
                     Gdx.app.exit();
                 }
                 //If the thread is inactive, start it.
-                else if(!join.isAlive())
-                {
+                else if (!join.isAlive()) {
                     join.start();
                     serverip = "Join Server Mode Activated!";
-                }
-                else
-                {
+                } else {
                     //Kill the thread and reassign it so it can be started anew.
                     join.disconnect();
-                    try
-                    {
+                    try {
                         join.join();
-                    }catch(InterruptedException e)
-                    {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                         Gdx.app.log("EXCEPTION: ", e.toString());
                     }
-                    if(join.isAlive())
-                    {
+                    if (join.isAlive()) {
                         Gdx.app.log("FATAL ERROR: ", "Thread still alive, exiting to prevent errors.");
                         Gdx.app.exit();
-                    }
-                    else
-                    {
+                    } else {
                         join = new JoinServer("172.20.10.5", 8080, "Temp");
                         join.start();
                         serverip = "Join Server Mode Activated!";
@@ -308,25 +284,20 @@ public class LobbyScreen implements Screen {
 
         buttonExit = new TextButton("Exit app", skin, "default");
         buttonExit.setPosition(0, h - buttonSizeY);
-        buttonExit.setSize(buttonSizeX, buttonSizeY);
         buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-        buttonExit.addListener(new ClickListener()
-        {
+        buttonExit.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
+            public void clicked(InputEvent event, float x, float y) {
                 //KILL EVERYTHING!!!
-                if(createbool)
+                if (createbool)
                     create.stopServer();
-                if(joinbool)
+                if (joinbool)
                     join.disconnect();
                 Gdx.app.log("ATTENTION: ", "Exit command executed.");
-                try
-                {
+                try {
                     join.join();
                     create.join();
-                }catch(InterruptedException e)
-                {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                     Gdx.app.log("EXCEPTION: ", e.toString());
                 }
@@ -339,9 +310,30 @@ public class LobbyScreen implements Screen {
             }
         });
 
+        buttonBack = new TextButton("", skin, "default4");
+        buttonBack.setPosition(20, Gdx.graphics.getHeight() - 30);
+        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonBack.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                app.setScreen(app.mainMenyScreen);
+            }
+        });
 
+        ButtonSkipServer = new TextButton("Skip Server", skin, "default");
+        ButtonSkipServer.setPosition(Gdx.graphics.getWidth() -150, Gdx.graphics.getHeight() - 100);
+        ButtonSkipServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        ButtonSkipServer.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                app.setScreen(app.pickScreen);
+            }
+        });
+
+        stage.addActor(ButtonSkipServer);
+        stage.addActor(buttonBack);
         stage.addActor(buttonCreate);
         stage.addActor(buttonJoin);
-        stage.addActor(buttonExit);
-}
+        //stage.addActor(buttonExit);
+    }
 }

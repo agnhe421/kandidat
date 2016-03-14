@@ -29,6 +29,7 @@ public class LoadingScreen implements Screen {
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
+
     public LoadingScreen(final MyGdxGame app)
     {
         this.app = app;
@@ -134,5 +135,8 @@ public class LoadingScreen implements Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        app.font50.dispose();
+        app.assets.dispose();
+        backgroundImage.dispose();
     }
 }
