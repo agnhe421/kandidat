@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
@@ -17,8 +18,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
+
+import java.awt.Color;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att importera!
 
 
@@ -65,7 +72,7 @@ public class PickScreen implements Screen {
 
         badLogic = app.assets.get("img/badlogic.jpg", Texture.class);
         background = app.assets.get("img/background1.jpg", Texture.class);
-        image = new Image(badLogic);
+
         initButtons();
         initScrollMenu();
 
@@ -86,7 +93,7 @@ public class PickScreen implements Screen {
         app.batch.begin();
         app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
         app.font50.draw(app.batch, "Screen: PICKSCREEN", 30, 30);
-        app.font120.draw(app.batch, "Pick player", w/2 - 200, h - 100);
+        app.font120.draw(app.batch, "Pick player", w / 2 - 200, h - 100);
         app.batch.end();
 
         stage.draw();
@@ -163,22 +170,25 @@ public class PickScreen implements Screen {
     }
 
     private void initScrollMenu(){
+       // image.setDrawable(new SpriteDrawable(new Sprite(background)));
         // inizializzazione della tabella
         container = new Table();
         //container.setFillParent(true);
         container.setSize(w / 2, h / 2);
         //container.bottom();
         container.setPosition(w / 2 - container.getWidth() / 2, h / 2 - container.getHeight() / 2);
+        //container.setBackground((Drawable) image);
         stage.addActor(container);
-        container.debug();
+        //container.debug();
+
 
         Table table = new Table();
-        table.debug();
+        //table.debug();
         table.bottom();
 
         final ScrollPane scroll = new ScrollPane(table, skin);
         scroll.setupFadeScrollBars(0f, 0f);
-        scroll.setOverscroll(true,false);
+        scroll.setOverscroll(true, false);
 
         InputListener stopTouchDown = new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -190,16 +200,16 @@ public class PickScreen implements Screen {
         table.pad(0).defaults().space(10);
 
         for (int i = 0; i < 5; i++) {
-            TextButton button = new TextButton(i + "dos", skin);
-            table.add(button).height(scroll.getHeight()).width(MyGdxGame.VIRTUAL_WIDTH/4).size(container.getWidth(), container.getHeight());
-            button.addListener(new ClickListener() {
-                public void clicked (InputEvent event, float x, float y) {
-                    System.out.println("click " + x + ", " + y);
-                }
-            });
+            image = new Image(badLogic);
+            image.setScaling(Scaling.fit); // Default is Scaling.stretch, as you found.
+            table.add(image).height(scroll.getHeight()).width(MyGdxGame.VIRTUAL_WIDTH/4).expand().fill();
+            //table.add(image).height(scroll.getHeight()).width(MyGdxGame.VIRTUAL_WIDTH/4).size(container.getWidth(), container.getHeight());
         }
+
         container.add(scroll).expandY().fill().colspan(1);//.height(Gdx.graphics.getHeight() / 2);//
         container.row().space(10).padBottom(10);
+        //container.setColor(0,0,0,0);
+        //table.setColor(0,0,0,0);
     }
 
 }
