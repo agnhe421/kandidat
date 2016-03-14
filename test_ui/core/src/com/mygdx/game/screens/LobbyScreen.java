@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
-
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*; // Bra att importera!
 
 /**
  * Created by sofiekhullar on 16-03-02.
@@ -167,18 +164,16 @@ public class LobbyScreen implements Screen {
     private void initButtons() {
 
         Table table = new Table(skin);
-        table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(true);
+        //table.setDebug(true);
+        table.setFillParent(true);
 
         float buttonSizeX = 250, buttonSizeY = 50;
-        buttonCreate = new TextButton("Create Server", skin, "default");
+        buttonCreate = new TextButton("Cre", skin, "default");
         buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 115 + buttonSizeY / 2);
-<<<<<<< HEAD
         buttonCreate.setSize(buttonSizeX, buttonSizeY);
-=======
->>>>>>> dd6cec69b863b8950b1b6ff59a7318aa679003c2
-        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+
+       // buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonCreate.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -235,14 +230,11 @@ public class LobbyScreen implements Screen {
             }
         });
 
-        buttonJoin = new TextButton("Join Server", skin, "default");
-<<<<<<< HEAD
-        buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 190 + buttonSizeY / 2);
-        buttonJoin.setSize(buttonSizeX, buttonSizeY);
-=======
+        buttonJoin = new TextButton("Join", skin, "default");
+       // buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 190 + buttonSizeY / 2);
+       // buttonJoin.setSize(buttonSizeX, buttonSizeY);
         buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 190 + buttonSizeY / 2 - 50);
->>>>>>> dd6cec69b863b8950b1b6ff59a7318aa679003c2
-        buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+      //  buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonJoin.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -297,9 +289,9 @@ public class LobbyScreen implements Screen {
             }
         });
 
-        buttonExit = new TextButton("Exit app", skin, "default");
+        buttonExit = new TextButton("Exit", skin, "default");
         buttonExit.setPosition(0, h - buttonSizeY);
-        buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+       // buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
 
         buttonExit.addListener(new ClickListener()
         {
@@ -329,7 +321,7 @@ public class LobbyScreen implements Screen {
 
         buttonBack = new TextButton("", skin, "default4");
         buttonBack.setPosition(20, Gdx.graphics.getHeight() - 30);
-        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+       // buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -337,9 +329,9 @@ public class LobbyScreen implements Screen {
             }
         });
 
-        ButtonSkipServer = new TextButton("Skip Server", skin, "default");
-        ButtonSkipServer.setPosition(Gdx.graphics.getWidth() -150, Gdx.graphics.getHeight() - 100);
-        ButtonSkipServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        ButtonSkipServer = new TextButton("Skip", skin, "default");
+        ButtonSkipServer.setPosition(Gdx.graphics.getWidth() - 150, Gdx.graphics.getHeight() - 100);
+        //ButtonSkipServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         ButtonSkipServer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -353,6 +345,15 @@ public class LobbyScreen implements Screen {
         stage.addActor(buttonCreate);
         stage.addActor(buttonJoin);
         //stage.addActor(buttonExit);
+
+        table.add(buttonBack);
+        table.row();
+        table.add(buttonCreate);
+        table.row();
+        table.add(ButtonSkipServer);
+        table.row();
+        table.add(buttonJoin);
+
     }
 
 }
