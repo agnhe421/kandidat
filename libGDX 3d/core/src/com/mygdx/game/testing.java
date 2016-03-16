@@ -131,11 +131,25 @@ public class testing extends BaseBulletTest {
     boolean up, down, left, right;
     @Override
     public boolean keyDown (int keycode) {
+        player2.body.activate();
+        Vector3 moveDown = new Vector3(1f, 0f, 0f);
+        Vector3 moveUp = new Vector3(-1f, 0f, 0f);
+        Vector3 moveLeft = new Vector3(0f, 0f, 1f);
+        Vector3 moveRight = new Vector3(0f, 0f, -1f);
+
         switch(keycode) {
-            case Input.Keys.UP: up = true; break;
-            case Input.Keys.DOWN: down = true; break;
-            case Input.Keys.LEFT: left = true; break;
-            case Input.Keys.RIGHT: right = true; break;
+            case Input.Keys.UP: up = true;
+                ((btRigidBody) player2.body).applyCentralImpulse(moveUp);
+                break;
+            case Input.Keys.DOWN: down = true;
+                ((btRigidBody) player2.body).applyCentralImpulse(moveDown);
+                break;
+            case Input.Keys.LEFT: left = true;
+                ((btRigidBody) player2.body).applyCentralImpulse(moveLeft);
+                break;
+            case Input.Keys.RIGHT: right = true;
+                ((btRigidBody) player2.body).applyCentralImpulse(moveRight);
+                break;
             default: return false;
         }
         Gdx.app.log("RAY pick", "RAY pick");
