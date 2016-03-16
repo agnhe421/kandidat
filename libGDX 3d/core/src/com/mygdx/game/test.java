@@ -129,7 +129,7 @@ public class test extends InputAdapter implements ApplicationListener {
         model = modelBuilder.end();
 
         instances = new Array<ModelInstance>();
-        instances.add(new ModelInstance(model, "floor"));
+ //       instances.add(new ModelInstance(model, "floor"));
 //        instances.add(ball = new Ball(model, "ball"));
 //        ball.setPosition(1f, 1f, 1f);
 
@@ -144,6 +144,7 @@ public class test extends InputAdapter implements ApplicationListener {
 
     private void doneLoading () {
         Model ship = assets.get("island4_main.g3dj", Model.class);
+        ship.meshes.get(0).getVertexAttribute(0).Normal();
         String id = ship.nodes.get(0).id;
 
         ball = new Ball(ship, id);

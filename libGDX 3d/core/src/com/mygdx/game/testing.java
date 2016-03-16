@@ -3,14 +3,18 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.model.Node;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.collision.AllHitsRayResultCallback;
@@ -25,7 +29,6 @@ import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 
 public class testing extends BaseBulletTest {
 
-    test.Ball ball;
     AssetManager assets;
     boolean loading;
     BulletEntity player;
@@ -33,6 +36,8 @@ public class testing extends BaseBulletTest {
     ClosestRayResultCallback rayTestCB;
     Vector3 rayFrom = new Vector3();
     Vector3 rayTo = new Vector3();
+
+    ModelInstance instance;
 
     //2x 14 utan jordnötter
     //1x 16
@@ -76,13 +81,14 @@ public class testing extends BaseBulletTest {
     @Override
     public boolean tap (float x, float y, int count, int button) {
         shoot(x, y);
+        Gdx.app.log("TAP", "Tap");
         return true;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        shoot(screenX, screenY);
-        Gdx.app.log("SHOOT", "SHOOT");
+        shoot(screenX, screenY);
+//        Gdx.app.log("SHOOT", "SHOOT");
 
 
         Ray ray = camera.getPickRay(screenX, screenY);
@@ -97,17 +103,34 @@ public class testing extends BaseBulletTest {
 
         world.collisionWorld.rayTest(rayFrom, rayTo, rayTestCB);
 
-        rayTestCB.getHitPointWorld(tmpV1);
+        if (rayTestCB.hasHit()) {
+            rayTestCB.getHitPointWorld(tmpV1);
+
+            Gdx.app.log("BANG", "BANG");
+
+            Model model;
+            ModelBuilder modelBuilder = new ModelBuilder();
+            modelBuilder.begin();
+            modelBuilder.part("ball", GL20.GL_TRIANGLES, Usage.Position | Usage.Normal | Usage.TextureCoordinates,
+                    new Material("diffuseGreen", ColorAttribute.createDiffuse(Color.RED)))
+                    .sphere(1f, 1f, 1f, 10, 10);
+            model = modelBuilder.end();
+
+            instance = new ModelInstance(model,tmpV1);
 
 
-        Gdx.app.log("BANG", "BANG");
+
+            Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) player.body).getCenterOfMassPosition().x), 0, (tmpV1.z - ((btRigidBody) player.body).getCenterOfMassPosition().z));
+
+            float normFactor = 3 / vec.len();
+            Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+
+            player.body.activate();
+            ((btRigidBody) player.body).applyCentralImpulse(normVec);
 
 
-        Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) player.body).getCenterOfMassPosition().x), 0, (tmpV1.z - ((btRigidBody) player.body).getCenterOfMassPosition().z));
-//
-        float normFactor = 3 / vec.len();
-        Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
-        ((btRigidBody) player.body).applyCentralImpulse(normVec);
+        }
+
 
 
         return true;
@@ -123,25 +146,7 @@ public class testing extends BaseBulletTest {
             case Input.Keys.RIGHT: right = true; break;
             default: return false;
         }
-        Gdx.app.log("SHOOT", "SHOOT");
-
-//        ball.acceleration.set((right?1:0)+(left?-1:0), 0f, (up?-1:0)+(down?1:0)).scl(2);
-//        player.transform.translate(ball.position);
-
-        Vector3 tmpV = new Vector3();
-
-//        if(up)
-//            tmpV.set(2,0,0);
-//        else if(down)
-//            tmpV.set(-2,0,0);
-//        else if(right)
-//            tmpV.set(0,0,2);
-//        else if(left)
-//            tmpV.set(0,0,-2);
-//
-//        ((btRigidBody)player.body).applyCentralImpulse(tmpV);
-
-
+        Gdx.app.log("RAY pick", "RAY pick");
 
 
         return true;
@@ -157,23 +162,11 @@ public class testing extends BaseBulletTest {
             case Input.Keys.RIGHT: right = false; break;
             default: return false;
         }
-        Gdx.app.log("SHOOT", "SHOOT");
+
+        Gdx.app.log("RAY pick", "RAY pick");
 
 //        ball.acceleration.set((right? 1 : 0)+(left?-1: 0), 0f, (up ? -1 : 0) + (down?1:0)).scl(2);
 //        player.transform.translate(ball.position);
-
-        Vector3 tmpV = new Vector3();
-
-        if(up)
-            tmpV.set(2,0,0);
-        else if(down)
-            tmpV.set(-2,0,0);
-        else if(right)
-            tmpV.set(0,0,2);
-        else if(left)
-            tmpV.set(0,0,-2);
-
-        ((btRigidBody)player.body).applyCentralImpulse(tmpV);
 
 
         return true;
@@ -182,6 +175,13 @@ public class testing extends BaseBulletTest {
     @Override
     public void render () {
         super.render();
+
+
+        if(instance != null) {
+            modelBatch.begin(camera);
+            modelBatch.render(instance);
+            modelBatch.end();
+        }
 
 
         if (assets.update() && loading) {
