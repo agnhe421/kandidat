@@ -26,23 +26,19 @@ import com.badlogic.gdx.physics.bullet.collision.btConeShape;
 import com.badlogic.gdx.physics.bullet.collision.btCylinderShape;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 
 public class testing extends BaseBulletTest {
 
     AssetManager assets;
     boolean loading;
-    BulletEntity player;
+    BulletEntity player, player2;
 
     ClosestRayResultCallback rayTestCB;
     Vector3 rayFrom = new Vector3();
     Vector3 rayTo = new Vector3();
 
     ModelInstance instance;
-
-    //2x 14 utan jordnötter
-    //1x 16
-    //1x 29 extra stark
-    //1x 11 med biff
 
     @Override
     public void create () {
@@ -58,23 +54,27 @@ public class testing extends BaseBulletTest {
         disposables.add(sphere);
         world.addConstructor("sphere", new BulletConstructor(sphere, 10f, new btSphereShape(2f)));
 
-
         // Create the entities
         world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(),
                 0.25f + 0.5f * (float) Math.random(), 1f);
         world.add("sphere", 0, 5, 5);
 
 
+       /* final Model sphere2 = modelBuilder.createSphere(4f, 4f, 4f, 24, 24, material, attributes);
+        disposables.add(sphere2);
+        world.addConstructor("sphere2", new BulletConstructor(sphere2, 10f, new btSphereShape(2f)));
+        // Create the entities
+        world.add("sphere2", 0, 5, 5);
+*/
+        // Load texture
         assets = new AssetManager();
         assets.load("football2.g3dj", Model.class);
+        assets.load("apple.g3dj", Model.class);
         loading = true;
-
 
         rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
 
         Gdx.input.setInputProcessor(this);
-
-
 
     }
 
@@ -87,9 +87,8 @@ public class testing extends BaseBulletTest {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        shoot(screenX, screenY);
-//        Gdx.app.log("SHOOT", "SHOOT");
-
+       // shoot(screenX, screenY);
+       // Gdx.app.log("SHOOT", "SHOOT");
 
         Ray ray = camera.getPickRay(screenX, screenY);
         rayFrom.set(ray.origin);
@@ -118,8 +117,6 @@ public class testing extends BaseBulletTest {
 
             instance = new ModelInstance(model,tmpV1);
 
-
-
             Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) player.body).getCenterOfMassPosition().x), 0, (tmpV1.z - ((btRigidBody) player.body).getCenterOfMassPosition().z));
 
             float normFactor = 3 / vec.len();
@@ -127,12 +124,7 @@ public class testing extends BaseBulletTest {
 
             player.body.activate();
             ((btRigidBody) player.body).applyCentralImpulse(normVec);
-
-
         }
-
-
-
         return true;
     }
 
@@ -185,11 +177,17 @@ public class testing extends BaseBulletTest {
 
 
         if (assets.update() && loading) {
-            Model ship = assets.get("football2.g3dj", Model.class);
-            String id = ship.nodes.get(0).id;
+            Model fotball = assets.get("football2.g3dj", Model.class);
+            String id = fotball.nodes.get(0).id;
+
+            Model apple = assets.get("apple.g3dj", Model.class);
+            String id2 = apple.nodes.get(0).id;
+            Node node = apple.getNode(id2);
+            //apple.transform.set(node.globalTransform);
+            //node.translation.set(0, 2, 0);
+            node.scale.set(0.5f, 0.5f, 0.5f);
 
 //            ball = new test.Ball(ship, id);
-
 //            Node node = ball.getNode(id);
 //            ball.transform.set(node.globalTransform);
 ////        node.translation.set(0, 2, 0);
@@ -197,11 +195,13 @@ public class testing extends BaseBulletTest {
 ////        node.rotation.idt();
 //            ball.calculateTransforms();
 
-            disposables.add(ship);
-            world.addConstructor("ball", new BulletConstructor(ship, 1f, new btSphereShape(0.8f)));
+            disposables.add(fotball);
+            world.addConstructor("ball", new BulletConstructor(fotball, 1f, new btSphereShape(0.8f)));
             player = world.add("ball", 0, 0.5f, 0.5f);
 
-
+            disposables.add(apple);
+            world.addConstructor("apple", new BulletConstructor(apple, 1f, new btSphereShape(0.5f)));
+            player2 = world.add("apple", 0, 0.5f, 0.5f);
 
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
@@ -214,8 +214,5 @@ public class testing extends BaseBulletTest {
         if (rayTestCB != null) rayTestCB.dispose();
         rayTestCB = null;
         super.dispose();
-    }
-
-
-
+        }
     }

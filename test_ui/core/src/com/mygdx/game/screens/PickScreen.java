@@ -170,27 +170,17 @@ public class PickScreen implements Screen {
     }
 
     private void initScrollMenu(){
-       container = new Table();
-		stage.addActor(container);
-		container.setFillParent(true);
+        // image.setDrawable(new SpriteDrawable(new Sprite(background)));
+        // inizializzazione della tabella
+        container = new Table();
+        //container.setFillParent(true);
+        container.setSize(w / 2, h / 2);
+        //container.bottom();
+        container.setPosition(w / 2 - container.getWidth() / 2, h / 2 - container.getHeight() / 2);
+        //container.setBackground((Drawable) image);
+        stage.addActor(container);
+        //container.debug();
 
-        PagedScrollPane scroll = new PagedScrollPane();
-        scroll.setFlingTime(0.1f);
-        scroll.setPageSpacing(25);
-        int c = 1;
-        for (int l = 0; l < 10; l++) {
-            Table levels = new Table().pad(50);
-            levels.defaults().pad(20, 40, 20, 40);
-            for (int y = 0; y < 3; y++) {
-                levels.row();
-                for (int x = 0; x < 4; x++) {
-                    levels.add(getLevelButton(c++)).expand().fill();
-                }
-            }
-            scroll.addPage(levels);
-        }
-        container.add(scroll).expand().fill();
-/*
         Table table = new Table();
         //table.debug();
         table.bottom();
