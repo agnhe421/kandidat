@@ -35,6 +35,18 @@ import javax.xml.crypto.Data;
  * packet and then exits immediately. Question is, will this be viable
  * in the actual game later on?
  */
+
+/**
+ * Idea: Is it possible that we use this method in order to make the servers find each other,
+ * and the packet being sent is a connection request? If the packet is valid, the requesting unit
+ * will send network details to the server, connecting the sockets together, and using the TCP/IP
+ * method of connecting units. This would actually connect the units with each other, and allow
+ * information to be sent that way, while also removing the need for typing in the servers IP
+ * manually. This might improve performance, assuming that i could actually get the connection to
+ * work, as that's what the old network code attempted, and failed with. It worked in a regular
+ * project, just not on a libGDX project.
+ */
+
 public class JoinServer extends Thread
 {
     protected String dstAdress;

@@ -45,7 +45,6 @@ public class MyGdxGame extends ApplicationAdapter //implements InputProcessor (L
 	Skin skin;
 	Stage stage;
 	TextButton buttonCreate, buttonJoin, buttonCheck, buttonExit;
-	TextButton.TextButtonStyle buttonCreateStyle, buttonJoinStyle;
 	public AssetManager assManager;
 	public ServerInterface sInterface;
 
