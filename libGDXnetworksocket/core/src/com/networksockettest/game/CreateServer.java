@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,9 +17,9 @@ import java.util.Vector;
  */
 public class CreateServer extends Thread
 {
-
+    ReceivePacket receiver;
     ServerSocket serverSocket;
-    static final int SOCKETSERVERPORT = 8080;
+    static final int SOCKETSERVERPORT = 8081;
     private String msgtake = "msgtake", msgsend = "msgsend", error = "No Error";
     private Boolean threadRun;
     Vector<User> userList;
@@ -26,34 +27,41 @@ public class CreateServer extends Thread
     @Override
     public void run()
     {
+        receiver = new ReceivePacket();
         userList = new Vector<User>();
         threadRun = true;
         Socket socket = null;
         try
         {
-            serverSocket = new ServerSocket(SOCKETSERVERPORT);
+            serverSocket = new ServerSocket();
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(SOCKETSERVERPORT));
+            receiver.start();
             msgtake = "Waiting for connection...";
             while(threadRun)
             {
                 //msgtake = "Waiting for connection...";
-                socket = serverSocket.accept();
-                User user = new User();
-                userList.add(user);
-                ConnectThread connectThread = new ConnectThread(user, socket);
-                connectThread.start();
-                if(!threadRun)
+                if(receiver.connectState())
                 {
-                    connectThread.stopConThread();
-                    try
+                    socket = serverSocket.accept();
+                    User user = new User();
+                    userList.add(user);
+                    ConnectThread connectThread = new ConnectThread(user, socket);
+                    connectThread.start();
+                    if(!threadRun)
                     {
-                        connectThread.join();
-                    }catch(InterruptedException e)
-                    {
-                        e.printStackTrace();
-                        error = "Exception: " + e.toString();
+                        connectThread.stopConThread();
+                        try
+                        {
+                            connectThread.join();
+                        }catch(InterruptedException e)
+                        {
+                            e.printStackTrace();
+                            error = "Exception: " + e.toString();
+                        }
                     }
+                    receiver.confirmConnection();
                 }
-
             }
         }catch(IOException e)
         {
@@ -78,10 +86,16 @@ public class CreateServer extends Thread
     public void stopServer()
     {
         threadRun = false;
+        receiver.stopCatch();
         try
         {
+            receiver.join();
             serverSocket.close();
         }catch(IOException e)
+        {
+            e.printStackTrace();
+            error = "Exception: " + e.toString();
+        }catch(InterruptedException e)
         {
             e.printStackTrace();
             error = "Exception: " + e.toString();
@@ -201,7 +215,6 @@ public class CreateServer extends Thread
                         error = "Exception: " + e.toString();
                     }
                 }
-
                 userList.remove(user);
             }
         }

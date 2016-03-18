@@ -32,17 +32,19 @@ public class NetworkSocketTest extends ApplicationAdapter {
 	Texture img;
 	BitmapFont font;
 	int screenWidth, screenHeight;
-	private String msg = "msg", error ="error", IPad = "IP";
+	private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "";
 	CreateServer create;
 	JoinServer join;
 	Skin skin;
 	Stage stage;
-	TextButton buttonCreate, buttonJoin, buttonCheck, buttonExit;
+	TextButton buttonCreate, buttonJoin, buttonExit, buttonDisconnect;
 	public AssetManager assManager;
 	Boolean hardexit = false, joinbool = false, createbool = false;
+	private SendPacket sendPacket;
 	
 	@Override
-	public void create () {
+	public void create ()
+	{
 		stage = new Stage();
 		assManager = new AssetManager();
 		batch = new SpriteBatch();
@@ -79,22 +81,18 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
 		buttonCreate.addListener(new ClickListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
+			public void clicked(InputEvent event, float x, float y) {
 				createbool = true;
-				if(joinbool && createbool)
-				{
+				if (joinbool && createbool) {
 					Gdx.app.log("FATAL ERROR: ", "Cannot both create a server and join one.");
-					if(create.isAlive())
+					if (create.isAlive())
 						create.stopServer();
-					if(join.isAlive())
+					if (join.isAlive())
 						join.disconnect();
-					try
-					{
+					try {
 						join.join();
 						create.join();
-					}catch(InterruptedException e)
-					{
+					} catch (InterruptedException e) {
 
 					}
 					create = null;
@@ -103,17 +101,13 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					joinbool = false;
 					hardexit = true;
 					Gdx.app.exit();
-				}
-				else if(create == null)
-				{
+				} else if (create == null) {
 					create = new CreateServer();
 					create.start();
 					IPad = create.getIpAddress();
 					msg = create.getMsg();
 					error = create.getError();
-				}
-				else
-				{
+				} else {
 					msg = create.getMsg();
 					error = create.getError();
 				}
@@ -121,26 +115,23 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		});
 
 		buttonJoin = new TextButton("Join Server", skin, "default");
-		buttonJoin.setPosition(screenWidth / 2 - buttonSizeX / 2, screenHeight/2 - 190 + buttonSizeY / 2);
+		buttonJoin.setPosition(screenWidth / 2 - buttonSizeX / 2, screenHeight / 2 - 190 + buttonSizeY / 2);
 		buttonJoin.setSize(buttonSizeX, buttonSizeY);
 		buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
 		buttonJoin.addListener(new ClickListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
+			public void clicked(InputEvent event, float x, float y) {
 				joinbool = true;
-				if(joinbool && createbool)
-				{
+				if (joinbool && createbool) {
 					Gdx.app.log("FATAL ERROR: ", "Cannot both create a server and join one.");
-					if(create.isAlive())
+					if (create.isAlive())
 						create.stopServer();
-					if(join.isAlive())
+					if (join.isAlive())
 						join.disconnect();
-					try
-					{
+					try {
 						join.join();
 						create.join();
-					}catch(InterruptedException e)
+					} catch (InterruptedException e)
 					{
 
 					}
@@ -151,19 +142,73 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					hardexit = true;
 					Gdx.app.exit();
 				}
-				else if(join == null)
+				else if (join == null)
 				{
-					join = new JoinServer("172.20.10.4", 8080, "temp");
+					sendPacket = new SendPacket();
+					sendPacket.start();
+					try
+					{
+						sendPacket.join();
+						serverIPad = sendPacket.getIP();
+						sendPacket = null;
+					}catch(InterruptedException e)
+					{
+						e.printStackTrace();
+						error = "Exception: " + e.toString();
+					}
+					IPad = "Connecting to: " + serverIPad;
+					join = new JoinServer(serverIPad, 8081, "Manly Banger, the Rock God");
 					join.start();
 					msg = join.getMsg();
 					error = join.getError();
-					IPad = "JoinServerMode.";
-				}
-				else
-				{
+					//IPad = "JoinServerMode.";
+				} else {
 					msg = join.getMsg();
 					error = join.getError();
 				}
+			}
+		});
+
+		buttonDisconnect = new TextButton("Disconnect", skin, "default");
+		buttonDisconnect.setPosition(screenWidth / 2 - buttonSizeX / 2, screenHeight / 2 + buttonSizeY / 2 - 265);
+		buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
+		buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+		buttonDisconnect.addListener(new ClickListener()
+		{
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				if(joinbool && join != null)
+				{
+					join.disconnect();
+					try
+					{
+						join.join();
+					}catch(InterruptedException e)
+					{
+						e.printStackTrace();
+						error = "Exception: " + e.toString();
+					}
+					joinbool = false;
+					join = null;
+				}
+				if(createbool && create != null)
+				{
+					create.stopServer();
+					try
+					{
+						create.join();
+					}catch(InterruptedException e)
+					{
+						e.printStackTrace();
+						error = "Exception: " + e.toString();
+					}
+					createbool = false;
+					create = null;
+				}
+				msg = "Disconnected.";
+				error = "No Error";
+				IPad = "IP";
 			}
 		});
 
@@ -204,22 +249,10 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			}
 		});
 
-		/*buttonCheck = new TextButton("Check Error", skin, "default");
-		buttonCheck.setPosition(screenWidth/2 - buttonSizeX/2, screenHeight/2 - 265 + buttonSizeY/2);
-		buttonCheck.setSize(buttonSizeX, buttonSizeY);
-		buttonCheck.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-		buttonCheck.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				if(join.isAlive())
-					msg = join.getError();
-			}
-		});*/
-
 		stage.addActor(buttonCreate);
 		stage.addActor(buttonJoin);
 		stage.addActor(buttonExit);
-		//stage.addActor(buttonCheck);
+		stage.addActor(buttonDisconnect);
 	}
 
 	public void update() {stage.act();}

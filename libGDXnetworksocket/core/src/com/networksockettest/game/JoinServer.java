@@ -15,13 +15,14 @@ public class JoinServer extends Thread
     protected int dstPort;
     protected Socket socket;
     private String msgtake = "msgtake", msgsend = "msgsend", error = "No Error";
-    private boolean connected = false;
+    private boolean connected;
 
     public JoinServer(String dstAdress, int dstPort, String name)
     {
         this.dstAdress = dstAdress;
         this.dstPort = dstPort;
         this.name = name;
+        connected = false;
     }
 
     @Override
@@ -102,13 +103,17 @@ public class JoinServer extends Thread
 
     public void disconnect()
     {
-        try
+        connected = false;
+        if(socket != null)
         {
-            socket.close();
-        }catch(IOException e)
-        {
-            e.printStackTrace();
-            error = "Exception: " + e.toString();
+            try
+            {
+                socket.close();
+            }catch(IOException e)
+            {
+                e.printStackTrace();
+                error = "Exception: " + e.toString();
+            }
         }
     }
 
