@@ -79,7 +79,7 @@ public class BaseBulletTest extends BulletTest {
 	public Array<Disposable> disposables = new Array<Disposable>();
 	private int debugMode = DebugDrawModes.DBG_NoDebug;
 	
-	protected final static Vector3 tmpV1 = new Vector3(), tmpV2 = new Vector3();
+	protected final static Vector3 tmpV1 = new Vector3(), tmpV2 = new Vector3(),  tmpV3 = new Vector3();
 
 	public BulletWorld createWorld () {
 		return new BulletWorld();
@@ -99,14 +99,16 @@ public class BaseBulletTest extends BulletTest {
 
 		modelBatch = new ModelBatch();
 
+
 		world = createWorld();
 		world.performanceCounter = performanceCounter;
+
 
 		final float width = Gdx.graphics.getWidth();
 		final float height = Gdx.graphics.getHeight();
 
 		camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.position.set(20,20,20);
+		camera.position.set(5, 5, 5);
 		camera.lookAt(0, 1, 0);
 		camera.near = 0.1f;
 		camera.far = 300f;
@@ -170,6 +172,7 @@ public class BaseBulletTest extends BulletTest {
 	}
 
 	public void render (boolean update) {
+
 		fpsCounter.put(Gdx.graphics.getFramesPerSecond());
 
 		if (update) update();
@@ -193,7 +196,7 @@ public class BaseBulletTest extends BulletTest {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		camera.update();
+//		camera.update();
 	}
 
 	protected void renderWorld () {
@@ -207,16 +210,53 @@ public class BaseBulletTest extends BulletTest {
 
 		float[] modelViewMatrix = DataHolder.getInstance().getData();
 
-		if(modelViewMatrix != null)
+		float[] modelProjMatrix = DataHolder.getInstance().getData2();
+
+		if(modelViewMatrix != null && modelProjMatrix != null)
 		{
 
-			Matrix4 temp = new Matrix4(modelViewMatrix);
-			temp.rotate(tmpV1.set(1, 0, 0), 90);
 
-			camera.combined.set(temp);
+			Matrix4 temp = new Matrix4(modelViewMatrix.clone());
 
-			temp.getTranslation(tmpV2);
-//			camera.position.set(tmpV2.cpy());
+			Matrix4 temp2 = new Matrix4(modelProjMatrix.clone());
+//
+//			temp = temp.inv();
+
+//			camera.combined.set(temp);
+//
+//			Matrix4 temp3 = camera.view;
+//
+//			float[] view = temp3.getValues();
+
+
+			float[] viewMatrix = temp.getValues();
+
+			float[] projMatrix = temp2.getValues();
+
+
+
+
+			float posZ = viewMatrix[14];
+			float posY = viewMatrix[13];
+			float posX = viewMatrix[12];
+
+			float dirZ = viewMatrix[10];
+			float dirY = viewMatrix[9];
+			float dirX = viewMatrix[8];
+
+			float upZ = viewMatrix[6];
+			float upY = viewMatrix[5];
+			float upX = viewMatrix[4];
+
+
+			camera.position.set(posX, posY, posZ);
+			camera.lookAt(dirX, dirY, dirZ);
+			camera.up.set(upX, upY, upZ);
+
+
+
+			camera.update();
+
 
 
 //                Gdx.app.log("---------------------------------------------","------------------------------------------------------------------");
@@ -229,6 +269,10 @@ public class BaseBulletTest extends BulletTest {
 //                camera.view.mul(temp);
 
 		}
+
+//		camera.update();
+
+
 
 		modelBatch.begin(camera);
 		world.render(modelBatch, environment);

@@ -27,9 +27,6 @@ public class testing extends BaseBulletTest {
     boolean loading;
     BulletEntity player;
 
-    ClosestRayResultCallback rayTestCB;
-    Vector3 rayFrom = new Vector3();
-    Vector3 rayTo = new Vector3();
 
     ModelInstance instance;
 
@@ -52,19 +49,16 @@ public class testing extends BaseBulletTest {
         disposables.add(sphere);
         world.addConstructor("sphere", new BulletConstructor(sphere, 10f, new btSphereShape(2f)));
 
-
         // Create the entities
         world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(),
                 0.25f + 0.5f * (float) Math.random(), 1f);
         world.add("sphere", 0, 5, 5);
 
 
+
         assets = new AssetManager();
         assets.load("football2.g3dj", Model.class);
         loading = true;
-
-
-        rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
 
         Gdx.input.setInputProcessor(this);
 
@@ -83,16 +77,29 @@ public class testing extends BaseBulletTest {
 //        shoot(screenX, screenY);
         Gdx.app.log("SHOOT", "SHOOT");
 
+//        camera.combined.getTranslation(tmpV2);
+//
+//        camera.position.set(tmpV2);
+//        camera.update();
+
+
+
+//        camera.combined.getPickRay ?????????????????????????
         Ray ray = camera.getPickRay(screenX, screenY);
+
+        Vector3 rayFrom = new Vector3();
+        Vector3 rayTo = new Vector3();
+
         rayFrom.set(ray.origin);
         rayTo.set(ray.direction).scl(50f).add(rayFrom); // 50 meters max from the origin
 
         // Because we reuse the ClosestRayResultCallback, we need reset it's values
+
+        ClosestRayResultCallback rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
         rayTestCB.setCollisionObject(null);
         rayTestCB.setClosestHitFraction(1f);
         rayTestCB.setRayFromWorld(rayFrom);
         rayTestCB.setRayToWorld(rayTo);
-
 
         world.collisionWorld.rayTest(rayFrom, rayTo, rayTestCB);
 
@@ -194,7 +201,6 @@ public class testing extends BaseBulletTest {
             player = world.add("ball", 0, 0.5f, 0.5f);
 
 
-
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
         }
@@ -203,8 +209,8 @@ public class testing extends BaseBulletTest {
 
     @Override
     public void dispose () {
-        if (rayTestCB != null) rayTestCB.dispose();
-        rayTestCB = null;
+//        if (rayTestCB != null) rayTestCB.dispose();
+//        rayTestCB = null;
         super.dispose();
     }
 

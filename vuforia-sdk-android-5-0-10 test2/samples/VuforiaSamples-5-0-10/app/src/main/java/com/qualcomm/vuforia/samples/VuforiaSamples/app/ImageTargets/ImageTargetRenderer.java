@@ -234,7 +234,10 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
             Matrix.multiplyMM(modelViewProjection, 0, vuforiaAppSession
                     .getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
 
-            DataHolder.getInstance().setData(modelViewProjection);
+            DataHolder.getInstance().setData(modelViewMatrix);
+
+            DataHolder.getInstance().setData2(vuforiaAppSession
+                    .getProjectionMatrix().getData());
 
 
 
