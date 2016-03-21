@@ -199,8 +199,8 @@ public class ConnectionMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        System.out.println("dispose");
         stage.dispose();
+        background.dispose();
     }
 
     private void disconnectAll()

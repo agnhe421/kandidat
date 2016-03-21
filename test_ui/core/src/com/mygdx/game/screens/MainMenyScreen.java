@@ -136,8 +136,7 @@ public class MainMenyScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        app.batch.dispose();
-
+        background.dispose();
     }
 
     private void initButtons()

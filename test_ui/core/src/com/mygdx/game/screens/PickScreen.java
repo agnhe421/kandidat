@@ -151,9 +151,6 @@ public class PickScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        app.font50.dispose();
-        app.font120.dispose();
-        app.batch.dispose();
     }
 
     private void initButtons() {

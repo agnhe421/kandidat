@@ -135,8 +135,6 @@ public class LoadingScreen implements Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-        app.font50.dispose();
-        app.assets.dispose();
         backgroundImage.dispose();
     }
 }

@@ -48,7 +48,6 @@ public class SettingScreen implements Screen {
         this.app = app;
         this.stage = new Stage(new StretchViewport(w , h));
         this.viewport = new Rectangle();
-
     }
 
     // Kallas varje gång man vill att denna screen ska visas
@@ -66,7 +65,6 @@ public class SettingScreen implements Screen {
 
         initSlider();
         initButtons();
-
     }
 
     @Override
@@ -136,10 +134,10 @@ public class SettingScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        background.dispose();
-        skin.dispose();
-        app.batch.dispose();
-        app.font50.dispose();
+        if(skin != null){
+            skin.dispose();
+        }
+
     }
 
     public void initMusic(){

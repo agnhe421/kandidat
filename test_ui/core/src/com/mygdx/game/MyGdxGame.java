@@ -123,6 +123,7 @@ public class MyGdxGame extends Game {
 	public void dispose() {
 		batch.dispose();
 		font50.dispose();
+        font120.dispose();
 		assets.dispose();
 		loadingScreen.dispose();
 		settingScreen.dispose();
