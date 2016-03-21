@@ -7,4 +7,10 @@ public class DataHolder {
 
     private static final DataHolder holder = new DataHolder();
     public static DataHolder getInstance() {return holder;}
+
+
+    private float[] data2;
+    public float[] getData2() {return data2;}
+    public void setData2(float[] data2) {this.data2 = data2;}
+
 }
