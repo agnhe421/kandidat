@@ -57,6 +57,7 @@ public class MyGdxGame extends Game {
 		lobbyScreen = new LobbyScreen(this);
 		pickScreen = new PickScreen(this);
 
+		settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
 		this.setScreen(loadingScreen);
 	}
 

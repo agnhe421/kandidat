@@ -2,6 +2,7 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -38,8 +39,11 @@ public class SettingScreen implements Screen {
     private float h = Gdx.graphics.getHeight();
     // Texture
     private Texture background;
-
+    //music and slider
+    public Music music;
+    public float soundVolume = 0.5f;
     private Slider slider;
+
     public SettingScreen(final MyGdxGame app){
         this.app = app;
         this.stage = new Stage(new StretchViewport(w , h));
@@ -138,19 +142,34 @@ public class SettingScreen implements Screen {
         app.font50.dispose();
     }
 
-    private void initSlider(){
+    public void initMusic(){
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound/theReef.mp3")); //read in the file
+        music.setLooping(true);
+        music.setVolume(soundVolume); //when it start set volume = 0.5f.
+        music.play();
+
+    }
+
+    public void initSlider(){
         //public Slider(float min, float max, float stepSize, boolean vertical, Slider.SliderStyle style)
-        slider = new Slider(50, 100, 1, false, skin);
-        slider.setAnimateDuration(0.3f);
-        slider.setPosition(w/2 -280/2, h/2 + 40);
+
+        slider = new Slider(0.0f, 1.0f, 0.1f, false, skin); //init slider
+        slider.setValue(music.getVolume()); //the sliders position is equal to the musics volume
+        music.setVolume(slider.getValue()); //volume is where the slider is
+        slider.setAnimateDuration(0.1f);    //how fast the slider react when you move it
+        slider.setPosition(w / 2 - 280 / 2, h / 2 + 40);
         slider.setSize(280, 50);
-        stage.addActor(slider);
 
         slider.addListener(new ChangeListener() {
+            @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("Music value", "slider: " + slider.getValue());
+                if (slider.isDragging()) {
+                    music.setVolume(slider.getValue());  //when the slider is moving the musics volume
+                }                                       //will change according to where the slider is.
             }
         });
+
+        stage.addActor(slider);
     }
 
     private void initButtons() {
