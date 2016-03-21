@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -15,7 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.MainMenyScreen;
-import com.mygdx.game.screens.LobbyScreen;
+import com.mygdx.game.screens.ConnectionMenuScreen;
 import com.mygdx.game.screens.PickScreen;
 import com.mygdx.game.screens.SettingScreen;
 
@@ -30,7 +29,7 @@ public class MyGdxGame extends Game {
 	public LoadingScreen loadingScreen;
 	public SettingScreen settingScreen;
 	public MainMenyScreen mainMenyScreen;
-	public LobbyScreen lobbyScreen;
+	public ConnectionMenuScreen connectionMenuScreen;
 	public PickScreen pickScreen;
 
 	public static final int VIRTUAL_WIDTH = 3840;
@@ -54,9 +53,10 @@ public class MyGdxGame extends Game {
 		loadingScreen = new LoadingScreen(this);
 		settingScreen = new SettingScreen(this);
 		mainMenyScreen = new MainMenyScreen(this);
-		lobbyScreen = new LobbyScreen(this);
+		connectionMenuScreen = new ConnectionMenuScreen(this);
 		pickScreen = new PickScreen(this);
 
+		settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
 		this.setScreen(loadingScreen);
 	}
 
@@ -122,7 +122,7 @@ public class MyGdxGame extends Game {
 		loadingScreen.dispose();
 		settingScreen.dispose();
 		mainMenyScreen.dispose();
-		lobbyScreen.dispose();
+		connectionMenuScreen.dispose();
 		pickScreen.dispose();
 	}
 
