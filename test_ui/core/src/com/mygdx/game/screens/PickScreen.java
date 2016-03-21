@@ -162,7 +162,7 @@ public class PickScreen implements Screen {
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.lobbyScreen);
+                app.setScreen(app.connectionMenuScreen);
             }
         });
         stage.addActor(buttonBack);

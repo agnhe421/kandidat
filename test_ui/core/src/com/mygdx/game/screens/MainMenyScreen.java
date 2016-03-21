@@ -38,7 +38,6 @@ public class MainMenyScreen implements Screen {
 
     //private Table table = new Table(skin);
 
-
     public MainMenyScreen(final MyGdxGame app)
     {
         this.app = app;
@@ -150,7 +149,7 @@ public class MainMenyScreen implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.lobbyScreen);
+                app.setScreen(app.connectionMenuScreen);
             }
         });
 
