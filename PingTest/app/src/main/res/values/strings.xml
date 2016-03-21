@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Ping Test</string>
+    <string name="ping">Ping</string>
+    <string name="ip">IP:</string>
+    <string name="ButtonPing">Ping adress</string>
+    <string name="Input">Input IP</string>
+</resources>
