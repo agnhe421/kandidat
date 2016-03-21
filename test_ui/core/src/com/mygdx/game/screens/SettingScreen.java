@@ -58,7 +58,7 @@ public class SettingScreen implements Screen {
         this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
-        background = app.assets.get("img/background1.jpg", Texture.class);
+        background = app.assets.get("img/greek.jpg", Texture.class);
 
         initSlider();
         initButtons();

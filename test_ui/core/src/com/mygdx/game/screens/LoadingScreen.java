@@ -40,17 +40,17 @@ public class LoadingScreen implements Screen {
 
     private void queueAsset()
     {
-        app.assets.load("img/background1.jpg", Texture.class);
+        app.assets.load("img/greek.jpg", Texture.class);
         app.assets.load("img/badlogic.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
-        app.assets.load("ui/menuskin.pack", TextureAtlas.class);
+        app.assets.load("ui/TextUI.pack", TextureAtlas.class);
     }
 
     @Override
     public void show() {
         System.out.println("LOADING");
         startImage = new Texture(Gdx.files.internal("img/badlogic.jpg")); // Kan göras på ett bättre sätt?
-        backgroundImage = new Texture(Gdx.files.internal("img/background1.jpg"));
+        backgroundImage = new Texture(Gdx.files.internal("img/greek.jpg"));
 
         shapeRenderer.setProjectionMatrix(app.camera.combined); // viktigt för att shaprenderer ska ha relativ storlek
 

@@ -52,11 +52,11 @@ public class MainMenyScreen implements Screen {
         stage.clear();
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/menuskin.pack", TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/TextUI.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/menuskin.json"));
+        this.skin.load(Gdx.files.internal("ui/TextUI.json"));
 
-        background = app.assets.get("img/background1.jpg", Texture.class);
+        background = app.assets.get("img/greek.jpg", Texture.class);
         initButtons();
     }
 
@@ -172,10 +172,12 @@ public class MainMenyScreen implements Screen {
                 System.out.println("Score kommer!");
             }
         });
-        table.add(buttonPlay).expand();
+
+        table.add(buttonPlay).expandX().left().padLeft(150);
         table.row();
-        table.add(buttonSetting).bottom().left();
-        table.add(buttonScore).bottom().right();
+        table.add(buttonSetting).bottom().left().padLeft(150);
+        table.row();
+        table.add(buttonScore).bottom().left().padLeft(150);
 
         stage.addActor(table);
 

@@ -62,11 +62,11 @@ public class LobbyScreen implements Screen {
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font*/
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/menuskin.pack", TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/TextUI.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/menuskin.json"));
+        this.skin.load(Gdx.files.internal("ui/TextUI.json"));
 
-        background = app.assets.get("img/background1.jpg", Texture.class);
+        background = app.assets.get("img/greek.jpg", Texture.class);
 
         initButtons();
     }
@@ -346,13 +346,13 @@ public class LobbyScreen implements Screen {
         stage.addActor(buttonJoin);
         //stage.addActor(buttonExit);
 
-        table.add(buttonBack);
+        table.add(buttonBack).expandX().left().padLeft(150);
         table.row();
-        table.add(buttonCreate);
+        table.add(buttonCreate).bottom().left().padLeft(150);
         table.row();
-        table.add(ButtonSkipServer);
+        table.add(ButtonSkipServer).bottom().left().padLeft(150);
         table.row();
-        table.add(buttonJoin);
+        table.add(buttonJoin).bottom().left().padLeft(150);
 
     }
 
