@@ -1,118 +1,120 @@
 package com.mygdx.game.screens;
 
-import com.badlogic.gdx.Gdx;
-
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.Vector;
 
-//import org.jbox2d.common.Vec3;
-
 /**
- * Created by Andreas on 2016-03-02.
- * As far as i can tell the server does not actually connect
- * with external units. What it does is wait for a packet of
- * information that can be sent by all units within the local
- * area network (Andreass phone in this case). When one is received
- * the server checks the packet for validity, and if correct, sends
- * a response packet to the corresponding unit by IP address.
- * The server loops in perpetuity, the join button only sends one
- * packet and then exits immediately. Question is, will this be viable
- * in the actual game later on?
+ * Created by Andreas on 2016-03-16.
  */
 public class CreateServer extends Thread
 {
-    static final int SOCKETSERVERPORT = 8080;
-
-    DatagramSocket dSocket;
-
-    //Vector<User> userList;
-
-    private String msg = "msg", error = "No Error", data;
-
+    ReceivePacket receiver;
+    ServerSocket serverSocket;
+    static final int SOCKETSERVERPORT = 8081;
+    private String msgtake = "msgtake", msgsend = "msgsend", error = "No Error";
     private Boolean threadRun;
+    private Vector<User> userList;
 
     @Override
     public void run()
     {
-        //Set the loop to true, until disconnected from the outside.
+        //Instantiate the broadcast receiver, the vector of connected users and the socket.
+        receiver = new ReceivePacket();
+        userList = new Vector<User>();
         threadRun = true;
+        Socket socket = null;
         try
         {
-            //Create new socket handling incoming/outgoing packets.
-            dSocket = new DatagramSocket(SOCKETSERVERPORT, InetAddress.getByName("0.0.0.0"));
-            //Activate broadcast.
-            dSocket.setBroadcast(true);
-            //Engage server loop.
+            //Bind the server to the static port.
+            serverSocket = new ServerSocket();
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(SOCKETSERVERPORT));
+            //Activate the receiver.
+            receiver.start();
+            msgtake = "Waiting for connection...";
             while(threadRun)
             {
-                //Sleep for one second, so that the server response can be read.
+                //If the receiver has received a connection request, activate the socket, wait for the unit to connect.
+                if(receiver.connectState())
+                {
+                    socket = serverSocket.accept();
+                    //Add the user to the vector.
+                    User user = new User();
+                    userList.add(user);
+                    //Create and start a connection thread for this specific user.
+                    ConnectThread connectThread = new ConnectThread(user, socket);
+                    connectThread.start();
+                    //Tell the receiver the connection has been made, so that it can look for new requests.
+                    receiver.confirmConnection();
+                }
+            }
+            //Close the connection threads of all users. At the end of the connection thread, the user is removed.
+            for(User it : userList)
+            {
+                it.conThread.stopConThread();
                 try
                 {
-                    this.sleep(1000);
+                    it.conThread.join();
                 }catch(InterruptedException e)
                 {
                     e.printStackTrace();
                     error = "Exception: " + e.toString();
-                }
-
-                msg = getClass().getName() + ">>>Ready to receive broadcast packets!";
-                //Create buffer for incoming packets.
-                byte[] recvbuf = new byte[15000];
-                DatagramPacket dPacket = new DatagramPacket(recvbuf, recvbuf.length);
-                //Wait for incoming packet.
-                dSocket.receive(dPacket);
-                //Display packet information.
-                msg = getClass().getName() + ">>>Discovery packet recieved from: " + dPacket.getAddress().getHostAddress() + "\n";
-                msg += getClass().getName() + ">>>Packet received; data: " + new String(dPacket.getData()).trim() + "\n";
-                //Get string data.
-                String message = new String(dPacket.getData()).trim();
-                //Check if the packet is valid.
-                if(message.equals("DISCOVER_FUIFSERVER_REQUEST"))
-                {
-                    //Send response to unit.
-                    byte[] sendData = "DISCOVER_FUIFSERVER_RESPONSE".getBytes();
-                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, dPacket.getAddress(), dPacket.getPort());
-                    dSocket.send(sendPacket);
-                    msg += getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress();
                 }
             }
         }catch(IOException e)
         {
             e.printStackTrace();
             error = "Exception: " + e.toString();
+        }finally
+        {
+            if(socket != null)
+            {
+                try
+                {
+                    socket.close();
+                }catch(IOException e)
+                {
+                    e.printStackTrace();
+                    error = "Exception: " + e.toString();
+                }
+            }
         }
     }
 
-    public String getMsg(){ return msg; }
-
-    public String getError() { return error; }
-
     public void stopServer()
     {
+        //Stop the main server thread, deactivate the broadcast and close the server socket.
         threadRun = false;
-        dSocket.close();
+        receiver.stopCatch();
+        try
+        {
+            receiver.join();
+            serverSocket.close();
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+            error = "Exception: " + e.toString();
+        }catch(InterruptedException e)
+        {
+            e.printStackTrace();
+            error = "Exception: " + e.toString();
+        }
     }
 
     public String getIpAddress()
     {
+        //Get the host IP-address.
         String ip = "";
-        Enumeration<NetworkInterface>enumNetworkInterfaces;
+        Enumeration<NetworkInterface> enumNetworkInterfaces;
         try {
 
             enumNetworkInterfaces = NetworkInterface
@@ -132,11 +134,121 @@ public class CreateServer extends Thread
                 }
             }
         } catch (SocketException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             ip += "Something Wrong! " + e.toString() + "\n";
         }
 
         return ip;
     }
+    //The thread handling the actual connection part.
+    private class ConnectThread extends Thread
+    {
+        public Socket socket;
+        public User user;
+        private String incoming;
+        private Boolean runcon;
+
+        ConnectThread(User usr, Socket socket)
+        {
+            //Connect user and socket to the passed input.
+            this.socket = socket;
+            user = usr;
+            user.socket = socket;
+            user.conThread = this;
+        }
+
+        public void stopConThread()
+        {
+            //Stop the connection thread. The socket will not freeze due to not using any functions
+            //that blocks its progress.
+            runcon = false;
+        }
+
+        @Override
+        public void run()
+        {
+            //Instantiate data input/output streams, and set thread state to running.
+            runcon = true;
+            DataInputStream dataInputStream = null;
+            DataOutputStream dataOutputStream = null;
+
+            try
+            {
+                //Connect the streams to the threads socket streams.
+                dataInputStream = new DataInputStream(socket.getInputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+                while(runcon)
+                {
+                    //If input data is available, accept the data and prepare a response.
+                    if(dataInputStream.available() > 0)
+                    {
+                        incoming = dataInputStream.readUTF();
+                        if(incoming.equals("CONNECTION_SHUTDOWN"))
+                            runcon = false;
+                        msgtake = incoming + "\n";
+                        msgsend = "Message Received!";
+                    }
+                    //If response is available, send it.
+                    if(runcon && !msgsend.equals(""))
+                    {
+                        dataOutputStream.writeUTF(msgsend);
+                        dataOutputStream.flush();
+                        msgsend = "";
+                    }
+                }
+                if(!incoming.equals("CONNECTION_SHUTDOWN"))
+                {
+                    dataOutputStream.writeUTF("SERVER_SHUTDOWN");
+                    dataOutputStream.flush();
+                }
+            }catch(IOException e)
+            {
+                e.printStackTrace();
+                error = "Exception: " + e.toString();
+            }finally
+            {
+                //If streams and the socket are open, close them.
+                if(dataInputStream != null)
+                {
+                    try
+                    {
+                        dataInputStream.close();
+                    }catch(IOException e)
+                    {
+                        e.printStackTrace();
+                        error = "Exception: " + e.toString();
+                    }
+                }
+                if(dataOutputStream != null)
+                {
+                    try
+                    {
+                        dataOutputStream.close();
+                    }catch(IOException e)
+                    {
+                        e.printStackTrace();
+                        error = "Exception: " + e.toString();
+                    }
+                }
+                //Remove the user from the list.
+                userList.remove(user);
+            }
+        }
+    }
+
+    public String getMsg() {return msgtake;}
+    public String getError() {return error;}
+    public int getConnections() {return userList.size();}
+    public Boolean checkIfVectorNull() {return userList == null;}
+
+    public class User
+    {
+        //The ID will be used later to identify which unit will receive data.
+        //The ID will be specified before connecting by that player. Such as Manly Banger, the Rock God!
+        public String id;
+        public Socket socket;
+        public ConnectThread conThread;
+    }
+
 }

@@ -25,9 +25,8 @@ public class LobbyScreen implements Screen {
         this.app = app;
         this.stage = new Stage(new StretchViewport(w , h));
         this.viewport = new Rectangle();
-
     }
-    
+
     @Override
     public void show() {
 
