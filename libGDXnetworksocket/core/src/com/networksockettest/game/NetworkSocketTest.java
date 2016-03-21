@@ -32,6 +32,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 	Texture img;
 	BitmapFont font;
 	int screenWidth, screenHeight;
+	Integer connectcounter = 0;
 	private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "";
 	CreateServer create;
 	JoinServer join;
@@ -72,6 +73,42 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		initButtons();
 	}
 
+	private void disconnectAll()
+	{
+		//Disconnect any active connections, or servers.
+		if(joinbool && join != null)
+		{
+			join.disconnect();
+			try
+			{
+				join.join();
+			}catch(InterruptedException e)
+			{
+				e.printStackTrace();
+				error = "Exception: " + e.toString();
+			}
+			joinbool = false;
+			join = null;
+		}
+		if(createbool && create != null)
+		{
+			create.stopServer();
+			try
+			{
+				create.join();
+			}catch(InterruptedException e)
+			{
+				e.printStackTrace();
+				error = "Exception: " + e.toString();
+			}
+			createbool = false;
+			create = null;
+		}
+		msg = "Disconnected.";
+		error = "No Error";
+		IPad = "IP";
+	}
+
 	public void initButtons()
 	{
 		float buttonSizeX = 250, buttonSizeY = 50;
@@ -83,6 +120,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				createbool = true;
+				//No creating and joining a server at the same time. Terminate application.
 				if (joinbool && createbool) {
 					Gdx.app.log("FATAL ERROR: ", "Cannot both create a server and join one.");
 					if (create.isAlive())
@@ -101,13 +139,17 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					joinbool = false;
 					hardexit = true;
 					Gdx.app.exit();
-				} else if (create == null) {
+				}
+				else if (create == null) {
+					//Create a new server, update the text accordingly.
 					create = new CreateServer();
 					create.start();
 					IPad = create.getIpAddress();
 					msg = create.getMsg();
 					error = create.getError();
-				} else {
+				}
+				else {
+					//Further clicks will only update the text.
 					msg = create.getMsg();
 					error = create.getError();
 				}
@@ -122,6 +164,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				joinbool = true;
+				//No creating and joining a server at the same time. Terminate application.
 				if (joinbool && createbool) {
 					Gdx.app.log("FATAL ERROR: ", "Cannot both create a server and join one.");
 					if (create.isAlive())
@@ -144,25 +187,42 @@ public class NetworkSocketTest extends ApplicationAdapter {
 				}
 				else if (join == null)
 				{
+					//Check all available units connected to the network and see if anyone has started a server.
 					sendPacket = new SendPacket();
 					sendPacket.start();
 					try
 					{
 						sendPacket.join();
 						serverIPad = sendPacket.getIP();
+						if(sendPacket.getErrorState())
+						{
+							msg = sendPacket.getMsg();
+							error = sendPacket.getError();
+						}
 						sendPacket = null;
 					}catch(InterruptedException e)
 					{
 						e.printStackTrace();
 						error = "Exception: " + e.toString();
 					}
-					IPad = "Connecting to: " + serverIPad;
-					join = new JoinServer(serverIPad, 8081, "Manly Banger, the Rock God");
-					join.start();
-					msg = join.getMsg();
-					error = join.getError();
-					//IPad = "JoinServerMode.";
+					//If no servers are located, terminate action.
+					if(serverIPad.equals("FAILED_CONNECTION"))
+					{
+						IPad = "No servers online.";
+						joinbool = false;
+					}
+					else
+					{
+						//Connect to the server using the IP given by the server.
+						IPad = "Connecting to: " + serverIPad;
+						join = new JoinServer(serverIPad, 8081, "Manly Banger, the Rock God"); //All hail Manly Banger, the Rock God!
+						join.start();
+						msg = join.getMsg();
+						error = join.getError();
+					}
+
 				} else {
+					//Further clicks will only update the text.
 					msg = join.getMsg();
 					error = join.getError();
 				}
@@ -178,37 +238,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				if(joinbool && join != null)
-				{
-					join.disconnect();
-					try
-					{
-						join.join();
-					}catch(InterruptedException e)
-					{
-						e.printStackTrace();
-						error = "Exception: " + e.toString();
-					}
-					joinbool = false;
-					join = null;
-				}
-				if(createbool && create != null)
-				{
-					create.stopServer();
-					try
-					{
-						create.join();
-					}catch(InterruptedException e)
-					{
-						e.printStackTrace();
-						error = "Exception: " + e.toString();
-					}
-					createbool = false;
-					create = null;
-				}
-				msg = "Disconnected.";
-				error = "No Error";
-				IPad = "IP";
+				disconnectAll();
 			}
 		});
 
@@ -220,6 +250,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
+				//Exit the app, terminate any active servers or connections.
 				hardexit = true;
 				if(create != null)
 				{
@@ -272,19 +303,45 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		float fmx = glyphLayoutmsg.width/2, fmy = glyphLayoutmsg.height/2;
 		float fix = glyphLayoutIP.width/2, fiy = glyphLayoutIP.height/2;
 		float x = screenWidth/2, y = screenHeight/2;
+		//Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
 		if(!hardexit)
 		{
 			if(createbool)
 			{
+				if(!create.checkIfVectorNull())
+					connectcounter = create.getConnections();
 				msg = create.getMsg();
 				error = create.getError();
+				font.draw(batch, connectcounter.toString(), screenWidth - 50, screenHeight - 25);
 			}
 			else if(joinbool)
 			{
 				msg = join.getMsg();
 				error = join.getError();
 			}
+			if(join != null)
+			{
+				//This disconnects the join function if the server disconnects. Assuming that the
+				//phone receives the SERVER_SHUTDOWN message before the server shuts down completely.
+				if(join.getMsg().equals("SERVER_SHUTDOWN"))
+				{
+					try
+					{
+						join.join();
+						error = "No Error.";
+					}catch(InterruptedException e)
+					{
+						e.printStackTrace();
+						error = "Exception: " + e.toString();
+					}
+					disconnectAll();
+					serverIPad = "Standing by.";
+					msg = "Server disconnected.";
+
+				}
+			}
 		}
+
 		font.draw(batch, msg, x - fmx, y + fmy);
 		font.draw(batch, error, x - fex, y + fey - 300);
 		font.draw(batch, IPad, x - fix, y + fiy + 300);

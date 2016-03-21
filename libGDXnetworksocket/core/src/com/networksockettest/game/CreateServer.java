@@ -22,45 +22,52 @@ public class CreateServer extends Thread
     static final int SOCKETSERVERPORT = 8081;
     private String msgtake = "msgtake", msgsend = "msgsend", error = "No Error";
     private Boolean threadRun;
-    Vector<User> userList;
+    private Vector<User> userList;
 
     @Override
     public void run()
     {
+        //Instantiate the broadcast receiver, the vector of connected users and the socket.
         receiver = new ReceivePacket();
         userList = new Vector<User>();
         threadRun = true;
         Socket socket = null;
         try
         {
+            //Bind the server to the static port.
             serverSocket = new ServerSocket();
             serverSocket.setReuseAddress(true);
             serverSocket.bind(new InetSocketAddress(SOCKETSERVERPORT));
+            //Activate the receiver.
             receiver.start();
             msgtake = "Waiting for connection...";
             while(threadRun)
             {
-                //msgtake = "Waiting for connection...";
+                //If the receiver has received a connection request, activate the socket, wait for the unit to connect.
                 if(receiver.connectState())
                 {
                     socket = serverSocket.accept();
+                    //Add the user to the vector.
                     User user = new User();
                     userList.add(user);
+                    //Create and start a connection thread for this specific user.
                     ConnectThread connectThread = new ConnectThread(user, socket);
                     connectThread.start();
-                    if(!threadRun)
-                    {
-                        connectThread.stopConThread();
-                        try
-                        {
-                            connectThread.join();
-                        }catch(InterruptedException e)
-                        {
-                            e.printStackTrace();
-                            error = "Exception: " + e.toString();
-                        }
-                    }
+                    //Tell the receiver the connection has been made, so that it can look for new requests.
                     receiver.confirmConnection();
+                }
+            }
+            //Close the connection threads of all users. At the end of the connection thread, the user is removed.
+            for(User it : userList)
+            {
+                it.conThread.stopConThread();
+                try
+                {
+                    it.conThread.join();
+                }catch(InterruptedException e)
+                {
+                    e.printStackTrace();
+                    error = "Exception: " + e.toString();
                 }
             }
         }catch(IOException e)
@@ -85,6 +92,7 @@ public class CreateServer extends Thread
 
     public void stopServer()
     {
+        //Stop the main server thread, deactivate the broadcast and close the server socket.
         threadRun = false;
         receiver.stopCatch();
         try
@@ -104,6 +112,7 @@ public class CreateServer extends Thread
 
     public String getIpAddress()
     {
+        //Get the host IP-address.
         String ip = "";
         Enumeration<NetworkInterface> enumNetworkInterfaces;
         try {
@@ -131,16 +140,17 @@ public class CreateServer extends Thread
 
         return ip;
     }
-
+    //The thread handling the actual connection part.
     private class ConnectThread extends Thread
     {
         Socket socket;
         User user;
-        String msg;
+        String incoming;
         Boolean runcon;
 
         ConnectThread(User usr, Socket socket)
         {
+            //Connect user and socket to the passed input.
             this.socket = socket;
             user = usr;
             user.socket = socket;
@@ -149,6 +159,7 @@ public class CreateServer extends Thread
 
         public void stopConThread()
         {
+            //Stop the connection thread, and close the socket associated with it.
             runcon = false;
             try
             {
@@ -163,23 +174,29 @@ public class CreateServer extends Thread
         @Override
         public void run()
         {
+            //Instantiate data input/output streams, and set thread state to running.
             runcon = true;
             DataInputStream dataInputStream = null;
             DataOutputStream dataOutputStream = null;
 
             try
             {
+                //Connect the streams to the threads socket streams.
                 dataInputStream = new DataInputStream(socket.getInputStream());
                 dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
                 while(runcon)
                 {
+                    //If input data is available, accept the data and prepare a response.
                     if(dataInputStream.available() > 0)
                     {
-                        String incoming = dataInputStream.readUTF();
-                        msgtake = incoming;
+                        incoming = dataInputStream.readUTF();
+                        if(incoming.equals("CONNECTION_SHUTDOWN"))
+                            runcon = false;
+                        msgtake = incoming + "\n";
                         msgsend = "Message Received!";
                     }
+                    //If response is available, send it.
                     if(runcon && !msgsend.equals(""))
                     {
                         dataOutputStream.writeUTF(msgsend);
@@ -187,12 +204,19 @@ public class CreateServer extends Thread
                         msgsend = "";
                     }
                 }
+                if(!incoming.equals("CONNECTION_SHUTDOWN"))
+                {
+                    dataOutputStream.writeUTF("SERVER_SHUTDOWN");
+                    dataOutputStream.flush();
+                }
+
             }catch(IOException e)
             {
                 e.printStackTrace();
                 error = "Exception: " + e.toString();
             }finally
             {
+                //If streams and the socket are open, close them.
                 if(dataInputStream != null)
                 {
                     try
@@ -215,6 +239,7 @@ public class CreateServer extends Thread
                         error = "Exception: " + e.toString();
                     }
                 }
+                //Remove the user from the list.
                 userList.remove(user);
             }
         }
@@ -223,6 +248,8 @@ public class CreateServer extends Thread
 
     public String getMsg() {return msgtake;}
     public String getError() {return error;}
+    public int getConnections() {return userList.size();}
+    public Boolean checkIfVectorNull() {return userList == null;}
 
     public class User
     {
