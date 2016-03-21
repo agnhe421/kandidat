@@ -171,7 +171,7 @@ public class CreateServer extends Thread
             runcon = true;
             DataInputStream dataInputStream = null;
             DataOutputStream dataOutputStream = null;
-
+            this.user.setName("Player " + getConnections());
             try
             {
                 //Connect the streams to the threads socket streams.
@@ -187,7 +187,7 @@ public class CreateServer extends Thread
                         if(incoming.equals("CONNECTION_SHUTDOWN"))
                             runcon = false;
                         msgtake = incoming + "\n";
-                        msgsend = "Message Received!";
+                        msgsend = "Player " + getConnections();
                     }
                     //If response is available, send it.
                     if(runcon && !msgsend.equals(""))
@@ -249,6 +249,8 @@ public class CreateServer extends Thread
         public String id;
         public Socket socket;
         public ConnectThread conThread;
+
+        public void setName(String id) {this.id = id;}
     }
 
 }

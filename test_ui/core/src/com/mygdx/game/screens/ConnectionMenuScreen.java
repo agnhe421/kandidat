@@ -219,6 +219,8 @@ public class ConnectionMenuScreen implements Screen {
             joinbool = false;
             join = null;
         }
+        else if(joinbool)
+            joinbool = false;
         if(createbool && create != null)
         {
             create.stopServer();
@@ -233,6 +235,8 @@ public class ConnectionMenuScreen implements Screen {
             createbool = false;
             create = null;
         }
+        else if(createbool)
+            createbool = false;
         msg = "Disconnected.";
         error = "No Error";
         IPad = "IP";
@@ -257,23 +261,10 @@ public class ConnectionMenuScreen implements Screen {
                 createbool = true;
                 //No creating and joining a server at the same time. Terminate application.
                 if (joinbool && createbool) {
-                    Gdx.app.log("FATAL ERROR: ", "Cannot both create a server and join one.");
-                    if (create.isAlive())
-                        create.stopServer();
-                    if (join.isAlive())
-                        join.disconnect();
-                    try {
-                        join.join();
-                        create.join();
-                    } catch (InterruptedException e) {
-
-                    }
-                    create = null;
-                    join = null;
-                    createbool = false;
-                    joinbool = false;
-                    hardexit = true;
-                    Gdx.app.exit();
+                    disconnectAll();
+                    IPad = "IP";
+                    msg = "Cannot both connect and join a server.";
+                    error = "No error.";
                 } else if (create == null) {
                     //Create a new server, update the text accordingly.
                     create = new CreateServer();
@@ -299,23 +290,10 @@ public class ConnectionMenuScreen implements Screen {
                 joinbool = true;
                 //No creating and joining a server at the same time. Terminate application.
                 if (joinbool && createbool) {
-                    Gdx.app.log("FATAL ERROR: ", "Cannot both create a server and join one.");
-                    if (create.isAlive())
-                        create.stopServer();
-                    if (join.isAlive())
-                        join.disconnect();
-                    try {
-                        join.join();
-                        create.join();
-                    } catch (InterruptedException e) {
-
-                    }
-                    create = null;
-                    join = null;
-                    createbool = false;
-                    joinbool = false;
-                    hardexit = true;
-                    Gdx.app.exit();
+                    disconnectAll();
+                    IPad = "IP";
+                    msg = "Cannot both connect and join a server.";
+                    error = "No error.";
                 } else if (join == null) {
                     //Check all available units connected to the network and see if anyone has started a server.
                     sendPacket = new SendPacket();
