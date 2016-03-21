@@ -143,10 +143,10 @@ public class CreateServer extends Thread
     //The thread handling the actual connection part.
     private class ConnectThread extends Thread
     {
-        Socket socket;
-        User user;
-        String incoming;
-        Boolean runcon;
+        public Socket socket;
+        public User user;
+        private String incoming;
+        private Boolean runcon;
 
         ConnectThread(User usr, Socket socket)
         {
@@ -159,16 +159,9 @@ public class CreateServer extends Thread
 
         public void stopConThread()
         {
-            //Stop the connection thread, and close the socket associated with it.
+            //Stop the connection thread. The socket will not freeze due to not using any functions
+            //that blocks its progress.
             runcon = false;
-            try
-            {
-                socket.close();
-            }catch(IOException e)
-            {
-                e.printStackTrace();
-                error = "Exception: " + e.toString();
-            }
         }
 
         @Override
@@ -209,7 +202,6 @@ public class CreateServer extends Thread
                     dataOutputStream.writeUTF("SERVER_SHUTDOWN");
                     dataOutputStream.flush();
                 }
-
             }catch(IOException e)
             {
                 e.printStackTrace();
@@ -243,7 +235,6 @@ public class CreateServer extends Thread
                 userList.remove(user);
             }
         }
-
     }
 
     public String getMsg() {return msgtake;}
@@ -253,6 +244,8 @@ public class CreateServer extends Thread
 
     public class User
     {
+        //The ID will be used later to identify which unit will receive data.
+        //The ID will be specified before connecting by that player. Such as Manly Banger, the Rock God!
         public String id;
         public Socket socket;
         public ConnectThread conThread;

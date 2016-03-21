@@ -306,6 +306,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		//Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
 		if(!hardexit)
 		{
+			//Update server messages
 			if(createbool)
 			{
 				if(!create.checkIfVectorNull())
@@ -314,6 +315,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 				error = create.getError();
 				font.draw(batch, connectcounter.toString(), screenWidth - 50, screenHeight - 25);
 			}
+			//Update connection messages
 			else if(joinbool)
 			{
 				msg = join.getMsg();
@@ -341,7 +343,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 				}
 			}
 		}
-
+		//Draw all text on screen. If you don't wish to see the debug, remove the error draw.
 		font.draw(batch, msg, x - fmx, y + fmy);
 		font.draw(batch, error, x - fex, y + fey - 300);
 		font.draw(batch, IPad, x - fix, y + fiy + 300);

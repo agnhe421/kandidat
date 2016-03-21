@@ -7,6 +7,8 @@ import java.net.InetAddress;
 
 /**
  * Created by Andreas on 2016-03-18.
+ * The listener thread, checking for incoming packets containing connection requests. This is controlled
+ * from the CreateServer thread, and terminated there as well.
  */
 public class ReceivePacket extends Thread
 {

@@ -12,6 +12,10 @@ import java.util.Enumeration;
 
 /**
  * Created by Andreas on 2016-03-18.
+ * This class checks all available network interfaces for servers, and will retrieve the server
+ * address for connection purposes. If no server is found within 5 seconds, the thread will return
+ * an error message, making sure that the connecting unit will not crash, or try to connect to a
+ * non-existant address.
  */
 public class SendPacket extends Thread
 {
@@ -23,7 +27,8 @@ public class SendPacket extends Thread
     {
         failure = false;
     }
-
+    //The thread will only run once, compared to the server thread that will loop perpetually,
+    //listening for incoming packets.
     @Override
     public void run()
     {
@@ -114,6 +119,8 @@ public class SendPacket extends Thread
             error = "Exception: " + e.toString();
             failure = true;
         }
+        //Keep these two outside the try/catch statement to ensure that the socket closes, and that
+        //the serverIP variable receives the correct error message.
         if(failure)
             serverIP = "FAILED_CONNECTION";
         dSocket.close();
