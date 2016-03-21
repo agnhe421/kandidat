@@ -2,11 +2,13 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
@@ -26,13 +28,17 @@ import com.badlogic.gdx.physics.bullet.collision.btConeShape;
 import com.badlogic.gdx.physics.bullet.collision.btCylinderShape;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 
-public class testing extends BaseBulletTest {
+public class testing extends BaseBulletTest implements Screen {
 
     AssetManager assets;
     boolean loading;
     BulletEntity player, player2;
+    private Stage stage;
 
     ClosestRayResultCallback rayTestCB;
     Vector3 rayFrom = new Vector3();
@@ -40,9 +46,16 @@ public class testing extends BaseBulletTest {
 
     ModelInstance instance;
 
+    private Label LabelScore;
+    private Label.LabelStyle labelStyle;
+    private BitmapFont font;
+    private int score;
+    private boolean fall = false;
     @Override
     public void create () {
         super.create();
+
+        this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
 
         final Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
         disposables.add(texture);
@@ -72,8 +85,12 @@ public class testing extends BaseBulletTest {
         assets.load("apple.g3dj", Model.class);
         loading = true;
 
+        font = new BitmapFont();
         rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
-
+        labelStyle = new Label.LabelStyle(font, Color.PINK);
+        LabelScore = new Label("Score: " + score, labelStyle);
+        LabelScore.setPosition(20, Gdx.graphics.getHeight() - 50);
+        stage.addActor(LabelScore);
         Gdx.input.setInputProcessor(this);
 
     }
@@ -173,8 +190,6 @@ public class testing extends BaseBulletTest {
 
 //        ball.acceleration.set((right? 1 : 0)+(left?-1: 0), 0f, (up ? -1 : 0) + (down?1:0)).scl(2);
 //        player.transform.translate(ball.position);
-
-
         return true;
     }
 
@@ -182,13 +197,11 @@ public class testing extends BaseBulletTest {
     public void render () {
         super.render();
 
-
         if(instance != null) {
             modelBatch.begin(camera);
             modelBatch.render(instance);
             modelBatch.end();
         }
-
 
         if (assets.update() && loading) {
             Model fotball = assets.get("football2.g3dj", Model.class);
@@ -197,17 +210,7 @@ public class testing extends BaseBulletTest {
             Model apple = assets.get("apple.g3dj", Model.class);
             String id2 = apple.nodes.get(0).id;
             Node node = apple.getNode(id2);
-            //apple.transform.set(node.globalTransform);
-            //node.translation.set(0, 2, 0);
             node.scale.set(0.5f, 0.5f, 0.5f);
-
-//            ball = new test.Ball(ship, id);
-//            Node node = ball.getNode(id);
-//            ball.transform.set(node.globalTransform);
-////        node.translation.set(0, 2, 0);
-//            node.scale.set(0.1f, 0.1f, 0.1f);
-////        node.rotation.idt();
-//            ball.calculateTransforms();
 
             disposables.add(fotball);
             world.addConstructor("ball", new BulletConstructor(fotball, 1f, new btSphereShape(0.8f)));
@@ -220,11 +223,39 @@ public class testing extends BaseBulletTest {
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
         }
+        
+        // Start till poängsättning
+        if(assets.update() && fall == false){
+            if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 ){
+                Gdx.app.log("Fall", "fall");
+                score += 10;
+                fall = true;
+            }
+        }
+
+        LabelScore.setText("Score: " + score);
+        stage.draw();
     }
 
 
     @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
     public void dispose () {
+        stage.dispose();
+
         if (rayTestCB != null) rayTestCB.dispose();
         rayTestCB = null;
         super.dispose();
