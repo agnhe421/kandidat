@@ -1,9 +1,11 @@
 package com.mygdx.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
 
 /**
@@ -15,8 +17,17 @@ public class LobbyScreen implements Screen {
     private Stage stage;
     private Rectangle viewport;
     private Skin skin;
+    // width och heigth
+    private float w = Gdx.graphics.getWidth();
+    private float h = Gdx.graphics.getHeight();
 
+    public LobbyScreen(final MyGdxGame app){
+        this.app = app;
+        this.stage = new Stage(new StretchViewport(w , h));
+        this.viewport = new Rectangle();
 
+    }
+    
     @Override
     public void show() {
 

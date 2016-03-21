@@ -223,7 +223,7 @@ public class testing extends BaseBulletTest implements Screen {
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
         }
-        
+
         // Start till poängsättning
         if(assets.update() && fall == false){
             if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 ){
