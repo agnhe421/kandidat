@@ -320,7 +320,7 @@ public class ConnectionMenuScreen implements Screen {
                     } else {
                         //Connect to the server using the IP given by the server.
                         IPad = "Connecting to: " + serverIPad;
-                        join = new JoinServer(serverIPad, app.serverPort, "Player " + (app.connectcounter + 1));
+                        join = new JoinServer(serverIPad, app.serverPort, "player");
                         join.start();
                         msg = join.getMsg();
                         error = join.getError();

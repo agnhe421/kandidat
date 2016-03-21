@@ -28,6 +28,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 
+
+
 /**
  * Created by sofiekhullar on 16-03-14.
  */
@@ -60,6 +62,7 @@ public class PickScreen implements Screen {
 
     @Override
     public void show() {
+
         System.out.println("Show");
         Gdx.input.setInputProcessor(stage); // hanterar olika input events
         stage.clear();
@@ -95,6 +98,10 @@ public class PickScreen implements Screen {
         app.font120.draw(app.batch, "Pick player", w / 2 - 200, h - 180);
         app.font50.draw(app.batch, "Creating server", w / 2 - 200, h - 80);
         app.font120.draw(app.batch, app.connectcounter.toString(), 200, 100);
+        for(int idx = 0; idx < app.connectcounter; ++idx)
+        {
+            app.font50.draw(app.batch, app.connectionMenuScreen.create.getUserId(idx), 500, 500);
+        }
         app.batch.end();
 
         stage.draw();
