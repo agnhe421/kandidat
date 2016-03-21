@@ -241,6 +241,7 @@ public class CreateServer extends Thread
     public String getError() {return error;}
     public int getConnections() {return userList.size();}
     public Boolean checkIfVectorNull() {return userList == null;}
+    public String getUserId(int idx) {return userList.get(idx).id;}
 
     public class User
     {
