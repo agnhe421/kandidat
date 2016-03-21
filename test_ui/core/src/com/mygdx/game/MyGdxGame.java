@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.screens.LoadingScreen;
+import com.mygdx.game.screens.LobbyScreen;
 import com.mygdx.game.screens.MainMenyScreen;
 import com.mygdx.game.screens.ConnectionMenuScreen;
 import com.mygdx.game.screens.PickScreen;
@@ -31,6 +32,7 @@ public class MyGdxGame extends Game {
 	public MainMenyScreen mainMenyScreen;
 	public ConnectionMenuScreen connectionMenuScreen;
 	public PickScreen pickScreen;
+	public LobbyScreen lobbyScreen;
 
 	public static final int VIRTUAL_WIDTH = 3840;
 	public static final int VIRTUAL_HEIGHT = 2160;
@@ -38,6 +40,9 @@ public class MyGdxGame extends Game {
 	public static final float ASPECT_RATIO =  1.7f;
 	public Camera camera;
 	private Rectangle viewport;
+
+	public Integer connectcounter = 0;
+    public final int serverPort = 8081;
 
 
 	@Override
@@ -55,8 +60,9 @@ public class MyGdxGame extends Game {
 		mainMenyScreen = new MainMenyScreen(this);
 		connectionMenuScreen = new ConnectionMenuScreen(this);
 		pickScreen = new PickScreen(this);
-
+		lobbyScreen = new LobbyScreen(this);
 		settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
+
 		this.setScreen(loadingScreen);
 	}
 
@@ -73,7 +79,6 @@ public class MyGdxGame extends Game {
 
 		// clear previous frame
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
 		super.render();
 	}
@@ -124,6 +129,7 @@ public class MyGdxGame extends Game {
 		mainMenyScreen.dispose();
 		connectionMenuScreen.dispose();
 		pickScreen.dispose();
+		lobbyScreen.dispose();
 	}
 
 	// Hur man lägger till egna ttf fonts i Libgdx

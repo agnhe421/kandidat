@@ -43,7 +43,7 @@ public class ConnectionMenuScreen implements Screen {
     // Buttons
     private TextButton buttonCreate, buttonJoin, buttonExit,buttonDisconnect, buttonBack, ButtonSkipServer;
     // Nätverk
-    Integer connectcounter = 0;
+    //public Integer connectcounter = 0;
     private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "";
     CreateServer create;
     JoinServer join;
@@ -103,6 +103,7 @@ public class ConnectionMenuScreen implements Screen {
         float fmx = glyphLayoutmsg.width/2, fmy = glyphLayoutmsg.height/2;
         float fix = glyphLayoutIP.width/2, fiy = glyphLayoutIP.height/2;
         float x = w/2, y = h/2;
+
         //Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
         if(!hardexit)
         {
@@ -110,10 +111,10 @@ public class ConnectionMenuScreen implements Screen {
             if(createbool)
             {
                 if(!create.checkIfVectorNull())
-                    connectcounter = create.getConnections();
+                    app.connectcounter = create.getConnections();
                 msg = create.getMsg();
                 error = create.getError();
-                app.font50.draw(app.batch, connectcounter.toString(), w - 50, h - 25);
+                app.font50.draw(app.batch, app.connectcounter.toString(), w - 50, h - 25);
             }
             //Update connection messages
             else if(joinbool)
@@ -281,10 +282,12 @@ public class ConnectionMenuScreen implements Screen {
                     IPad = create.getIpAddress();
                     msg = create.getMsg();
                     error = create.getError();
+                    app.setScreen(app.pickScreen);
                 } else {
                     //Further clicks will only update the text.
                     msg = create.getMsg();
                     error = create.getError();
+                    app.setScreen(app.pickScreen);
                 }
             }
         });
@@ -339,7 +342,7 @@ public class ConnectionMenuScreen implements Screen {
                     } else {
                         //Connect to the server using the IP given by the server.
                         IPad = "Connecting to: " + serverIPad;
-                        join = new JoinServer(serverIPad, 8081, "Manly Banger, the Rock God"); //All hail Manly Banger, the Rock God!
+                        join = new JoinServer(serverIPad, app.serverPort, "Player " + (app.connectcounter + 1));
                         join.start();
                         msg = join.getMsg();
                         error = join.getError();

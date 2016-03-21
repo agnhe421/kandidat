@@ -92,11 +92,12 @@ public class PickScreen implements Screen {
         app.batch.begin();
         app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
         app.font50.draw(app.batch, "Screen: PICKSCREEN", 30, 30);
-        app.font120.draw(app.batch, "Pick player", w / 2 - 200, h - 100);
+        app.font120.draw(app.batch, "Pick player", w / 2 - 200, h - 180);
+        app.font50.draw(app.batch, "Creating server", w / 2 - 200, h - 80);
+        app.font120.draw(app.batch, app.connectcounter.toString(), 200, 100);
         app.batch.end();
 
         stage.draw();
-
     }
 
     public void update(float delta)
