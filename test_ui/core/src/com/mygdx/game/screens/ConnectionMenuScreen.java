@@ -45,7 +45,7 @@ public class ConnectionMenuScreen implements Screen {
     // Nätverk
     //public Integer connectcounter = 0;
     private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "";
-    CreateServer create;
+    public CreateServer create;
     JoinServer join;
     Boolean hardexit = false, joinbool = false, createbool = false;
     private SendPacket sendPacket;
@@ -320,7 +320,7 @@ public class ConnectionMenuScreen implements Screen {
                     } else {
                         //Connect to the server using the IP given by the server.
                         IPad = "Connecting to: " + serverIPad;
-                        join = new JoinServer(serverIPad, app.serverPort, "Player " + (app.connectcounter + 1));
+                        join = new JoinServer(serverIPad, app.serverPort, "player");
                         join.start();
                         msg = join.getMsg();
                         error = join.getError();

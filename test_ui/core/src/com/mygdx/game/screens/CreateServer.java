@@ -22,7 +22,7 @@ public class CreateServer extends Thread
     static final int SOCKETSERVERPORT = 8081;
     private String msgtake = "msgtake", msgsend = "msgsend", error = "No Error";
     private Boolean threadRun;
-    private Vector<User> userList;
+    public Vector<User> userList;
 
     @Override
     public void run()

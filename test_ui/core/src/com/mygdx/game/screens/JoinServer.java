@@ -53,7 +53,7 @@ public class JoinServer extends Thread
                     msgtake = dataInputStream.readUTF();
                     if(msgtake.equals("SERVER_SHUTDOWN"))
                         connected = false;
-                    if(name.equals("Manly Banger, the Rock God"))
+                    if(name.equals("player"))
                         setJoinName(msgtake);
                 }
                 //If there is a message to send available, send it to the server.
