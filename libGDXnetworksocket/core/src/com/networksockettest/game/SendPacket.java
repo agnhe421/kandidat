@@ -32,6 +32,7 @@ public class SendPacket extends Thread
     @Override
     public void run()
     {
+        System.setProperty("java.net.preferIPv4Stack", "true");
         try
         {
             //Create new datagram socket.
@@ -68,6 +69,7 @@ public class SendPacket extends Thread
                 if(networkInterface.isLoopback() || !networkInterface.isUp())
                     continue;
                 //Check the current interface address.
+                msg = "";
                 for(InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses())
                 {
                     //Get the curret address broadcast.
@@ -85,7 +87,6 @@ public class SendPacket extends Thread
                         error = "Exception: " + e.toString();
                         failure = true;
                     }
-                    msg = "";
                     msg += getClass().getName() + ">>>Request packet sent to: " + broadcast.getHostAddress() + "; Interface: " + networkInterface.getDisplayName() + "\n";
                 }
             }

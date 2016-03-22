@@ -57,10 +57,6 @@ public class ReceivePacket extends Thread
                     dSocket.send(sendPacket);
                     msg += getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress();
                 }
-                /*if(message.equals("SERVER_CONNECT_REQUEST"))
-                {
-
-                }*/
             }
         }catch(IOException e)
         {

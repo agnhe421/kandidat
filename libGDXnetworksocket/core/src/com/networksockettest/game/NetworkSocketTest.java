@@ -42,7 +42,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 	public AssetManager assManager;
 	Boolean hardexit = false, joinbool = false, createbool = false;
 	private SendPacket sendPacket;
-	
+
 	@Override
 	public void create ()
 	{
@@ -90,6 +90,8 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			joinbool = false;
 			join = null;
 		}
+		else if(joinbool)
+			joinbool = false;
 		if(createbool && create != null)
 		{
 			create.stopServer();
@@ -104,6 +106,8 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			createbool = false;
 			create = null;
 		}
+		else if(createbool)
+			createbool = false;
 		msg = "Disconnected.";
 		error = "No Error";
 		IPad = "IP";
@@ -122,23 +126,10 @@ public class NetworkSocketTest extends ApplicationAdapter {
 				createbool = true;
 				//No creating and joining a server at the same time. Terminate application.
 				if (joinbool && createbool) {
-					Gdx.app.log("FATAL ERROR: ", "Cannot both create a server and join one.");
-					if (create.isAlive())
-						create.stopServer();
-					if (join.isAlive())
-						join.disconnect();
-					try {
-						join.join();
-						create.join();
-					} catch (InterruptedException e) {
-
-					}
-					create = null;
-					join = null;
-					createbool = false;
-					joinbool = false;
-					hardexit = true;
-					Gdx.app.exit();
+					disconnectAll();
+					IPad = "IP";
+					msg = "Cannot both connect and join a server.";
+					error = "No error.";
 				}
 				else if (create == null) {
 					//Create a new server, update the text accordingly.
@@ -166,24 +157,10 @@ public class NetworkSocketTest extends ApplicationAdapter {
 				joinbool = true;
 				//No creating and joining a server at the same time. Terminate application.
 				if (joinbool && createbool) {
-					Gdx.app.log("FATAL ERROR: ", "Cannot both create a server and join one.");
-					if (create.isAlive())
-						create.stopServer();
-					if (join.isAlive())
-						join.disconnect();
-					try {
-						join.join();
-						create.join();
-					} catch (InterruptedException e)
-					{
-
-					}
-					create = null;
-					join = null;
-					createbool = false;
-					joinbool = false;
-					hardexit = true;
-					Gdx.app.exit();
+					disconnectAll();
+					IPad = "IP";
+					msg = "Cannot both connect and join a server.";
+					error = "No error.";
 				}
 				else if (join == null)
 				{
@@ -215,7 +192,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					{
 						//Connect to the server using the IP given by the server.
 						IPad = "Connecting to: " + serverIPad;
-						join = new JoinServer(serverIPad, 8081, "Manly Banger, the Rock God"); //All hail Manly Banger, the Rock God!
+						join = new JoinServer(serverIPad, 8081, "player"); //All hail Manly Banger, the Rock God!
 						join.start();
 						msg = join.getMsg();
 						error = join.getError();
