@@ -17,6 +17,7 @@ import java.util.Enumeration;
  * an error message, making sure that the connecting unit will not crash, or try to connect to a
  * non-existant address.
  */
+
 public class SendPacket extends Thread
 {
     DatagramSocket dSocket;

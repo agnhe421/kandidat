@@ -58,12 +58,12 @@ public class CreateServer extends Thread
                 }
             }
             //Close the connection threads of all users. At the end of the connection thread, the user is removed.
-            for(User it : userList)
+            for(int idx = 0; idx < getConnections(); ++idx)
             {
-                it.conThread.stopConThread();
+                userList.get(idx).conThread.stopConThread();
                 try
                 {
-                    it.conThread.join();
+                    userList.get(idx).conThread.join();
                 }catch(InterruptedException e)
                 {
                     e.printStackTrace();

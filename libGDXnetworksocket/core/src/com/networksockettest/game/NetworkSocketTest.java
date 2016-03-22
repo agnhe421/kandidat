@@ -284,6 +284,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		float flx = glyphLayoutlist.width/2, fly = glyphLayoutlist.height/2;
 		float x = screenWidth/2, y = screenHeight/2;
 		//Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
+		playerList = "";
 		if(!hardexit)
 		{
 			//Update server messages
@@ -294,7 +295,6 @@ public class NetworkSocketTest extends ApplicationAdapter {
 				msg = create.getMsg();
 				error = create.getError();
 				font.draw(batch, connectcounter.toString(), screenWidth - 50, screenHeight - 25);
-				playerList = "";
 				for(int idx = 0; idx < create.getConnections(); ++idx)
 				{
 					if(idx != create.getConnections() - 1)
