@@ -33,7 +33,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 	BitmapFont font;
 	int screenWidth, screenHeight;
 	Integer connectcounter = 0;
-	private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "";
+	private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "", playerList = "";
 	CreateServer create;
 	JoinServer join;
 	Skin skin;
@@ -272,13 +272,16 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		update();
 		stage.draw();
 		batch.begin();
-		GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(), glyphLayoutIP = new GlyphLayout();
+		GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(),
+					glyphLayoutIP = new GlyphLayout(), glyphLayoutlist = new GlyphLayout();
 		glyphLayoutmsg.setText(font, msg);
 		glyphLayouterror.setText(font, error);
 		glyphLayoutIP.setText(font, IPad);
+		glyphLayoutlist.setText(font, playerList);
 		float fex = glyphLayouterror.width/2, fey = glyphLayouterror.height/2;
 		float fmx = glyphLayoutmsg.width/2, fmy = glyphLayoutmsg.height/2;
 		float fix = glyphLayoutIP.width/2, fiy = glyphLayoutIP.height/2;
+		float flx = glyphLayoutlist.width/2, fly = glyphLayoutlist.height/2;
 		float x = screenWidth/2, y = screenHeight/2;
 		//Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
 		if(!hardexit)
@@ -291,6 +294,14 @@ public class NetworkSocketTest extends ApplicationAdapter {
 				msg = create.getMsg();
 				error = create.getError();
 				font.draw(batch, connectcounter.toString(), screenWidth - 50, screenHeight - 25);
+				playerList = "";
+				for(int idx = 0; idx < create.getConnections(); ++idx)
+				{
+					if(idx != create.getConnections() - 1)
+						playerList += create.getUserId(idx) + "\n";
+					else
+						playerList += create.getUserId(idx);
+				}
 			}
 			//Update connection messages
 			else if(joinbool)
@@ -322,6 +333,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		}
 		//Draw all text on screen. If you don't wish to see the debug, remove the error draw.
 		font.draw(batch, msg, x - fmx, y + fmy);
+		font.draw(batch, playerList, 75 - flx, y + fmy + 250);
 		font.draw(batch, error, x - fex, y + fey - 300);
 		font.draw(batch, IPad, x - fix, y + fiy + 300);
 		batch.end();
