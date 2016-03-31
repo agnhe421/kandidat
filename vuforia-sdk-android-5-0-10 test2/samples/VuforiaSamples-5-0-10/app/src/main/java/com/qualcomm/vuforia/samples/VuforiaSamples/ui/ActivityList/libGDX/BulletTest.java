@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.FloatCounter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.PerformanceCounter;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.VuforiaCamera;
 
 /** @author xoppa */
 public class BulletTest implements ApplicationListener, InputProcessor, GestureListener {
@@ -32,7 +33,7 @@ public class BulletTest implements ApplicationListener, InputProcessor, GestureL
 	public String instructions = "Tap to shoot\nLong press to toggle debug mode\nSwipe for next test\nCtrl+drag to rotate\nScroll to zoom";
 	public PerformanceCounter performanceCounter = new PerformanceCounter(this.getClass().getSimpleName());
 	public FloatCounter fpsCounter = new FloatCounter(5);
-	public PerspectiveCamera camera;
+	public VuforiaCamera camera;
 
 	@Override
 	public boolean keyDown (int keycode) {

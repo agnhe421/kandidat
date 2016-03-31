@@ -48,6 +48,7 @@ import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstruct
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
 import com.badlogic.gdx.utils.Array;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.VuforiaCamera;
 
 /** @author xoppa */
 public class BasicBulletTest extends BulletTest {
@@ -83,9 +84,9 @@ public class BasicBulletTest extends BulletTest {
 		final float width = Gdx.graphics.getWidth();
 		final float height = Gdx.graphics.getHeight();
 		if (width > height)
-			camera = new PerspectiveCamera(67f, 3f * width / height, 3f);
+			camera = new VuforiaCamera(67f, 3f * width / height, 3f);
 		else
-			camera = new PerspectiveCamera(67f, 3f, 3f * height / width);
+			camera = new VuforiaCamera(67f, 3f, 3f * height / width);
 		camera.position.set(10f, 10f, 10f);
 		camera.lookAt(0, 0, 0);
 		camera.update();

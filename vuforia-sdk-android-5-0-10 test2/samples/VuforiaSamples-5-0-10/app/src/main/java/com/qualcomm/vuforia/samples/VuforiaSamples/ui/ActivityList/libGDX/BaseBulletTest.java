@@ -35,6 +35,7 @@ import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.utils.DepthShaderProvider;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.Bullet;
@@ -47,6 +48,7 @@ import com.badlogic.gdx.Gdx.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.DataHolder;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.VuforiaCamera;
 
 /** @author xoppa */
 public class BaseBulletTest extends BulletTest {
@@ -80,6 +82,7 @@ public class BaseBulletTest extends BulletTest {
 	private int debugMode = DebugDrawModes.DBG_NoDebug;
 	
 	protected final static Vector3 tmpV1 = new Vector3(), tmpV2 = new Vector3(),  tmpV3 = new Vector3();
+	protected final static Quaternion tmpQ = new Quaternion();
 
 	public BulletWorld createWorld () {
 		return new BulletWorld();
@@ -107,9 +110,7 @@ public class BaseBulletTest extends BulletTest {
 		final float width = Gdx.graphics.getWidth();
 		final float height = Gdx.graphics.getHeight();
 
-		camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.position.set(5, 5, 5);
-		camera.lookAt(0, 1, 0);
+		camera = new VuforiaCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.near = 0.1f;
 		camera.far = 300f;
 		camera.update();
@@ -196,7 +197,7 @@ public class BaseBulletTest extends BulletTest {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-//		camera.update();
+		camera.update();
 	}
 
 	protected void renderWorld () {
@@ -208,69 +209,6 @@ public class BaseBulletTest extends BulletTest {
 			((DirectionalShadowLight)light).end();
 		}
 
-		float[] modelViewMatrix = DataHolder.getInstance().getData();
-
-		float[] modelProjMatrix = DataHolder.getInstance().getData2();
-
-		if(modelViewMatrix != null && modelProjMatrix != null)
-		{
-
-
-			Matrix4 temp = new Matrix4(modelViewMatrix.clone());
-
-			Matrix4 temp2 = new Matrix4(modelProjMatrix.clone());
-//
-//			temp = temp.inv();
-
-//			camera.combined.set(temp);
-//
-//			Matrix4 temp3 = camera.view;
-//
-//			float[] view = temp3.getValues();
-
-
-			float[] viewMatrix = temp.getValues();
-
-			float[] projMatrix = temp2.getValues();
-
-
-
-
-			float posZ = viewMatrix[14];
-			float posY = viewMatrix[13];
-			float posX = viewMatrix[12];
-
-			float dirZ = viewMatrix[10];
-			float dirY = viewMatrix[9];
-			float dirX = viewMatrix[8];
-
-			float upZ = viewMatrix[6];
-			float upY = viewMatrix[5];
-			float upX = viewMatrix[4];
-
-
-			camera.position.set(posX, posY, posZ);
-			camera.lookAt(dirX, dirY, dirZ);
-			camera.up.set(upX, upY, upZ);
-
-
-
-			camera.update();
-
-
-
-//                Gdx.app.log("---------------------------------------------","------------------------------------------------------------------");
-//                Gdx.app.log("aa", "" + modelViewMatrix[0] + "  " + modelViewMatrix[1] + "  " + modelViewMatrix[2] + "  " + modelViewMatrix[3]);
-//                Gdx.app.log("aa", "" + modelViewMatrix[4] + "  " + modelViewMatrix[5] + "  " + modelViewMatrix[6] + "  " + modelViewMatrix[7]);
-//                Gdx.app.log("a", "" + modelViewMatrix[8] + "  " + modelViewMatrix[9] + "  " + modelViewMatrix[10] + "  " + modelViewMatrix[11]);
-//                Gdx.app.log("aa", "" + modelViewMatrix[12] + "  " + modelViewMatrix[13] + "  " + modelViewMatrix[14] + "  " + modelViewMatrix[15]);
-//                Gdx.app.log("---------------------------------------------", "------------------------------------------------------------------");
-//
-//                camera.view.mul(temp);
-
-		}
-
-//		camera.update();
 
 
 
