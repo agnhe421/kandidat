@@ -51,6 +51,8 @@ public class BaseBulletTest extends BulletTest {
 	private static boolean initialized = false;
 	
 	public static boolean shadows = true;
+
+	public boolean gameOver = false;
 	
 	public static void init () {
 		if (initialized) return;
@@ -161,7 +163,7 @@ public class BaseBulletTest extends BulletTest {
 
 	@Override
 	public void render () {
-		render(true);
+		render(!gameOver);
 	}
 
 	public void render (boolean update) {
@@ -253,5 +255,13 @@ public class BaseBulletTest extends BulletTest {
 			return true;
 		}
 		return super.keyUp(keycode);
+	}
+
+	public void setGameOver(){
+		gameOver = true;
+	}
+
+	public boolean getGameOver(){
+		return gameOver;
 	}
 }

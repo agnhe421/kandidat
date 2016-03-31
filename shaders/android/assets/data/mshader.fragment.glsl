@@ -6,12 +6,12 @@ uniform sampler2D u_texture;
 
 varying vec2 v_texCoord0;
 varying vec3 v_normal;
-varying vec4 v_light;
+varying vec3 v_light;
+varying vec3 v_eye;
 
 void main(){
     vec4 color = texture2D(u_texture, v_texCoord0.st);
-    vec4 nl = v_light*vec4(v_normal,1.0);
-    float light = nl[0] + nl[1] + nl[2];
-    gl_FragColor = light*color + vec4(0.4,0.4,0.4,1.0);
-    //gl_FragColor = vec4(v_texCoord0, 0.0, 1.0);
+    float nl = 0.5*max(0.0, dot(v_light,v_normal));
+    vec3 R = 2.0*dot(v_light,v_normal) * v_normal - v_light;
+    gl_FragColor = vec4(dot(R, v_eye)*vec3(0.5,0.5,0.5), 1.0); //* color + 0.2*color;
 }

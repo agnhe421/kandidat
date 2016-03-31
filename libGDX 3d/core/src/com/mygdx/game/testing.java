@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
@@ -28,7 +29,10 @@ import com.badlogic.gdx.physics.bullet.collision.btConeShape;
 import com.badlogic.gdx.physics.bullet.collision.btCylinderShape;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -39,6 +43,7 @@ public class testing extends BaseBulletTest implements Screen {
     boolean loading;
     BulletEntity player, player2;
     private Stage stage;
+    private Stage scoreStage;
 
     ClosestRayResultCallback rayTestCB;
     Vector3 rayFrom = new Vector3();
@@ -46,16 +51,37 @@ public class testing extends BaseBulletTest implements Screen {
 
     ModelInstance instance;
 
+    float gameOverTimer = 0;
+
+    boolean gameOver = false;
+
     private Label LabelScore;
     private Label.LabelStyle labelStyle;
     private BitmapFont font;
     private int score;
-    private boolean fall = false;
+
+
+
+    // App reference
+    private final BaseGame app;
+
+    public testing(final BaseGame app)
+    {
+        this.app = app;
+        this.create();
+    }
+
+
+
+
+
     @Override
     public void create () {
         super.create();
 
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
+        this.scoreStage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
+
 
         final Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
         disposables.add(texture);
@@ -91,7 +117,17 @@ public class testing extends BaseBulletTest implements Screen {
         LabelScore = new Label("Score: " + score, labelStyle);
         LabelScore.setPosition(20, Gdx.graphics.getHeight() - 50);
         stage.addActor(LabelScore);
+
+        Actor actor = new Image(new Sprite(new Texture(Gdx.files.internal("scorebg1.png"))));
+        actor.setPosition(0,0);
+        actor.setSize( (stage.getWidth()),  stage.getHeight());
+        scoreStage.addActor(actor);
+        scoreStage.getRoot().setPosition(0,stage.getHeight());
+
+
+
         Gdx.input.setInputProcessor(this);
+
 
     }
 
@@ -225,26 +261,35 @@ public class testing extends BaseBulletTest implements Screen {
         }
 
         // Start till poängsättning
-        if(assets.update() && fall == false){
-            if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 ){
+        if(assets.update()){
+            if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 && gameOver == false ){
                 Gdx.app.log("Fall", "fall");
                 score += 10;
-                fall = true;
+                gameOver = true;
             }
+
+            if(gameOver == true)
+                startGameOverTimer();
+
+
         }
 
         LabelScore.setText("Score: " + score);
         stage.draw();
+        scoreStage.draw();
+
     }
 
 
     @Override
     public void show() {
 
+
     }
 
     @Override
     public void render(float delta) {
+        render();
     }
 
     @Override
@@ -255,9 +300,34 @@ public class testing extends BaseBulletTest implements Screen {
     @Override
     public void dispose () {
         stage.dispose();
+        scoreStage.dispose();
 
         if (rayTestCB != null) rayTestCB.dispose();
         rayTestCB = null;
         super.dispose();
         }
+
+
+    private void startGameOverTimer(){
+
+        scoreStage.act();
+
+        gameOverTimer += Gdx.graphics.getDeltaTime();
+
+        if(gameOverTimer > 2)
+        {
+            super.setGameOver();
+
+            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(3),Actions.moveTo(0, 0,0.5f),
+                    Actions.run(new Runnable() {
+                        public void run() {
+                                Gdx.app.log("done","done");
+                        }
+                    })));
+
+
+        }
+
+    }
+
     }
