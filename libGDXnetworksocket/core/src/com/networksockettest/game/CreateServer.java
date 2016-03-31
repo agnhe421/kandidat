@@ -65,6 +65,9 @@ public class CreateServer extends Thread
                     //Tell the receiver the connection has been made, so that it can look for new requests.
                     receiver.confirmConnection();
                 }
+                //Check for disconnections. The only reason currentListSize does not equal to
+                //userList.size() is if someone disconnects as connections are handled in the if
+                //statement above.
                 if(userList.size() != currentListSize)
                 {
                     reassignNames();
@@ -189,12 +192,14 @@ public class CreateServer extends Thread
 
         private void sendMessage(String msg)
         {
+            //Send a message to the unit.
             try
             {
+                //Add logical terminator.
                 String temp = msg + '/';
+                //Send message.
                 dataOutputStream.writeUTF(temp);
                 dataOutputStream.flush();
-                error = "Sending: " + temp;
             }catch(IOException e)
             {
                 e.printStackTrace();
@@ -204,6 +209,7 @@ public class CreateServer extends Thread
 
         public void nameChange(String newName)
         {
+            //Change the id, and set change name state to true.
             user.setName(newName);
             changeName = true;
         }
@@ -218,7 +224,7 @@ public class CreateServer extends Thread
         @Override
         public void run()
         {
-            //Instantiate data input/output streams, and set thread state to running.
+            //Instantiate data input/output streams, set thread state to running, initialize buffer.
             runcon = true;
             timer = new Timer();
             changeName = false;
@@ -236,7 +242,9 @@ public class CreateServer extends Thread
 
                 while(runcon)
                 {
+                    //Reset capture string.
                     strConv = "";
+                    //Check for a namechange request.
                     if(changeName)
                     {
                         sendMessage("NAME_CHANGE");
@@ -244,23 +252,11 @@ public class CreateServer extends Thread
                         timer.cancel();
                         timer = new Timer();
                     }
-                    //If input data is available, accept the data and prepare a response.
-                    /*if(dataInputStream.available() > 0)
-                    {
-                        incoming = dataInputStream.readUTF();
-                        //if(incoming.equals("CONNECTION_SHUTDOWN"))
-                        //    runcon = false;
-                        if(incoming == "player")
-                            msgtake = "Player" + getConnections() + " has connected!";
-                        else
-                            msgsend = this.user.id;
-                        msgtake = incoming + "\n";
-                        msgsend = "Player " + getConnections();
-                    }*/
-
-                    //msgtake = "Waiting for new message...";
+                    //Read the stream for incoming data. If a unit disconnects, the stream will return -1.
                     reads = dataInputStream.read(buffer, 0, SIZE);
+                    //Convert buffer data to string.
                     String temp = new String(buffer).trim();
+                    //Copy characters until the end character is located.
                     for(int idt = 0; idt < temp.length(); ++idt)
                     {
                         if(temp.charAt(idt) == '/')
@@ -268,12 +264,14 @@ public class CreateServer extends Thread
                         else
                             strConv += temp.charAt(idt);
                     }
+                    //If the stream returns -1, kill this thread.
                     if(reads == -1)
                     {
                         msgtake = user.id + "has disconnected!";
                         runcon = false;
                         break;
                     }
+                    //If a heartbeat message is received, start a new timer.
                     else if(strConv.equals("heartbeat"))
                     {
                         msgtake = "heartbeat received from: " + user.id;
@@ -285,44 +283,42 @@ public class CreateServer extends Thread
                                 sendMessage("heartbeat");
                             }
                         }, 1);
+                        //Reset capture string.
                         strConv = "";
                     }
+                    //If the name change request is given, send the new name to the unit.
                     else if(strConv.equals("NAME_CHANGE"))
                     {
                         msgsend = user.id;
                     }
+                    //All other messages will be handled appropriately.
                     else
                     {
+                        //Set the initial player name.
                         if(strConv.equals("player"))
                         {
                             user.setName("Player " + getConnections());
                             msgsend = "Player " + getConnections();
                         }
+                        //Connection confirmation received from player.
                         else if(strConv.equals(user.id))
                         {
                             msgtake = user.id + "has connected!";
                             msgsend = "heartbeat";
                         }
+                        //All other messages will get this player id as a response.
                         else
                         {
                             msgsend = this.user.id;
                         }
-                        /*sendMessage(msgsend);
-                        msgsend = "";*/
                     }
-                    //If response is available, send it.
+                    //The standard send message statement. Only send message if thread is still running.
                     if(runcon && !msgsend.equals(""))
                     {
                         sendMessage(msgsend);
                         msgsend = "";
                     }
-
                 }
-                /*if(!incoming.equals("CONNECTION_SHUTDOWN"))
-                {
-                    dataOutputStream.writeUTF("SERVER_SHUTDOWN");
-                    dataOutputStream.flush();
-                }*/
             }catch(IOException e)
             {
                 e.printStackTrace();

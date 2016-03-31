@@ -52,35 +52,22 @@ public class JoinServer extends Thread
             //Set the message to send to the server.
             while(connected)
             {
-                if(!msgsend.equals(""))
-                    //error = "Send: " + msgsend + " NR: " + msgnr + "\nName: " + name;
                 strConv = "";
-                //If available, read input from server.
-                /*if(dataInputStream.available() > 0)
-                {
-                    msgtake = dataInputStream.readUTF();
-                    //if(msgtake.equals("SERVER_SHUTDOWN"))
-                    //    connected = false;
-                    if(name.equals("player"))
-                        setJoinName(msgtake);
-                    else if(!msgtake.equals(name))
-                        connected = false;
-                }*/
+                //Initial condition for setting player name.
                 if(name == "player")
                     msgsend = name;
-                //If there is a message to send available, send it to the server.
-
+                //Send message statement.
                 if(connected && !msgsend.equals(""))
                 {
-                    error = "Sending1: " + msgsend + " NR: " + msgnr;
                     sendMessage(dataOutputStream, msgsend);
-                    //error = "Sending2: " + msgsend + " NR: " + msgnr;
                     ++msgnr;
                     msgsend = "";
                 }
-                //msgtake = "Waiting for new message...";
+                //Read the input stream for data, if the server closes, the stream returns -1.
                 reads = dataInputStream.read(buffer, 0, SIZE);
+                //Create temporary string containing the converted buffer data.
                 String temp = new String(buffer).trim();
+                //Copy characters until logical terminator is found.
                 for(int idt = 0; idt < temp.length(); ++idt)
                 {
                     if(temp.charAt(idt) == '/')
@@ -88,25 +75,26 @@ public class JoinServer extends Thread
                     else
                         strConv += temp.charAt(idt);
                 }
+                //Check if the server has closed.
                 if(reads == -1)
                 {
                     msgtake = "Server is offline.";
                     connected = false;
                     break;
                 }
+                //Check for heartbeat message, if so return it immediately.
                 else if(strConv.equals("heartbeat"))
                 {
                     msgsend = "heartbeat";
-//                    dataOutputStream.writeUTF(msgsend);
-//                    dataOutputStream.flush();
-//                    msgsend = "";
                     msgtake = "heartbeat received from server";
                 }
+                //Check for a name change request.
                 else if(strConv.equals("NAME_CHANGE"))
                 {
                     msgsend = "NAME_CHANGE";
                     setJoinName("player");
                 }
+                //Otherwise, handle message.
                 else
                 {
                     if(name.equals("player"))
@@ -170,12 +158,10 @@ public class JoinServer extends Thread
     public void setJoinName(String id) {this.name = id;}
     private void sendMessage(DataOutputStream dos, String msg)
     {
+        //Send message to server.
         try
         {
-            /*if(msg.equals(msgtake))
-                error = msgsend + " == " + msgtake;
-            else
-                error = msgsend + " != " + msgtake;*/
+            //Add logical terminator to end of string.
             String temp = msg + '/';
             dos.writeUTF(temp);
             dos.flush();

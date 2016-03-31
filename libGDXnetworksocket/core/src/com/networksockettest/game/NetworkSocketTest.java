@@ -267,21 +267,28 @@ public class NetworkSocketTest extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		//Set background color.
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		//Update stage.
 		update();
+		//Draw stage.
 		stage.draw();
 		batch.begin();
+		//Instantiate glyphlayout for all text.
 		GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(),
 					glyphLayoutIP = new GlyphLayout(), glyphLayoutlist = new GlyphLayout();
+		//Set glyphlayout for all text.
 		glyphLayoutmsg.setText(font, msg);
 		glyphLayouterror.setText(font, error);
 		glyphLayoutIP.setText(font, IPad);
 		glyphLayoutlist.setText(font, playerList);
+		//Get text sizes, in order to adjust for text when positioning.
 		float fex = glyphLayouterror.width/2, fey = glyphLayouterror.height/2;
 		float fmx = glyphLayoutmsg.width/2, fmy = glyphLayoutmsg.height/2;
 		float fix = glyphLayoutIP.width/2, fiy = glyphLayoutIP.height/2;
 		float flx = glyphLayoutlist.width/2, fly = glyphLayoutlist.height/2;
+		//Set middle of screen.
 		float x = screenWidth/2, y = screenHeight/2;
 		//Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
 		playerList = "";
@@ -302,6 +309,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					else
 						playerList += create.getUserId(idx);
 				}
+				//Check if the server thread dies due to exception.
 				if(!create.isAlive())
 				{
 					disconnectAll();
@@ -337,6 +345,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					msg = "Server disconnected.";
 
 				}
+				//Check if the join thread dies due to exception.
 				else if(!join.isAlive())
 				{
 					disconnectAll();
