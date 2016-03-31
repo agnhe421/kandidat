@@ -295,12 +295,18 @@ public class NetworkSocketTest extends ApplicationAdapter {
 				msg = create.getMsg();
 				error = create.getError();
 				font.draw(batch, connectcounter.toString(), screenWidth - 50, screenHeight - 25);
-				for(int idx = 0; idx < create.getConnections(); ++idx)
+				for(int idx = 0; idx < connectcounter; ++idx)
 				{
-					if(idx != create.getConnections() - 1)
+					if(idx != connectcounter - 1)
 						playerList += create.getUserId(idx) + "\n";
 					else
 						playerList += create.getUserId(idx);
+				}
+				if(!create.isAlive())
+				{
+					disconnectAll();
+					msg = "Server died unexpectadly.";
+					IPad = "Standing by.";
 				}
 			}
 			//Update connection messages
@@ -311,9 +317,11 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			}
 			if(join != null)
 			{
+				if(join.connected())
+					IPad = "Connected to: " + serverIPad + ".";
 				//This disconnects the join function if the server disconnects. Assuming that the
 				//phone receives the SERVER_SHUTDOWN message before the server shuts down completely.
-				if(join.getMsg().equals("SERVER_SHUTDOWN"))
+				if(join.getMsg().equals("Server is offline."))
 				{
 					try
 					{
@@ -325,9 +333,15 @@ public class NetworkSocketTest extends ApplicationAdapter {
 						error = "Exception: " + e.toString();
 					}
 					disconnectAll();
-					serverIPad = "Standing by.";
+					IPad = "Standing by.";
 					msg = "Server disconnected.";
 
+				}
+				else if(!join.isAlive())
+				{
+					disconnectAll();
+					msg = "Heartbeat died.";
+					IPad = "Standing by.";
 				}
 			}
 		}
