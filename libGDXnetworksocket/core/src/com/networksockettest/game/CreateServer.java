@@ -19,6 +19,9 @@ import java.util.Vector;
 
 /**
  * Created by Andreas on 2016-03-16.
+ * Heartbeat funktionen existerar för att simulera när data skickas mellan enheterna i höga hastigheter.
+ * Det kan också användas för att kontrollera om kopplingen fortfarande är aktiv, men i detta fall
+ * så används read funktionen för detta.
  */
 public class CreateServer extends Thread
 {
@@ -303,7 +306,7 @@ public class CreateServer extends Thread
                         //Connection confirmation received from player.
                         else if(strConv.equals(user.id))
                         {
-                            msgtake = user.id + "has connected!";
+                            msgtake = user.id + " has connected!";
                             msgsend = "heartbeat";
                         }
                         //All other messages will get this player id as a response.

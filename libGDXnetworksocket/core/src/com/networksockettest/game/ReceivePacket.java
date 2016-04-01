@@ -33,6 +33,7 @@ public class ReceivePacket extends Thread
             //Activate socket broadcast.
             dSocket.setBroadcast(true);
             //While the server is active, keep looking for connect request packets.
+            msg = getClass().getName() + ">>>Ready to receive broadcast packets!";
             while(threadRun)
             {
                 msg = getClass().getName() + ">>>Ready to receive broadcast packets!";
@@ -55,7 +56,7 @@ public class ReceivePacket extends Thread
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, dPacket.getAddress(), dPacket.getPort());
                     //Send response packet.
                     dSocket.send(sendPacket);
-                    msg += getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress();
+                    msg += getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress() + "\n";
                 }
             }
         }catch(IOException e)

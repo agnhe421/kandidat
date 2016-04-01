@@ -9,6 +9,9 @@ import java.net.UnknownHostException;
 
 /**
  * Created by Andreas on 2016-03-16.
+ * Heartbeat funktionen existerar för att simulera när data skickas mellan enheterna i höga hastigheter.
+ * Det kan också användas för att kontrollera om kopplingen fortfarande är aktiv, men i detta fall
+ * så används read funktionen för detta.
  */
 public class JoinServer extends Thread
 {

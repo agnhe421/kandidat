@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.Vector;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
@@ -34,11 +36,14 @@ public class NetworkSocketTest extends ApplicationAdapter {
 	int screenWidth, screenHeight;
 	Integer connectcounter = 0;
 	private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "", playerList = "";
+	private Boolean sendFail;
+	private Vector<String> serverIPs;
 	CreateServer create;
 	JoinServer join;
 	Skin skin;
 	Stage stage;
-	TextButton buttonCreate, buttonJoin, buttonExit, buttonDisconnect;
+	TextButton buttonCreate, buttonJoin, buttonExit, buttonDisconnect, buttonRefresh;
+	private Vector<TextButton> buttonServerList;
 	public AssetManager assManager;
 	Boolean hardexit = false, joinbool = false, createbool = false;
 	private SendPacket sendPacket;
@@ -46,6 +51,9 @@ public class NetworkSocketTest extends ApplicationAdapter {
 	@Override
 	public void create ()
 	{
+		buttonServerList = new Vector<TextButton>();
+		sendFail = false;
+		serverIPs = new Vector<String>();
 		stage = new Stage();
 		assManager = new AssetManager();
 		batch = new SpriteBatch();
@@ -113,6 +121,25 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		IPad = "IP";
 	}
 
+	public void addServerButton(final String ipAdress, int buttID)
+	{
+		GlyphLayout buttParam = new GlyphLayout();
+		buttParam.setText(font, ipAdress);
+		float fsx = buttParam.width/2, fsy = buttParam.height/2;
+		final TextButton buttonServer = new TextButton(ipAdress, skin, "default");
+		float offset = (buttParam.height + 15)*buttID;
+		buttonServer.setPosition(fsx, screenHeight - 100 - fsy - offset);
+		buttonServer.setSize(buttParam.width + 10, buttParam.height + 10);
+		buttonServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+		buttonServer.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				serverIPad = buttonServer.getText().toString();
+			}
+		});
+		buttonServerList.add(buttonServer);
+	}
+
 	public void initButtons()
 	{
 		float buttonSizeX = 250, buttonSizeY = 50;
@@ -123,6 +150,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		buttonCreate.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+
 				createbool = true;
 				//No creating and joining a server at the same time. Terminate application.
 				if (joinbool && createbool) {
@@ -130,25 +158,91 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					IPad = "IP";
 					msg = "Cannot both connect and join a server.";
 					error = "No error.";
-				}
-				else if (create == null) {
+				} else if (create == null) {
 					//Create a new server, update the text accordingly.
 					create = new CreateServer();
 					create.start();
 					IPad = create.getIpAddress();
 					msg = create.getMsg();
 					error = create.getError();
-				}
-				else {
+				} else {
 					//Further clicks will only update the text.
 					msg = create.getMsg();
 					error = create.getError();
+				}
+				if (!serverIPs.isEmpty()) {
+					serverIPs.clear();
+					serverIPs = new Vector<String>();
+				}
+				if(!buttonServerList.isEmpty())
+				{
+					for(int ids = 0; ids < buttonServerList.size(); ++ids)
+					{
+						buttonServerList.get(ids).remove();
+					}
+					buttonServerList.clear();
+					buttonServerList = new Vector<TextButton>();
+				}
+			}
+		});
+
+		buttonRefresh = new TextButton("Refresh list", skin, "default");
+		buttonRefresh.setPosition(screenWidth / 2 - buttonSizeX / 2, screenHeight / 2 - 190 + buttonSizeY / 2);
+		buttonRefresh.setSize(buttonSizeX, buttonSizeY);
+		buttonRefresh.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+		buttonRefresh.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (createbool || joinbool) {
+					error = "Cannot refresh list when connected or hosting.";
+				} else {
+					serverIPad = "";
+					if (!serverIPs.isEmpty()) {
+						serverIPs.clear();
+						serverIPs = new Vector<String>();
+					}
+					if(!buttonServerList.isEmpty())
+					{
+						for(int ids = 0; ids < buttonServerList.size(); ++ids)
+						{
+							buttonServerList.get(ids).remove();
+						}
+						buttonServerList.clear();
+						buttonServerList = new Vector<TextButton>();
+					}
+					sendPacket = new SendPacket();
+					sendPacket.start();
+					try {
+						sendPacket.join();
+						serverIPs = sendPacket.getIPs();
+						if (sendPacket.getErrorState()) {
+							msg = sendPacket.getMsg();
+							error = sendPacket.getError();
+							sendFail = sendPacket.getErrorState();
+						}
+						//msg = sendPacket.getMsg();
+						sendPacket = null;
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						error = "Exception: " + e.toString();
+					}
+					if (sendFail) {
+
+					} else {
+						for (int ids = 0; ids < serverIPs.size(); ++ids) {
+							addServerButton(serverIPs.get(ids), ids);
+						}
+						for(int ids = 0; ids < buttonServerList.size(); ++ids)
+						{
+							stage.addActor(buttonServerList.get(ids));
+						}
+					}
 				}
 			}
 		});
 
 		buttonJoin = new TextButton("Join Server", skin, "default");
-		buttonJoin.setPosition(screenWidth / 2 - buttonSizeX / 2, screenHeight / 2 - 190 + buttonSizeY / 2);
+		buttonJoin.setPosition(screenWidth / 2 - buttonSizeX / 2, screenHeight / 2 - 340 + buttonSizeY / 2);
 		buttonJoin.setSize(buttonSizeX, buttonSizeY);
 		buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
 		buttonJoin.addListener(new ClickListener() {
@@ -161,35 +255,37 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					IPad = "IP";
 					msg = "Cannot both connect and join a server.";
 					error = "No error.";
-				}
-				else if (join == null)
-				{
-					//Check all available units connected to the network and see if anyone has started a server.
-					sendPacket = new SendPacket();
-					sendPacket.start();
-					try
+					if (!serverIPs.isEmpty()) {
+						serverIPs.clear();
+						serverIPs = new Vector<String>();
+					}
+					if(!buttonServerList.isEmpty())
 					{
-						sendPacket.join();
-						serverIPad = sendPacket.getIP();
-						if(sendPacket.getErrorState())
+						for(int ids = 0; ids < buttonServerList.size(); ++ids)
 						{
-							msg = sendPacket.getMsg();
-							error = sendPacket.getError();
+							buttonServerList.get(ids).remove();
 						}
-						sendPacket = null;
-					}catch(InterruptedException e)
-					{
-						e.printStackTrace();
-						error = "Exception: " + e.toString();
+						buttonServerList.clear();
+						buttonServerList = new Vector<TextButton>();
 					}
-					//If no servers are located, terminate action.
-					if(serverIPad.equals("FAILED_CONNECTION"))
+				} else if (join == null) {
+					if (!serverIPs.isEmpty()) {
+						serverIPs.clear();
+						serverIPs = new Vector<String>();
+					}
+					if(!buttonServerList.isEmpty())
 					{
-						IPad = "No servers online.";
+						for(int ids = 0; ids < buttonServerList.size(); ++ids)
+						{
+							buttonServerList.get(ids).remove();
+						}
+						buttonServerList.clear();
+						buttonServerList = new Vector<TextButton>();
+					}
+					if (serverIPad.equals("")) {
+						error = "No server selected!";
 						joinbool = false;
-					}
-					else
-					{
+					} else {
 						//Connect to the server using the IP given by the server.
 						IPad = "Connecting to: " + serverIPad;
 						join = new JoinServer(serverIPad, 8081, "player"); //All hail Manly Banger, the Rock God!
@@ -197,7 +293,6 @@ public class NetworkSocketTest extends ApplicationAdapter {
 						msg = join.getMsg();
 						error = join.getError();
 					}
-
 				} else {
 					//Further clicks will only update the text.
 					msg = join.getMsg();
@@ -210,12 +305,23 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		buttonDisconnect.setPosition(screenWidth / 2 - buttonSizeX / 2, screenHeight / 2 + buttonSizeY / 2 - 265);
 		buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
 		buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-		buttonDisconnect.addListener(new ClickListener()
-		{
+		buttonDisconnect.addListener(new ClickListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
+			public void clicked(InputEvent event, float x, float y) {
 				disconnectAll();
+				if (!serverIPs.isEmpty()) {
+					serverIPs.clear();
+					serverIPs = new Vector<String>();
+				}
+				if(!buttonServerList.isEmpty())
+				{
+					for(int ids = 0; ids < buttonServerList.size(); ++ids)
+					{
+						buttonServerList.get(ids).remove();
+					}
+					buttonServerList.clear();
+					buttonServerList = new Vector<TextButton>();
+				}
 			}
 		});
 
@@ -225,31 +331,24 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
 		buttonExit.addListener(new ClickListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
+			public void clicked(InputEvent event, float x, float y) {
 				//Exit the app, terminate any active servers or connections.
 				hardexit = true;
-				if(create != null)
-				{
+				if (create != null) {
 					create.stopServer();
-					try
-					{
+					try {
 						create.join();
 						create = null;
-					}catch(InterruptedException e)
-					{
+					} catch (InterruptedException e) {
 
 					}
 				}
-				if(join != null)
-				{
+				if (join != null) {
 					join.disconnect();
-					try
-					{
+					try {
 						join.join();
 						join = null;
-					}catch(InterruptedException e)
-					{
+					} catch (InterruptedException e) {
 
 					}
 				}
@@ -261,6 +360,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		stage.addActor(buttonJoin);
 		stage.addActor(buttonExit);
 		stage.addActor(buttonDisconnect);
+		stage.addActor(buttonRefresh);
 	}
 
 	public void update() {stage.act();}
@@ -356,9 +456,17 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		}
 		//Draw all text on screen. If you don't wish to see the debug, remove the error draw.
 		font.draw(batch, msg, x - fmx, y + fmy);
-		font.draw(batch, playerList, 75 - flx, y + fmy + 250);
-		font.draw(batch, error, x - fex, y + fey - 300);
+		font.draw(batch, playerList, 75 - flx, y + fly + 250);
+		font.draw(batch, error, x - fex, y + fey - 375);
 		font.draw(batch, IPad, x - fix, y + fiy + 300);
 		batch.end();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		stage.dispose();
+		batch.dispose();
+		font.dispose();
 	}
 }
