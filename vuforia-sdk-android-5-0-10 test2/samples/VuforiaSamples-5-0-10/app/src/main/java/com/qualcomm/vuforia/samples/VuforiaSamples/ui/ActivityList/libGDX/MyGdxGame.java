@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -75,6 +76,7 @@ import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.DataHolder;
+import com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.VuforiaCamera;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -114,7 +116,7 @@ public class MyGdxGame extends InputAdapter implements ApplicationListener {
         }
     }
 
-    PerspectiveCamera cam;
+    VuforiaCamera cam;
     CameraInputController inputController;
     ModelBatch modelBatch;
     DirectionalShadowLight shadowLight;
@@ -131,6 +133,9 @@ public class MyGdxGame extends InputAdapter implements ApplicationListener {
     public void create () {
         modelBatch = new ModelBatch();
 
+
+        Gdx.app.log(Gdx.graphics.getHeight() + "", Gdx.graphics.getWidth() + "");
+
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, .4f, .4f, .4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
@@ -140,9 +145,7 @@ public class MyGdxGame extends InputAdapter implements ApplicationListener {
 
         shadowBatch = new ModelBatch(new DepthShaderProvider());
 
-        cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(10f, 10f, 10f);
-        cam.lookAt(0, 1, 0);
+        cam = new VuforiaCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.near = 0.1f;
         cam.far = 300f;
         cam.update();
@@ -170,7 +173,7 @@ public class MyGdxGame extends InputAdapter implements ApplicationListener {
         assets.load("island4_main.g3dj", Model.class);
         loading = true;
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(this, inputController = new CameraInputController(cam)));
+//        Gdx.input.setInputProcessor(new InputMultiplexer(this, inputController = new CameraInputController(cam)));
     }
 
 
@@ -181,15 +184,15 @@ public class MyGdxGame extends InputAdapter implements ApplicationListener {
 
         ball = new Ball(ship, id);
 
-//        Node node = ball.getNode(id);
-//        ball.transform.set(node.globalTransform);
+        Node node = ball.getNode(id);
+        ball.transform.set(node.globalTransform);
 ////        node.translation.set(0, 2, 0);
-////        node.scale.set(1, 1, 1);
+        node.scale.set(10f, 10f, 10f);
 ////        node.rotation.idt();
-//        ball.calculateTransforms();
+        ball.calculateTransforms();
 
         instances.add(ball);
-        ball.setPosition(1f, 1.5f, 1f);
+//        ball.setPosition(1f, 1.5f, 1f);
 
 
 
@@ -211,7 +214,6 @@ public class MyGdxGame extends InputAdapter implements ApplicationListener {
 
         }
 
-        inputController.update();
 
 
         Gdx.gl.glClearColor(0, 0, 0, 0f);
@@ -220,26 +222,15 @@ public class MyGdxGame extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 
-        float[] modelViewMatrix = DataHolder.getInstance().getData();
+            cam.update();
 
-        if(modelViewMatrix != null)
-        {
+            modelBatch.begin(cam);
+            modelBatch.render(instances, environment);
+            modelBatch.end();
 
-            Matrix4 temp = new Matrix4(modelViewMatrix);
 
-            cam.combined.set(temp);
 
-//
-//                Gdx.app.log("---------------------------------------------","------------------------------------------------------------------");
-//                Gdx.app.log("aa", "" + modelViewMatrix[0] + "  " + modelViewMatrix[1] + "  " + modelViewMatrix[2] + "  " + modelViewMatrix[3]);
-//                Gdx.app.log("aa", "" + modelViewMatrix[4] + "  " + modelViewMatrix[5] + "  " + modelViewMatrix[6] + "  " + modelViewMatrix[7]);
-//                Gdx.app.log("a", "" + modelViewMatrix[8] + "  " + modelViewMatrix[9] + "  " + modelViewMatrix[10] + "  " + modelViewMatrix[11]);
-//                Gdx.app.log("aa", "" + modelViewMatrix[12] + "  " + modelViewMatrix[13] + "  " + modelViewMatrix[14] + "  " + modelViewMatrix[15]);
-//                Gdx.app.log("---------------------------------------------", "------------------------------------------------------------------");
 
-//                cam.view.mul(temp);
-
-        }
 
         shadowLight.begin(Vector3.Zero, cam.direction);
         shadowBatch.begin(shadowLight.getCamera());
@@ -247,9 +238,6 @@ public class MyGdxGame extends InputAdapter implements ApplicationListener {
         shadowBatch.end();
         shadowLight.end();
 
-        modelBatch.begin(cam);
-        modelBatch.render(instances, environment);
-        modelBatch.end();
     }
 
     boolean up, down, left, right;

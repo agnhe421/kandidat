@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/sofiekhullar/Desktop/kandidat/vuforia-sdk-android-5-0-10%20test2/samples/VuforiaSamples-5-0-10/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/D:/Program/Android/vuforia-sdk-android-5-0-10%20test2/samples/VuforiaSamples-5-0-10/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="black">#000000</color>
     <color name="gray">#575757</color>
@@ -10,7 +10,7 @@
     <color name="semi_transparent_black">#C8000000</color>
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
-    <!-- From: file:/Users/sofiekhullar/Desktop/kandidat/vuforia-sdk-android-5-0-10%20test2/samples/VuforiaSamples-5-0-10/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/D:/Program/Android/vuforia-sdk-android-5-0-10%20test2/samples/VuforiaSamples-5-0-10/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="menu_activities_list_padding_left">24dp</dimen>
     <dimen name="menu_activities_list_padding_top_down">14dp</dimen>
@@ -21,7 +21,7 @@
     <dimen name="menu_entries_top_down_radio_padding">7dp</dimen>
     <dimen name="menu_title">22sp</dimen>
     <dimen name="menu_title_padding">14dp</dimen>
-    <!-- From: file:/Users/sofiekhullar/Desktop/kandidat/vuforia-sdk-android-5-0-10%20test2/samples/VuforiaSamples-5-0-10/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/Program/Android/vuforia-sdk-android-5-0-10%20test2/samples/VuforiaSamples-5-0-10/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="INIT_ERROR">Error</string>
     <string name="INIT_ERROR_DEVICE_NOT_SUPPORTED">Failed to initialize Vuforia. This device is not supported.</string>
@@ -82,7 +82,7 @@
     <string name="splash_screen_description">Vuforia Splash</string>
     <string name="target_quality_error_desc">The image has very little detail, please try another.</string>
     <string name="target_quality_error_title">Low Quality Image</string>
-    <!-- From: file:/Users/sofiekhullar/Desktop/kandidat/vuforia-sdk-android-5-0-10%20test2/samples/VuforiaSamples-5-0-10/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/D:/Program/Android/vuforia-sdk-android-5-0-10%20test2/samples/VuforiaSamples-5-0-10/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="SampleAppsTheme" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <item name="android:windowNoTitle">true</item>

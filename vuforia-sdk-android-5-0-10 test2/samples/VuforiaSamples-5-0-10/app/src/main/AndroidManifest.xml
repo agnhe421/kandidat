@@ -107,7 +107,7 @@
         <activity
             android:name=".ui.ActivityList.AboutScreen"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             android:noHistory="true"
             >
         </activity>

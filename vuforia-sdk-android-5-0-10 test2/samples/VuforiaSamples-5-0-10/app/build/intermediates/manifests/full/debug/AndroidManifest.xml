@@ -3,6 +3,7 @@
     package="com.qualcomm.vuforia.samples.VuforiaSamples"
     android:versionCode="200"
     android:versionName="5.0" >
+
     <!--
         The application's compatibility with one or more versions of the Android
         platform.
@@ -98,7 +99,7 @@
             android:name="com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.AboutScreen"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets"
