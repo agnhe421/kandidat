@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -13,10 +14,13 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
+import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
+import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
+import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 
@@ -50,14 +54,15 @@ public class testing extends BaseBulletTest {
         world.addConstructor("sphere", new BulletConstructor(sphere, 10f, new btSphereShape(2f)));
 
         // Create the entities
-        world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(),
-                0.25f + 0.5f * (float) Math.random(), 1f);
+//        world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(),
+//                0.25f + 0.5f * (float) Math.random(), 1f);
         world.add("sphere", 0, 5, 5);
 
 
 
         assets = new AssetManager();
         assets.load("football2.g3dj", Model.class);
+        assets.load("ship.g3db", Model.class);
         loading = true;
 
         Gdx.input.setInputProcessor(this);
@@ -91,7 +96,7 @@ public class testing extends BaseBulletTest {
         Vector3 rayTo = new Vector3();
 
         rayFrom.set(ray.origin);
-        rayTo.set(ray.direction).scl(50f).add(rayFrom); // 50 meters max from the origin
+        rayTo.set(ray.direction).scl(1000f).add(rayFrom); // 50 meters max from the origin
 
         // Because we reuse the ClosestRayResultCallback, we need reset it's values
 
@@ -116,6 +121,8 @@ public class testing extends BaseBulletTest {
             modelBuilder.part("ball", GL20.GL_TRIANGLES, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
                     new Material("diffuseGreen", ColorAttribute.createDiffuse(Color.RED)))
                     .sphere(1f, 1f, 1f, 10, 10);
+
+
             model = modelBuilder.end();
 
             instance = new ModelInstance(model,tmpV1);
@@ -124,7 +131,7 @@ public class testing extends BaseBulletTest {
 
             Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) player.body).getCenterOfMassPosition().x), 0, (tmpV1.z - ((btRigidBody) player.body).getCenterOfMassPosition().z));
 
-            float normFactor = 3 / vec.len();
+            float normFactor = 10 / vec.len();
             Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
             player.body.activate();
             ((btRigidBody) player.body).applyCentralImpulse(normVec);
@@ -185,7 +192,7 @@ public class testing extends BaseBulletTest {
 
         if (assets.update() && loading) {
             Model ship = assets.get("football2.g3dj", Model.class);
-            String id = ship.nodes.get(0).id;
+            ship.meshes.get(0).scale(5,5,5);
 
 //            ball = new test.Ball(ship, id);
 
@@ -197,13 +204,36 @@ public class testing extends BaseBulletTest {
 //            ball.calculateTransforms();
 
             disposables.add(ship);
-            world.addConstructor("ball", new BulletConstructor(ship, 1f, new btSphereShape(0.8f)));
-            player = world.add("ball", 0, 0.5f, 0.5f);
+            world.addConstructor("ball", new BulletConstructor(ship, 1f, new btSphereShape(5f)));
+            player = world.add("ball", 0, 10f, 0f);
+
+
+            final Model island = assets.get("ship.g3db", Model.class);
+
+            island.meshes.get(0).scale(300f,100f,300f);
+
+            disposables.add(island);
+            world.addConstructor("island", new BulletConstructor(island, 0f, createConvexHullShape(island, false)));
+            world.add("island",0,0,0);
 
 
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
         }
+    }
+
+    public static btConvexHullShape createConvexHullShape (final Model model, boolean optimize) {
+        final Mesh mesh = model.meshes.get(0);
+        final btConvexHullShape shape = new btConvexHullShape(mesh.getVerticesBuffer(), mesh.getNumVertices(), mesh.getVertexSize());
+        if (!optimize) return shape;
+        // now optimize the shape
+        final btShapeHull hull = new btShapeHull(shape);
+        hull.buildHull(shape.getMargin());
+        final btConvexHullShape result = new btConvexHullShape(hull);
+        // delete the temporary shape
+        shape.dispose();
+        hull.dispose();
+        return result;
     }
 
 

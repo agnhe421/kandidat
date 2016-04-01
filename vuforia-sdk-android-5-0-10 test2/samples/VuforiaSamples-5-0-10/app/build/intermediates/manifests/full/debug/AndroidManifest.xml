@@ -3,7 +3,6 @@
     package="com.qualcomm.vuforia.samples.VuforiaSamples"
     android:versionCode="200"
     android:versionName="5.0" >
-
     <!--
         The application's compatibility with one or more versions of the Android
         platform.

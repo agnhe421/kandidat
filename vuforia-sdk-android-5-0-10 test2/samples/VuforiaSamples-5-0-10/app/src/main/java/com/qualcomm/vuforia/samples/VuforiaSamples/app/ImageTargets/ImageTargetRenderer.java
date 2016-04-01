@@ -196,6 +196,11 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
         else
             GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
 
+
+        if(state.getNumTrackableResults() == 0) {
+            Log.d("INGEN TRACKING", state.getNumTrackableResults() + "");
+        }
+
         // did we find any trackables this frame?
         for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++)
         {
@@ -238,6 +243,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
 
             DataHolder.getInstance().setData2(vuforiaAppSession
                     .getProjectionMatrix().getData());
+
 
 
 

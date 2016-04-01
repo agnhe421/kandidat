@@ -61,10 +61,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
     private Label.LabelStyle labelStyle;
     private BitmapFont font;
     private int score;
-    private Skin skin;
-    private TextButton buttonPlay;
-    private boolean animate = true;
-    private Table table;
 
 
     // App reference

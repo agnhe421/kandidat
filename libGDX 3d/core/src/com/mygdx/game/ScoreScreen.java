@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -23,6 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
@@ -44,6 +47,12 @@ public class ScoreScreen implements Screen{
     private BitmapFont font;
     private Table table;
     private TextButton buttonPlay;
+    private Actor fotballPortrait;
+    private Label fotballScoreLable, highscoreLable, fotballNameLable;
+    private com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle labelStyle;
+
+    private String playerName, playerImg;
+    private int score;
 
     public ScoreScreen(final BaseGame app)
     {
@@ -53,8 +62,6 @@ public class ScoreScreen implements Screen{
 
     @Override
     public void show() {
-        //Gdx.input.setInputProcessor(scoreStage);
-        //stage.clear();
 
         Gdx.input.setInputProcessor(scoreStage);
         Gdx.app.log("SHOW", "SCORE");
@@ -74,6 +81,11 @@ public class ScoreScreen implements Screen{
         this.skin.add("default-font", font); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/TextUI.json"));
 
+        // Variabler för att kunna skapa highscore
+        playerName = "Sofie";
+        score = 10;
+        playerImg = "img/footbal_portrait.png";
+        initHighscoreList(playerName, score, playerImg);
         initButtons();
     }
 
@@ -116,7 +128,7 @@ public class ScoreScreen implements Screen{
         buttonPlay = new TextButton("",skin, "default");
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonPlay.setSize(200,200);
-        buttonPlay.setPosition(Gdx.graphics.getWidth()/4 - buttonPlay.getWidth()/2, Gdx.graphics.getHeight()/4 - buttonPlay.getHeight()/2);
+        buttonPlay.setPosition(Gdx.graphics.getWidth()/4 - buttonPlay.getWidth()/2, Gdx.graphics.getHeight()/6 - buttonPlay.getHeight()/2);
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -133,5 +145,27 @@ public class ScoreScreen implements Screen{
             }
         });
         scoreStage.addActor(buttonPlay);
+    }
+
+    private void initHighscoreList( String playerName, int score, String playerImg){
+        table = new Table(skin);
+        stage.addActor(table);
+        table.setDebug(true);
+        table.setFillParent(true);
+
+        labelStyle = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(font, Color.PINK);
+        highscoreLable = new Label("HIGHSCORELIST:", labelStyle);
+        fotballPortrait = new Image(new Sprite(new Texture(Gdx.files.internal(playerImg))));
+        fotballPortrait.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, 0, .5f, Interpolation.pow5Out))));
+
+        fotballNameLable = new Label(playerName, labelStyle);
+        fotballScoreLable = new Label(Integer.toString(score), labelStyle);
+
+        table.add(highscoreLable).padBottom(20);
+        table.row();
+        table.add(fotballPortrait).size(100, 100);
+        table.add(fotballNameLable);
+        table.add(fotballScoreLable);
+        scoreStage.addActor(table);
     }
 }
