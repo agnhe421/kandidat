@@ -141,23 +141,30 @@ public class BaseBulletTest extends BulletTest {
 
 	@Override
 	public void dispose () {
-		world.dispose();
-		world = null;
+		if(world != null) {
+			world.dispose();
+			world = null;
+		}
 
 		for (Disposable disposable : disposables)
 			disposable.dispose();
 		disposables.clear();
 
-		modelBatch.dispose();
-		modelBatch = null;
+		if(modelBatch !=null) {
+			modelBatch.dispose();
+			modelBatch = null;
+		}
 
-		shadowBatch.dispose();
-		shadowBatch = null;
+		if(shadowBatch != null) {
+			shadowBatch.dispose();
+			shadowBatch = null;
+		}
 
 		if (shadows)
-			((DirectionalShadowLight)light).dispose();
-		light = null;
-
+			if(light != null) {
+				((DirectionalShadowLight) light).dispose();
+				light = null;
+			}
 		super.dispose();
 	}
 

@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
@@ -18,26 +20,26 @@ import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.collision.AllHitsRayResultCallback;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
-import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
-import com.badlogic.gdx.physics.bullet.collision.btCapsuleShape;
-import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
-import com.badlogic.gdx.physics.bullet.collision.btConeShape;
-import com.badlogic.gdx.physics.bullet.collision.btCylinderShape;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 
-public class testing extends BaseBulletTest implements Screen {
+
+public class GameScreen extends BaseBulletTest implements Screen {
 
     AssetManager assets;
     boolean loading;
@@ -53,27 +55,26 @@ public class testing extends BaseBulletTest implements Screen {
 
     float gameOverTimer = 0;
 
-    boolean gameOver = false;
+    boolean gameOverGameScreen = false;
 
     private Label LabelScore;
     private Label.LabelStyle labelStyle;
     private BitmapFont font;
     private int score;
-
+    private Skin skin;
+    private TextButton buttonPlay;
+    private boolean animate = true;
+    private Table table;
 
 
     // App reference
     private final BaseGame app;
 
-    public testing(final BaseGame app)
+    public GameScreen(final BaseGame app)
     {
         this.app = app;
         this.create();
     }
-
-
-
-
 
     @Override
     public void create () {
@@ -98,33 +99,25 @@ public class testing extends BaseBulletTest implements Screen {
                 0.25f + 0.5f * (float) Math.random(), 1f);
         world.add("sphere", 0, 5, 5);
 
-
-       /* final Model sphere2 = modelBuilder.createSphere(4f, 4f, 4f, 24, 24, material, attributes);
-        disposables.add(sphere2);
-        world.addConstructor("sphere2", new BulletConstructor(sphere2, 10f, new btSphereShape(2f)));
-        // Create the entities
-        world.add("sphere2", 0, 5, 5);
-*/
         // Load texture
         assets = new AssetManager();
         assets.load("football2.g3dj", Model.class);
         assets.load("apple.g3dj", Model.class);
         loading = true;
-
         font = new BitmapFont();
+
         rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
         labelStyle = new Label.LabelStyle(font, Color.PINK);
         LabelScore = new Label("Score: " + score, labelStyle);
-        LabelScore.setPosition(20, Gdx.graphics.getHeight() - 50);
+        LabelScore.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 30);
         stage.addActor(LabelScore);
 
-        Actor actor = new Image(new Sprite(new Texture(Gdx.files.internal("scorebg1.png"))));
-        actor.setPosition(0,0);
-        actor.setSize( (stage.getWidth()),  stage.getHeight());
-        scoreStage.addActor(actor);
-        scoreStage.getRoot().setPosition(0,stage.getHeight());
+        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("scorebg1.png"))));
+        scoreActor.setPosition(0, 0);
+        scoreActor.setSize((stage.getWidth()), stage.getHeight());
+        scoreStage.addActor(scoreActor);
 
-
+        scoreStage.getRoot().setPosition(0, stage.getHeight());
 
         Gdx.input.setInputProcessor(this);
 
@@ -155,7 +148,7 @@ public class testing extends BaseBulletTest implements Screen {
 
         world.collisionWorld.rayTest(rayFrom, rayTo, rayTestCB);
 
-        if (rayTestCB.hasHit()) {
+        if (rayTestCB.hasHit() && (((btRigidBody) player.body).getCenterOfMassPosition() != null)) {
             rayTestCB.getHitPointWorld(tmpV1);
 
             Gdx.app.log("BANG", "BANG");
@@ -262,16 +255,14 @@ public class testing extends BaseBulletTest implements Screen {
 
         // Start till poängsättning
         if(assets.update()){
-            if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 && gameOver == false ){
+            if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 Gdx.app.log("Fall", "fall");
                 score += 10;
-                gameOver = true;
+                gameOverGameScreen = true;
             }
 
-            if(gameOver == true)
+            if(gameOverGameScreen)
                 startGameOverTimer();
-
-
         }
 
         LabelScore.setText("Score: " + score);
@@ -299,12 +290,10 @@ public class testing extends BaseBulletTest implements Screen {
 
     @Override
     public void dispose () {
-        stage.dispose();
-        scoreStage.dispose();
-
-        if (rayTestCB != null) rayTestCB.dispose();
-        rayTestCB = null;
         super.dispose();
+        //stage.dispose();
+        if (rayTestCB != null) {rayTestCB.dispose(); rayTestCB = null;}
+        //scoreStage.dispose(); // Borde disposas men det blir hack till nästa screen
         }
 
 
@@ -314,20 +303,18 @@ public class testing extends BaseBulletTest implements Screen {
 
         gameOverTimer += Gdx.graphics.getDeltaTime();
 
-        if(gameOverTimer > 2)
+        if(gameOverTimer > 0.5)
         {
             super.setGameOver();
 
-            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(3),Actions.moveTo(0, 0,0.5f),
+            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
                     Actions.run(new Runnable() {
                         public void run() {
-                                Gdx.app.log("done","done");
+                           // Gdx.app.log("done", "done");
+                            app.setScreen(new ScoreScreen(app));
+                            dispose();
                         }
                     })));
-
-
+            }
         }
-
-    }
-
     }

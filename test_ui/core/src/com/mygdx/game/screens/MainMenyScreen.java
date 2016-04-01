@@ -34,9 +34,8 @@ public class MainMenyScreen implements Screen {
     private Skin skin;
     private Rectangle viewport;
     // Buttons
-    private TextButton button,buttonPlay, buttonSetting, buttonScore;
-    TextButton.TextButtonStyle textButtonStyle;
-    TextureAtlas buttonAtlas;
+    private TextButton buttonPlay, buttonSetting, buttonScore;
+
     // Texture
     private Texture background;
     // width och heigth
