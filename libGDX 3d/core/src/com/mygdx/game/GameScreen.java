@@ -313,4 +313,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     })));
             }
         }
+
+    public int getScore(){
+        return score;
+    }
     }
