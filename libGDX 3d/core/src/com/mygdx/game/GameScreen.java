@@ -20,23 +20,19 @@ import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
-import com.badlogic.gdx.physics.bullet.collision.AllHitsRayResultCallback;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+
+import java.util.Vector;
 
 
 public class GameScreen extends BaseBulletTest implements Screen {
@@ -62,7 +58,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     private BitmapFont font;
     private int score;
 
-
+    Vector <BulletEntity> playerVec = new Vector<BulletEntity>();
     // App reference
     private final BaseGame app;
 
@@ -116,8 +112,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         scoreStage.getRoot().setPosition(0, stage.getHeight());
 
         Gdx.input.setInputProcessor(this);
-
-
     }
 
     @Override
@@ -235,15 +229,17 @@ public class GameScreen extends BaseBulletTest implements Screen {
             Model apple = assets.get("apple.g3dj", Model.class);
             String id2 = apple.nodes.get(0).id;
             Node node = apple.getNode(id2);
-            node.scale.set(0.5f, 0.5f, 0.5f);
+            node.scale.set(0.8f, 0.8f, 0.8f);
 
             disposables.add(fotball);
             world.addConstructor("ball", new BulletConstructor(fotball, 1f, new btSphereShape(0.8f)));
             player = world.add("ball", 0, 0.5f, 0.5f);
+            playerVec.add(player);
 
             disposables.add(apple);
-            world.addConstructor("apple", new BulletConstructor(apple, 1f, new btSphereShape(0.5f)));
+            world.addConstructor("apple", new BulletConstructor(apple, 1f, new btSphereShape(0.8f)));
             player2 = world.add("apple", 0, 0.5f, 0.5f);
+            playerVec.add(player2);
 
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
@@ -251,15 +247,19 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         // Start till poängsättning
         if(assets.update()){
+
+            //for(int i = 0; i < playerVec.size(); i++) {}
+            checkCollison(playerVec.get(0));
+
             if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 Gdx.app.log("Fall", "fall");
                 score += 10;
                 gameOverGameScreen = true;
             }
-
             if(gameOverGameScreen)
                 startGameOverTimer();
         }
+
 
         LabelScore.setText("Score: " + score);
         stage.draw();
@@ -292,6 +292,27 @@ public class GameScreen extends BaseBulletTest implements Screen {
         //scoreStage.dispose(); // Borde disposas men det blir hack till nästa screen
         }
 
+    private boolean checkCollison(BulletEntity playerTemp){
+
+        float xd = (((btRigidBody) player2.body).getCenterOfMassPosition().x - (((btRigidBody) playerTemp.body).getCenterOfMassPosition()).x);
+        float zd = (((btRigidBody) player2.body).getCenterOfMassPosition().z - (((btRigidBody) playerTemp.body).getCenterOfMassPosition()).z);
+        float yd = (((btRigidBody) player2.body).getCenterOfMassPosition().y - (((btRigidBody) playerTemp.body).getCenterOfMassPosition()).y);
+
+        float sumRadius = 0.8f + 0.8f;
+        float sqrRadius = sumRadius * sumRadius;
+
+        float distSqr = (xd * xd) + (yd * yd) + (zd * zd);
+
+        if (distSqr <= sqrRadius)
+        {
+            score += 10;
+            System.out.println("KROCK");
+            return true;
+        }
+        return false;
+    }
+
+
 
     private void startGameOverTimer(){
 
@@ -313,8 +334,4 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     })));
             }
         }
-
-    public int getScore(){
-        return score;
-    }
     }

@@ -68,9 +68,9 @@ public class PickScreen implements Screen {
         stage.clear();
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/TextUI.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+        this.skin.load(Gdx.files.internal("ui/TextUI.json"));
 
         badLogic = app.assets.get("img/badlogic.jpg", Texture.class);
         background = app.assets.get("img/greek.jpg", Texture.class);
@@ -174,24 +174,19 @@ public class PickScreen implements Screen {
     }
 
     private void initScrollMenu(){
-        // image.setDrawable(new SpriteDrawable(new Sprite(background)));
         // inizializzazione della tabella
         container = new Table();
-        //container.setFillParent(true);
-        container.setSize(w / 2, h / 2);
-        //container.bottom();
-        container.setPosition(w / 2 - container.getWidth() / 2, h / 2 - container.getHeight() / 2);
-        //container.setBackground((Drawable) image);
+        container.setFillParent(true);
+        container.bottom();
         stage.addActor(container);
-        //container.debug();
 
         Table table = new Table();
-        //table.debug();
+        table.debug();
         table.bottom();
 
         final ScrollPane scroll = new ScrollPane(table, skin);
+        //scroll.setFillParent(true);
         scroll.setupFadeScrollBars(0f, 0f);
-        scroll.setOverscroll(true, false);
 
         InputListener stopTouchDown = new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -200,19 +195,20 @@ public class PickScreen implements Screen {
             }
         };
 
-        table.pad(0).defaults().space(10);
+        table.pad(20).defaults().space(5);
 
-        for (int i = 0; i < 5; i++) {
-            image = new Image(badLogic);
-            image.setScaling(Scaling.fit); // Default is Scaling.stretch, as you found.
-            table.add(image).height(scroll.getHeight()).width(MyGdxGame.VIRTUAL_WIDTH/4).expand().fill();
-            //table.add(image).height(scroll.getHeight()).width(MyGdxGame.VIRTUAL_WIDTH/4).size(container.getWidth(), container.getHeight());
+        for (int i = 0; i < 15; i++) {
+            TextButton button = new TextButton(i + "dos", skin, "default");
+            table.add(button).height(scroll.getHeight()).width(app.VIRTUAL_HEIGHT/8);
+            button.addListener(new ClickListener() {
+                public void clicked (InputEvent event, float x, float y) {
+                    System.out.println("click " + x + ", " + y);
+                }
+            });
         }
-
-        container.add(scroll).expandY().fill().colspan(1);//.height(Gdx.graphics.getHeight() / 2);//
+        container.bottom();
+        container.add(scroll).height(Gdx.graphics.getHeight()/3);//.expandY().fill().colspan(1);
         container.row().space(10).padBottom(10);
-        //container.setColor(0,0,0,0);
-        //table.setColor(0,0,0,0);*/
-    }
 
+}
 }

@@ -13,5 +13,8 @@
   default3: { down: score, up: score, font: default-font, fontColor: white },
   default4: { down: score, up: score, font: default-font, fontColor: white },
   toggle: { down: play, up: play, checked: play, font: default-font, fontColor: white, downFontColor: red }
+},
+  com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+  default: { vScroll: play, hScrollKnob: play, background: play, hScroll: play, vScrollKnob: play }
 }
 }
