@@ -73,9 +73,9 @@ public class ConnectionMenuScreen implements Screen {
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font*/
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/TextUI.pack", TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/TextUI.json"));
+        this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
         background = app.assets.get("img/greek.jpg", Texture.class);
 
@@ -252,9 +252,9 @@ public class ConnectionMenuScreen implements Screen {
         table.setFillParent(true);
 
         float buttonSizeX = 250, buttonSizeY = 50;
-        buttonCreate = new TextButton("Create Server", skin, "default");
+        buttonCreate = new TextButton("", skin, "default4");
         buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 115 + buttonSizeY / 2);
-        buttonCreate.setSize(buttonSizeX, buttonSizeY);
+       // buttonCreate.setSize(buttonSizeX, buttonSizeY);
         buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonCreate.addListener(new ClickListener() {
             @Override
@@ -283,9 +283,9 @@ public class ConnectionMenuScreen implements Screen {
             }
         });
 
-        buttonJoin = new TextButton("Join Server", skin, "default");
+        buttonJoin = new TextButton("", skin, "default6");
         buttonJoin.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 190 + buttonSizeY / 2);
-        buttonJoin.setSize(buttonSizeX, buttonSizeY);
+      //  buttonJoin.setSize(buttonSizeX, buttonSizeY);
         buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonJoin.addListener(new ClickListener() {
             @Override
@@ -334,9 +334,9 @@ public class ConnectionMenuScreen implements Screen {
             }
         });
 
-        buttonDisconnect = new TextButton("Disconnect", skin, "default");
+        buttonDisconnect = new TextButton("", skin, "default5");
         buttonDisconnect.setPosition(w / 2 - buttonSizeX / 2, h / 2 + buttonSizeY / 2 - 265);
-        buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
+        //buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
         buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonDisconnect.addListener(new ClickListener() {
             @Override
@@ -345,7 +345,7 @@ public class ConnectionMenuScreen implements Screen {
             }
         });
 
-        buttonExit = new TextButton("Exit app", skin, "default");
+        buttonExit = new TextButton("", skin, "default7");
         buttonExit.setPosition(0, h - buttonSizeY);
         buttonExit.setSize(buttonSizeX, buttonSizeY);
         buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -376,9 +376,15 @@ public class ConnectionMenuScreen implements Screen {
             }
         });
 
-        stage.addActor(buttonCreate);
-        stage.addActor(buttonJoin);
-        stage.addActor(buttonExit);
-        stage.addActor(buttonDisconnect);
+
+
+        table.add(buttonCreate).bottom().left().padLeft(150).expandX();
+        table.row();
+        table.add(buttonJoin).bottom().left().padLeft(150);
+        table.row();
+        table.add(buttonDisconnect).bottom().left().padLeft(150);
+        table.row();
+        table.add(buttonExit).top().left().padLeft(150);
+        stage.addActor(table);
     }
 }

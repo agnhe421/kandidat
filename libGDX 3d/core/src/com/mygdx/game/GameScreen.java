@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -12,13 +11,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
@@ -38,7 +34,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.Vector;
-
 
 public class GameScreen extends BaseBulletTest implements Screen {
 
@@ -70,12 +65,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public static float time;
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
-    private int player1Flag = 1;
-    private int player2Flag = 2;
-    private int player3Flag = 3;
 
     // Sound
     static GameSound gameSound;
+    int collisonUserId0, collisonUserId1;
 
     public GameScreen(final BaseGame app)
     {
@@ -83,7 +76,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         this.create();
     }
 
-    public static class TestContactCache extends ContactCache {
+    public class TestContactCache extends ContactCache {
         public Array<BulletEntity> entities;
 
         @Override
@@ -96,14 +89,16 @@ public class GameScreen extends BaseBulletTest implements Screen {
             Vector3 p2 = ( (btRigidBody) manifold.getBody1() ).getCenterOfMassPosition();
 
             if (match0) {
-                final BulletEntity e = (BulletEntity)(entities.get(userValue0));
+                final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                 e.setColor(Color.BLUE);
                 Gdx.app.log(Float.toString(time), "Contact started " + userValue0);
+                collisonUserId0 = userValue0;
             }
             if (match1) {
                 final BulletEntity e = (BulletEntity)(entities.get(userValue1));
                 e.setColor(Color.RED);
                 Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
+                collisonUserId1 = userValue1;
             }
 
             // Play the collision sound.
@@ -114,15 +109,18 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactEnded (btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
             final int userValue0 = colObj0.getUserValue();
             final int userValue1 = colObj1.getUserValue();
+            collisonUserId1 = -1;
+            collisonUserId0 = -1;
+
             if (match0) {
                 final BulletEntity e = (BulletEntity)(entities.get(userValue0));
                 e.setColor(Color.BLACK);
-                Gdx.app.log(Float.toString(time), "Contact ended " + userValue0);
+                Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId1);
             }
             if (match1) {
                 final BulletEntity e = (BulletEntity)(entities.get(userValue1));
                 e.setColor(Color.BLACK);
-                Gdx.app.log(Float.toString(time), "Contact ended " + userValue1);
+                Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId0);
             }
         }
     }
@@ -134,7 +132,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
         this.scoreStage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
 
-        final Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
+        /*final Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
         disposables.add(texture);
         final Material material = new Material(TextureAttribute.createDiffuse(texture), ColorAttribute.createSpecular(1, 1, 1, 1),
                 FloatAttribute.createShininess(8f));
@@ -143,11 +141,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
         final Model sphere = modelBuilder.createSphere(4f, 4f, 4f, 24, 24, material, attributes);
         disposables.add(sphere);
         world.addConstructor("sphere", new BulletConstructor(sphere, 10f, new btSphereShape(2f)));
-
+*/
         // Create the entities
         world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(),
                 0.25f + 0.5f * (float) Math.random(), 1f);
-        world.add("sphere", 0, 5, 5);
+       // world.add("sphere", 0, 5, 5);
 
         // Load texture
         assets = new AssetManager();
@@ -213,8 +211,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         if (rayTestCB.hasHit() && (((btRigidBody) player.body).getCenterOfMassPosition() != null)) {
             rayTestCB.getHitPointWorld(tmpV1);
 
-            Gdx.app.log("BANG", "BANG");
-
+            //Gdx.app.log("BANG", "BANG");
             Model model;
             ModelBuilder modelBuilder = new ModelBuilder();
             modelBuilder.begin();
@@ -260,9 +257,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 break;
             default: return false;
         }
-        Gdx.app.log("RAY pick", "RAY pick");
-
-
+        //Gdx.app.log("RAY pick", "RAY pick");
         return true;
     }
 
@@ -311,22 +306,22 @@ public class GameScreen extends BaseBulletTest implements Screen {
             world.addConstructor("ball", new BulletConstructor(fotball, 1f, new btSphereShape(0.8f)));
             player = world.add("ball", 0, 0.5f, 0.5f);
             playerVec.add(player);
-            player.body.setContactCallbackFlag(player1Flag);
-            player.body.setContactCallbackFilter(player1Flag);
+            player.body.setContactCallbackFlag(1);
+            player.body.setContactCallbackFilter(1);
 
             disposables.add(apple);
             world.addConstructor("apple", new BulletConstructor(apple, 1f, new btSphereShape(0.8f)));
             player2 = world.add("apple", 0, 0.5f, 0.5f);
             playerVec.add(player2);
-            player2.body.setContactCallbackFlag(player1Flag);
-//            player2.body.setContactCallbackFilter(player1Flag);
+            player2.body.setContactCallbackFilter(1);
+            //player2.body.setContactCallbackFlag(1);
 
             disposables.add(peach);
             world.addConstructor("peach", new BulletConstructor(peach, 1f, new btSphereShape(0.8f)));
             player3 = world.add("peach", 0, 0.5f, 0.5f);
             playerVec.add(player3);
-            player3.body.setContactCallbackFlag(player1Flag);
-//            player3.body.setContactCallbackFilter(player1Flag);
+            player3.body.setContactCallbackFilter(1);
+           // player3.body.setContactCallbackFlag(1);
 
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
@@ -334,6 +329,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         // Start till poängsättning
         if(assets.update()){
+            if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -5)
+                    && (collisonUserId0 != -1)){
+                Gdx.app.log("KRASH", "TEST");
+            }
+
             if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 Gdx.app.log("Fall", "fall");
                 score += 10;

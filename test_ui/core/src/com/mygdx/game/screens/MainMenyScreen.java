@@ -57,9 +57,9 @@ public class MainMenyScreen implements Screen {
         stage.clear();
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/TextUI.pack", TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/TextUI.json"));
+        this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
         background = app.assets.get("img/greek.jpg", Texture.class);
         initButtons();
@@ -77,7 +77,7 @@ public class MainMenyScreen implements Screen {
         update(delta);
 
         app.batch.begin();
-        app.batch.draw(background, Gdx.graphics.getHeight()/ 2 - background.getHeight()/2, Gdx.graphics.getWidth() / 2 -background.getWidth()/2);
+        app.batch.draw(background, viewport.getHeight()/ 2 - viewport.getHeight()/2, viewport.getWidth() / 2 -viewport.getWidth()/2);
         app.font50.draw(app.batch, "Screen: MAINMENY", 30, 30);
         app.batch.end();
 
@@ -150,7 +150,7 @@ public class MainMenyScreen implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.pickScreen);
+                app.setScreen(app.connectionMenuScreen);
             }
         });
 
