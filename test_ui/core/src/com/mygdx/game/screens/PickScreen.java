@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
 
@@ -197,15 +196,15 @@ public class PickScreen implements Screen {
 
         table.pad(20).defaults().space(5);
 
-        for (int i = 0; i < 15; i++) {
-            TextButton button = new TextButton(i + "dos", skin, "default");
+
+            TextButton button = new TextButton("dos", skin, "default");
             table.add(button).height(scroll.getHeight()).width(app.VIRTUAL_HEIGHT/8);
             button.addListener(new ClickListener() {
                 public void clicked (InputEvent event, float x, float y) {
                     System.out.println("click " + x + ", " + y);
                 }
             });
-        }
+
         container.bottom();
         container.add(scroll).height(Gdx.graphics.getHeight()/3);//.expandY().fill().colspan(1);
         container.row().space(10).padBottom(10);

@@ -58,9 +58,9 @@ public class SettingScreen implements Screen {
         stage.clear();
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+        this.skin.load(Gdx.files.internal("ui/Buttons.json"));
         background = app.assets.get("img/greek.jpg", Texture.class);
 
         initSlider();
@@ -175,7 +175,7 @@ public class SettingScreen implements Screen {
         int size_x = 280;
         int size_y = 60;
 
-        buttonBack = new TextButton("Back", skin, "default");
+        buttonBack = new TextButton("", skin, "default7");
         buttonBack.setSize(size_x, size_y);
         buttonBack.setPosition(Gdx.graphics.getWidth() / 2 - size_x / 2, Gdx.graphics.getHeight() / 2 - size_y / 2);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
