@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -69,7 +70,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public static float time;
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
+    private int player1Flag = 1;
+    private int player2Flag = 2;
+    private int player3Flag = 3;
 
+    // Sound
+    static GameSound gameSound;
 
     public GameScreen(final BaseGame app)
     {
@@ -84,6 +90,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactStarted (btPersistentManifold manifold, boolean match0, boolean match1) {
             final int userValue0 = manifold.getBody0().getUserValue();
             final int userValue1 = manifold.getBody1().getUserValue();
+
+            // Take the positions of the colliding balls. Used in the handling of sounds.
+            Vector3 p1 = ( (btRigidBody) manifold.getBody0() ).getCenterOfMassPosition();
+            Vector3 p2 = ( (btRigidBody) manifold.getBody1() ).getCenterOfMassPosition();
+
             if (match0) {
                 final BulletEntity e = (BulletEntity)(entities.get(userValue0));
                 e.setColor(Color.BLUE);
@@ -94,6 +105,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 e.setColor(Color.RED);
                 Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
             }
+
+            // Play the collision sound.
+            gameSound.playCollisionSound(p1, p2);
         }
 
         @Override
@@ -164,6 +178,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
             contactCache.entities = world.entities;
             contactCache.setCacheTime(2f); // Change the contact time
         }
+
+        // Sound
+        gameSound = new GameSound();
+
+        // Play background music.
+//        gameSound.playBackgroundMusic(0.45f);
     }
 
     @Override
@@ -291,22 +311,23 @@ public class GameScreen extends BaseBulletTest implements Screen {
             world.addConstructor("ball", new BulletConstructor(fotball, 1f, new btSphereShape(0.8f)));
             player = world.add("ball", 0, 0.5f, 0.5f);
             playerVec.add(player);
-            player.body.setContactCallbackFlag(1);
-            player.body.setContactCallbackFilter(1);
+            player.body.setContactCallbackFlag(player1Flag);
+            player.body.setContactCallbackFilter(player1Flag);
 
             disposables.add(apple);
             world.addConstructor("apple", new BulletConstructor(apple, 1f, new btSphereShape(0.8f)));
             player2 = world.add("apple", 0, 0.5f, 0.5f);
             playerVec.add(player2);
-            player2.body.setContactCallbackFilter(1);
-            player2.body.setContactCallbackFlag(1);
+            player2.body.setContactCallbackFlag(player1Flag);
+//            player2.body.setContactCallbackFilter(player1Flag);
 
             disposables.add(peach);
             world.addConstructor("peach", new BulletConstructor(peach, 1f, new btSphereShape(0.8f)));
             player3 = world.add("peach", 0, 0.5f, 0.5f);
             playerVec.add(player3);
-            player3.body.setContactCallbackFilter(1);
-            player3.body.setContactCallbackFlag(1);
+            player3.body.setContactCallbackFlag(player1Flag);
+//            player3.body.setContactCallbackFilter(player1Flag);
+
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
         }
