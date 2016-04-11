@@ -65,7 +65,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public static float time;
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
-    
+
     // Sound
     static GameSound gameSound;
     int collisonUserId0, collisonUserId1;
@@ -84,24 +84,29 @@ public class GameScreen extends BaseBulletTest implements Screen {
             final int userValue1 = manifold.getBody1().getUserValue();
 
             // Take the positions of the colliding balls. Used in the handling of sounds.
-            Vector3 p1 = ( (btRigidBody) manifold.getBody0() ).getCenterOfMassPosition();
-            Vector3 p2 = ( (btRigidBody) manifold.getBody1() ).getCenterOfMassPosition();
+            Vector3 p1 = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
+            Vector3 p2 = ((btRigidBody) manifold.getBody1()).getCenterOfMassPosition();
 
-            if (match0) {
-                final BulletEntity e = (BulletEntity) (entities.get(userValue0));
-                e.setColor(Color.BLUE);
-                Gdx.app.log(Float.toString(time), "Contact started " + userValue0);
-                collisonUserId0 = userValue0;
-            }
-            if (match1) {
-                final BulletEntity e = (BulletEntity)(entities.get(userValue1));
-                e.setColor(Color.RED);
-                Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
-                collisonUserId1 = userValue1;
-            }
+            if (entities.get(userValue0) != entities.get(0)) {
+                if (entities.get(userValue1) != entities.get(0)) {
 
-            // Play the collision sound.
-            gameSound.playCollisionSound(p1, p2);
+                    if (match0) {
+                        final BulletEntity e = (BulletEntity) (entities.get(userValue0));
+                        e.setColor(Color.BLUE);
+                        Gdx.app.log(Float.toString(time), "Contact started " + userValue0);
+                        collisonUserId0 = userValue0;
+                    }
+                    if (match1) {
+                        final BulletEntity e = (BulletEntity) (entities.get(userValue1));
+                        e.setColor(Color.RED);
+                        Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
+                        collisonUserId1 = userValue1;
+                    }
+
+                    // Play the collision sound.
+                    gameSound.playCollisionSound(p1, p2);
+                }
+            }
         }
 
         @Override
@@ -115,11 +120,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 final BulletEntity e = (BulletEntity)(entities.get(userValue0));
                 e.setColor(Color.BLACK);
                 Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId1);
+                //collisonUserId0 = userValue0;
             }
             if (match1) {
                 final BulletEntity e = (BulletEntity)(entities.get(userValue1));
                 e.setColor(Color.BLACK);
                 Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId0);
+                //collisonUserId1 = userValue1;
             }
         }
     }
@@ -307,31 +314,35 @@ public class GameScreen extends BaseBulletTest implements Screen {
            // player3.body.setContactCallbackFlag(1);
 */
             Player player_1 = new Player(fotball);
-            world.addConstructor("hej", player_1.bulletConstructor);
-            player = world.add("hej", 0, 0.5f, 0.5f);
+            world.addConstructor("test1", player_1.bulletConstructor);
+            player = world.add("test1", 0, 2.5f, 2.5f);
+            player.body.setContactCallbackFlag(1);
+            player.body.setContactCallbackFilter(1);
 
             Player player_2 = new Player(apple);
-            world.addConstructor("hej", player_2.bulletConstructor);
-            player2 = world.add("hej", 0, 0.5f, 0.5f);
+            world.addConstructor("test2", player_2.bulletConstructor);
+            player2 = world.add("test2", 0, 2.5f, 0.5f);
+            player2.body.setContactCallbackFilter(1);
 
             Player player_3 = new Player(peach);
-            world.addConstructor("hej", player_3.bulletConstructor);
-            player3 = world.add("hej", 0, 0.5f, 0.5f);
+            world.addConstructor("test3", player_3.bulletConstructor);
+            player3 = world.add("test3", 0, 2.5f, -2.5f);
+            player3.body.setContactCallbackFilter(1);
 
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
         }
 
         // Start till poängsättning
-        /*  if(app.assets.update()){
+          if(app.assets.update()){
+              if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -10)
+                      && (collisonUserId0 == 2 || collisonUserId1 == 2) && collisonUserId1 != -1 && collisonUserId0 != -1 ){
+                  Gdx.app.log("PLAYER2", "KRASH");
+                  score += 10;
+              }
           if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -10)
-                    && (collisonUserId0 != -1)){
+                    && (collisonUserId0 == 3 ||  collisonUserId1 == 3  && collisonUserId1 != -1 && collisonUserId0 != -1)){
                 Gdx.app.log("PLAYER3", "KRASH");
-                score += 10;
-            }
-            if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -10)
-                    && (collisonUserId0 != -1)){
-                Gdx.app.log("PLAYER2", "KRASH");
                 score += 10;
             }
             // Gameover
@@ -342,13 +353,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
             }
             if(gameOverGameScreen)
                 startGameOverTimer();
-        }*/
-
+        }
 
         LabelScore.setText("Score: " + score);
         stage.draw();
         scoreStage.draw();
-
     }
 
     @Override
