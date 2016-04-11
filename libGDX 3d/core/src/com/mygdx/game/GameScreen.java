@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -64,9 +65,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public static float time;
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
-
-    int collisonUserId0, collisonUserId1, n_players;
-
+    
+    // Sound
+    static GameSound gameSound;
+    int collisonUserId0, collisonUserId1;
 
     public GameScreen(final BaseGame app)
     {
@@ -77,9 +79,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public class TestContactCache extends ContactCache {
         public Array<BulletEntity> entities;
         @Override
-        public  void onContactStarted (btPersistentManifold manifold, boolean match0, boolean match1) {
-             final int userValue0 = manifold.getBody0().getUserValue();
-             final int userValue1 = manifold.getBody1().getUserValue();
+        public void onContactStarted (btPersistentManifold manifold, boolean match0, boolean match1) {
+            final int userValue0 = manifold.getBody0().getUserValue();
+            final int userValue1 = manifold.getBody1().getUserValue();
+
+            // Take the positions of the colliding balls. Used in the handling of sounds.
+            Vector3 p1 = ( (btRigidBody) manifold.getBody0() ).getCenterOfMassPosition();
+            Vector3 p2 = ( (btRigidBody) manifold.getBody1() ).getCenterOfMassPosition();
 
             if (match0) {
                 final BulletEntity e = (BulletEntity) (entities.get(userValue0));
@@ -93,6 +99,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
                 collisonUserId1 = userValue1;
             }
+
+            // Play the collision sound.
+            gameSound.playCollisionSound(p1, p2);
         }
 
         @Override
@@ -153,6 +162,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
             contactCache.entities = world.entities;
             contactCache.setCacheTime(2f); // Change the contact time
         }
+
+        // Sound
+        gameSound = new GameSound();
+
+        // Play background music.
+//        gameSound.playBackgroundMusic(0.45f);
     }
 
     @Override
