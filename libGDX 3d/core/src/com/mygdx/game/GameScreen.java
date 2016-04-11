@@ -31,14 +31,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
+import com.mygdx.game.Player;
 import java.util.Vector;
 
 public class GameScreen extends BaseBulletTest implements Screen {
 
-    AssetManager assets;
+    //public AssetManager assets;
     boolean loading;
-    BulletEntity player, player2, player3;
+    BulletEntity player, player2, player3, player4;
     private Stage stage;
     private Stage scoreStage;
 
@@ -65,7 +65,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
 
-    int collisonUserId0, collisonUserId1;
+    int collisonUserId0, collisonUserId1, n_players;
 
 
     public GameScreen(final BaseGame app)
@@ -76,7 +76,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public class TestContactCache extends ContactCache {
         public Array<BulletEntity> entities;
-
         @Override
         public  void onContactStarted (btPersistentManifold manifold, boolean match0, boolean match1) {
              final int userValue0 = manifold.getBody0().getUserValue();
@@ -123,26 +122,14 @@ public class GameScreen extends BaseBulletTest implements Screen {
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
         this.scoreStage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
 
-        /*final Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
-        disposables.add(texture);
-        final Material material = new Material(TextureAttribute.createDiffuse(texture), ColorAttribute.createSpecular(1, 1, 1, 1),
-                FloatAttribute.createShininess(8f));
-        final long attributes = Usage.Position | Usage.Normal | Usage.TextureCoordinates;
-
-        final Model sphere = modelBuilder.createSphere(4f, 4f, 4f, 24, 24, material, attributes);
-        disposables.add(sphere);
-        world.addConstructor("sphere", new BulletConstructor(sphere, 10f, new btSphereShape(2f)));
-*/
         // Create the entities
-        world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(),
-                0.25f + 0.5f * (float) Math.random(), 1f);
-       // world.add("sphere", 0, 5, 5);
+        world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(),0.25f + 0.5f * (float) Math.random(), 1f);
 
         // Load texture
-        assets = new AssetManager();
-        assets.load("football2.g3dj", Model.class);
-        assets.load("apple.g3dj", Model.class);
-        assets.load("peach.g3dj", Model.class);
+        //assets = new AssetManager();
+        app.assets.load("football2.g3dj", Model.class);
+        app.assets.load("apple.g3dj", Model.class);
+        app.assets.load("peach.g3dj", Model.class);
         loading = true;
         font = new BitmapFont();
 
@@ -158,7 +145,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         scoreStage.addActor(scoreActor);
 
         scoreStage.getRoot().setPosition(0, stage.getHeight());
-
 
         Gdx.input.setInputProcessor(this);
 
@@ -258,9 +244,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
 
         Gdx.app.log("RAY pick", "RAY pick");
-
-//        ball.acceleration.set((right? 1 : 0)+(left?-1: 0), 0f, (up ? -1 : 0) + (down?1:0)).scl(2);
-//        player.transform.translate(ball.position);
         return true;
     }
 
@@ -274,51 +257,69 @@ public class GameScreen extends BaseBulletTest implements Screen {
             modelBatch.end();
         }
 
-        if (assets.update() && loading) {
-            Model fotball = assets.get("football2.g3dj", Model.class);
+        if (app.assets.update() && loading) {
+            Model fotball = app.assets.get("football2.g3dj", Model.class);
             String id = fotball.nodes.get(0).id;
 
-            Model apple = assets.get("apple.g3dj", Model.class);
+            Model apple = app.assets.get("apple.g3dj", Model.class);
             String id2 = apple.nodes.get(0).id;
             Node node = apple.getNode(id2);
             node.scale.set(0.8f, 0.8f, 0.8f);
 
-            Model peach = assets.get("peach.g3dj", Model.class);
-            String id3 = fotball.nodes.get(0).id;
-            Node node2 = fotball.getNode(id3);
+            Model peach = app.assets.get("peach.g3dj", Model.class);
+            String id3 = peach.nodes.get(0).id;
+            Node node2 = peach.getNode(id3);
 
-            disposables.add(fotball);
-            world.addConstructor("ball", new BulletConstructor(fotball, 1f, new btSphereShape(0.8f)));
-            player = world.add("ball", 0, 0.5f, 0.5f);
-            playerVec.add(player);
+           /* disposables.add(fotball);
+            world.addConstructor("fotball", new BulletConstructor(fotball, 1f, new btSphereShape(0.8f)));
+            player = world.add("fotball", 0, 0.5f, 0.5f);
+            //playerVec.add(player);
             player.body.setContactCallbackFlag(1);
             player.body.setContactCallbackFilter(1);
 
             disposables.add(apple);
             world.addConstructor("apple", new BulletConstructor(apple, 1f, new btSphereShape(0.8f)));
             player2 = world.add("apple", 0, 0.5f, 0.5f);
-            playerVec.add(player2);
+            //playerVec.add(player2);
             player2.body.setContactCallbackFilter(1);
             //player2.body.setContactCallbackFlag(1);
 
             disposables.add(peach);
             world.addConstructor("peach", new BulletConstructor(peach, 1f, new btSphereShape(0.8f)));
             player3 = world.add("peach", 0, 0.5f, 0.5f);
-            playerVec.add(player3);
+            //playerVec.add(player3);
             player3.body.setContactCallbackFilter(1);
            // player3.body.setContactCallbackFlag(1);
+*/
+            Player player_1 = new Player(fotball);
+            world.addConstructor("hej", player_1.bulletConstructor);
+            player = world.add("hej", 0, 0.5f, 0.5f);
+
+            Player player_2 = new Player(apple);
+            world.addConstructor("hej", player_2.bulletConstructor);
+            player2 = world.add("hej", 0, 0.5f, 0.5f);
+
+            Player player_3 = new Player(peach);
+            world.addConstructor("hej", player_3.bulletConstructor);
+            player3 = world.add("hej", 0, 0.5f, 0.5f);
 
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
         }
 
         // Start till poängsättning
-        if(assets.update()){
-            if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -5)
+        /*  if(app.assets.update()){
+          if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -10)
                     && (collisonUserId0 != -1)){
-                Gdx.app.log("KRASH", "TEST");
+                Gdx.app.log("PLAYER3", "KRASH");
+                score += 10;
             }
-
+            if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -10)
+                    && (collisonUserId0 != -1)){
+                Gdx.app.log("PLAYER2", "KRASH");
+                score += 10;
+            }
+            // Gameover
             if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 Gdx.app.log("Fall", "fall");
                 score += 10;
@@ -326,7 +327,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             }
             if(gameOverGameScreen)
                 startGameOverTimer();
-        }
+        }*/
 
 
         LabelScore.setText("Score: " + score);

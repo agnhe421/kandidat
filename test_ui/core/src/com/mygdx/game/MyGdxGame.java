@@ -49,7 +49,6 @@ public class MyGdxGame extends Game {
 	public void create() {
 
 		camera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-
 		assets = new AssetManager();
 		batch = new SpriteBatch();
 
