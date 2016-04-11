@@ -39,7 +39,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     //public AssetManager assets;
     boolean loading;
-    BulletEntity player, player2, player3, player4;
+    BulletEntity player, player2, player3;
     private Stage stage;
     private Stage scoreStage;
 
@@ -87,26 +87,24 @@ public class GameScreen extends BaseBulletTest implements Screen {
             Vector3 p1 = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
             Vector3 p2 = ((btRigidBody) manifold.getBody1()).getCenterOfMassPosition();
 
-            if (entities.get(userValue0) != entities.get(0)) {
-                if (entities.get(userValue1) != entities.get(0)) {
-
+            if((entities.get(userValue0) != entities.get(0))){
+            if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
                     if (match0) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                         e.setColor(Color.BLUE);
-                        Gdx.app.log(Float.toString(time), "Contact started " + userValue0);
+                        Gdx.app.log(Float.toString(time), "Contact started case0 " + userValue0);
                         collisonUserId0 = userValue0;
                     }
                     if (match1) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                         e.setColor(Color.RED);
-                        Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
+                        Gdx.app.log(Float.toString(time), "Contact started case1" + userValue1);
                         collisonUserId1 = userValue1;
                     }
-
                     // Play the collision sound.
                     gameSound.playCollisionSound(p1, p2);
-                }
             }
+         }
         }
 
         @Override
@@ -116,17 +114,19 @@ public class GameScreen extends BaseBulletTest implements Screen {
             collisonUserId1 = -1;
             collisonUserId0 = -1;
 
-            if (match0) {
-                final BulletEntity e = (BulletEntity)(entities.get(userValue0));
-                e.setColor(Color.BLACK);
-                Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId1);
-                //collisonUserId0 = userValue0;
-            }
-            if (match1) {
-                final BulletEntity e = (BulletEntity)(entities.get(userValue1));
-                e.setColor(Color.BLACK);
-                Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId0);
-                //collisonUserId1 = userValue1;
+            if (entities.get(userValue0) == entities.get(1)|| entities.get(userValue1) == entities.get(1)) {
+                if (match0) {
+                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
+                    e.setColor(Color.BLACK);
+                    Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId1);
+                    //collisonUserId0 = userValue0;
+                }
+                if (match1) {
+                    final BulletEntity e = (BulletEntity) (entities.get(userValue1));
+                    e.setColor(Color.BLACK);
+                    Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId0);
+                    //collisonUserId1 = userValue1;
+                }
             }
         }
     }
@@ -167,7 +167,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         if (USE_CONTACT_CACHE) {
             contactCache = new TestContactCache();
             contactCache.entities = world.entities;
-            contactCache.setCacheTime(2f); // Change the contact time
+            contactCache.setCacheTime(4f); // Change the contact time
         }
 
         // Sound
@@ -292,41 +292,20 @@ public class GameScreen extends BaseBulletTest implements Screen {
             String id3 = peach.nodes.get(0).id;
             Node node2 = peach.getNode(id3);
 
-           /* disposables.add(fotball);
-            world.addConstructor("fotball", new BulletConstructor(fotball, 1f, new btSphereShape(0.8f)));
-            player = world.add("fotball", 0, 0.5f, 0.5f);
-            //playerVec.add(player);
-            player.body.setContactCallbackFlag(1);
-            player.body.setContactCallbackFilter(1);
-
-            disposables.add(apple);
-            world.addConstructor("apple", new BulletConstructor(apple, 1f, new btSphereShape(0.8f)));
-            player2 = world.add("apple", 0, 0.5f, 0.5f);
-            //playerVec.add(player2);
-            player2.body.setContactCallbackFilter(1);
-            //player2.body.setContactCallbackFlag(1);
-
-            disposables.add(peach);
-            world.addConstructor("peach", new BulletConstructor(peach, 1f, new btSphereShape(0.8f)));
-            player3 = world.add("peach", 0, 0.5f, 0.5f);
-            //playerVec.add(player3);
-            player3.body.setContactCallbackFilter(1);
-           // player3.body.setContactCallbackFlag(1);
-*/
             Player player_1 = new Player(fotball);
             world.addConstructor("test1", player_1.bulletConstructor);
-            player = world.add("test1", 0, 2.5f, 2.5f);
+            player = world.add("test1", 0, 3.5f, 2.5f);
             player.body.setContactCallbackFlag(1);
             player.body.setContactCallbackFilter(1);
 
             Player player_2 = new Player(apple);
             world.addConstructor("test2", player_2.bulletConstructor);
-            player2 = world.add("test2", 0, 2.5f, 0.5f);
+            player2 = world.add("test2", 0, 3.5f, 0.5f);
             player2.body.setContactCallbackFilter(1);
 
             Player player_3 = new Player(peach);
             world.addConstructor("test3", player_3.bulletConstructor);
-            player3 = world.add("test3", 0, 2.5f, -2.5f);
+            player3 = world.add("test3", 0, 3.5f, -2.5f);
             player3.body.setContactCallbackFilter(1);
 
             Gdx.app.log("Loaded", "LOADED");

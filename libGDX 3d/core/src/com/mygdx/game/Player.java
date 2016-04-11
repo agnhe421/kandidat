@@ -15,16 +15,16 @@ public class Player extends BaseBulletTest {
     private Vector3 position;
     private Model model;
     private String modelString;
-    private int score;
+    private int score = 0;
 
     public Player(Model model){
         this.model = model;
-        bulletConstructor = initBulletEntity(model);
+        bulletConstructor = initBulletConstructor(model);
         position = new Vector3(0, 0.5f, 0.5f);
         score = 0;
     }
 
-    public BulletConstructor initBulletEntity(Model model) {
+    public BulletConstructor initBulletConstructor(Model model) {
         disposables.add(model);
         BulletConstructor bulletConstructor = (new BulletConstructor(model, 1f, new btSphereShape(0.8f)));
         return bulletConstructor;
