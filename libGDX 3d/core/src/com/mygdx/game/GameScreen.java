@@ -197,6 +197,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
        // shoot(screenX, screenY);
        // Gdx.app.log("SHOOT", "SHOOT");
 
+
         Ray ray = camera.getPickRay(screenX, screenY);
         rayFrom.set(ray.origin);
         rayTo.set(ray.direction).scl(50f).add(rayFrom); // 50 meters max from the origin

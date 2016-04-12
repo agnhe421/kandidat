@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -29,16 +31,14 @@ public class SettingScreen implements Screen {
     // App reference
     private final MyGdxGame app;
     // Stage vars
-    private Stage stage;
-    private Rectangle viewport;
+    private Stage stage, stageBackground;
     private Skin skin;
     // Buttons
     private TextButton buttonBack;
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
-    // Texture
-    private Texture background;
+
     //music and slider
     public Music music;
     public float soundVolume = 0.5f;
@@ -47,7 +47,7 @@ public class SettingScreen implements Screen {
     public SettingScreen(final MyGdxGame app){
         this.app = app;
         this.stage = new Stage(new StretchViewport(w , h));
-        this.viewport = new Rectangle();
+        this.stageBackground = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
     }
 
     // Kallas varje gång man vill att denna screen ska visas
@@ -61,7 +61,11 @@ public class SettingScreen implements Screen {
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
-        background = app.assets.get("img/greek.jpg", Texture.class);
+
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/greek.jpg"))));
+        background.setPosition(0, 0);
+        background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
+        stageBackground.addActor(background);
 
         initSlider();
         initButtons();
@@ -72,14 +76,11 @@ public class SettingScreen implements Screen {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // set viewport
-        Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
-                (int) viewport.width, (int) viewport.height);
-
         update(delta);
 
+        stageBackground.draw();
+
         app.batch.begin();
-        app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
         app.font50.draw(app.batch, "Screen: SETTING", 30, 30);
         app.font50.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
         app.batch.end();
@@ -94,29 +95,7 @@ public class SettingScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        //calculate new viewport
-        float aspectRatio = (float)width/(float)height;
-        float scale = 1f;
-        Vector2 crop = new Vector2(0f, 0f);
 
-        if(aspectRatio > app.ASPECT_RATIO)
-        {
-            scale = (float)height/(float)app.VIRTUAL_HEIGHT;
-            crop.x = (width - app.VIRTUAL_WIDTH*scale)/2f;
-        }
-        else if(aspectRatio < app.ASPECT_RATIO)
-        {
-            scale = (float)width/(float)app.VIRTUAL_WIDTH;
-            crop.y = (height - app.VIRTUAL_HEIGHT*scale)/2f;
-        }
-        else
-        {
-            scale = (float)width/(float)app.VIRTUAL_WIDTH;
-        }
-
-        float w = (float)app.VIRTUAL_WIDTH*scale;
-        float h = (float)app.VIRTUAL_HEIGHT*scale;
-        viewport = new Rectangle(crop.x, crop.y, w, h);
     }
 
     @Override
@@ -134,6 +113,7 @@ public class SettingScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        stageBackground.dispose();
         if(skin != null){
             skin.dispose();
         }
