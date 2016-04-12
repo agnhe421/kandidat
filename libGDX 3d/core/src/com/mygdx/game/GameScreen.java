@@ -50,6 +50,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
     ModelInstance instance;
 
     float gameOverTimer = 0;
+    public float scoreTimer;
+    float contactTime = 0.2f;
+    boolean collisionHappened = false;
 
     boolean gameOverGameScreen = false;
 
@@ -87,6 +90,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
             Vector3 p1 = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
             Vector3 p2 = ((btRigidBody) manifold.getBody1()).getCenterOfMassPosition();
 
+            // Set the time which the player can receive a points after a collision has happened.
+            // 1 second = 30f
+            scoreTimer = 210f;  // 210/30 = 7 seconds
+            collisionHappened = true;
+
             if((entities.get(userValue0) != entities.get(0))){
             if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
                     if (match0) {
@@ -111,8 +119,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactEnded (btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
             final int userValue0 = colObj0.getUserValue();
             final int userValue1 = colObj1.getUserValue();
-            collisonUserId1 = -1;
-            collisonUserId0 = -1;
+//            collisonUserId1 = -1;
+//            collisonUserId0 = -1;
 
             if (entities.get(userValue0) == entities.get(1)|| entities.get(userValue1) == entities.get(1)) {
                 if (match0) {
@@ -167,7 +175,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         if (USE_CONTACT_CACHE) {
             contactCache = new TestContactCache();
             contactCache.entities = world.entities;
-            contactCache.setCacheTime(4f); // Change the contact time
+//            contactCache.setCacheTime(contactTime); // Change the contact time
         }
 
         // Sound
@@ -312,18 +320,26 @@ public class GameScreen extends BaseBulletTest implements Screen {
             loading = false;
         }
 
+        // Count the score timer down.
+        if(collisionHappened){
+            scoreTimer -= 1f;
+            if(scoreTimer < 0) { collisionHappened = false; }
+            //Gdx.app.log("Score Timer = ", "" + scoreTimer);
+        }
+
         // Start till poängsättning
           if(app.assets.update()){
-              if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -10)
-                      && (collisonUserId0 == 2 || collisonUserId1 == 2) && collisonUserId1 != -1 && collisonUserId0 != -1 ){
+              if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
+                      && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0){
                   Gdx.app.log("PLAYER2", "KRASH");
                   score += 10;
               }
-          if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -10)
-                    && (collisonUserId0 == 3 ||  collisonUserId1 == 3  && collisonUserId1 != -1 && collisonUserId0 != -1)){
-                Gdx.app.log("PLAYER3", "KRASH");
-                score += 10;
-            }
+              if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -0.08)
+                      && (collisonUserId0 == 3 ||  collisonUserId1 == 3) && scoreTimer > 0){
+
+                  Gdx.app.log("PLAYER3", "KRASH");
+                    score += 10;
+              }
             // Gameover
             if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 Gdx.app.log("Fall", "fall");
