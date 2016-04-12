@@ -14,7 +14,6 @@ public class Player extends BaseBulletTest {
     public BulletConstructor bulletConstructor;
     private Vector3 position;
     private Model model;
-    private String modelString;
     private int score = 0;
 
     public Player(Model model){
