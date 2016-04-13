@@ -54,6 +54,7 @@ public class Shaders extends ApplicationAdapter implements ApplicationListener {
 	private BitmapFont font;
 	private SpriteBatch batch;
 	private DirectionalLight light;
+	private String filename;
 	
 	@Override
 	public void create () {
@@ -74,12 +75,12 @@ public class Shaders extends ApplicationAdapter implements ApplicationListener {
 		font.setColor(Color.YELLOW);
 
 		assets = new AssetManager();
-		assets.load("apple.g3dj", Model.class);
-		assets.load("apple.jpg", Texture.class);
+		assets.load("greekarena3.obj", Model.class);
+		assets.load("greek_color.png", Texture.class);
 		assets.finishLoading();
 
-		apple = assets.get("apple.g3dj", Model.class);
-		tex = assets.get("apple.jpg", Texture.class);
+		apple = assets.get("greekarena3.obj", Model.class);
+		tex = assets.get("greek_color.png", Texture.class);
 
 		NodePart blockPart = apple.nodes.get(0).parts.get(0);
 
@@ -108,9 +109,9 @@ public class Shaders extends ApplicationAdapter implements ApplicationListener {
 		shader.end();
 		renderContext.end();
 
-		//batch.begin();
-		//font.draw(batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 200, 200);
-		//batch.end();
+		batch.begin();
+		font.draw(batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 200, 200);
+		batch.end();
 
 	}
 
