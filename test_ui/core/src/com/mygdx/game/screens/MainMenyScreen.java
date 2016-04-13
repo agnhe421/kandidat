@@ -1,6 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
 
@@ -50,6 +52,8 @@ public class MainMenyScreen implements Screen {
     public void show() {
         System.out.println("Main menu");
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
+
         stage.clear();
 
         this.skin = new Skin();
@@ -79,7 +83,14 @@ public class MainMenyScreen implements Screen {
         app.batch.end();
 
         stage.draw();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            System.out.println("Back key was pressed");
+            Gdx.app.exit();
+        }
     }
+
+          //  new Timer().schedule(app.setScreen(app.settingScreen), 1); }
 
     public void update(float delta)
     {

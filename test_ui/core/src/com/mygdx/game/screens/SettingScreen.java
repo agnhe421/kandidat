@@ -1,6 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -55,6 +56,7 @@ public class SettingScreen implements Screen {
     public void show() {
         System.out.println("Show");
         Gdx.input.setInputProcessor(stage); // hanterar olika input events
+        Gdx.input.setCatchBackKey(true);
         stage.clear();
 
         this.skin = new Skin();
@@ -84,6 +86,11 @@ public class SettingScreen implements Screen {
         app.font50.draw(app.batch, "Screen: SETTING", 30, 30);
         app.font50.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
         app.batch.end();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            System.out.println("Back key was pressed");
+            app.setScreen(app.mainMenyScreen);
+        }
 
         stage.draw();
     }

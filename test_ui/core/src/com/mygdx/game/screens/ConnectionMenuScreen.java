@@ -1,6 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -64,6 +65,7 @@ public class ConnectionMenuScreen implements Screen {
     public void show() {
         System.out.println("Show");
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
         stage.clear();
 
         this.skin = new Skin();
@@ -143,6 +145,11 @@ public class ConnectionMenuScreen implements Screen {
         app.font50.draw(app.batch, error, x - fex, y + fey - 300);
         app.font50.draw(app.batch, IPad, x - fix, y + fiy + 300);
         app.batch.end();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            System.out.println("Back key was pressed");
+            app.setScreen(app.mainMenyScreen);
+        }
 
         stage.draw();
     }
