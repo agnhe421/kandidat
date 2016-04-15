@@ -29,9 +29,6 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-/**
- * Created by DJ on 2016-03-30.
- */
 public class ScoreScreen implements Screen{
 
     // App reference
@@ -71,7 +68,7 @@ public class ScoreScreen implements Screen{
         this.skin.add("default-font", font); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/TextUI.json"));
 
-        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("scorebg1.png"))));
+        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/scorebg1.png"))));
         scoreActor.setPosition(0, 0);
         scoreActor.setSize((stage.getWidth()), stage.getHeight());
         scoreStage.addActor(scoreActor);

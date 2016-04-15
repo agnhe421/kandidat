@@ -21,23 +21,21 @@ import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
 import com.badlogic.gdx.physics.bullet.collision.ContactCache;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.collision.btPersistentManifold;
-import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.mygdx.game.Player;
-import java.util.Vector;
 
 public class GameScreen extends BaseBulletTest implements Screen {
 
     //public AssetManager assets;
     boolean loading;
-    BulletEntity player, player2, player3;
+    BulletEntity player1, player2, player3;
     private Stage stage;
     private Stage scoreStage;
 
@@ -51,21 +49,23 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public float scoreTimer;
     float contactTime = 0.2f;
     boolean collisionHappened = false;
-
     boolean gameOverGameScreen = false;
+    boolean playerCreated = false;
 
-    private Label LabelScore;
+    private Label LabelScorePlayer1,LabelScorePlayer2,LabelScorePlayer3;
     private Label.LabelStyle labelStyle;
     private BitmapFont font;
-    private int score;
 
-    public Vector <BulletEntity> playerVec = new Vector<BulletEntity>();
+    private Table table;
+
     // App reference
     private final BaseGame app;
 
     public static float time;
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
+
+    private Player player_1, player_2, player_3;
 
     // Sound
     static GameSound gameSound;
@@ -88,7 +88,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             Vector3 p1 = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
             Vector3 p2 = ((btRigidBody) manifold.getBody1()).getCenterOfMassPosition();
 
-            // Set the time which the player can receive a points after a collision has happened.
+            // Set the time which the player1 can receive a points after a collision has happened.
             // 1 second = 30f
             scoreTimer = 210f;  // 210/30 = 7 seconds
             collisionHappened = true;
@@ -98,13 +98,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     if (match0) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                         e.setColor(Color.BLUE);
-                        Gdx.app.log(Float.toString(time), "Contact started case0 " + userValue0);
+                        Gdx.app.log(Float.toString(time), "Contact started " + userValue0);
                         collisonUserId0 = userValue0;
                     }
                     if (match1) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                         e.setColor(Color.RED);
-                        Gdx.app.log(Float.toString(time), "Contact started case1" + userValue1);
+                        Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
                         collisonUserId1 = userValue1;
                     }
                     // Play the collision sound.
@@ -136,47 +136,52 @@ public class GameScreen extends BaseBulletTest implements Screen {
     @Override
     public void create () {
         super.create();
-
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
         this.scoreStage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
 
         // Create the entities
-        world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(),0.25f + 0.5f * (float) Math.random(), 1f);
+        world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 1f);
 
-        // Load texture
-        //assets = new AssetManager();
-        app.assets.load("football2.g3dj", Model.class);
-        app.assets.load("apple.g3dj", Model.class);
-        app.assets.load("peach.g3dj", Model.class);
+        // Load models
+        app.assets.load("3d/football2.g3dj", Model.class);
+        app.assets.load("3d/apple.g3dj", Model.class);
+        app.assets.load("3d/peach.g3dj", Model.class);
         loading = true;
+
         font = new BitmapFont();
-
         rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
-        labelStyle = new Label.LabelStyle(font, Color.PINK);
-        LabelScore = new Label("Score: " + score, labelStyle);
-        LabelScore.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 30);
-        stage.addActor(LabelScore);
 
-        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("scorebg1.png"))));
+        // Init Score lables
+        labelStyle = new Label.LabelStyle(font, Color.PINK);
+        LabelScorePlayer1 = new Label("", labelStyle);
+        LabelScorePlayer1.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 20);
+        LabelScorePlayer2 = new Label("", labelStyle);
+        LabelScorePlayer2.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*2);
+        LabelScorePlayer3 = new Label("", labelStyle);
+        LabelScorePlayer3.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*3);
+
+        stage.addActor(LabelScorePlayer1);
+        stage.addActor(LabelScorePlayer2);
+        stage.addActor(LabelScorePlayer3);
+
+        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/scorebg1.png"))));
         scoreActor.setPosition(0, 0);
         scoreActor.setSize((stage.getWidth()), stage.getHeight());
         scoreStage.addActor(scoreActor);
 
         scoreStage.getRoot().setPosition(0, stage.getHeight());
-
         Gdx.input.setInputProcessor(this);
 
         if (USE_CONTACT_CACHE) {
             contactCache = new TestContactCache();
             contactCache.entities = world.entities;
-//            contactCache.setCacheTime(contactTime); // Change the contact time
+            // contactCache.setCacheTime(contactTime); // Change the contact time
         }
 
         // Sound
         gameSound = new GameSound();
-
         // Play background music.
-//        gameSound.playBackgroundMusic(0.45f);
+        // gameSound.playBackgroundMusic(0.45f);
     }
 
     @Override
@@ -202,7 +207,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         world.collisionWorld.rayTest(rayFrom, rayTo, rayTestCB);
 
-        if (rayTestCB.hasHit() && (((btRigidBody) player.body).getCenterOfMassPosition() != null)) {
+        if (rayTestCB.hasHit() && (((btRigidBody) player1.body).getCenterOfMassPosition() != null)) {
             rayTestCB.getHitPointWorld(tmpV1);
 
             //Gdx.app.log("BANG", "BANG");
@@ -210,19 +215,18 @@ public class GameScreen extends BaseBulletTest implements Screen {
             ModelBuilder modelBuilder = new ModelBuilder();
             modelBuilder.begin();
             modelBuilder.part("ball", GL20.GL_TRIANGLES, Usage.Position | Usage.Normal | Usage.TextureCoordinates,
-                    new Material("diffuseGreen", ColorAttribute.createDiffuse(Color.RED)))
-                    .sphere(1f, 1f, 1f, 10, 10);
+                    new Material("diffuseGreen", ColorAttribute.createDiffuse(Color.RED))).sphere(1f, 1f, 1f, 10, 10);
             model = modelBuilder.end();
 
             instance = new ModelInstance(model,tmpV1);
 
-            Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) player.body).getCenterOfMassPosition().x), 0, (tmpV1.z - ((btRigidBody) player.body).getCenterOfMassPosition().z));
+            Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) player1.body).getCenterOfMassPosition().x), 0, (tmpV1.z - ((btRigidBody) player1.body).getCenterOfMassPosition().z));
 
-            float normFactor = 3 / vec.len();
+            float normFactor = player_1.impulseFactor / vec.len();
             Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
 
-            player.body.activate();
-            ((btRigidBody) player.body).applyCentralImpulse(normVec);
+            player1.body.activate();
+            ((btRigidBody) player1.body).applyCentralImpulse(normVec);
         }
         return true;
     }
@@ -251,7 +255,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 break;
             default: return false;
         }
-        //Gdx.app.log("RAY pick", "RAY pick");
         return true;
     }
 
@@ -265,7 +268,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             case Input.Keys.RIGHT: right = false; break;
             default: return false;
         }
-
         Gdx.app.log("RAY pick", "RAY pick");
         return true;
     }
@@ -281,36 +283,37 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
 
         if (app.assets.update() && loading) {
-            Model fotball = app.assets.get("football2.g3dj", Model.class);
+            Model fotball = app.assets.get("3d/football2.g3dj", Model.class);
             String id = fotball.nodes.get(0).id;
 
-            Model apple = app.assets.get("apple.g3dj", Model.class);
+            Model apple = app.assets.get("3d/apple.g3dj", Model.class);
             String id2 = apple.nodes.get(0).id;
             Node node = apple.getNode(id2);
             node.scale.set(0.8f, 0.8f, 0.8f);
 
-            Model peach = app.assets.get("peach.g3dj", Model.class);
+            Model peach = app.assets.get("3d/peach.g3dj", Model.class);
             String id3 = peach.nodes.get(0).id;
             Node node2 = peach.getNode(id3);
 
-            Player player_1 = new Player(fotball);
+            player_1 = new Player(fotball, "fotball");
             world.addConstructor("test1", player_1.bulletConstructor);
-            player = world.add("test1", 0, 3.5f, 2.5f);
-            player.body.setContactCallbackFlag(1);
-            player.body.setContactCallbackFilter(1);
+            player1 = world.add("test1", 0, 3.5f, 2.5f);
+            player1.body.setContactCallbackFlag(1);
+            player1.body.setContactCallbackFilter(1);
 
-            Player player_2 = new Player(apple);
+            player_2 = new Player(apple, "apple");
             world.addConstructor("test2", player_2.bulletConstructor);
             player2 = world.add("test2", 0, 3.5f, 0.5f);
             player2.body.setContactCallbackFilter(1);
 
-            Player player_3 = new Player(peach);
+            player_3 = new Player(peach, "peach");
             world.addConstructor("test3", player_3.bulletConstructor);
             player3 = world.add("test3", 0, 3.5f, -2.5f);
             player3.body.setContactCallbackFilter(1);
 
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
+            playerCreated = true;
         }
 
         // Count the score timer down.
@@ -320,30 +323,35 @@ public class GameScreen extends BaseBulletTest implements Screen {
             //Gdx.app.log("Score Timer = ", "" + scoreTimer);
         }
 
-        // Start till poängsättning
+        // Points
           if(app.assets.update()){
               if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
                       && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0){
+                  player_1.setScore(10);
                   Gdx.app.log("PLAYER2", "KRASH");
-                  score += 10;
+
               }
               if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -0.08)
                       && (collisonUserId0 == 3 ||  collisonUserId1 == 3) && scoreTimer > 0){
-
+                  player_1.setScore(10);
                   Gdx.app.log("PLAYER3", "KRASH");
-                    score += 10;
               }
             // Gameover
-            if(((btRigidBody) player.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
+            if(((btRigidBody) player1.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 Gdx.app.log("Fall", "fall");
-                score += 10;
                 gameOverGameScreen = true;
             }
             if(gameOverGameScreen)
                 startGameOverTimer();
         }
 
-        LabelScore.setText("Score: " + score);
+        // Set the score
+        if(playerCreated) {
+            LabelScorePlayer1.setText("Score player 1: " + player_1.getScore());
+            LabelScorePlayer2.setText("Score player 2: " + player_2.getScore());
+            LabelScorePlayer3.setText("Score player 3: " + player_3.getScore());
+        }
+
         stage.draw();
         scoreStage.draw();
     }
@@ -380,7 +388,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         //scoreStage.dispose(); // Borde disposas men det blir hack till nästa screen
         }
 
-
     private void startGameOverTimer(){
 
         scoreStage.act();
@@ -390,7 +397,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         if(gameOverTimer > 0.5)
         {
             super.setGameOver();
-
             scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
                     Actions.run(new Runnable() {
                         public void run() {
