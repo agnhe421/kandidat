@@ -3,8 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -119,21 +117,17 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactEnded (btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
             final int userValue0 = colObj0.getUserValue();
             final int userValue1 = colObj1.getUserValue();
-//            collisonUserId1 = -1;
-//            collisonUserId0 = -1;
 
             if (entities.get(userValue0) == entities.get(1)|| entities.get(userValue1) == entities.get(1)) {
                 if (match0) {
                     final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                     e.setColor(Color.BLACK);
                     Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId1);
-                    //collisonUserId0 = userValue0;
                 }
                 if (match1) {
                     final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                     e.setColor(Color.BLACK);
                     Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId0);
-                    //collisonUserId1 = userValue1;
                 }
             }
         }
@@ -196,8 +190,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
        // shoot(screenX, screenY);
        // Gdx.app.log("SHOOT", "SHOOT");
-
-
         Ray ray = camera.getPickRay(screenX, screenY);
         rayFrom.set(ray.origin);
         rayTo.set(ray.direction).scl(50f).add(rayFrom); // 50 meters max from the origin

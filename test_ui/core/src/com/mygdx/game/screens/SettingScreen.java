@@ -66,7 +66,7 @@ public class SettingScreen implements Screen {
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
-        this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
+        this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
         background = app.assets.get("img/greek.jpg", Texture.class);
 
@@ -87,9 +87,9 @@ public class SettingScreen implements Screen {
 
         app.batch.begin();
         app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
-        app.font50.draw(app.batch, "Screen: SETTING", 30, 30);
-        app.font50.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
-        app.font50.draw(app.batch, "Sound effects",  w/2 -280/2, h/2);
+        app.font40.draw(app.batch, "Screen: SETTING", 30, 30);
+        app.font40.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
+        app.font40.draw(app.batch, "Sound effects",  w/2 -280/2, h/2);
         app.batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
@@ -184,7 +184,7 @@ public class SettingScreen implements Screen {
         slider2.setValue(music.getVolume());
         music.setVolume(slider.getValue());
         slider2.setAnimateDuration(0.1f);
-        slider2.setPosition(w / 2 - 280 /2, h / 2 -100);
+        slider2.setPosition(w / 2 - 280 / 2, h / 2 - 100);
         slider2.setSize(280, 50);
 
         slider2.addListener(new ChangeListener() {

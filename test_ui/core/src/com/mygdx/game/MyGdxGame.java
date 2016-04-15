@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.mygdx.game.screens.JoinServerScreen;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.LobbyScreen;
 import com.mygdx.game.screens.MainMenyScreen;
@@ -20,7 +21,7 @@ public class MyGdxGame extends Game {
 
 	//public Viewport viewport;
 	public SpriteBatch batch;
-	public BitmapFont font50, font120;
+	public BitmapFont font40, font120;
 
 	//public OrthographicCamera camera;
 	public AssetManager assets;
@@ -30,6 +31,7 @@ public class MyGdxGame extends Game {
 	public ConnectionMenuScreen connectionMenuScreen;
 	public PickScreen pickScreen;
 	public LobbyScreen lobbyScreen;
+	public JoinServerScreen joinServerScreen;
 
 	public static final int VIRTUAL_WIDTH = 3840;
 	public static final int VIRTUAL_HEIGHT = 2160;
@@ -54,6 +56,8 @@ public class MyGdxGame extends Game {
 		connectionMenuScreen = new ConnectionMenuScreen(this);
 		pickScreen = new PickScreen(this);
 		lobbyScreen = new LobbyScreen(this);
+		joinServerScreen = new JoinServerScreen(this);
+
 		settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
 		this.setScreen(loadingScreen);
 	}
@@ -61,7 +65,7 @@ public class MyGdxGame extends Game {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		font50.dispose();
+		font40.dispose();
         font120.dispose();
 		assets.dispose();
 		loadingScreen.dispose();
@@ -70,14 +74,15 @@ public class MyGdxGame extends Game {
 		connectionMenuScreen.dispose();
 		pickScreen.dispose();
 		lobbyScreen.dispose();
+        joinServerScreen.dispose();
 	}
 
 	private void initFonts(){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Moon.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/copyfonts.com_gulim.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		params.size = 50;
+		params.size = 40;
 		params.color = Color.BLACK;
-		font50 = generator.generateFont(params);
+		font40 = generator.generateFont(params);
 
 		params.size = 120;
 		params.color = Color.BLACK;

@@ -66,7 +66,7 @@ public class PickScreen implements Screen {
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/TextUI.pack", TextureAtlas.class));
-        this.skin.add("default-font", app.font50); // Sätter defaulf font som vår ttf font
+        this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/TextUI.json"));
 
         Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/greek.jpg"))));
@@ -90,13 +90,13 @@ public class PickScreen implements Screen {
 
         app.batch.begin();
         app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
-        app.font50.draw(app.batch, "Screen: PICKSCREEN", 30, 30);
+        app.font40.draw(app.batch, "Screen: PICKSCREEN", 30, 30);
         app.font120.draw(app.batch, "Pick player", w / 2 - 200, h - 180);
-        app.font50.draw(app.batch, "Creating server", w / 2 - 200, h - 80);
+        app.font40.draw(app.batch, "Creating server", w / 2 - 200, h - 80);
         app.font120.draw(app.batch, app.connectcounter.toString(), 200, 100);
         for(int idx = 0; idx < app.connectcounter; ++idx)
         {
-            app.font50.draw(app.batch, app.connectionMenuScreen.create.getUserId(idx), 500, 500);
+            app.font40.draw(app.batch, app.connectionMenuScreen.create.getUserId(idx), 500, 500);
         }
         app.batch.end();
 

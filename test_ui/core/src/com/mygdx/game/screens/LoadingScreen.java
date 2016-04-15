@@ -72,7 +72,7 @@ public class LoadingScreen implements Screen {
         stage.draw();
 
         app.batch.begin();
-        app.font50.draw(app.batch, "Screen: LOADING", 30, 30);
+        app.font40.draw(app.batch, "Screen: LOADING", 30, 30);
         app.batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
