@@ -231,8 +231,10 @@ public class ConnectionMenuScreen implements Screen {
         buttonCreate.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                app.setScreen(app.createServerScreen);
             }
         });
+
 
         buttonJoin = new TextButton("", skin, "default6");
         buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));

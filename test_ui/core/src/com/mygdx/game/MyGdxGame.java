@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.game.screens.JoinServerScreen;
+import com.mygdx.game.screens.CreateServerScreen;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.LobbyScreen;
 import com.mygdx.game.screens.MainMenyScreen;
@@ -32,6 +33,7 @@ public class MyGdxGame extends Game {
 	public PickScreen pickScreen;
 	public LobbyScreen lobbyScreen;
 	public JoinServerScreen joinServerScreen;
+	public CreateServerScreen createServerScreen;
 
 	public static final int VIRTUAL_WIDTH = 3840;
 	public static final int VIRTUAL_HEIGHT = 2160;
@@ -57,9 +59,11 @@ public class MyGdxGame extends Game {
 		pickScreen = new PickScreen(this);
 		lobbyScreen = new LobbyScreen(this);
 		joinServerScreen = new JoinServerScreen(this);
+		createServerScreen = new CreateServerScreen(this);
 
 		settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
 		this.setScreen(loadingScreen);
+
 	}
 
 	@Override
