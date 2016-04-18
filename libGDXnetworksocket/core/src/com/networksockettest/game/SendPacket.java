@@ -76,7 +76,7 @@ public class SendPacket extends Thread
                 if(networkInterface.isLoopback() || !networkInterface.isUp())
                     continue;
                 //Check the current interface address.
-                msg = "";
+                msg = "Checking network interfaces...\n";
                 //Den kommer bara att hitta en server för att alla paket går genom 172.20.10.15.
                 //Du får de andra servrarnas IP adresser genom deras paket. Kom på nåt sett att se
                 //hur många servrar som egentligen finns.
@@ -105,7 +105,7 @@ public class SendPacket extends Thread
             byte[] recvBuf = new byte[15000];
             DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
             Boolean looking = true;
-            dSocket.setSoTimeout(5000);
+            dSocket.setSoTimeout(2500);
             while(looking)
             {
                 try

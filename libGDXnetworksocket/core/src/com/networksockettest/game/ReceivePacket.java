@@ -36,27 +36,30 @@ public class ReceivePacket extends Thread
             msg = getClass().getName() + ">>>Ready to receive broadcast packets!";
             while(threadRun)
             {
-                msg = getClass().getName() + ">>>Ready to receive broadcast packets!";
-                //Create a packet buffer for incoming packets.
-                byte[] recvBuf = new byte[15000];
-                DatagramPacket dPacket = new DatagramPacket(recvBuf, recvBuf.length);
-                //Look for incoming packets.
-                dSocket.receive(dPacket);
-                msg = getClass().getName() + ">>>Discovery packet received from: " + dPacket.getAddress().getHostAddress() + "\n";
-                msg += getClass().getName() + ">>>Packet received; data: " + new String(dPacket.getData()).trim() + "\n";
-                //Get packet data.
-                String message = new String(dPacket.getData()).trim();
-                //Check packet data for validity.
-                if(message.equals("SERVER_CONNECT_CHECK"))
+                if(!connectTrue)
                 {
-                    //Packet is valid, set connection status to true.
-                    connectTrue = true;
-                    //Create data packet to send to requesting unit.
-                    byte[] sendData = "SERVER_CONNECT_CONFIRMATION".getBytes();
-                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, dPacket.getAddress(), dPacket.getPort());
-                    //Send response packet.
-                    dSocket.send(sendPacket);
-                    msg += getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress() + "\n";
+                    msg = getClass().getName() + ">>>Ready to receive broadcast packets!";
+                    //Create a packet buffer for incoming packets.
+                    byte[] recvBuf = new byte[15000];
+                    DatagramPacket dPacket = new DatagramPacket(recvBuf, recvBuf.length);
+                    //Look for incoming packets.
+                    dSocket.receive(dPacket);
+                    msg = getClass().getName() + ">>>Discovery packet received from: " + dPacket.getAddress().getHostAddress() + "\n";
+                    msg += getClass().getName() + ">>>Packet received; data: " + new String(dPacket.getData()).trim() + "\n";
+                    //Get packet data.
+                    String message = new String(dPacket.getData()).trim();
+                    //Check packet data for validity.
+                    if(message.equals("SERVER_CONNECT_CHECK"))
+                    {
+                        //Packet is valid, set connection status to true.
+                        connectTrue = true;
+                        //Create data packet to send to requesting unit.
+                        byte[] sendData = "SERVER_CONNECT_CONFIRMATION".getBytes();
+                        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, dPacket.getAddress(), dPacket.getPort());
+                        //Send response packet.
+                        dSocket.send(sendPacket);
+                        msg += getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress() + "\n";
+                    }
                 }
             }
         }catch(IOException e)

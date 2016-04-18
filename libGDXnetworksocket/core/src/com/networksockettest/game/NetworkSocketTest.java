@@ -35,7 +35,8 @@ public class NetworkSocketTest extends ApplicationAdapter {
 	BitmapFont font;
 	int screenWidth, screenHeight;
 	Integer connectcounter = 0;
-	private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "", playerList = "";
+	private String msg = "msg", error ="No Error", IPad = "IP",
+			       serverIPad = "", playerList = "", msglog = "";
 	private Boolean sendFail;
 	private Vector<String> serverIPs;
 	CreateServer create;
@@ -119,6 +120,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		msg = "Disconnected.";
 		error = "No Error";
 		IPad = "IP";
+		msglog = "";
 	}
 
 	public void addServerButton(final String ipAdress, int buttID)
@@ -135,6 +137,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				serverIPad = buttonServer.getText().toString();
+				IPad = "Selected IP: " + serverIPad;
 			}
 		});
 		buttonServerList.add(buttonServer);
@@ -220,14 +223,12 @@ public class NetworkSocketTest extends ApplicationAdapter {
 							error = sendPacket.getError();
 							sendFail = sendPacket.getErrorState();
 						}
-						//msg = sendPacket.getMsg();
 						sendPacket = null;
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 						error = "Exception: " + e.toString();
 					}
 					if (sendFail) {
-
 					} else {
 						for (int ids = 0; ids < serverIPs.size(); ++ids) {
 							addServerButton(serverIPs.get(ids), ids);
@@ -236,6 +237,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 						{
 							stage.addActor(buttonServerList.get(ids));
 						}
+						IPad = "Servers found: " + serverIPs.size();
 					}
 				}
 			}
@@ -377,17 +379,20 @@ public class NetworkSocketTest extends ApplicationAdapter {
 		batch.begin();
 		//Instantiate glyphlayout for all text.
 		GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(),
-					glyphLayoutIP = new GlyphLayout(), glyphLayoutlist = new GlyphLayout();
+					glyphLayoutIP = new GlyphLayout(), glyphLayoutlist = new GlyphLayout(),
+					glyphLayoutlog = new GlyphLayout();
 		//Set glyphlayout for all text.
 		glyphLayoutmsg.setText(font, msg);
 		glyphLayouterror.setText(font, error);
 		glyphLayoutIP.setText(font, IPad);
 		glyphLayoutlist.setText(font, playerList);
+		glyphLayoutlog.setText(font, msglog);
 		//Get text sizes, in order to adjust for text when positioning.
 		float fex = glyphLayouterror.width/2, fey = glyphLayouterror.height/2;
 		float fmx = glyphLayoutmsg.width/2, fmy = glyphLayoutmsg.height/2;
 		float fix = glyphLayoutIP.width/2, fiy = glyphLayoutIP.height/2;
 		float flx = glyphLayoutlist.width/2, fly = glyphLayoutlist.height/2;
+		float fmlx = glyphLayoutlog.width/2, fmly = glyphLayoutlog.height/2;
 		//Set middle of screen.
 		float x = screenWidth/2, y = screenHeight/2;
 		//Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
@@ -397,24 +402,29 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			//Update server messages
 			if(createbool)
 			{
+				connectcounter = 0;
 				if(!create.checkIfVectorNull())
 					connectcounter = create.getConnections();
 				msg = create.getMsg();
 				error = create.getError();
+				msglog = create.getlog();
 				font.draw(batch, connectcounter.toString(), screenWidth - 50, screenHeight - 25);
 				for(int idx = 0; idx < connectcounter; ++idx)
 				{
+					if(create.getConnections() == 0)
+						break;
 					if(idx != connectcounter - 1)
-						playerList += create.getUserId(idx) + "\n";
+						playerList += create.getUserId(idx) + " Position: " + create.getUserPosition(idx) + "\n";
 					else
-						playerList += create.getUserId(idx);
+						playerList += create.getUserId(idx) + " Position: " + create.getUserPosition(idx);
 				}
 				//Check if the server thread dies due to exception.
 				if(!create.isAlive())
 				{
 					disconnectAll();
-					msg = "Server died unexpectadly.";
+					msg = "Server died unexpectedly.";
 					IPad = "Standing by.";
+					msglog = "";
 				}
 			}
 			//Update connection messages
@@ -425,6 +435,7 @@ public class NetworkSocketTest extends ApplicationAdapter {
 			}
 			if(join != null)
 			{
+				msglog = join.getLog();
 				if(join.connected())
 					IPad = "Connected to: " + serverIPad + ".";
 				//This disconnects the join function if the server disconnects. Assuming that the
@@ -451,14 +462,17 @@ public class NetworkSocketTest extends ApplicationAdapter {
 					disconnectAll();
 					msg = "Heartbeat died.";
 					IPad = "Standing by.";
+					msglog = join.getLog();
 				}
+
 			}
 		}
 		//Draw all text on screen. If you don't wish to see the debug, remove the error draw.
 		font.draw(batch, msg, x - fmx, y + fmy);
-		font.draw(batch, playerList, 75 - flx, y + fly + 250);
+		font.draw(batch, playerList, 200 - flx, y + fly + 250);
 		font.draw(batch, error, x - fex, y + fey - 375);
 		font.draw(batch, IPad, x - fix, y + fiy + 300);
+		font.draw(batch, msglog, screenWidth - fmlx - 200, y + fmly);
 		batch.end();
 	}
 
