@@ -45,6 +45,7 @@ public class LoadingScreen implements Screen {
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
         app.assets.load("ui/TextUI.pack", TextureAtlas.class);
         app.assets.load("ui/Buttons.pack", TextureAtlas.class);
+        app.assets.load("Buttons.pack", TextureAtlas.class);
     }
 
     @Override

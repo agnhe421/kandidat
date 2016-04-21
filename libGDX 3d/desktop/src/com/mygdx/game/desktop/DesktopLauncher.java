@@ -5,6 +5,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.BaseGame;
 import com.mygdx.game.ContactTest;
 import com.mygdx.game.ContactTest2;
+import com.mygdx.game.GameScreen;
+import com.mygdx.game.test;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

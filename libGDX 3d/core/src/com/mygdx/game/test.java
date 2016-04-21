@@ -135,7 +135,7 @@ public class test extends InputAdapter implements ApplicationListener {
 
 
         assets = new AssetManager();
-        assets.load("island4_main.g3dj", Model.class);
+        assets.load("3d/coin.g3dj", Model.class);
         loading = true;
 
         Gdx.input.setInputProcessor(new InputMultiplexer(this, inputController = new CameraInputController(cam)));
@@ -143,7 +143,7 @@ public class test extends InputAdapter implements ApplicationListener {
 
 
     private void doneLoading () {
-        Model ship = assets.get("island4_main.g3dj", Model.class);
+        Model ship = assets.get("3d/coin.g3dj", Model.class);
         ship.meshes.get(0).getVertexAttribute(0).Normal();
         String id = ship.nodes.get(0).id;
 
@@ -183,6 +183,7 @@ public class test extends InputAdapter implements ApplicationListener {
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
 
         shadowLight.begin(Vector3.Zero, cam.direction);
         shadowBatch.begin(shadowLight.getCamera());
