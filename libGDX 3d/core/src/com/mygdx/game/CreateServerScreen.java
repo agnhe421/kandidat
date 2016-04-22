@@ -31,7 +31,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 public class CreateServerScreen implements Screen{
 
     private final BaseGame app;
-
+    public CreateServer create;
 
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
@@ -56,36 +56,33 @@ public class CreateServerScreen implements Screen{
         System.out.println("Create server screen");
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
-
         stage.clear();
 
-        if (app.connectionMenuScreen.create == null) {
+        if (create == null) {
             //Create a new server, update the text accordingly.
-            app.connectionMenuScreen.create = new CreateServer();
-            app.connectionMenuScreen.create.start();
-            IPad = app.connectionMenuScreen.create.getIpAddress();
-            msg = app.connectionMenuScreen.create.getMsg();
-            error = app.connectionMenuScreen.create.getError();
+            create = new CreateServer();
+            create.start();
+            IPad = create.getIpAddress();
+            msg = create.getMsg();
+            error = create.getError();
             //app.setScreen(app.pickScreen);
         } else {
             //Further clicks will only update the text.
-            msg = app.connectionMenuScreen.create.getMsg();
-            error = app.connectionMenuScreen.create.getError();
+            msg = create.getMsg();
+            error = create.getError();
             //app.setScreen(app.pickScreen);
         }
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
-        this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
+        this.skin.add("default-font", app.font40); // Sätter default font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
-
         Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/blurr.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
         stageBackground.addActor(background);
 
         initButtons();
-
     }
 
     @Override
@@ -116,33 +113,33 @@ public class CreateServerScreen implements Screen{
 
         float x = w/2, y = h/2;
 
-
-
         app.batch.begin();
 
-        if(app.connectionMenuScreen.create != null)
+        if(create != null)
         {
-            playerList = app.connectionMenuScreen.create.getSrvrName() + " Position: " + app.connectionMenuScreen.create.getSrvrPos().toString() + "\n";
+            playerList = create.getSrvrName() + " Position: " + create.getSrvrPos().toString() + "\n";
             app.connectcounter = 0;
-            if(!app.connectionMenuScreen.create.checkIfVectorNull())
-                app.connectcounter = app.connectionMenuScreen.create.getConnections();
-            msg = app.connectionMenuScreen.create.getMsg();
-            error = app.connectionMenuScreen.create.getError();
-            msglog = app.connectionMenuScreen.create.getlog();
+            //Detta blir långsamt ibland av nån anledning.
+            if(!create.checkIfVectorNull())
+                app.connectcounter = create.getConnections();
+            //
+            msg = create.getMsg();
+            error = create.getError();
+            msglog = create.getlog();
             app.font40.draw(app.batch, app.connectcounter.toString(), w - 50, h - 25);
             for(int idx = 0; idx < app.connectcounter; ++idx)
             {
-                if(app.connectionMenuScreen.create.getConnections() == 0)
+                if(create.getConnections() == 0)
                     break;
                 if(idx != app.connectcounter - 1)
-                    playerList += app.connectionMenuScreen.create.getUserId(idx) + " Position: " + app.connectionMenuScreen.create.getUserPosition(idx) + "\n";
+                    playerList += create.getUserId(idx) + " Position: " + create.getUserPosition(idx) + "\n";
                 else
-                    playerList += app.connectionMenuScreen.create.getUserId(idx) + " Position: " + app.connectionMenuScreen.create.getUserPosition(idx);
+                    playerList += create.getUserId(idx) + " Position: " + create.getUserPosition(idx);
             }
             //Check if the server thread dies due to exception.
-            if(!app.connectionMenuScreen.create.isAlive())
+            if(!create.isAlive())
             {
-                app.connectionMenuScreen.disconnectAll();
+                disconnectAll();
                 msg = "Server died unexpectedly.";
                 IPad = "Standing by.";
                 msglog = "";
@@ -155,7 +152,7 @@ public class CreateServerScreen implements Screen{
         app.font40.draw(app.batch, playerList, 75, y + fmy + 250);
         app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy + 265);
         app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly + 265);
-        app.font40.draw(app.batch, error, w/2 - ferx, h/2 + 65 + fery + 265);
+        app.font40.draw(app.batch, error, w / 2 - ferx, h / 2 + 65 + fery + 265);
 
         app.batch.end();
         stage.draw();
@@ -235,7 +232,7 @@ public class CreateServerScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 msg = "Disconnecting...";
-                app.connectionMenuScreen.disconnectAll();
+                disconnectAll();
                 msg = "Disconnected.";
                 msglog = "Log.";
                 error = "No error";
@@ -258,7 +255,13 @@ public class CreateServerScreen implements Screen{
         buttonReady.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(new GameScreen(app));
+                Boolean rdy = create.checkReadyState();
+                if(rdy)
+                {
+                    create.sendReadyMsg();
+                    app.setScreen(new GameScreen(app));
+                }
+                msg = "Not all players are ready.";
             }
         });
 
@@ -268,6 +271,28 @@ public class CreateServerScreen implements Screen{
         //stage.addActor(buttonCreate);
         stage.addActor(buttonDisconnect);
         stage.addActor(table);
+    }
+
+    public void disconnectAll()
+    {
+        //Disconnect any active connections, or servers.
+        if(create != null)
+        {
+            create.stopServer();
+            try
+            {
+                create.join();
+            }catch(InterruptedException e)
+            {
+                e.printStackTrace();
+                error = "Exception: " + e.toString();
+            }
+            create = null;
+        }
+        Gdx.app.log("Errorlog", error);
+        msg = "Disconnected.";
+        error = "No Error";
+        IPad = "IP";
     }
 
 }

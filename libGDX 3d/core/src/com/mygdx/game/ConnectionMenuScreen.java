@@ -43,8 +43,8 @@ public class ConnectionMenuScreen implements Screen {
     // Nätverk
     //public Integer connectcounter = 0;
     private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "";
-    public CreateServer create;
-    JoinServer join;
+
+
     Boolean hardexit = false;
     private SendPacket sendPacket;
 
@@ -53,9 +53,6 @@ public class ConnectionMenuScreen implements Screen {
         this.app = app;
         this.stage = new Stage(new StretchViewport(w , h));
         this.stageBackground = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
-
-        create = null;
-        join = null;
     }
 
     @Override
@@ -177,40 +174,7 @@ public class ConnectionMenuScreen implements Screen {
         stage.dispose();
     }
 
-    public void disconnectAll()
-    {
-        //Disconnect any active connections, or servers.
-        if(join != null)
-        {
-            join.disconnect();
-            try
-            {
-                join.join();
-            }catch(InterruptedException e)
-            {
-                e.printStackTrace();
-                error = "Exception: " + e.toString();
-            }
-            join = null;
-        }
-        if(create != null)
-        {
-            create.stopServer();
-            try
-            {
-                create.join();
-            }catch(InterruptedException e)
-            {
-                e.printStackTrace();
-                error = "Exception: " + e.toString();
-            }
-            create = null;
-        }
-        Gdx.app.log("Errorlog", error);
-        msg = "Disconnected.";
-        error = "No Error";
-        IPad = "IP";
-    }
+
 
 
     private void initButtons() {
@@ -239,40 +203,12 @@ public class ConnectionMenuScreen implements Screen {
             }
         });
 
-        buttonDisconnect = new TextButton("", skin, "default5");
-        buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-        buttonDisconnect.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                disconnectAll();
-            }
-        });
-
         buttonExit = new TextButton("", skin, "default7");
         buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Exit the app, terminate any active servers or connections.
-                hardexit = true;
-                if (create != null) {
-                    create.stopServer();
-                    try {
-                        create.join();
-                        create = null;
-                    } catch (InterruptedException e) {
-
-                    }
-                }
-                if (join != null) {
-                    join.disconnect();
-                    try {
-                        join.join();
-                        join = null;
-                    } catch (InterruptedException e) {
-
-                    }
-                }
                 Gdx.app.exit();
             }
         });
@@ -280,8 +216,6 @@ public class ConnectionMenuScreen implements Screen {
         table.add(buttonCreate).bottom().left().padLeft(150).expandX();
         table.row();
         table.add(buttonJoin).bottom().left().padLeft(150);
-        table.row();
-        table.add(buttonDisconnect).bottom().left().padLeft(150);
         table.row();
         table.add(buttonExit).top().left().padLeft(150);
         stage.addActor(table);

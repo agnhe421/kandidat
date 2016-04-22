@@ -24,7 +24,7 @@ public class JoinServer extends Thread
     protected Socket socket;
     private String msgtake = "msgtake", msgsend = "", error = "No Error", msglog = "";
     private Vector<String> strConv;
-    private boolean connected;
+    private boolean connected, ready, allready;
     private static final int SIZE = 1024;
     private byte[] buffer;
     private int reads, msgnr, score;
@@ -39,6 +39,8 @@ public class JoinServer extends Thread
         //The name is placeholder, you should be able to enter it yourself when it is integrated with the UI.
         this.name = name;
         connected = false;
+        ready = false;
+        allready = false;
         posData = new Vector3();
         strConv = new Vector<String>();
     }
@@ -78,6 +80,11 @@ public class JoinServer extends Thread
                 //Initial condition for setting player name.
                 if(name == "player")
                     msgsend = name;
+                if(name != "player" && !ready)
+                {
+                    ready = true;
+                    sendMessage(bufferedOutputStream, "READY_CHECK");
+                }
                 //Send message statement.
                 if(connected && !msgsend.equals(""))
                 {
@@ -90,9 +97,7 @@ public class JoinServer extends Thread
                  * one can build a new vector using fromString() for the calculations, therefore using
                  * a DataInputStream instead of an ObjectInputStream is possible.
                  */
-                Gdx.app.log("strConv", "Waiting for data.");
                 strConv = readData(bufferedInputStream, reads, buffer);
-
                 //Check if the server has closed.
                 if(!connected)
                 {
@@ -169,6 +174,18 @@ public class JoinServer extends Thread
                 {
                     msgsend = "NAME_CHANGE";
                     setJoinName("player");
+                }
+                else if(strConv.get(0).equals("READY_CHECK"))
+                {
+                    if(ready)
+                        sendMessage(bufferedOutputStream, "READY_TRUE");
+                    else
+                        sendMessage(bufferedOutputStream, "READY_FALSE");
+                }
+                else if(strConv.get(0).equals("ALL_READY_NOW"))
+                {
+                    allready = true;
+                    Gdx.app.log("Ready?", "allready now");
                 }
                 //Otherwise, handle message.
                 else if(!strConv.get(0).equals(""))
@@ -307,6 +324,7 @@ public class JoinServer extends Thread
     public String getError() {return error;}
     public String getMsg() {return msgtake;}
     public Boolean connected() {return connected;}
+    public Boolean getAllReadyState() {return allready;}
     public void setJoinName(String id) {this.name = id;}
     //Send message via output stream.
     private void sendMessage(BufferedOutputStream bos, String msg)

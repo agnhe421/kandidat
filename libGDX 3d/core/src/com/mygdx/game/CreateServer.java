@@ -25,7 +25,7 @@ public class CreateServer extends Thread
     static final int SOCKETSERVERPORT = 8081;
     private String msgtake = "msgtake", msgsend = "msgsend", error = "No Error", msglog = "";
     private String srvrName = "";
-    private Boolean threadRun, nameAssignmentDone;
+    private Boolean threadRun, nameAssignmentDone, allReady;
     private Vector<User> userList;
     private int currentListSize;
     private User srvrUser;
@@ -545,6 +545,8 @@ public class CreateServer extends Thread
                     {
                         msgsend = user.id;
                     }
+                    else if(strConv.get(0).equals("READY_CHECK"))
+                        user.setReadyState(true);
                     //All other messages will be handled appropriately.
                     else if(!strConv.get(0).equals(""))
                     {
@@ -634,6 +636,26 @@ public class CreateServer extends Thread
     public String getUserId(int idx) {return userList.get(idx).id;}
     public String getUserPosition(int idx) {return userList.get(idx).getPosition().toString();}
     public void setServerName(String name) {srvrName = name;}
+    public Boolean checkReadyState()
+    {
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            if(!userList.get(idu).readyState)
+            {
+                allReady = false;
+                break;
+            }
+            allReady = true;
+        }
+        return allReady;
+    }
+    public void sendReadyMsg()
+    {
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).conThread.sendMessage("ALL_READY_NOW");
+        }
+    }
     public void activatePosTransfer()
     {
         if(handler != null)
@@ -665,12 +687,14 @@ public class CreateServer extends Thread
         public ConnectThread conThread;
         private Vector3 posData, clickPos;
         private int score;
+        private Boolean readyState;
 
         public Vector3 getPosition() {return posData;}                          //Return position.
         public void setPosition(Vector3 newPos) {posData = newPos;}             //Set new position.
         public void setName(String id) {this.id = id;}                          //Set new name.
         public void setNormVec(Vector3 newClickPos) {clickPos = newClickPos;}   //Set new impulse vector.
         public void setScore(int newScore) {score = newScore;}                  //Set new score.
+        public void setReadyState(Boolean rdy) {readyState = rdy;}
     }
 
     public Vector3 getSrvrPos() {return srvrUser.getPosition();}

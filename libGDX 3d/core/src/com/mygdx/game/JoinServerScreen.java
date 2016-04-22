@@ -44,6 +44,7 @@ public class JoinServerScreen implements Screen{
     private Vector<TextButton> buttonServerList;
     private Boolean sendFail;
     private SendPacket sendPacket;
+    JoinServer join;
     private float buttonSizeX = 250, buttonSizeY = 50;
 
     // width och heigth
@@ -84,7 +85,9 @@ public class JoinServerScreen implements Screen{
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
+
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -107,38 +110,39 @@ public class JoinServerScreen implements Screen{
         float ferx = glyphLayouterror.width/2, fery = glyphLayouterror.height/2;
         float x = w/2, y = h/2;
 
-        if(app.connectionMenuScreen.join != null)
+        if(join != null)
         {
-            msg = app.connectionMenuScreen.join.getMsg();
-            error = app.connectionMenuScreen.join.getError();
-            msglog = app.connectionMenuScreen.join.getLog();
-            if(app.connectionMenuScreen.join.connected())
+            if(join.getAllReadyState())
+                app.setScreen(new GameScreen(app));
+            msg = join.getMsg();
+            error = join.getError();
+            msglog = join.getLog();
+            if(join.connected())
             //IPad = "Connected to: " + serverIPad + ".";
             //This disconnects the join function if the server disconnects. Assuming that the
             //phone receives the SERVER_SHUTDOWN message before the server shuts down completely.
-            if(app.connectionMenuScreen.join.getMsg().equals("Server is offline."))
+            if(join.getMsg().equals("Server is offline."))
             {
                 try
                 {
-                    app.connectionMenuScreen.join.join();
+                    join.join();
                     error = "No Error.";
                 }catch(InterruptedException e)
                 {
                     e.printStackTrace();
                     error = "Exception: " + e.toString();
                 }
-                app.connectionMenuScreen.disconnectAll();
+                disconnectAll();
                 //IPad = "Standing by.";
                 msg = "Server disconnected.";
-
             }
             //Check if the join thread dies due to exception.
-            else if(!app.connectionMenuScreen.join.isAlive())
+            else if(!join.isAlive())
             {
-                app.connectionMenuScreen.disconnectAll();
+                disconnectAll();
                 msg = "Heartbeat died.";
                 //IPad = "Standing by.";
-                msglog = app.connectionMenuScreen.join.getLog();
+                msglog = join.getLog();
             }
 
         }
@@ -158,6 +162,28 @@ public class JoinServerScreen implements Screen{
             System.out.println("Back key was pressed");
             app.setScreen(app.connectionMenuScreen);
         }
+    }
+
+    public void disconnectAll()
+    {
+        //Disconnect any active connections, or servers.
+        if(join != null)
+        {
+            join.disconnect();
+            try
+            {
+                join.join();
+            }catch(InterruptedException e)
+            {
+                e.printStackTrace();
+                error = "Exception: " + e.toString();
+            }
+            join = null;
+        }
+
+        Gdx.app.log("Errorlog", error);
+        msg = "Disconnected.";
+        error = "No Error";
     }
 
     public void update(float delta)
@@ -263,7 +289,7 @@ public class JoinServerScreen implements Screen{
         buttonDisconnect.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.connectionMenuScreen.disconnectAll();
+                disconnectAll();
                 msg = "Disconnected.";
                 msglog = "Log.";
                 error = "No error";
@@ -278,7 +304,7 @@ public class JoinServerScreen implements Screen{
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (app.connectionMenuScreen.join == null) {
+                if (join == null) {
                     if (!serverIPs.isEmpty()) {
                         serverIPs.clear();
                         serverIPs = new Vector<String>();
@@ -294,14 +320,14 @@ public class JoinServerScreen implements Screen{
                         error = "No server selected!";
                     } else {
                         //IPad = "Connecting to: " + serverIPad;
-                        app.connectionMenuScreen.join = new JoinServer(serverIPad, 8081, "player"); //All hail Manly Banger, the Rock God!
-                        app.connectionMenuScreen.join.start();
-                        msg = app.connectionMenuScreen.join.getMsg();
-                        error = app.connectionMenuScreen.join.getError();
+                        join = new JoinServer(serverIPad, 8081, "player"); //All hail Manly Banger, the Rock God!
+                        join.start();
+                        join.getMsg();
+                        join.getError();
                     }
                 } else {
-                    msg = app.connectionMenuScreen.join.getMsg();
-                    error = app.connectionMenuScreen.join.getError();
+                    join.getMsg();
+                    join.getError();
                 }
             }
 
