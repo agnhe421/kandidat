@@ -22,14 +22,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import com.mygdx.game.GameScreen;
-
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.show;
 
 public class ScoreScreen implements Screen{
 
@@ -40,15 +38,16 @@ public class ScoreScreen implements Screen{
     private Skin skin;
     private BitmapFont font;
     private Table table;
-    private TextButton buttonPlay;
+    private TextButton buttonPlay, buttonPlayAgain, buttonMainMenu;
     private Actor fotballPortrait;
     private Label fotballScoreLable, highscoreLable, fotballNameLable;
     private com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle labelStyle;
 
     private String playerName, playerImg;
     private int score, nrPlayers =4;
-    private boolean createTable = true, createTableOnce = false;
+    private boolean createTable = true, showButtons = true;
 
+    private String stringHeadlinte = "Total score: ";
 
     public ScoreScreen(final BaseGame app)
     {
@@ -66,24 +65,35 @@ public class ScoreScreen implements Screen{
 
         font = new BitmapFont();
 
-        this.skin.addRegions(new TextureAtlas(Gdx.files.internal("ui/TextUI.pack")));
-        this.skin.add("default-font", font); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/TextUI.json"));
+        this.skin.addRegions(new TextureAtlas(Gdx.files.internal("ui/Buttons.pack")));
+        this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
+        this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
         Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/scorebg1.png"))));
         scoreActor.setPosition(0, 0);
         scoreActor.setSize((stage.getWidth()), stage.getHeight());
         scoreStage.addActor(scoreActor);
-        initButtons();
+
 
         // Variabler för att kunna skapa highscore -> ska hämtas från en lista med spelare
         playerName = "Sofie";
         score = 10;
         playerImg = "img/footbal_portrait.png";
 
+        int current_round = PropertiesSingleton.getInstance().getRound();
+        System.out.println("ScoreScreen: " + current_round);
 
-
+        if(current_round == 2)
+        {
+            stringHeadlinte = "Final score: ";
+            initButtonsFinalScore();
+        }
+        else
+        {
+            initButtonsTotalScore();
+        }
         initHighscoreList(playerName, score, playerImg);
+
 
     }
 
@@ -91,6 +101,7 @@ public class ScoreScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         scoreStage.act();
         scoreStage.draw();
     }
@@ -117,16 +128,22 @@ public class ScoreScreen implements Screen{
 
     @Override
     public void dispose() {
-        if(scoreStage !=null){scoreStage.dispose();}
+        scoreStage.clear();
+        if(scoreStage !=null)
+        {
+            scoreStage.dispose();
+            System.out.println("scoreStage dispose");
+        }
         if(stage != null){stage.dispose();}
     }
 
-    private void initButtons(){
+    private void initButtonsTotalScore(){
+        float buttonSizeX = 250, buttonSizeY = 50;
 
-        buttonPlay = new TextButton("",skin, "default");
+        buttonPlay = new TextButton("Next round",skin, "default8");
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonPlay.setSize(200,200);
-        buttonPlay.setPosition(Gdx.graphics.getWidth()/4 - buttonPlay.getWidth()/2, Gdx.graphics.getHeight()/6 - buttonPlay.getHeight()/2);
+        buttonPlay.setSize(buttonSizeX, buttonSizeY);
+        buttonPlay.setPosition(Gdx.graphics.getWidth() / 4 - buttonPlay.getWidth() / 2, Gdx.graphics.getHeight() / 6 - buttonPlay.getHeight() / 2);
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -145,6 +162,53 @@ public class ScoreScreen implements Screen{
         scoreStage.addActor(buttonPlay);
     }
 
+    private void initButtonsFinalScore(){
+        float buttonSizeX = 250, buttonSizeY = 50;
+
+        buttonPlayAgain = new TextButton("Play again",skin, "default8");
+        buttonPlayAgain.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
+        buttonPlayAgain.setSize(buttonSizeX, buttonSizeY);
+        buttonPlayAgain.setPosition(Gdx.graphics.getWidth() / 4 - buttonPlayAgain.getWidth() / 2, Gdx.graphics.getHeight() / 6);
+        buttonPlayAgain.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Clicked", "Play");
+
+                scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(0.9f), Actions.moveTo(0, 1000, 0.5f),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                // Gdx.app.log("done", "done");
+                                app.setScreen(new GameScreen(app));
+                                dispose();
+                            }
+                        })));
+            }
+        });
+
+        buttonMainMenu = new TextButton("Main menu",skin, "default8");
+        buttonMainMenu.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
+        buttonMainMenu.setSize(buttonSizeX, buttonSizeY);
+        buttonMainMenu.setPosition(Gdx.graphics.getWidth() / 4 - buttonMainMenu.getWidth() / 2, Gdx.graphics.getHeight() / 6 - buttonPlayAgain.getHeight());
+        buttonMainMenu.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Clicked", "Play");
+
+                scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(0.9f), Actions.moveTo(0, 1000, 0.5f),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                // Gdx.app.log("done", "done");
+                                app.setScreen(new GameScreen(app));
+                                dispose();
+                            }
+                        })));
+            }
+        });
+
+        scoreStage.addActor(buttonPlayAgain);
+        scoreStage.addActor(buttonMainMenu);
+    }
+
     private void initHighscoreList( String playerName, int score, String playerImg){
         if(createTable) {
             table = new Table(skin);
@@ -153,7 +217,7 @@ public class ScoreScreen implements Screen{
             table.setFillParent(true);
 
             labelStyle = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(font, Color.BLACK);
-            highscoreLable = new Label("HIGHSCORELIST:", labelStyle);
+            highscoreLable = new Label(stringHeadlinte, labelStyle);
 
             table.add(highscoreLable).align(Align.top);
             table.row();

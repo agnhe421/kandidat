@@ -22,11 +22,11 @@ public class Player extends BaseBulletTest {
     private String name;
 
     // Variables
-    private int weigthFotball = 3;
+    private int weigthFotball = 1;
     private int weigthApple = 1;
     private int weigthPeach = 20;
 
-    private int impulseFotball = 3;
+    private int impulseFotball = 30;
     private int impulseApple = 2;
     private int impulsePeach = 1;
 
