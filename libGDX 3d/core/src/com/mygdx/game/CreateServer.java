@@ -656,6 +656,11 @@ public class CreateServer extends Thread
             userList.get(idu).conThread.sendMessage("ALL_READY_NOW");
         }
     }
+    public void setClickPosVector(Vector3 newClickPos)
+    {
+        srvrUser.setNormVec(newClickPos);
+        sendDataFromClient(newClickPos.toString(), 100);
+    }
     public void activatePosTransfer()
     {
         if(handler != null)

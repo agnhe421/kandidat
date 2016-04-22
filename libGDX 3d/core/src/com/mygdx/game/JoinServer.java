@@ -30,6 +30,8 @@ public class JoinServer extends Thread
     private int reads, msgnr, score;
     private Vector3 posData, clickPos;
     private Vector<User> playerList;
+    BufferedOutputStream bufferedOutputStream;
+    BufferedInputStream bufferedInputStream;
 
     public JoinServer(String dstAdress, int dstPort, String name)
     {
@@ -52,8 +54,8 @@ public class JoinServer extends Thread
         //Instantiate the socket and the input/output streams.
         socket = null;
         msgnr = 1;
-        BufferedOutputStream bufferedOutputStream = null;
-        BufferedInputStream bufferedInputStream = null;
+        bufferedOutputStream = null;
+        bufferedInputStream = null;
         try
         {
             //Bind the socket to the given address and port.
@@ -83,12 +85,12 @@ public class JoinServer extends Thread
                 if(name != "player" && !ready)
                 {
                     ready = true;
-                    sendMessage(bufferedOutputStream, "READY_CHECK");
+                    sendMessage("READY_CHECK");
                 }
                 //Send message statement.
                 if(connected && !msgsend.equals(""))
                 {
-                    sendMessage(bufferedOutputStream, msgsend);
+                    sendMessage(msgsend);
                     ++msgnr;
                     msgsend = "";
                 }
@@ -131,7 +133,7 @@ public class JoinServer extends Thread
                     //Simulate movement to display changes to server, and check network speed.
                     //posData.add(1.0f, 0.0f, 0.0f);
                     msglog = posData.toString() + "\n";
-                    sendData(bufferedOutputStream, posData.toString());
+                    sendData(posData.toString());
                 }
                 else if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
@@ -178,9 +180,9 @@ public class JoinServer extends Thread
                 else if(strConv.get(0).equals("READY_CHECK"))
                 {
                     if(ready)
-                        sendMessage(bufferedOutputStream, "READY_TRUE");
+                        sendMessage("READY_TRUE");
                     else
-                        sendMessage(bufferedOutputStream, "READY_FALSE");
+                        sendMessage("READY_FALSE");
                 }
                 else if(strConv.get(0).equals("ALL_READY_NOW"))
                 {
@@ -297,9 +299,9 @@ public class JoinServer extends Thread
         return msg;
     }
     //Send positional data.
-    private void sendData(BufferedOutputStream bos, String data)
+    private void sendData(String data)
     {
-        sendMessage(bos, "POS_DATA_INCOMING|" + data);
+        sendMessage("POS_DATA_INCOMING|" + data);
     }
     //Extract this users position from data string.
     /*private Vector<String> extractData(String fullData)
@@ -326,8 +328,13 @@ public class JoinServer extends Thread
     public Boolean connected() {return connected;}
     public Boolean getAllReadyState() {return allready;}
     public void setJoinName(String id) {this.name = id;}
+    public void setClickPosVector(Vector3 newClickPos)
+    {
+        clickPos = newClickPos;
+        sendMessage(newClickPos.toString());
+    }
     //Send message via output stream.
-    private void sendMessage(BufferedOutputStream bos, String msg)
+    private void sendMessage(String msg)
     {
         //Send message to server.
         try
@@ -336,8 +343,8 @@ public class JoinServer extends Thread
             String temp = msg + '/';
             byte[] tempbuf;
             tempbuf = temp.getBytes();
-            bos.write(tempbuf, 0, tempbuf.length);
-            bos.flush();
+            bufferedOutputStream.write(tempbuf, 0, tempbuf.length);
+            bufferedOutputStream.flush();
         }catch(IOException e)
         {
             e.printStackTrace();
