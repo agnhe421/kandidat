@@ -95,7 +95,7 @@ public class PickScreen implements Screen {
         app.font120.draw(app.batch, app.connectcounter.toString(), 200, 100);
         for(int idx = 0; idx < app.connectcounter; ++idx)
         {
-            app.font40.draw(app.batch, app.connectionMenuScreen.create.getUserId(idx), 500, 500);
+            //app.font40.draw(app.batch, create.getUserId(idx), 500, 500);
         }
         app.batch.end();
 
