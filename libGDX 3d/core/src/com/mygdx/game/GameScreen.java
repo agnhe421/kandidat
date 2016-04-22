@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.game.PropertiesSingleton;
 
 import java.util.Vector;
 
@@ -357,6 +358,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 Gdx.app.log("Fall", "fall");
                 player_2.setScore(20);
                 player_3.setScore(20);
+
+                // Set the round
+                int current_round = PropertiesSingleton.getInstance().getRound();
+                PropertiesSingleton.getInstance().setRound(current_round);
+                System.out.println("Round: " + current_round);
                 gameOverGameScreen = true;
             }
             if(gameOverGameScreen)

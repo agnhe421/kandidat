@@ -116,7 +116,7 @@ public class JoinServerScreen implements Screen{
             error = app.connectionMenuScreen.join.getError();
             msglog = app.connectionMenuScreen.join.getLog();
             if(app.connectionMenuScreen.join.connected())
-                //IPad = "Connected to: " + serverIPad + ".";
+            //IPad = "Connected to: " + serverIPad + ".";
             //This disconnects the join function if the server disconnects. Assuming that the
             //phone receives the SERVER_SHUTDOWN message before the server shuts down completely.
             if(app.connectionMenuScreen.join.getMsg().equals("Server is offline."))

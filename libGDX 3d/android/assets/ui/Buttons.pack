@@ -1,0 +1,89 @@
+
+Buttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pink
+  rotate: false
+  xy: 1, 576
+  size: 770, 417
+  orig: 770, 417
+  offset: 0, 0
+  index: -1
+back
+  rotate: false
+  xy: 1, 449
+  size: 480, 125
+  orig: 480, 125
+  offset: 0, 0
+  index: -1
+create
+  rotate: false
+  xy: 1, 322
+  size: 480, 125
+  orig: 480, 125
+  offset: 0, 0
+  index: -1
+disconnect
+  rotate: false
+  xy: 1, 195
+  size: 480, 125
+  orig: 480, 125
+  offset: 0, 0
+  index: -1
+join
+  rotate: false
+  xy: 1, 68
+  size: 480, 125
+  orig: 480, 125
+  offset: 0, 0
+  index: -1
+play
+  rotate: false
+  xy: 483, 382
+  size: 340, 192
+  orig: 340, 192
+  offset: 0, 0
+  index: -1
+ready
+  rotate: false
+  xy: 483, 255
+  size: 480, 125
+  orig: 480, 125
+  offset: 0, 0
+  index: -1
+score
+  rotate: false
+  xy: 483, 128
+  size: 480, 125
+  orig: 480, 125
+  offset: 0, 0
+  index: -1
+settings
+  rotate: false
+  xy: 483, 1
+  size: 480, 125
+  orig: 480, 125
+  offset: 0, 0
+  index: -1
+Standard
+  rotate: false
+  xy: 773, 959
+  size: 246, 34
+  orig: 246, 34
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 1, 16
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+black
+  rotate: false
+  xy: 773, 947
+  size: 20, 10
+  orig: 20, 10
+  offset: 0, 0
+  index: -1
