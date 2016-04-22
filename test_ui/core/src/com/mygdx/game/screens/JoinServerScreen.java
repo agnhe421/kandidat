@@ -74,9 +74,9 @@ public class JoinServerScreen implements Screen{
         stage.clear();
 
         this.skin = new Skin();
-        this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
+        this.skin.addRegions(app.assets.get("Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
-        this.skin.load(Gdx.files.internal("ui/Buttons.json"));
+        this.skin.load(Gdx.files.internal("Buttons.json"));
 
         Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/background4.jpg"))));
         background.setPosition(0, 0);
@@ -197,7 +197,7 @@ public class JoinServerScreen implements Screen{
         stage.addActor(table);
         table.setFillParent(true);
 
-            buttonConnect = new TextButton("Server 1", skin, "default8");
+            buttonConnect = new TextButton("Server 1", skin, "default");
             buttonConnect.setWidth(w - w/3);
             buttonConnect.getLabel().setAlignment(Align.left);
             buttonConnect.setPosition(w / 2 - buttonConnect.getWidth() / 2, h / 2 - buttonConnect.getHeight() / 2 - space);
@@ -211,7 +211,7 @@ public class JoinServerScreen implements Screen{
                 }
             });
         */
-        buttonRefresh = new TextButton("Refresh list", skin, "default8");
+        buttonRefresh = new TextButton("Refresh list", skin, "default");
         buttonRefresh.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 150 + buttonSizeY / 2);
         buttonRefresh.setSize(buttonSizeX, buttonSizeY);
         buttonRefresh.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -259,7 +259,8 @@ public class JoinServerScreen implements Screen{
 
         });
 
-        buttonDisconnect = new TextButton("Disconnect", skin, "default8");
+
+        buttonDisconnect = new TextButton("Disconnect", skin, "default");
         buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
         buttonDisconnect.setPosition(w / 2 - buttonSizeX / 2, h / 6 - 65);
         buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
@@ -273,7 +274,7 @@ public class JoinServerScreen implements Screen{
             }
         });
 
-        buttonConnect = new TextButton("Connect", skin, "default8");
+        buttonConnect = new TextButton("Connect", skin, "default");
         buttonConnect.setSize(buttonSizeX, buttonSizeY);
         buttonConnect.setPosition(w / 2 - buttonSizeX / 2, h / 6 + 65);
         buttonConnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
@@ -312,13 +313,14 @@ public class JoinServerScreen implements Screen{
 
 
 
-        buttonBack = new TextButton("Back", skin, "default8");
+        buttonBack = new TextButton("Back", skin, "default");
+        buttonBack.setSize(buttonSizeX, buttonSizeY);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonBack.setPosition(w / 2 - buttonBack.getWidth() / 2, h / 6);
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.connectionMenuScreen);
+                //app.setScreen(app.connectionMenuScreen);
             }
         });
 
@@ -335,7 +337,7 @@ public class JoinServerScreen implements Screen{
 
     public void addServerButton(final String ipAdress, int buttID)
     {
-        final TextButton buttonServer = new TextButton(ipAdress, skin, "default8");
+        final TextButton buttonServer = new TextButton(ipAdress, skin, "default");
         float offset = (buttonSizeY + 15)*buttID;
         buttonServer.setPosition(w/2 - (w*(2.0f/3.0f)/2), h/2 + 150 - offset);
         buttonServer.setSize(w*(2.0f/3.0f), 50);

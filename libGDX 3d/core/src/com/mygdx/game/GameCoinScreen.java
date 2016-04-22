@@ -38,7 +38,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.Vector;
 
-public class GameScreen extends BaseBulletTest implements Screen {
+public class GameCoinScreen extends BaseBulletTest implements Screen {
 
     //public AssetManager assets;
     boolean loading;
@@ -61,6 +61,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     boolean collisionHappened = false;
     boolean gameOverGameScreen = false;
     boolean playerCreated = false;
+    boolean getScore = true;
 
     private Label LabelScorePlayer1,LabelScorePlayer2,LabelScorePlayer3;
     private Label.LabelStyle labelStyle;
@@ -83,7 +84,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     static GameSound gameSound;
     int collisonUserId0, collisonUserId1;
 
-    public GameScreen(final BaseGame app)
+    public GameCoinScreen(final BaseGame app)
     {
         this.app = app;
         this.create();
@@ -106,7 +107,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             collisionHappened = true;
 
             if((entities.get(userValue0) != entities.get(0))){
-            if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
+                if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
                     if (match0) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                         e.setColor(Color.BLUE);
@@ -121,8 +122,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     }
                     // Play the collision sound.
                     gameSound.playCollisionSound(p1, p2);
+                }
             }
-         }
         }
 
         @Override
@@ -206,8 +207,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-       // shoot(screenX, screenY);
-       // Gdx.app.log("SHOOT", "SHOOT");
+        // shoot(screenX, screenY);
+        // Gdx.app.log("SHOOT", "SHOOT");
         Ray ray = camera.getPickRay(screenX, screenY);
         rayFrom.set(ray.origin);
         rayTo.set(ray.direction).scl(50f).add(rayFrom); // 50 meters max from the origin
@@ -312,7 +313,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             world.addConstructor("test1", player_1.bulletConstructor);
             player1 = world.add("test1", 0, 3.5f, 2.5f);
             player1.body.setContactCallbackFlag(1);
-        //    player1.body.setContactCallbackFilter(2);
+            //    player1.body.setContactCallbackFilter(2);
             player1.body.setContactCallbackFilter(1);
 
             player_2 = new Player(apple, "apple");
@@ -325,6 +326,21 @@ public class GameScreen extends BaseBulletTest implements Screen {
             player3 = world.add("test3", 0, 3.5f, -2.5f);
             player3.body.setContactCallbackFilter(1);
 
+            Model bomb = app.assets.get("3d/coin.obj", Model.class);
+            //String id4 = bomb.nodes.get(0).id;
+            // Node node3 = bomb.getNode(id4);
+            //Vector3 scale = new Vector3(0.8f, 0.8f, 0.8f);
+            //node3.scale.set(scale);
+            //bomb.meshes.get(0).scale(0.8f, 0.8f, 0.8f);
+
+            for(int i = 0; i < 5; i++) {
+                disposables.add(bomb);
+                BulletConstructor bulletConstructor = (new BulletConstructor(bomb, 0.1f, createConvexHullShape(bomb, false)));
+                world.addConstructor("bomb", bulletConstructor);
+                bomb1 = world.add("bomb", 2 +i, 1, 2 - i*2);
+                bomb1.body.setContactCallbackFilter(1);
+                coinEntitys.add(bomb1);
+            }
 
             Gdx.app.log("Loaded", "LOADED");
             loading = false;
@@ -337,21 +353,39 @@ public class GameScreen extends BaseBulletTest implements Screen {
             if(scoreTimer < 0) { collisionHappened = false; }
             //Gdx.app.log("Score Timer = ", "" + scoreTimer);
         }
-
         // Points
-          if(app.assets.update()) {
+        if(app.assets.update()) {
 
-              if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
-                      && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0){
-                  player_1.setScore(10);
-                  Gdx.app.log("PLAYER2", "KRASH");
+            if((collisonUserId1 >= 4 && collisonUserId1 <= 8) || (collisonUserId0 >= 4 && collisonUserId1 <= 8)){
+                Vector3 move = new Vector3(0.2f, 1, 0.2f);
+                BulletEntity temp = coinEntitys.get(collisonUserId1 - 4);
+                ((btRigidBody) temp.body).applyCentralImpulse(move);
+            }
+              /*
+                  if((collisonUserId1 >= 4 && collisonUserId1 <= 8)  || (collisonUserId0 >= 4 && collisonUserId1 <= 8)){
+                      if (!(coins.get(collisonUserId1 - 4).getRemoved())) {
+                          Gdx.app.log("remove", "bomb");
+                          coins.get(collisonUserId1 - 4).setRemoved();
+                         /// world.entities.removeIndex(collisonUserId1);
 
-              }
-              if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -0.08)
-                      && (collisonUserId0 == 3 ||  collisonUserId1 == 3) && scoreTimer > 0){
-                  player_1.setScore(10);
-                  Gdx.app.log("PLAYER3", "KRASH");
-              }
+                          coinEntitys.remove(collisonUserId1-4);
+                          System.out.println(collisonUserId1);
+                      }
+                  }
+        */
+
+
+            if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
+                    && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0){
+                player_1.setScore(10);
+                Gdx.app.log("PLAYER2", "KRASH");
+
+            }
+            if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -0.08)
+                    && (collisonUserId0 == 3 ||  collisonUserId1 == 3) && scoreTimer > 0){
+                player_1.setScore(10);
+                Gdx.app.log("PLAYER3", "KRASH");
+            }
             // Gameover
             if(((btRigidBody) player1.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 Gdx.app.log("Fall", "fall");
@@ -417,7 +451,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
         //stage.dispose();
         if (rayTestCB != null) {rayTestCB.dispose(); rayTestCB = null;}
         //scoreStage.dispose(); // Borde disposas men det blir hack till nästa screen
-        }
+
+    }
 
     private void startGameOverTimer(){
 
@@ -435,6 +470,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
                             dispose();
                         }
                     })));
-            }
         }
     }
+}

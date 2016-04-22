@@ -22,6 +22,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import com.mygdx.game.GameScreen;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
@@ -72,13 +74,14 @@ public class ScoreScreen implements Screen{
         scoreActor.setPosition(0, 0);
         scoreActor.setSize((stage.getWidth()), stage.getHeight());
         scoreStage.addActor(scoreActor);
-
         initButtons();
 
         // Variabler för att kunna skapa highscore -> ska hämtas från en lista med spelare
         playerName = "Sofie";
         score = 10;
         playerImg = "img/footbal_portrait.png";
+
+
 
         initHighscoreList(playerName, score, playerImg);
 
