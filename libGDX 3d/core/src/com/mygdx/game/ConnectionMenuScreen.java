@@ -39,7 +39,7 @@ public class ConnectionMenuScreen implements Screen {
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
     // Buttons
-    private TextButton buttonCreate, buttonJoin, buttonExit,buttonDisconnect, buttonBack, ButtonSkipServer;
+    private TextButton buttonCreate, buttonJoin, buttonBack;
     // Nätverk
     //public Integer connectcounter = 0;
     private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "";
@@ -184,7 +184,7 @@ public class ConnectionMenuScreen implements Screen {
         //table.setDebug(true);
         table.setFillParent(true);
 
-        buttonCreate = new TextButton("", skin, "default4");
+        buttonCreate = new TextButton("Create Server", skin, "default8");
         buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonCreate.addListener(new ClickListener() {
             @Override
@@ -194,7 +194,7 @@ public class ConnectionMenuScreen implements Screen {
         });
 
 
-        buttonJoin = new TextButton("", skin, "default6");
+        buttonJoin = new TextButton("Join Server", skin, "default8");
         buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonJoin.addListener(new ClickListener() {
             @Override
@@ -203,21 +203,21 @@ public class ConnectionMenuScreen implements Screen {
             }
         });
 
-        buttonExit = new TextButton("", skin, "default7");
-        buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-        buttonExit.addListener(new ClickListener() {
+        buttonBack = new TextButton("Back", skin, "default8");
+        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Exit the app, terminate any active servers or connections.
-                Gdx.app.exit();
+                app.setScreen(app.mainMenyScreen);
             }
         });
 
-        table.add(buttonCreate).bottom().left().padLeft(150).expandX();
+        table.add(buttonCreate).bottom().left().padLeft(150).expandX().padBottom(30);
         table.row();
-        table.add(buttonJoin).bottom().left().padLeft(150);
+        table.add(buttonJoin).bottom().left().padLeft(150).padBottom(30);
         table.row();
-        table.add(buttonExit).top().left().padLeft(150);
+        table.add(buttonBack).top().left().padLeft(150).padBottom(30);
         stage.addActor(table);
     }
 }

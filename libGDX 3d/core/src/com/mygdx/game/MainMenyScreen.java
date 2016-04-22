@@ -34,7 +34,7 @@ public class MainMenyScreen implements Screen {
     private Stage stage, stageBackground;
     private Skin skin;
     // Buttons
-    private TextButton buttonPlay, buttonSetting, buttonScore;
+    private TextButton buttonPlay, buttonSetting, buttonSkipServer;
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
@@ -127,7 +127,7 @@ public class MainMenyScreen implements Screen {
       // table.setDebug(true);
         table.setFillParent(true);
 
-        buttonPlay = new TextButton("",skin, "default");
+        buttonPlay = new TextButton("Play",skin, "default8");
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonPlay.addListener(new ClickListener() {
             @Override
@@ -136,8 +136,8 @@ public class MainMenyScreen implements Screen {
             }
         });
 
-        buttonSetting = new TextButton("", skin, "default2");
-       buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonSetting = new TextButton("Settings", skin, "default8");
+        buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonSetting.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -145,21 +145,20 @@ public class MainMenyScreen implements Screen {
             }
         });
 
-
-        buttonScore = new TextButton("", skin, "default3");
-        buttonScore.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-        buttonScore.addListener(new ClickListener() {
+        buttonSkipServer = new TextButton("Skip Server", skin, "default8");
+        buttonSkipServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
+        buttonSkipServer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Score kommer!");
+                app.setScreen(new GameScreen(app));
             }
         });
 
-        table.add(buttonPlay).expandX().left().padLeft(150);
+        table.add(buttonPlay).expandX().left().padLeft(150).padBottom(30);
         table.row();
-        table.add(buttonSetting).bottom().left().padLeft(150);
+        table.add(buttonSetting).bottom().left().padLeft(150).padBottom(30);
         table.row();
-        table.add(buttonScore).bottom().left().padLeft(150);
+        table.add(buttonSkipServer).bottom().left().padLeft(150).padBottom(30);
 
         stage.addActor(table);
     }
