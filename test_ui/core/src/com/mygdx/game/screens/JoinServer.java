@@ -29,11 +29,13 @@ public class JoinServer extends Thread
     private boolean connected;
     private static final int SIZE = 1024;
     private byte[] buffer;
-    private int reads, msgnr;
-    private Vector3 posData;
+    private int reads, msgnr, score;
+    private Vector3 posData, clickPos;
+    private Vector<User> playerList;
 
     public JoinServer(String dstAdress, int dstPort, String name)
     {
+        playerList = new Vector<User>();
         this.dstAdress = dstAdress;
         this.dstPort = dstPort;
         //The name is placeholder, you should be able to enter it yourself when it is integrated with the UI.
@@ -110,11 +112,59 @@ public class JoinServer extends Thread
                     char playerNr = name.charAt(name.length() - 1);
                     int thisPlayerId = Character.getNumericValue(playerNr);
                     //Gdx.app.log("Msglog: ", allData.get(thisPlayerId));
+
+                    for(int idu = 1, idp = 0; idu <= playerList.size(); ++idu)
+                    {
+                        if(idu != Character.getNumericValue(name.charAt(name.length() - 1)))
+                        {
+                            playerList.get(idp).setPosition(new Vector3().fromString(strConv.get(idu)));
+                            ++idp;
+                        }
+                        else
+                            posData = new Vector3().fromString(strConv.get(idu));
+                    }
                     posData = new Vector3().fromString(strConv.get(thisPlayerId));
+
                     //Simulate movement to display changes to server, and check network speed.
-                    posData.add(1.0f, 0.0f, 0.0f);
+                    //posData.add(1.0f, 0.0f, 0.0f);
                     msglog = posData.toString() + "\n";
                     sendData(bufferedOutputStream, posData.toString());
+                }
+                else if(strConv.get(0).equals("USER_DATA_INCOMING"))
+                {
+                    User usr = new User();
+                    usr.setId(strConv.get(1));
+                    usr.setScore(Integer.parseInt(strConv.get(2)));
+                    //usr.setPosition(new Vector3().fromString(strConv.get(3)));
+                    //usr.setClickPos(new Vector3().fromString(strConv.get(4)));
+                    playerList.add(usr);
+                }
+                else if(strConv.get(0).equals("CLICK_POS_INCOMING"))
+                {
+                    for(int idu = 1, idp = 0; idu <= playerList.size(); ++idu)
+                    {
+                        if(idu != Character.getNumericValue(name.charAt(name.length() - 1)))
+                        {
+                            playerList.get(idp).setClickPos(new Vector3().fromString(strConv.get(idu)));
+                            ++idp;
+                        }
+                        else
+                            clickPos = new Vector3().fromString(strConv.get(idu));
+                    }
+                }
+                else if(strConv.get(0).equals("SCORE_INCOMING"))
+                {
+                    for(int idu = 1, idp = 0; idu <= playerList.size(); ++idu, ++idp)
+                    {
+                        if(idu != Character.getNumericValue(name.charAt(name.length() - 1)))
+                        {
+                            playerList.get(idp).setScore(Integer.parseInt(strConv.get(idu)));
+                            ++idp;
+                        }
+                        else
+                            score = Integer.parseInt(strConv.get(idu));
+                    }
+
                 }
                 //Check for a name change request.
                 else if(strConv.get(0).equals("NAME_CHANGE"))
@@ -293,4 +343,17 @@ public class JoinServer extends Thread
             error = "Exception: " + e.toString();
         }
     }
+
+    private class User
+    {
+        private Vector3 clickPos, position;
+        private int score;
+        private String id;
+
+        public void setScore(int newScore) {score = newScore;}
+        public void setId(String newId) {id = newId;}
+        public void setClickPos(Vector3 newClickPos) {clickPos = newClickPos;}
+        public void setPosition(Vector3 newPosition) {position = newPosition;}
+    }
+
 }

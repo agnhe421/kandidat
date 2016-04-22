@@ -55,7 +55,7 @@ public class CreateServer extends Thread
         handler = new DataHandler();
         //The handler will be activated later, when the game is integrated.
         //Preferably after the countdown.
-        activatePosTransfer();
+        //activatePosTransfer();
         try
         {
             //Bind the server to the static port.
@@ -216,6 +216,19 @@ public class CreateServer extends Thread
             userList.get(idx).conThread.nameChange(newName);
         }
     }
+
+    private void sendDataFromClient(String data, int clientID)
+    {
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            if(idu == clientID)
+                ++idu;
+            if(idu == userList.size())
+                break;
+            userList.get(idu).conThread.sendMessage(data);
+        }
+    }
+
     //Gather up all positional data, turn it into a string and ship it to all users.
     private void gatherData()
     {
@@ -483,7 +496,7 @@ public class CreateServer extends Thread
             bufferedOutputStream = null;
             buffer = new byte[SIZE];
 
-            this.user.setName("Player " + getConnections());
+            this.user.setName("Player " + (1 + getConnections()));
             try
             {
                 //Connect the streams to the threads socket streams.
@@ -510,22 +523,23 @@ public class CreateServer extends Thread
                     if(!runCon)
                         break;
                     //Incoming positional data from user. This is the answer to the data sent by the handler.
-                    Gdx.app.log("Msglog", user.id + " has received: " + strConv.get(0));
                     if(strConv.get(0).equals("POS_DATA_INCOMING"))
                     {
-                        Gdx.app.log("Msglog2", user.id + " has received: " + strConv.get(1));
-                        if(!runCon)
-                        {
-                            Gdx.app.log("Msglog3", user.id + " is exiting.");
-                            break;
-                        }
                         user.setPosition(new Vector3().fromString(strConv.get(1)));
-                        Gdx.app.log("Processlog", user.id + " Set to true.");
-
                         dataProcessed = true;
                         //handler.changeState(); The user thread cant do this, the handler can only send
                         //data if it has received the all clear from ALL user threads. Otherwise, all
                         //threads will tell it to switch state, which will have unforseen consequenses.
+                    }
+                    else if(strConv.get(0).equals("CLICK_POS_INCOMING"))
+                    {
+                        user.setNormVec(new Vector3().fromString(strConv.get(1)));
+                        sendDataFromClient("CLICK_POS_INCOMING" + strConv.get(1), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2);
+                    }
+                    else if(strConv.get(0).equals("SCORE_INCOMING"))
+                    {
+                        user.setScore(Integer.parseInt(strConv.get(1)));
+                        sendDataFromClient("SCORE_INCOMING" + strConv.get(1), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2);
                     }
                     //If the name change request is given, send the new name to the unit.
                     else if(strConv.get(0).equals("NAME_CHANGE"))
@@ -538,8 +552,8 @@ public class CreateServer extends Thread
                         //Set the initial player name.
                         if(strConv.get(0).equals("player"))
                         {
-                            user.setName("Player " + getConnections());
-                            msgsend = "Player " + getConnections();
+                            user.setName("Player " + (1 + getConnections()));
+                            msgsend = "Player " + (1 + getConnections());
                         }
                         //Connection confirmation received from player.
                         else if(strConv.get(0).equals(user.id))
@@ -650,11 +664,14 @@ public class CreateServer extends Thread
         private String id;
         public Socket socket;
         public ConnectThread conThread;
-        public Vector3 posData;
+        private Vector3 posData, clickPos;
+        private int score;
 
-        public Vector3 getPosition() {return posData;}              //Return position.
-        public void setPosition(Vector3 newPos) {posData = newPos;} //Set new position.
-        public void setName(String id) {this.id = id;}              //Set new name.
+        public Vector3 getPosition() {return posData;}                          //Return position.
+        public void setPosition(Vector3 newPos) {posData = newPos;}             //Set new position.
+        public void setName(String id) {this.id = id;}                          //Set new name.
+        public void setNormVec(Vector3 newClickPos) {clickPos = newClickPos;}   //Set new impulse vector.
+        public void setScore(int newScore) {score = newScore;}                  //Set new score.
     }
 
     public Vector3 getSrvrPos() {return srvrUser.getPosition();}

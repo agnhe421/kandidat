@@ -60,6 +60,21 @@ public class CreateServerScreen implements Screen{
 
         stage.clear();
 
+        if (app.connectionMenuScreen.create == null) {
+            //Create a new server, update the text accordingly.
+            app.connectionMenuScreen.create = new CreateServer();
+            app.connectionMenuScreen.create.start();
+            IPad = app.connectionMenuScreen.create.getIpAddress();
+            msg = app.connectionMenuScreen.create.getMsg();
+            error = app.connectionMenuScreen.create.getError();
+            //app.setScreen(app.pickScreen);
+        } else {
+            //Further clicks will only update the text.
+            msg = app.connectionMenuScreen.create.getMsg();
+            error = app.connectionMenuScreen.create.getError();
+            //app.setScreen(app.pickScreen);
+        }
+
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
@@ -189,7 +204,7 @@ public class CreateServerScreen implements Screen{
         // table.setDebug(true);
         table.setFillParent(true);
 
-        buttonCreate = new TextButton("Create Server", skin, "default8");
+        /*buttonCreate = new TextButton("Create Server", skin, "default8");
         buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 200 + buttonSizeY / 2);
         buttonCreate.setSize(buttonSizeX, buttonSizeY);
         buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -211,7 +226,7 @@ public class CreateServerScreen implements Screen{
                     //app.setScreen(app.pickScreen);
                 }
             }
-        });
+        });*/
 
         buttonDisconnect = new TextButton("Disconnect.", skin, "default8");
         buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
@@ -226,17 +241,18 @@ public class CreateServerScreen implements Screen{
                 msglog = "Log.";
                 error = "No error";
                 playerList = "";
+                app.setScreen(app.connectionMenuScreen);
             }
         });
 
-        buttonBack = new TextButton("Back", skin, "default8");
+        /*buttonBack = new TextButton("Back", skin, "default8");
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 app.setScreen(app.connectionMenuScreen);
             }
-        });
+        });*/
 
         buttonReady = new TextButton("Ready", skin, "default8");
         buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
@@ -247,10 +263,10 @@ public class CreateServerScreen implements Screen{
             }
         });
 
-        table.add(buttonBack).padRight(5);
+        //table.add(buttonBack).padRight(5);
         table.add(buttonReady);
         table.row();
-        stage.addActor(buttonCreate);
+        //stage.addActor(buttonCreate);
         stage.addActor(buttonDisconnect);
         stage.addActor(table);
     }

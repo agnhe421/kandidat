@@ -311,8 +311,6 @@ public class JoinServerScreen implements Screen{
 
         });
 
-
-
         buttonBack = new TextButton("Back", skin, "default");
         buttonBack.setSize(buttonSizeX, buttonSizeY);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
@@ -320,7 +318,7 @@ public class JoinServerScreen implements Screen{
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //app.setScreen(app.connectionMenuScreen);
+                app.setScreen(app.connectionMenuScreen);
             }
         });
 
