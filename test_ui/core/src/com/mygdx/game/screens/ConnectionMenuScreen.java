@@ -46,7 +46,7 @@ public class ConnectionMenuScreen implements Screen {
     private String msg = "msg", error ="No Error", IPad = "IP", serverIPad = "";
     public CreateServer create;
     JoinServer join;
-    Boolean hardexit = false, joinbool = false, createbool = false;
+    Boolean hardexit = false;
     private SendPacket sendPacket;
 
 
@@ -99,10 +99,10 @@ public class ConnectionMenuScreen implements Screen {
         float x = w/2, y = h/2;
 
         //Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
-        if(!hardexit)
+        /*if(!hardexit)
         {
             //Update server messages
-            if(createbool)
+            /*if(createbool)
             {
                 if(!create.checkIfVectorNull())
                     app.connectcounter = create.getConnections();
@@ -137,7 +137,7 @@ public class ConnectionMenuScreen implements Screen {
 
                 }
             }
-        }
+        }*/
         //Draw all text on screen. If you don't wish to see the debug, remove the error draw.
         app.font40.draw(app.batch, msg, x - fmx, y + fmy);
         app.font40.draw(app.batch, error, x - fex, y + fey - 300);
@@ -178,10 +178,10 @@ public class ConnectionMenuScreen implements Screen {
         stage.dispose();
     }
 
-    private void disconnectAll()
+    public void disconnectAll()
     {
         //Disconnect any active connections, or servers.
-        if(joinbool && join != null)
+        if(join != null)
         {
             join.disconnect();
             try
@@ -192,12 +192,9 @@ public class ConnectionMenuScreen implements Screen {
                 e.printStackTrace();
                 error = "Exception: " + e.toString();
             }
-            joinbool = false;
             join = null;
         }
-        else if(joinbool)
-            joinbool = false;
-        if(createbool && create != null)
+        if(create != null)
         {
             create.stopServer();
             try
@@ -208,11 +205,9 @@ public class ConnectionMenuScreen implements Screen {
                 e.printStackTrace();
                 error = "Exception: " + e.toString();
             }
-            createbool = false;
             create = null;
         }
-        else if(createbool)
-            createbool = false;
+        Gdx.app.log("Errorlog", error);
         msg = "Disconnected.";
         error = "No Error";
         IPad = "IP";
