@@ -8,19 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.mygdx.game.JoinServerScreen;
-import com.mygdx.game.CreateServerScreen;
-import com.mygdx.game.LoadingScreen;
-import com.mygdx.game.LobbyScreen;
-import com.mygdx.game.MainMenyScreen;
-import com.mygdx.game.ConnectionMenuScreen;
-import com.mygdx.game.PickScreen;
-import com.mygdx.game.SettingScreen;
-
-
-import java.awt.Font;
 
 public class BaseGame extends Game {
 

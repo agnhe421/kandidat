@@ -40,7 +40,7 @@ public class ScoreScreen implements Screen{
     private Table table;
     private TextButton buttonPlay, buttonPlayAgain, buttonMainMenu;
     private Actor fotballPortrait;
-    private Label fotballScoreLable, highscoreLable, fotballNameLable;
+    private Label fotballScoreLable, highscoreLable, fotballNameLable, roundLable;
     private com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle labelStyle;
 
     private String playerName, playerImg;
@@ -74,7 +74,6 @@ public class ScoreScreen implements Screen{
         scoreActor.setSize((stage.getWidth()), stage.getHeight());
         scoreStage.addActor(scoreActor);
 
-
         // Variabler för att kunna skapa highscore -> ska hämtas från en lista med spelare
         playerName = "Sofie";
         score = 10;
@@ -82,6 +81,12 @@ public class ScoreScreen implements Screen{
 
         int current_round = PropertiesSingleton.getInstance().getRound();
         System.out.println("ScoreScreen: " + current_round);
+        String round = Integer.toString(current_round);
+
+        labelStyle = new Label.LabelStyle(app.font40, Color.PINK);
+        roundLable = new Label("Round: " + round + "/3", labelStyle);
+        roundLable.setPosition(Gdx.graphics.getHeight()/2 - roundLable.getWidth()/2, Gdx.graphics.getHeight() - roundLable.getHeight());
+        scoreStage.addActor(roundLable);
 
         if(current_round == 2)
         {
@@ -93,8 +98,6 @@ public class ScoreScreen implements Screen{
             initButtonsTotalScore();
         }
         initHighscoreList(playerName, score, playerImg);
-
-
     }
 
     @Override
@@ -172,7 +175,7 @@ public class ScoreScreen implements Screen{
         buttonPlayAgain.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Clicked", "Play");
+                Gdx.app.log("Clicked", "Play again");
 
                 scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(0.9f), Actions.moveTo(0, 1000, 0.5f),
                         Actions.run(new Runnable() {
@@ -192,13 +195,13 @@ public class ScoreScreen implements Screen{
         buttonMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Clicked", "Play");
+                Gdx.app.log("Clicked", "Main");
 
                 scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(0.9f), Actions.moveTo(0, 1000, 0.5f),
                         Actions.run(new Runnable() {
                             public void run() {
                                 // Gdx.app.log("done", "done");
-                                app.setScreen(new GameScreen(app));
+                                app.setScreen(app.mainMenyScreen);
                                 dispose();
                             }
                         })));
@@ -216,7 +219,7 @@ public class ScoreScreen implements Screen{
             table.setDebug(true);
             table.setFillParent(true);
 
-            labelStyle = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(font, Color.BLACK);
+            labelStyle = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(app.font40, Color.BLACK);
             highscoreLable = new Label(stringHeadlinte, labelStyle);
 
             table.add(highscoreLable).align(Align.top);
