@@ -451,6 +451,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         //stage.dispose();
         if (rayTestCB != null) {rayTestCB.dispose(); rayTestCB = null;}
         //scoreStage.dispose(); // Borde disposas men det blir hack till nästa screen
+
     }
 
     private void startGameOverTimer(){

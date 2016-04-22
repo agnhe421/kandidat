@@ -9,7 +9,7 @@ public class BaseGame extends Game {
     @Override
     public void create() {
         assets = new AssetManager();
-        setScreen(new GameCoinScreen(this));
+        setScreen(new GameScreen(this));
     }
 
 }
