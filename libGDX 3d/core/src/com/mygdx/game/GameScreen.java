@@ -160,6 +160,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         app.assets.load("3d/apple.g3dj", Model.class);
         app.assets.load("3d/peach.g3dj", Model.class);
         app.assets.load("3d/coin.obj", Model.class);
+        app.assets.finishLoading();
         loading = true;
 
         font = new BitmapFont();
@@ -221,7 +222,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         world.collisionWorld.rayTest(rayFrom, rayTo, rayTestCB);
 
-        if (rayTestCB.hasHit() && (((btRigidBody) player1.body).getCenterOfMassPosition() != null)) {
+        if (playerCreated && rayTestCB.hasHit() && (((btRigidBody) player1.body).getCenterOfMassPosition() != null)) {
             rayTestCB.getHitPointWorld(tmpV1);
 
             //Gdx.app.log("BANG", "BANG");
@@ -340,14 +341,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
 
         // Points
-          if(app.assets.update()) {
+          if(app.assets.update() && playerCreated) {
+                  if ((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
+                          && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0) {
+                      player_1.setScore(10);
+                      Gdx.app.log("PLAYER2", "KRASH");
 
-              if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
-                      && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0){
-                  player_1.setScore(10);
-                  Gdx.app.log("PLAYER2", "KRASH");
-
-              }
+                  }
               if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -0.08)
                       && (collisonUserId0 == 3 ||  collisonUserId1 == 3) && scoreTimer > 0){
                   player_1.setScore(10);
