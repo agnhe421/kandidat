@@ -53,8 +53,6 @@ public class JoinServerScreen implements Screen{
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
 
-    int nr_connected_players = 0, nr_servers = 2;
-
     public JoinServerScreen(final MyGdxGame app)
     {
         serverIPs = new Vector<String>();
@@ -327,7 +325,6 @@ public class JoinServerScreen implements Screen{
         stage.addActor(buttonDisconnect);
         //table.add(buttonConnect).  //.left().width(w - w/3).height(40);
         //table.add(buttonBack);
-
         //stage.addActor(table);
     }
 
