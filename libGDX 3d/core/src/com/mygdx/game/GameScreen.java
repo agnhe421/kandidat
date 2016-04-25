@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,7 +21,9 @@ import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
 import com.badlogic.gdx.physics.bullet.collision.ContactCache;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
+import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
 import com.badlogic.gdx.physics.bullet.collision.btPersistentManifold;
+import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -52,7 +55,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
     // Game related variables
     float gameOverTimer = 0;
     public float scoreTimer;
-    float contactTime = 0.2f;
     boolean collisionHappened = false;
     boolean gameOverGameScreen = false;
     boolean playerCreated = false;
@@ -63,8 +65,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
     private Label LabelScorePlayer1,LabelScorePlayer2,LabelScorePlayer3, LabelScorePlayer4;
     private Label.LabelStyle labelStyle;
     private BitmapFont font;
-
-    private Table table;
 
     // App reference
     private final BaseGame app;
@@ -106,13 +106,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     if (match0) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                         e.setColor(Color.BLUE);
-                        Gdx.app.log(Float.toString(time), "Contact started " + userValue0);
+                        Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
                         collisonUserId0 = userValue0;
                     }
                     if (match1) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                         e.setColor(Color.RED);
-                        Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
+                        Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
                         collisonUserId1 = userValue1;
                     }
                     // Play the collision sound.
@@ -151,9 +151,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
         world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 1f);
 
         // Load models
-        app.assets.load("3d/football2.g3dj", Model.class);
-        app.assets.load("3d/apple.g3dj", Model.class);
-        app.assets.load("3d/peach.g3dj", Model.class);
+        app.assets.load("3d/balls/football2.g3dj", Model.class);
+        app.assets.load("3d/balls/apple.g3dj", Model.class);
+        app.assets.load("3d/balls/peach.g3dj", Model.class);
         loading = true;
 
         font = new BitmapFont();
@@ -161,6 +161,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         // Init Score lables
         labelStyle = new Label.LabelStyle(font, Color.PINK);
+
         LabelScorePlayer1 = new Label("", labelStyle);
         LabelScorePlayer1.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 20);
         LabelScorePlayer2 = new Label("", labelStyle);
@@ -218,7 +219,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         world.collisionWorld.rayTest(rayFrom, rayTo, rayTestCB);
 
-        if (rayTestCB.hasHit() && (((btRigidBody) player1.body).getCenterOfMassPosition() != null)) {
+        if (playerCreated && rayTestCB.hasHit() && (((btRigidBody) player1.body).getCenterOfMassPosition() != null)) {
             rayTestCB.getHitPointWorld(tmpV1);
 
             //Gdx.app.log("BANG", "BANG");
@@ -235,7 +236,14 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
             float normFactor = player_1.impulseFactor / vec.len();
             Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
-
+            if(app.createServerScreen.create != null)
+            {
+                app.createServerScreen.create.setClickPosVector(normVec);
+            }
+            else if(app.joinServerScreen.join != null)
+            {
+                app.joinServerScreen.join.setClickPosVector(normVec);
+            }
             player1.body.activate();
             ((btRigidBody) player1.body).applyCentralImpulse(normVec);
 
@@ -299,15 +307,15 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
 
         if (app.assets.update() && loading) {
-            Model football = app.assets.get("3d/football2.g3dj", Model.class);
+            Model football = app.assets.get("3d/balls/football2.g3dj", Model.class);
             String id = football.nodes.get(0).id;
 
-            Model apple = app.assets.get("3d/apple.g3dj", Model.class);
+            Model apple = app.assets.get("3d/balls/apple.g3dj", Model.class);
             String id2 = apple.nodes.get(0).id;
             Node node = apple.getNode(id2);
             node.scale.set(0.8f, 0.8f, 0.8f);
 
-            Model peach = app.assets.get("3d/peach.g3dj", Model.class);
+            Model peach = app.assets.get("3d/balls/peach.g3dj", Model.class);
             String id3 = peach.nodes.get(0).id;
             Node node2 = peach.getNode(id3);
 
@@ -351,11 +359,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
 
         // Points
-        if(app.assets.update()){
-              if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
-                      && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0){
-                  player_2.setScore(10);
+          if(app.assets.update() && playerCreated) {
+              if ((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
+                          && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0) {
+                  player_1.setScore(10);
                   Gdx.app.log("PLAYER2", "KRASH");
+
               }
               if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -0.08)
                       && (collisonUserId0 == 3 ||  collisonUserId1 == 3) && scoreTimer > 0){
@@ -363,12 +372,19 @@ public class GameScreen extends BaseBulletTest implements Screen {
                   Gdx.app.log("PLAYER3", "KRASH");
               }
             // Gameover
-            if(((btRigidBody) player1.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
+              if(((btRigidBody) player1.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 Gdx.app.log("Fall", "fall");
+                player_2.setScore(20);
+                player_3.setScore(20);
+
+                // Add 1 to the current round
+                int current_round = PropertiesSingleton.getInstance().getRound();
+                PropertiesSingleton.getInstance().setRound(current_round);
+                System.out.println("Round: " + current_round);
                 gameOverGameScreen = true;
-            }
-            if(gameOverGameScreen)
-                startGameOverTimer();
+              }
+              if(gameOverGameScreen)
+                  startGameOverTimer();
         }
 
         // Draw the sorted scores.
@@ -376,6 +392,20 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         stage.draw();
         scoreStage.draw();
+    }
+
+    public static btConvexHullShape createConvexHullShape (final Model model, boolean optimize) {
+        final Mesh mesh = model.meshes.get(0);
+        final btConvexHullShape shape = new btConvexHullShape(mesh.getVerticesBuffer(), mesh.getNumVertices(), mesh.getVertexSize());
+        if (!optimize) return shape;
+        // now optimize the shape
+        final btShapeHull hull = new btShapeHull(shape);
+        hull.buildHull(shape.getMargin());
+        final btConvexHullShape result = new btConvexHullShape(hull);
+        // delete the temporary shape
+        shape.dispose();
+        hull.dispose();
+        return result;
     }
 
     @Override

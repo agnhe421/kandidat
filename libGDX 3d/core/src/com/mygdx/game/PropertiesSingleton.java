@@ -54,3 +54,7 @@ public class PropertiesSingleton {
 
     public String getBallString(){return this.ballsString;}
 }
+
+
+
+

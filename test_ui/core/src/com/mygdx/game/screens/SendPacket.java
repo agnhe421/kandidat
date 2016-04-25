@@ -8,8 +8,10 @@ import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * Created by Andreas on 2016-03-18.
@@ -18,11 +20,14 @@ import java.util.Enumeration;
  * an error message, making sure that the connecting unit will not crash, or try to connect to a
  * non-existant address.
  */
+
 public class SendPacket extends Thread
 {
     DatagramSocket dSocket;
     private String msg = "msg", error = "No Error", serverIP = "";
+    private Vector<String> takenIPs;
     private Boolean failure;
+    private int serversDetected;
 
     public SendPacket()
     {
@@ -33,6 +38,9 @@ public class SendPacket extends Thread
     @Override
     public void run()
     {
+        takenIPs = new Vector<String>();
+        serversDetected = 0;
+        System.setProperty("java.net.preferIPv4Stack", "true");
         try
         {
             //Create new datagram socket.
@@ -41,7 +49,7 @@ public class SendPacket extends Thread
             dSocket.setBroadcast(true);
             //Create new datapacket to send, checking for servers.
             byte[] sendData = "SERVER_CONNECT_CHECK".getBytes();
-            try
+            /*try
             {
                 //Set default address to send to.
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 8081);
@@ -59,7 +67,7 @@ public class SendPacket extends Thread
                 e.printStackTrace();
                 error = "Exception: " + e.toString();
                 failure = true;
-            }
+            }*/
             //Create variable for all available network interfaces.
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while(interfaces.hasMoreElements())
@@ -69,9 +77,13 @@ public class SendPacket extends Thread
                 if(networkInterface.isLoopback() || !networkInterface.isUp())
                     continue;
                 //Check the current interface address.
+                msg = "Checking network interfaces...\n";
+                //Den kommer bara att hitta en server för att alla paket går genom 172.20.10.15.
+                //Du får de andra servrarnas IP adresser genom deras paket. Kom på nåt sett att se
+                //hur många servrar som egentligen finns.
                 for(InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses())
                 {
-                    //Get the curret address broadcast.
+                    //Get the current broadcast address.
                     InetAddress broadcast = interfaceAddress.getBroadcast();
                     if(broadcast == null)
                         continue;
@@ -86,19 +98,49 @@ public class SendPacket extends Thread
                         error = "Exception: " + e.toString();
                         failure = true;
                     }
-                    msg = "";
                     msg += getClass().getName() + ">>>Request packet sent to: " + broadcast.getHostAddress() + "; Interface: " + networkInterface.getDisplayName() + "\n";
                 }
             }
             //Create a buffer for received data, and wait for a response.
-            msg += getClass().getName() + ">>>Done looping over all network interfaces. Now waiting for a reply!\n";
+            //msg += getClass().getName() + ">>>Done looping over all network interfaces. Now waiting for a reply!\n";
             byte[] recvBuf = new byte[15000];
             DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
-            dSocket.setSoTimeout(5000);
-            dSocket.receive(receivePacket);
-            msg += getClass().getName() + ">>>Broadcast response from server: " + receivePacket.getAddress().getHostAddress();
+            Boolean looking = true;
+            dSocket.setSoTimeout(2500);
+            while(looking)
+            {
+                try
+                {
+                    dSocket.receive(receivePacket);
+                    String message = new String(receivePacket.getData()).trim();
+                    /*String check = "", recName = "";
+                    for(int idm = 0; idm < message.length(); ++idm)
+                    {
+                        if(message.charAt(idm) == '|')
+                        {
+                            for(int idn = idm + 1; idn < message.length(); ++idn)
+                            {
+                                recName += message.charAt(idn);
+                            }
+                            break;
+                        }
+                        check += message.charAt(idm);
+                    }*/
+                    if(message.equals("SERVER_CONNECT_CONFIRMATION"))
+                    {
+                        serverIP = receivePacket.getAddress().getHostAddress();
+                        takenIPs.add(serverIP);
+                        msg += getClass().getName() + ">>>Broadcast response from server: " + receivePacket.getAddress().getHostAddress() + "\n";
+                    }
+                }catch(SocketTimeoutException e)
+                {
+                    looking = false;
+                }
+            }
+            //dSocket.receive(receivePacket);
+
             //Get response string data.
-            String message = new String(receivePacket.getData()).trim();
+            /*String message = new String(receivePacket.getData()).trim();
             //Check data for validity.
             if(message.equals("SERVER_CONNECT_CONFIRMATION"))
             {
@@ -107,7 +149,8 @@ public class SendPacket extends Thread
             }
             //If no server is found, set default failure message.
             else
-                serverIP = "FAILED_CONNECTION";
+                serverIP = "FAILED_CONNECTION";*/
+
             //Close the datagram socket.
         }catch(SocketException e)
         {
@@ -129,6 +172,6 @@ public class SendPacket extends Thread
 
     public String getMsg() {return msg;}
     public String getError() {return error;}
-    public String getIP() {return serverIP;}
+    public Vector<String> getIPs() {return takenIPs;}
     public Boolean getErrorState() {return failure;}
 }

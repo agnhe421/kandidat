@@ -147,8 +147,11 @@ public class BaseBulletTest extends BulletTest {
 		}
 
 		for (Disposable disposable : disposables)
+		if(disposables != null){
 			disposable.dispose();
-		disposables.clear();
+			disposables.clear();
+		}
+
 
 		if(modelBatch !=null) {
 			modelBatch.dispose();
