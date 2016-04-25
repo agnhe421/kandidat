@@ -22,6 +22,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
@@ -39,14 +44,15 @@ public class ScoreScreen implements Screen{
     private BitmapFont font;
     private Table table;
     private TextButton buttonPlay;
-    private Actor fotballPortrait;
-    private Label fotballScoreLable, highscoreLable, fotballNameLable;
+    private Actor footballPortrait;
+    private Label footballScoreLable, highscoreLable, footballNameLable;
     private com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle labelStyle;
 
-    private String playerName, playerImg;
-    private int score, nrPlayers =4;
     private boolean createTable = true, createTableOnce = false;
-
+    List<PlayerInfo> playerInfoList;
+    private int n_players;
+    String [] ballNamesArray;
+    int [] playerScores;
 
     public ScoreScreen(final BaseGame app)
     {
@@ -75,13 +81,11 @@ public class ScoreScreen implements Screen{
 
         initButtons();
 
-        // Variabler för att kunna skapa highscore -> ska hämtas från en lista med spelare
-        playerName = "Sofie";
-        score = 10;
-        playerImg = "img/footbal_portrait.png";
+        n_players = PropertiesSingleton.getInstance().getNrPlayers();
+        ballNamesArray = PropertiesSingleton.getInstance().getBallsArray(); // TODO: Nu används ballsArray från Singleton. Ska förmodligen vara en array med spelarnas namn istället.
+        playerScores = PropertiesSingleton.getInstance().getPlayerScores();
 
-        initHighscoreList(playerName, score, playerImg);
-
+        initHighscoreList();
     }
 
     @Override
@@ -142,7 +146,7 @@ public class ScoreScreen implements Screen{
         scoreStage.addActor(buttonPlay);
     }
 
-    private void initHighscoreList( String playerName, int score, String playerImg){
+    private void initHighscoreList(){
         if(createTable) {
             table = new Table(skin);
             stage.addActor(table);
@@ -158,18 +162,61 @@ public class ScoreScreen implements Screen{
             createTable = false;
         }
 
-        for(int i = 0; i < nrPlayers; i++) {
+        sortTableByScore();
 
-            fotballPortrait = new Image(new Sprite(new Texture(Gdx.files.internal(playerImg))));
-            fotballPortrait.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, 0, .5f, Interpolation.pow5Out))));
-            fotballNameLable = new Label(playerName, labelStyle);
-            fotballScoreLable = new Label(Integer.toString(score), labelStyle);
+        for(int i = 0; i < n_players; i++) {
+            footballPortrait = playerInfoList.get(i).getPortrait();
+            footballPortrait.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, 0, .5f, Interpolation.pow5Out))));
+            footballNameLable = new Label(playerInfoList.get(i).getModelName(), labelStyle);
+            footballScoreLable = new Label(Integer.toString(playerInfoList.get(i).getScore()), labelStyle);
 
             table.row();
-            table.add(fotballPortrait).size(100, 100);
-            table.add(fotballNameLable).uniform();
-            table.add(fotballScoreLable).uniform();
+            table.add(footballPortrait).size(100, 100);
+            table.add(footballNameLable).uniform();
+            table.add(footballScoreLable).uniform();
             scoreStage.addActor(table);
         }
     }
+
+    public void sortTableByScore(){
+        playerInfoList = new Vector<PlayerInfo>(n_players);
+
+        // Add all of the player info into a vector.
+        for(int i = 0; i < n_players ; i++) {
+            PlayerInfo playerInfo = new PlayerInfo(playerScores[i], new Image(new Sprite(new Texture(
+                    Gdx.files.internal("img/" + ballNamesArray[i] + ".png")))), ballNamesArray[i]);
+
+            playerInfoList.add(playerInfo);
+        }
+        // Sort the vector.
+        Collections.sort(playerInfoList);
+    }
+
+    // Class that contains all of the info needed for the highscore table.
+    private class PlayerInfo implements Comparable<PlayerInfo>{
+        int score;
+        Image portrait;
+        String modelName; // TODO: När nätverk funkar, byt denna till player name istället.
+
+        private PlayerInfo(int theScore, Image thePortrait, String theModelName){
+            this.score = theScore;
+            this.portrait = thePortrait;
+            this.modelName = theModelName;
+        }
+
+        @Override
+        public int compareTo(PlayerInfo comparesTo){
+            int compareScore = ((PlayerInfo)comparesTo).getScore();
+            return compareScore - this.score;
+        }
+
+        private int getScore(){return this.score;}
+
+        private Image getPortrait(){return this.portrait;}
+
+        public String getModelName(){return this.modelName;}
+
+    }
 }
+
+
