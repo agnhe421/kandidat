@@ -45,7 +45,7 @@ public class ScoreScreen implements Screen{
 
     private String playerName, playerImg;
     private int score, nrPlayers =4;
-    private boolean createTable = true, showButtons = true;
+    private boolean createTable = true;
 
     private String stringHeadlinte = "Total score: ";
 

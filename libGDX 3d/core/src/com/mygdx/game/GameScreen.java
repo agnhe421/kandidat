@@ -20,12 +20,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
 import com.badlogic.gdx.physics.bullet.collision.ContactCache;
-import com.badlogic.gdx.physics.bullet.collision.btBvhTriangleMeshShape;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
 import com.badlogic.gdx.physics.bullet.collision.btPersistentManifold;
 import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
-import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -35,9 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.mygdx.game.PropertiesSingleton;
-
-import java.util.Vector;
 
 public class GameScreen extends BaseBulletTest implements Screen {
 
@@ -52,32 +47,23 @@ public class GameScreen extends BaseBulletTest implements Screen {
     Vector3 rayTo = new Vector3();
 
     ModelInstance instance;
-    public Vector<BulletEntity> coinEntitys = new Vector<BulletEntity>();
-    public Vector<Coin> coins = new Vector<Coin>();
-
 
     float gameOverTimer = 0;
     public float scoreTimer;
-    float contactTime = 0.2f;
     boolean collisionHappened = false;
     boolean gameOverGameScreen = false;
     boolean playerCreated = false;
 
-    private Label LabelScorePlayer1,LabelScorePlayer2,LabelScorePlayer3;
+    private Label labelScorePlayer1, labelScorePlayer2, labelScorePlayer3;
     private Label.LabelStyle labelStyle;
     private BitmapFont font;
-
-    private Table table;
 
     // App reference
     private final BaseGame app;
 
     public static float time;
-    private boolean remove = false;
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
-    BulletEntity bomb1;
-    public Coin coin1;
     public Player player_1, player_2, player_3;
 
     // Sound
@@ -156,11 +142,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
         world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 1f);
 
         // Load models
-        app.assets.load("3d/football2.g3dj", Model.class);
-        app.assets.load("3d/apple.g3dj", Model.class);
-        app.assets.load("3d/peach.g3dj", Model.class);
-        app.assets.load("3d/coin.obj", Model.class);
-        app.assets.finishLoading();
+        app.assets.load("3d/balls/football2.g3dj", Model.class);
+        app.assets.load("3d/balls/apple.g3dj", Model.class);
+        app.assets.load("3d/balls/peach.g3dj", Model.class);
         loading = true;
 
         font = new BitmapFont();
@@ -168,16 +152,16 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         // Init Score lables
         labelStyle = new Label.LabelStyle(font, Color.PINK);
-        LabelScorePlayer1 = new Label("", labelStyle);
-        LabelScorePlayer1.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 20);
-        LabelScorePlayer2 = new Label("", labelStyle);
-        LabelScorePlayer2.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 2);
-        LabelScorePlayer3 = new Label("", labelStyle);
-        LabelScorePlayer3.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 3);
+        labelScorePlayer1 = new Label("", labelStyle);
+        labelScorePlayer1.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 20);
+        labelScorePlayer2 = new Label("", labelStyle);
+        labelScorePlayer2.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 2);
+        labelScorePlayer3 = new Label("", labelStyle);
+        labelScorePlayer3.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 3);
 
-        stage.addActor(LabelScorePlayer1);
-        stage.addActor(LabelScorePlayer2);
-        stage.addActor(LabelScorePlayer3);
+        stage.addActor(labelScorePlayer1);
+        stage.addActor(labelScorePlayer2);
+        stage.addActor(labelScorePlayer3);
 
         Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/scorebg1.png"))));
         scoreActor.setPosition(0, 0);
@@ -305,15 +289,15 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
 
         if (app.assets.update() && loading) {
-            Model fotball = app.assets.get("3d/football2.g3dj", Model.class);
+            Model fotball = app.assets.get("3d/balls/football2.g3dj", Model.class);
             String id = fotball.nodes.get(0).id;
 
-            Model apple = app.assets.get("3d/apple.g3dj", Model.class);
+            Model apple = app.assets.get("3d/balls/apple.g3dj", Model.class);
             String id2 = apple.nodes.get(0).id;
             Node node = apple.getNode(id2);
             node.scale.set(0.8f, 0.8f, 0.8f);
 
-            Model peach = app.assets.get("3d/peach.g3dj", Model.class);
+            Model peach = app.assets.get("3d/balls/peach.g3dj", Model.class);
             String id3 = peach.nodes.get(0).id;
             Node node2 = peach.getNode(id3);
 
@@ -366,7 +350,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 player_2.setScore(20);
                 player_3.setScore(20);
 
-                // Set the round
+                // Add 1 to the current round
                 int current_round = PropertiesSingleton.getInstance().getRound();
                 PropertiesSingleton.getInstance().setRound(current_round);
                 System.out.println("Round: " + current_round);
@@ -378,9 +362,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         // Set the score
         if(playerCreated) {
-            LabelScorePlayer1.setText("Score player 1: " + player_1.getScore());
-            LabelScorePlayer2.setText("Score player 2: " + player_2.getScore());
-            LabelScorePlayer3.setText("Score player 3: " + player_3.getScore());
+            labelScorePlayer1.setText("Score player 1: " + player_1.getScore());
+            labelScorePlayer2.setText("Score player 2: " + player_2.getScore());
+            labelScorePlayer3.setText("Score player 3: " + player_3.getScore());
         }
         stage.draw();
         scoreStage.draw();

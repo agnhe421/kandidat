@@ -3,6 +3,7 @@ package com.mygdx.game;
 /**
  * Created by sofiekhullar on 16-04-22.
  */
+
 public class PropertiesSingleton {
 
     private static final PropertiesSingleton propertiesSingleton = new PropertiesSingleton();
