@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -59,7 +60,7 @@ public class MainMenyScreen implements Screen {
         this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/greek.jpg"))));
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/Background.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
         stageBackground.addActor(background);
@@ -128,37 +129,60 @@ public class MainMenyScreen implements Screen {
         table.setFillParent(true);
 
         buttonPlay = new TextButton("Play",skin, "default8");
-        buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
+        buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.f, Interpolation.pow5Out))));
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.connectionMenuScreen);
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.moveBy(-600, 0, 0.5f),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                app.setScreen(app.connectionMenuScreen);
+
+                            }
+                        })));
             }
         });
 
+
+
         buttonSetting = new TextButton("Settings", skin, "default8");
-        buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
+        buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
         buttonSetting.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.settingScreen);
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.moveBy(-600, 0, 0.5f),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                app.setScreen(app.settingScreen);
+
+                            }
+                        })));
             }
         });
 
+
         buttonSkipServer = new TextButton("Skip Server", skin, "default8");
-        buttonSkipServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
+        buttonSkipServer.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 2.f, Interpolation.pow5Out))));
         buttonSkipServer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(new GameScreen(app));
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.moveBy(-600, 0, 0.5f),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                app.setScreen(new GameScreen(app));
+
+                            }
+                        })));
             }
         });
 
-        table.add(buttonPlay).expandX().left().padLeft(150).padBottom(30);
+
+
+        table.add(buttonPlay).expandX().left().padLeft(-150).padBottom(30);
         table.row();
-        table.add(buttonSetting).bottom().left().padLeft(150).padBottom(30);
+        table.add(buttonSetting).bottom().left().padLeft(-150).padBottom(30);
         table.row();
-        table.add(buttonSkipServer).bottom().left().padLeft(150).padBottom(30);
+        table.add(buttonSkipServer).bottom().left().padLeft(-150).padBottom(30);
 
         stage.addActor(table);
     }

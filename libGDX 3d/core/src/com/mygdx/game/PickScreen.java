@@ -68,7 +68,7 @@ public class PickScreen implements Screen {
         this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/TextUI.json"));
 
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/greek.jpg"))));
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/Background.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
         stageBackground.addActor(background);

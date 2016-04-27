@@ -15,7 +15,7 @@
   default5: { down: disconnect, up: disconnect, font: default-font, fontColor: white}
   default6: { down: join, up: join, font: default-font, fontColor: white}
   default7: { down: back, up: back, font: default-font, fontColor: white}
-  default8: { down: Standard, up: Standard, font: default-font, fontColor: white}
+  default8: { down: Standard2, up: Standard2, font: default-font, fontColor: white}
   toggle:   { down: play, up: play, checked: play, font: default-font, fontColor: white, downFontColor: red }
 },
   com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {

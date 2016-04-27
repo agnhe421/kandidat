@@ -67,7 +67,7 @@ public class ConnectionMenuScreen implements Screen {
         this.skin.add("default-font", app.font40);
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/greek.jpg"))));
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/Background.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stage.getWidth()), stage.getHeight());
         stage.addActor(background);
@@ -185,7 +185,7 @@ public class ConnectionMenuScreen implements Screen {
         table.setFillParent(true);
 
         buttonCreate = new TextButton("Create Server", skin, "default8");
-        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.f, Interpolation.pow5Out))));
         buttonCreate.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -195,29 +195,30 @@ public class ConnectionMenuScreen implements Screen {
 
 
         buttonJoin = new TextButton("Join Server", skin, "default8");
-        buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
         buttonJoin.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.joinServerScreen);
+                app.setScreen(new JoinServerScreen(app));
             }
         });
 
         buttonBack = new TextButton("Back", skin, "default8");
-        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 2.f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Exit the app, terminate any active servers or connections.
-                app.setScreen(app.mainMenyScreen);
+                app.setScreen(new MainMenyScreen(app));
+
             }
         });
 
-        table.add(buttonCreate).bottom().left().padLeft(150).expandX().padBottom(30);
+        table.add(buttonCreate).bottom().left().padLeft(-150).expandX().padBottom(30);
         table.row();
-        table.add(buttonJoin).bottom().left().padLeft(150).padBottom(30);
+        table.add(buttonJoin).bottom().left().padLeft(-150).padBottom(30);
         table.row();
-        table.add(buttonBack).top().left().padLeft(150).padBottom(30);
+        table.add(buttonBack).top().left().padLeft(-150).padBottom(30);
         stage.addActor(table);
     }
 }

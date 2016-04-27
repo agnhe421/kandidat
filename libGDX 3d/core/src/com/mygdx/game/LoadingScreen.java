@@ -48,6 +48,7 @@ public class
 
         app.assets.load("img/greek.jpg", Texture.class);
         app.assets.load("img/badlogic.jpg", Texture.class);
+        app.assets.load("img/Background.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
         app.assets.load("ui/TextUI.pack", TextureAtlas.class);
         app.assets.load("ui/Buttons.pack", TextureAtlas.class);
@@ -71,7 +72,7 @@ public class
         this.skin.load(Gdx.files.internal("ui/loading.json"));
 
 
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/greek.jpg"))));
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/Background.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stage.getWidth()), stage.getHeight());
         stage.addActor(background);

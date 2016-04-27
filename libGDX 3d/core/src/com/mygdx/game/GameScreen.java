@@ -31,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
@@ -41,39 +40,46 @@ import java.util.Vector;
 
 public class GameScreen extends BaseBulletTest implements Screen {
 
-    //public AssetManager assets;
-    boolean loading;
-    BulletEntity player1, player2, player3, player4;
-    private Stage stage;
-    private Stage scoreStage;
-
-    ClosestRayResultCallback rayTestCB;
-    Vector3 rayFrom = new Vector3();
-    Vector3 rayTo = new Vector3();
-
-    ModelInstance instance;
-
-    // Game related variables
-    float gameOverTimer = 0;
-    public float scoreTimer;
-    boolean collisionHappened = false;
-    boolean gameOverGameScreen = false;
-    boolean playerCreated = false;
-    int n_players;
-    List<Player> playerList;
+    // App reference
+    private final BaseGame app;
 
     // UI
     private Label LabelScorePlayer1,LabelScorePlayer2,LabelScorePlayer3, LabelScorePlayer4;
     private Label.LabelStyle labelStyle;
     private BitmapFont font, font40;
 
-    // App reference
-    private final BaseGame app;
+    // Stages
+    private Stage stage;
+    private Stage scoreStage;
+
+
+    // Game related variables
+    float gameOverTimer = 0;
+    public float scoreTimer;
+
+    boolean collisionHappened = false;
+    boolean gameOverGameScreen = false;
+    boolean playerCreated = false;
+    boolean loading = false;
+    final boolean USE_CONTACT_CACHE = true;
+
+
+    // Controll
+    private ClosestRayResultCallback rayTestCB;
+    private Vector3 rayFrom = new Vector3();
+    private Vector3 rayTo = new Vector3();
+
+
+    private ModelInstance instance;
+
+    // Score lables
+    int n_players;
+    List<Player> playerList;
 
     public static float time;
-    final boolean USE_CONTACT_CACHE = true;
-    TestContactCache contactCache;
 
+    private TestContactCache contactCache;
+    private BulletEntity player1, player2, player3, player4;
     private Player player_1, player_2, player_3, player_4;
 
     // Sound
@@ -151,6 +157,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     @Override
     public void create () {
         super.create();
+        // Setup the stages
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
         this.scoreStage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
 
@@ -163,7 +170,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
         app.assets.load("3d/balls/peach.g3dj", Model.class);
         loading = true;
 
+
         initFonts();
+
+        // Create font
         font = new BitmapFont();
         rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
 
