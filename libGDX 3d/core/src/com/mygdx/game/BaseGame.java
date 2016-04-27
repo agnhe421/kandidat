@@ -47,7 +47,7 @@ public class BaseGame extends Game {
         joinServerScreen = new JoinServerScreen(this);
         createServerScreen = new CreateServerScreen(this);
 
-        settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
+        //settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
         this.setScreen(loadingScreen);
 
         initFonts();

@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
  */
 public class Coin extends BaseBulletTest{
 
-    public float posx, posy, posz;
     public BulletConstructor bulletConstructor;
     private Model model;
     public boolean removed;
@@ -23,7 +22,7 @@ public class Coin extends BaseBulletTest{
 
     public BulletConstructor initBulletConstructor(Model model) {
         disposables.add(model);
-        BulletConstructor bulletConstructor = (new BulletConstructor(model, 0.8f, new btBvhTriangleMeshShape(model.meshParts)));
+        BulletConstructor bulletConstructor = (new BulletConstructor(model, 0.2f, new btSphereShape(0.8f)));
         return bulletConstructor;
     }
 
