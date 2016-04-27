@@ -1,3 +1,4 @@
+
 Buttons.png
 format: RGBA8888
 filter: Nearest,Nearest
@@ -37,6 +38,13 @@ join
   orig: 480, 125
   offset: 0, 0
   index: -1
+Standard2
+  rotate: false
+  xy: 1, 14
+  size: 448, 52
+  orig: 448, 52
+  offset: 0, 0
+  index: -1
 play
   rotate: false
   xy: 483, 382
@@ -65,24 +73,29 @@ settings
   orig: 480, 125
   offset: 0, 0
   index: -1
-Standard
-  rotate: false
-  xy: 773, 959
-  size: 246, 34
-  orig: 246, 34
-  offset: 0, 0
-  index: -1
 knob
   rotate: false
-  xy: 1, 16
+  xy: 773, 943
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 black
   rotate: false
-  xy: 773, 947
+  xy: 825, 983
   size: 20, 10
   orig: 20, 10
+  offset: 0, 0
+  index: -1
+
+Buttons2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Standard
+  rotate: false
+  xy: 1, 1
+  size: 272, 52
+  orig: 272, 52
   offset: 0, 0
   index: -1

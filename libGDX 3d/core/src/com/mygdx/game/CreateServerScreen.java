@@ -77,7 +77,7 @@ public class CreateServerScreen implements Screen{
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font40); // Sätter default font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/blurr.jpg"))));
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/Background.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
         stageBackground.addActor(background);
