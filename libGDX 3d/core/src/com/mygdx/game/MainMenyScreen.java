@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
@@ -77,10 +78,6 @@ public class MainMenyScreen implements Screen {
 
         stageBackground.draw();
 
-        app.batch.begin();
-        app.font40.draw(app.batch, "Screen: MAINMENY", 30, 30);
-        app.batch.end();
-
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
@@ -125,7 +122,6 @@ public class MainMenyScreen implements Screen {
     {
         Table table = new Table(skin);
         stage.addActor(table);
-      // table.setDebug(true);
         table.setFillParent(true);
 
         buttonPlay = new TextButton("Play",skin, "default8");
@@ -133,10 +129,10 @@ public class MainMenyScreen implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.moveBy(-600, 0, 0.5f),
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
                         Actions.run(new Runnable() {
                             public void run() {
-                                app.setScreen(app.connectionMenuScreen);
+                                app.setScreen(new ConnectionMenuScreen(app));
 
                             }
                         })));
@@ -150,7 +146,7 @@ public class MainMenyScreen implements Screen {
         buttonSetting.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.moveBy(-600, 0, 0.5f),
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f),moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
                         Actions.run(new Runnable() {
                             public void run() {
                                 app.setScreen(app.settingScreen);
@@ -166,7 +162,7 @@ public class MainMenyScreen implements Screen {
         buttonSkipServer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.moveBy(-600, 0, 0.5f),
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
                         Actions.run(new Runnable() {
                             public void run() {
                                 app.setScreen(new GameScreen(app));
@@ -178,11 +174,11 @@ public class MainMenyScreen implements Screen {
 
 
 
-        table.add(buttonPlay).expandX().left().padLeft(-150).padBottom(30);
+        table.add(buttonPlay).expandX().left().padLeft(-170).padBottom(30);
         table.row();
-        table.add(buttonSetting).bottom().left().padLeft(-150).padBottom(30);
+        table.add(buttonSetting).bottom().left().padLeft(-170).padBottom(30);
         table.row();
-        table.add(buttonSkipServer).bottom().left().padLeft(-150).padBottom(30);
+        table.add(buttonSkipServer).bottom().left().padLeft(-170).padBottom(30);
 
         stage.addActor(table);
     }

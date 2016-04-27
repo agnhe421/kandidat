@@ -42,6 +42,7 @@ public class LoadingScreen implements Screen {
         app.assets.load("img/greek.jpg", Texture.class);
         app.assets.load("img/badlogic.jpg", Texture.class);
         app.assets.load("img/Background.jpg", Texture.class);
+        app.assets.load("img/main_blurred.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
         app.assets.load("ui/TextUI.pack", TextureAtlas.class);
         app.assets.load("ui/Buttons.pack", TextureAtlas.class);
@@ -70,10 +71,6 @@ public class LoadingScreen implements Screen {
         update(delta);
 
         stage.draw();
-
-        app.batch.begin();
-        app.font40.draw(app.batch, "Screen: LOADING", 30, 30);
-        app.batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
