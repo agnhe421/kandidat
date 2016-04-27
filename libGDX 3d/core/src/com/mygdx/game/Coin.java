@@ -16,11 +16,8 @@ public class Coin extends BaseBulletTest{
     public boolean removed;
 
     public Coin(Model model){
-       /* this.model = model;
-        this.posx = posx;
-        this.posy = posy;
-        this.posz = posz; */
-        removed = false;
+        this.model = model;
+        removed = true;
         bulletConstructor = initBulletConstructor(model);
     }
 
@@ -31,7 +28,7 @@ public class Coin extends BaseBulletTest{
     }
 
     public void setRemoved(){
-        removed = true;
+        removed = false;
     }
     public boolean getRemoved(){
         return removed;
