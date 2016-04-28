@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\Program\Android\BallPit\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="D:\Program\Android\BallPit\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-9ce4585fad3ac873ec703702ded2695ac2e3c5ba.jar" />
+    </item>
+    <item
+        jar="D:\Program\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="D:\Program\Android\BallPit\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-39631d65bb1fbbe2a4586ef687269babfec9c1d6.jar" />
+    </item>
+    <item
+        jar="D:\Program\Android\BallPit\app\libs\gdx-freetype.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7a389b111c748796d7057a5fc288ee506d0fdea8">
+        <dex dex="D:\Program\Android\BallPit\app\build\intermediates\pre-dexed\debug\gdx-freetype-9f97a81be7139499d473489180365ebe61a0d966.jar" />
+    </item>
+    <item
+        jar="D:\Program\Android\BallPit\app\libs\gdx.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="10469e4371df07b778bcc0fa14205e4625b85d72">
+        <dex dex="D:\Program\Android\BallPit\app\build\intermediates\pre-dexed\debug\gdx-bfd7c138f521f8b70f5bfc33bc9988d401a93892.jar" />
+    </item>
+    <item
+        jar="D:\Program\Android\BallPit\app\build\java\vuforia\Vuforia.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5649f0a8a49ca49701dc36af60f6c593ba4b3c2d">
+        <dex dex="D:\Program\Android\BallPit\app\build\intermediates\pre-dexed\debug\Vuforia-ddfc01aeac578ed58c020d8863c12b533bc3f2f3.jar" />
+    </item>
+    <item
+        jar="D:\Program\Android\BallPit\app\libs\gdx-backend-android.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="dd459f86946ba712fd473d09ef5c7f1ac8bff629">
+        <dex dex="D:\Program\Android\BallPit\app\build\intermediates\pre-dexed\debug\gdx-backend-android-ecc8ed33b3741ee9bc41592df547d06c63e63b93.jar" />
+    </item>
+    <item
+        jar="D:\Program\Android\BallPit\app\libs\gdx-bullet.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="07155cc662ff0bdabe0e5af99d8f722eb6553a77">
+        <dex dex="D:\Program\Android\BallPit\app\build\intermediates\pre-dexed\debug\gdx-bullet-4b46b297c069724d715ada67923184810b163dbb.jar" />
+    </item>
+    <item
+        jar="D:\Program\Android\BallPit\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="D:\Program\Android\BallPit\app\build\intermediates\pre-dexed\debug\classes-6936f6f09797162deff47a0f17a8b3ff3cf8cfe7.jar" />
+    </item>
+
+</items>

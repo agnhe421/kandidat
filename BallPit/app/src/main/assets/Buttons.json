@@ -1,0 +1,6 @@
+
+{
+  com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+  default: { up:notready.png, checked: ready.png}
+  }
+}

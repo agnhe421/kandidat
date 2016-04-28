@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
@@ -30,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
@@ -40,44 +40,57 @@ import java.util.Vector;
 
 public class GameScreen extends BaseBulletTest implements Screen {
 
-    //public AssetManager assets;
-    boolean loading;
-    BulletEntity player1, player2, player3, player4;
-    private Stage stage;
-    private Stage scoreStage;
-
-    ClosestRayResultCallback rayTestCB;
-    Vector3 rayFrom = new Vector3();
-    Vector3 rayTo = new Vector3();
-
-    ModelInstance instance;
-
-    // Game related variables
-    float gameOverTimer = 0;
-    public float scoreTimer;
-    boolean collisionHappened = false;
-    boolean gameOverGameScreen = false;
-    boolean playerCreated = false;
-    int n_players;
-    List<Player> playerList;
+    // App reference
+    private final BaseGame app;
 
     // UI
     private Label LabelScorePlayer1,LabelScorePlayer2,LabelScorePlayer3, LabelScorePlayer4;
     private Label.LabelStyle labelStyle;
-    private BitmapFont font;
+    private BitmapFont font, font40;
 
-    // App reference
-    private final BaseGame app;
+    // Stages
+    private Stage stage;
+    private Stage scoreStage;
+
+
+    // Game related variables
+    float gameOverTimer = 0;
+    public float scoreTimer;
+
+    boolean collisionHappened = false;
+    boolean gameOverGameScreen = false;
+    boolean playerCreated = false;
+    boolean loading = false;
+    final boolean USE_CONTACT_CACHE = true;
+
+
+    // Controll
+    private ClosestRayResultCallback rayTestCB;
+    private Vector3 rayFrom = new Vector3();
+    private Vector3 rayTo = new Vector3();
+
+
+    private ModelInstance instance;
+
+    // Score lables
+    int n_players;
+    List<Player> playerList;
 
     public static float time;
-    final boolean USE_CONTACT_CACHE = true;
-    TestContactCache contactCache;
 
+    private TestContactCache contactCache;
+    private BulletEntity player1, player2, player3, player4;
     private Player player_1, player_2, player_3, player_4;
 
     // Sound
     static GameSound gameSound;
     int collisonUserId0, collisonUserId1;
+
+    //countdown
+    private Label LabelCountdown;
+    private Label.LabelStyle labelStyleCountdown;
+    private float totalTime = 3;
+    boolean countdownFinished = false;
 
     public GameScreen(final BaseGame app)
     {
@@ -144,6 +157,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     @Override
     public void create () {
         super.create();
+        // Setup the stages
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
         this.scoreStage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
 
@@ -156,6 +170,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
         app.assets.load("3d/balls/peach.g3dj", Model.class);
         loading = true;
 
+
+        initFonts();
+
+        // Create font
         font = new BitmapFont();
         rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
 
@@ -194,6 +212,14 @@ public class GameScreen extends BaseBulletTest implements Screen {
         gameSound = new GameSound();
         // Play background music.
         // gameSound.playBackgroundMusic(0.45f);
+
+
+        //-------------------------load countdown--------------------------
+        labelStyleCountdown = new Label.LabelStyle(font40, Color.GREEN);
+        LabelCountdown = new Label("", labelStyleCountdown);
+        LabelCountdown.setPosition(Gdx.graphics.getHeight() / 2, Gdx.graphics.getWidth() / 2);
+        stage.addActor(LabelCountdown);
+        //-------------------------------------------------------------------
     }
 
     @Override
@@ -207,6 +233,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
        // shoot(screenX, screenY);
        // Gdx.app.log("SHOOT", "SHOOT");
+
+        if(countdownFinished){
         Ray ray = camera.getPickRay(screenX, screenY);
         rayFrom.set(ray.origin);
         rayTo.set(ray.direction).scl(50f).add(rayFrom); // 50 meters max from the origin
@@ -251,7 +279,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             // sendImpulse(normVec);
             // Skriva en ny funktion i GameScreen som faktiskt sätter denna impuls, vart ska den sättas? Vill inte att den ska köras varje frame.
             // Ifall klick har hänt,
-        }
+        }}
         return true;
     }
 
@@ -387,8 +415,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
                   startGameOverTimer();
         }
 
+
         // Draw the sorted scores.
         drawScores();
+        //draw countdown timer
+        if(loading == false){
+            countDown();
+        }
 
         stage.draw();
         scoreStage.draw();
@@ -453,14 +486,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
     }
 
-    private void startGameOverTimer(){
+    private void startGameOverTimer() {
 
         scoreStage.act();
 
         gameOverTimer += Gdx.graphics.getDeltaTime();
 
-        if(gameOverTimer > 0.5)
-        {
+        if (gameOverTimer > 0.5) {
             super.setGameOver();
             scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
                     Actions.run(new Runnable() {
@@ -491,5 +523,36 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     })));
             }
         }
+
+
+    //--------------Countdown-------------------------------------
+    private void countDown() {
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        totalTime -= deltaTime;
+        float seconds = totalTime - deltaTime;
+
+        if(totalTime < 1) {
+            LabelCountdown.setText("GO");
+            if(totalTime <0){
+                LabelCountdown.setVisible(false);
+                countdownFinished = true;
+            }
+        }else{
+            LabelCountdown.setText(String.format("%.0f", seconds));
+        }
+
+    }
+    //------------------------------------------------------------------
+
+    private void initFonts(){
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/copyfonts.com_gulim.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        params.size = 40;
+        //params.color = Color.BLACK;
+        font40 = generator.generateFont(params);
+
+        generator.dispose();
+    }
 
     }

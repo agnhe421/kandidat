@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import java.util.Random;
 import java.util.Vector;
 
 public class GameCoinScreen extends BaseBulletTest implements Screen {
@@ -52,6 +53,10 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     public Vector<BulletEntity> coinEntitys = new Vector<BulletEntity>();
     private Vector<Coin> coins = new Vector<Coin>();
     private Coin coin_1;
+    private int n_coins = 7;
+    private int n_balls = 3;
+
+
 
     float gameOverTimer = 0;
     public float scoreTimer;
@@ -60,6 +65,8 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     boolean playerCreated = false;
 
     private AnimationController controller;
+    private AnimationController[] controllers = new AnimationController[n_coins];
+
 
     private Label labelScorePlayer1, labelScorePlayer2, labelScorePlayer3;
     private Label.LabelStyle labelStyle;
@@ -323,20 +330,25 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             player3.body.setContactCallbackFilter(1);
 
             Model coinModel = app.assets.get("3d/gem.g3dj", Model.class);
+            coinModel.meshes.get(0).scale(0.02f, 0.02f, 0.02f);
 
-            for(int i = 0; i < 5; i++) {
+            for(int i = 0; i < n_coins; i++) {
                 /*disposables.add(coin);
                 BulletConstructor bulletConstructor = (new BulletConstructor(coinModel, 0.1f,createConvexHullShape(coinModel, false)));
                 world.addConstructor("coin", bulletConstructor);*/
 
+                Random rand = new Random();
+                int  x = rand.nextInt(20) + 1;
+                int  z = rand.nextInt(20) + 1;
+
                 coin_1 = new Coin(coinModel);
                 world.addConstructor("coin", coin_1.bulletConstructor);
-                coin = world.add("coin", 2 +i, 5, 2 - i*2);
+                coin = world.add("coin", x, 1, -z);
                 coin.body.setContactCallbackFilter(1);
                 ((btRigidBody) coin.body).setGravity(new Vector3(0, 0, 0));
                 coinEntitys.add(coin);
                 coins.add(coin_1);
-                initAnimationController(coin.modelInstance);
+                //initAnimationController(coin.modelInstance, i);
             }
 
             Gdx.app.log("Loaded", "LOADED");
@@ -346,29 +358,33 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
         if(playerCreated){
             // You need to call update on the animation controller so it will advance the animation.  Pass in frame delta
-            controller.update(Gdx.graphics.getDeltaTime());
+            for(int i = 0; i < n_coins; i++) {
+               // controllers[i].update(Gdx.graphics.getDeltaTime());
+            }
         }
 
-        // Count the score timer down.
+        // Count the score timer down
         if(collisionHappened){
             scoreTimer -= 1f;
             if(scoreTimer < 0) { collisionHappened = false; }
-            //Gdx.app.log("Score Timer = ", "" + scoreTimer);
         }
 
-        //
+
         if(app.assets.update() && playerCreated) {
+            // Check collision between coins and player 1
+            int n_balls_1 = n_balls + 1;
 
-            if((collisonUserId1 >= 4 && collisonUserId1 <= 8) || (collisonUserId0 >= 4 && collisonUserId1 <= 8)) {
-                BulletEntity temp = coinEntitys.get(collisonUserId1 - 4);
-
-                if(coins.get(collisonUserId1 - 4).getRemoved()){
-                    player_1.setScore(30);
-                    coins.get(collisonUserId1 - 4).setRemoved();
-                }
+            if(collisonUserId1 >= n_balls_1 && collisonUserId1 <= (n_balls_1 + n_coins) ||
+                    (collisonUserId0 >= n_balls_1 && collisonUserId1 <= (n_balls_1 + n_coins))) {
+                BulletEntity temp = coinEntitys.get(collisonUserId1 - n_balls_1);
                 ((btRigidBody) temp.body).applyCentralImpulse(new Vector3(0f, 0.5f, 0f));
-            }
 
+                // Give the score if the coin is not removed
+                if(coins.get(collisonUserId1 - n_balls_1).getRemoved()){
+                    player_1.setScore(5);
+                    coins.get(collisonUserId1 - n_balls_1).setRemoved();
+                }
+            }
 
             // Check fall and collision with player 1 for player 2
             if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
@@ -410,19 +426,6 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         scoreStage.draw();
     }
 
-    public static btConvexHullShape createConvexHullShape (final Model model, boolean optimize) {
-        final Mesh mesh = model.meshes.get(0);
-        final btConvexHullShape shape = new btConvexHullShape(mesh.getVerticesBuffer(), mesh.getNumVertices(), mesh.getVertexSize());
-        if (!optimize) return shape;
-        // now optimize the shape
-        final btShapeHull hull = new btShapeHull(shape);
-        hull.buildHull(shape.getMargin());
-        final btConvexHullShape result = new btConvexHullShape(hull);
-        // delete the temporary shape
-        shape.dispose();
-        hull.dispose();
-        return result;
-    }
 
     @Override
     public void update () {
@@ -434,13 +437,11 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
     @Override
     public void show() {
-
-
     }
 
     @Override
     public void render(float delta) {
-       // Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
         render();
     }
 
@@ -455,32 +456,15 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         //stage.dispose();
         if (rayTestCB != null) {rayTestCB.dispose(); rayTestCB = null;}
         //scoreStage.dispose(); // Borde disposas men det blir hack till nästa screen
-
     }
 
-    private void initAnimationController(ModelInstance modelInstance){
+    private void initAnimationController(ModelInstance modelInstance, int i){
         // You use an AnimationController to um, control animations.  Each control is tied to the model instance
-        controller = new AnimationController(modelInstance);
+        controllers[i] = new AnimationController(modelInstance);
         // Pick the current animation by name
+        controllers[i].setAnimation("GemAction.idle", -1);
 
-        controller.setAnimation("GemAction.idle",1, new AnimationController.AnimationListener(){
-
-            @Override
-            public void onEnd(AnimationController.AnimationDesc animation) {
-                // this will be called when the current animation is done.
-                // queue up another animation called "balloon".
-                // Passing a negative to loop count loops forever.  1f for speed is normal speed.
-                 controller.queue("GemAction.idle",-1,1f,null,0f);
-            }
-
-            @Override
-            public void onLoop(AnimationController.AnimationDesc animation) {
-                // TODO Auto-generated method stub
-
-            }
-
-        });
-
+        //controllers[i].setAnimation("GemAction.onTouch");
     }
 
     private void startGameOverTimer(){

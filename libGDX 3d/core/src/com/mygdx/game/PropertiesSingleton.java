@@ -18,6 +18,11 @@ public class PropertiesSingleton {
     public int getRound() {return round;}
     public void setRound(int round) {this.round = round +1;}
 
+    // hitCounts
+    private int hitCount = 0;
+    public int getHitCount(){return hitCount;}
+    public void setHitCount(int hitCount){this.hitCount = hitCount;}
+
     // Scores.
     private int [] playerScores = new int[4];
 

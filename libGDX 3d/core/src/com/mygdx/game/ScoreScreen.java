@@ -106,7 +106,7 @@ public class ScoreScreen implements Screen{
         roundLable.setPosition(Gdx.graphics.getHeight()/2 - roundLable.getWidth()/2, Gdx.graphics.getHeight() - roundLable.getHeight());
         scoreStage.addActor(roundLable);
 
-        if(current_round == 2)
+        if(current_round == 3)
         {
             stringHeadlinte = "Final score: ";
             initButtonsFinalScore();
