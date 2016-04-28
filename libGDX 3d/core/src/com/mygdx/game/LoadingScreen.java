@@ -104,15 +104,6 @@ public class
 
         stage.draw();
 
-<<<<<<< HEAD
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rect(32, h / 6, w - 72, 70);
-
-        shapeRenderer.setColor(Color.PINK);
-        shapeRenderer.rect(32, h / 6, progress * (w - 72), 70);
-        shapeRenderer.end();
-=======
         app.batch.begin();
         app.font40.draw(app.batch, "Screen: LOADING", 30, 30);
         app.batch.end();
@@ -125,7 +116,7 @@ public class
             image.setSize(w/2,h/12);   //skala så det passar på skärmen, finns bättre sätt?
             stage.addActor(image);
         }
->>>>>>> 031c91bd09dcd17eaec360feb22e1cc436e95cc8
+
     }
 
     private void update(float delta){
