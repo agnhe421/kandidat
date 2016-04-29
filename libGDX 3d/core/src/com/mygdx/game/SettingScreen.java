@@ -89,8 +89,8 @@ public class SettingScreen implements Screen {
         stageBackground.draw();
 
         app.batch.begin();
-        app.font40.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
-        app.font40.draw(app.batch, "Sound effects",  w/2 -280/2, h/2);
+        app.font40.draw(app.batch, "Music", (w / 2) -  w/9, (h/2) + (h/2)*0.2f);
+        app.font40.draw(app.batch, "Sound effects", (w / 2) - w / 9, (h / 2) - h * 0.04f);
         app.batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
@@ -138,6 +138,7 @@ public class SettingScreen implements Screen {
         music.play();
 
     }
+    //TODO: music ch soundeffects text, och backknappen?
 
     public void initSlider(){
         //public Slider(float min, float max, float stepSize, boolean vertical, Slider.SliderStyle style)
@@ -145,8 +146,8 @@ public class SettingScreen implements Screen {
         slider.setValue(music.getVolume()); //the sliders position is equal to the musics volume
         music.setVolume(slider.getValue()); //volume is where the slider is
         slider.setAnimateDuration(0.1f);    //how fast the slider react when you move it
-        slider.setPosition(w / 2 - 280 / 2, h / 2 + 40);
-        slider.setSize(280, 50);
+        slider.setPosition((w / 2) - w / 9, (h / 2.3f));
+        slider.setSize((w * 0.22f), h * 0.087f);
 
         slider.addListener(new ChangeListener() {
             @Override
@@ -162,8 +163,8 @@ public class SettingScreen implements Screen {
         slider2.setValue(music.getVolume());
         music.setVolume(slider.getValue());
         slider2.setAnimateDuration(0.1f);
-        slider2.setPosition(w / 2 - 280 / 2, h / 2 - 100);
-        slider2.setSize(280, 50);
+        slider2.setPosition( (w/2) - w/9, (h / 2.9f));
+        slider2.setSize(w*0.22f, h*0.087f);
 
         slider2.addListener(new ChangeListener() {
             @Override
@@ -190,7 +191,7 @@ public class SettingScreen implements Screen {
         int size_y = 60;
 
         buttonBack = new TextButton("Back", skin, "default8");
-        buttonBack.setSize(size_x, size_y);
+        buttonBack.setSize(size_x, size_y); // TODO: ändra size här beroende av width och height.
         // buttonBack.setPosition(Gdx.graphics.getWidth() / 2 - size_x / 2, Gdx.graphics.getHeight() / 2 - size_y / 2);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {

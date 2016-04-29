@@ -181,13 +181,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
         labelStyle = new Label.LabelStyle(font, Color.PINK);
 
         LabelScorePlayer1 = new Label("", labelStyle);
-        LabelScorePlayer1.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 20);
+        LabelScorePlayer1.setPosition(Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*1);
         LabelScorePlayer2 = new Label("", labelStyle);
-        LabelScorePlayer2.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*2);
+        LabelScorePlayer2.setPosition(Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*2);
         LabelScorePlayer3 = new Label("", labelStyle);
-        LabelScorePlayer3.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*3);
+        LabelScorePlayer3.setPosition(Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*3);
         LabelScorePlayer4 = new Label("", labelStyle);
-        LabelScorePlayer4.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*4);
+        LabelScorePlayer4.setPosition(Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*4);
 
         stage.addActor(LabelScorePlayer1);
         stage.addActor(LabelScorePlayer2);
@@ -325,7 +325,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     }
 
     @Override
-    public void render () {
+    public void render() {
         super.render();
 
         if(instance != null) {
@@ -466,12 +466,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
     }
 
     @Override
-    public void dispose () {
+    public void dispose() {
         super.dispose();
         //stage.dispose();
         if (rayTestCB != null) {rayTestCB.dispose(); rayTestCB = null;}
         //scoreStage.dispose(); // Borde disposas men det blir hack till nästa screen
-        }
+    }
 
     // Sorts and draws the scores.
     private void drawScores(){
@@ -483,6 +483,21 @@ public class GameScreen extends BaseBulletTest implements Screen {
             LabelScorePlayer2.setText("Score " + playerList.get(1).getModelName() + ": " + playerList.get(1).getScore());
             LabelScorePlayer3.setText("Score " + playerList.get(2).getModelName() + ": " + playerList.get(2).getScore());
             LabelScorePlayer4.setText("Score " + playerList.get(3).getModelName() + ": " + playerList.get(3).getScore());
+
+            // TODO: KOD NEDAN ÄR INTE FÄRDIG OCH DEN ÄR TILL FÖR KUNNA ANIMERA NÄR NÅGON AVANCERAR I PLACERING FÖR SCORE.
+            /*
+            // Set the score for the players in the same label.
+            LabelScorePlayer1.setText("P1: " + playerList.get(0).getScore());
+            LabelScorePlayer2.setText("P2: " + playerList.get(1).getScore());
+            LabelScorePlayer3.setText("P3: " + playerList.get(2).getScore());
+            LabelScorePlayer4.setText("P4: " + playerList.get(3).getScore());
+
+            // Take the actors for the score labels and move them to advance in positions. TODO: ta bort getHeight funktionsanropet.
+            stage.getRoot().getChildren().get(0).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 1));
+            stage.getRoot().getChildren().get(1).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 2));
+            stage.getRoot().getChildren().get(2).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 3));
+            stage.getRoot().getChildren().get(3).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * scoreLabelAnimationTimer));
+            */
         }
     }
 
