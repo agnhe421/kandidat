@@ -25,6 +25,7 @@ import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
 import com.badlogic.gdx.physics.bullet.collision.btPersistentManifold;
 import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
+import com.badlogic.gdx.physics.bullet.dynamics.btDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
@@ -80,6 +82,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     private TestContactCache contactCache;
     private BulletEntity player1, player2, player3, player4;
+
+    private ArrayList<BulletEntity> playerEntityList;
     private Player player_1, player_2, player_3, player_4;
 
     // Sound
@@ -214,6 +218,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
         // gameSound.playBackgroundMusic(0.45f);
 
 
+        playerEntityList = new ArrayList<BulletEntity>(10);
+
+
         //-------------------------load countdown--------------------------
         labelStyleCountdown = new Label.LabelStyle(font40, Color.GREEN);
         LabelCountdown = new Label("", labelStyleCountdown);
@@ -233,6 +240,17 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
        // shoot(screenX, screenY);
        // Gdx.app.log("SHOOT", "SHOOT");
+
+
+        //TO REMOVE AN ENTITY FROM THE WORLD
+//        world.remove(playerEntityList.indexOf(player1.body) + 2);
+
+        //LOG THE POSITION OF A BALL
+        Vector3 tmpVec = new Vector3(0,0,0);
+        world.entities.get(1).body.getWorldTransform().getTranslation(tmpVec);
+
+        Gdx.app.log("LOG",tmpVec+ "");
+
 
         if(countdownFinished){
         Ray ray = camera.getPickRay(screenX, screenY);
@@ -352,6 +370,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             player1 = world.add("test1", 0, 3.5f, 2.5f);
             player1.body.setContactCallbackFlag(1);
             player1.body.setContactCallbackFilter(1);
+            playerEntityList.add(player1);
 
             player_2 = new Player(apple, "apple");
             world.addConstructor("test2", player_2.bulletConstructor);
@@ -362,6 +381,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             world.addConstructor("test3", player_3.bulletConstructor);
             player3 = world.add("test3", 0, 3.5f, -2.5f);
             player3.body.setContactCallbackFilter(1);
+            playerEntityList.add(player1);
 
             player_4 = new Player(peach, "peach");
             world.addConstructor("test4", player_4.bulletConstructor);
