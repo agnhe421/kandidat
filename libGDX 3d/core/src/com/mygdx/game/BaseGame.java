@@ -47,11 +47,9 @@ public class BaseGame extends Game {
         createServerScreen = new CreateServerScreen(this);
         //gameScreen = new GameScreen(this);
 
+
         settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
-        this.setScreen(loadingScreen);
-
         initFonts();
-
         setScreen(new LoadingScreen(this));
     }
 
@@ -59,11 +57,11 @@ public class BaseGame extends Game {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/copyfonts.com_gulim.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
         params.size = 40;
-        params.color = Color.BLACK;
+        params.color = Color.WHITE;
         font40 = generator.generateFont(params);
 
         params.size = 120;
-        params.color = Color.BLACK;
+        params.color = Color.WHITE;
         font120 = generator.generateFont(params);
         generator.dispose();
     }

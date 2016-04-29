@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -44,7 +44,7 @@ public class SettingScreen implements Screen {
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
     // Texture
-    private Texture background;
+   // private Texture background;
     //music and slider
     public Music music;
     public float soundVolume = 0.5f;
@@ -69,9 +69,8 @@ public class SettingScreen implements Screen {
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
-        background = app.assets.get("img/greek.jpg", Texture.class);
 
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/greek.jpg"))));
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/main_blurred.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
         stageBackground.addActor(background);
@@ -90,8 +89,6 @@ public class SettingScreen implements Screen {
         stageBackground.draw();
 
         app.batch.begin();
-        app.batch.draw(background, Gdx.graphics.getHeight() / 2 - background.getHeight() / 2, Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
-        app.font40.draw(app.batch, "Screen: SETTING", 30, 30);
         app.font40.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
         app.font40.draw(app.batch, "Sound effects",  w/2 -280/2, h/2);
         app.batch.end();
@@ -184,21 +181,26 @@ public class SettingScreen implements Screen {
 
     private void initButtons() {
 
+        Table table = new Table(skin);
+        stage.addActor(table);
+        // table.setDebug(true);
+        table.setFillParent(true);
 
         int size_x = 280;
         int size_y = 60;
 
-        buttonBack = new TextButton("", skin, "default7");
+        buttonBack = new TextButton("Back", skin, "default8");
         buttonBack.setSize(size_x, size_y);
         // buttonBack.setPosition(Gdx.graphics.getWidth() / 2 - size_x / 2, Gdx.graphics.getHeight() / 2 - size_y / 2);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.mainMenyScreen);
+                app.setScreen(new MainMenyScreen(app));
             }
         });
 
-        stage.addActor(buttonBack);
+        table.add(buttonBack).expandY().expandX().padBottom(-300);
+        stage.addActor(table);
     }
 }

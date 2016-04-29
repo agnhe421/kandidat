@@ -21,6 +21,22 @@ public class GameSound implements Audio {
     private Music backgroundMusic;
     private float musicVolume;
 
+    /*
+    Nätverk, vad behövs skickas?
+
+    - För surroundljud behövs en vec3 skickas med varje persons camera position.
+
+
+  Eller kanske inte, varje client kan få
+  - en position där kollisionen hände
+  - Clienten räknar distansen till kollisionen och justerar volymen i GameSound-klassen.
+  - Men vilket ljud ska spelas? måste nåt slags id skickas med?
+
+  Eller varje client sköter sitt ljud själv
+
+     */
+
+
     public GameSound(){
         // Sounds
         ballPlaceHolderSound = Gdx.audio.newSound(Gdx.files.internal("sound/ballph.wav"));

@@ -75,12 +75,14 @@ public class CreateServerScreen implements Screen{
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
-        this.skin.add("default-font", app.font40); // Sätter default font som vår ttf font
+        this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/blurr.jpg"))));
+
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/main_blurred.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
         stageBackground.addActor(background);
+
 
         initButtons();
     }
@@ -199,30 +201,6 @@ public class CreateServerScreen implements Screen{
         stage.addActor(table);
         // table.setDebug(true);
         table.setFillParent(true);
-
-        /*buttonCreate = new TextButton("Create Server", skin, "default8");
-        buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 200 + buttonSizeY / 2);
-        buttonCreate.setSize(buttonSizeX, buttonSizeY);
-        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-        buttonCreate.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (app.connectionMenuScreen.create == null) {
-                    //Create a new server, update the text accordingly.
-                    app.connectionMenuScreen.create = new CreateServer();
-                    app.connectionMenuScreen.create.start();
-                    IPad = app.connectionMenuScreen.create.getIpAddress();
-                    msg = app.connectionMenuScreen.create.getMsg();
-                    error = app.connectionMenuScreen.create.getError();
-                    //app.setScreen(app.pickScreen);
-                } else {
-                    //Further clicks will only update the text.
-                    msg = app.connectionMenuScreen.create.getMsg();
-                    error = app.connectionMenuScreen.create.getError();
-                    //app.setScreen(app.pickScreen);
-                }
-            }
-        });*/
 
         buttonDisconnect = new TextButton("Disconnect.", skin, "default8");
         buttonDisconnect.setSize(buttonSizeX, buttonSizeY);

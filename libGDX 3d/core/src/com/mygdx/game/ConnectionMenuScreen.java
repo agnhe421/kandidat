@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
@@ -60,17 +62,16 @@ public class ConnectionMenuScreen implements Screen {
         System.out.println("Show");
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
-        stage.clear();
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
         this.skin.add("default-font", app.font40);
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/greek.jpg"))));
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/Background.jpg"))));
         background.setPosition(0, 0);
-        background.setSize((stage.getWidth()), stage.getHeight());
-        stage.addActor(background);
+        background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
+        stageBackground.addActor(background);
 
         initButtons();
     }
@@ -86,13 +87,13 @@ public class ConnectionMenuScreen implements Screen {
 
         app.batch.begin();
         GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(), glyphLayoutIP = new GlyphLayout();
-        glyphLayoutmsg.setText(app.font40, msg);
-        glyphLayouterror.setText(app.font40, error);
-        glyphLayoutIP.setText(app.font40, IPad);
-        float fex = glyphLayouterror.width/2, fey = glyphLayouterror.height/2;
-        float fmx = glyphLayoutmsg.width/2, fmy = glyphLayoutmsg.height/2;
-        float fix = glyphLayoutIP.width/2, fiy = glyphLayoutIP.height/2;
-        float x = w/2, y = h/2;
+       // glyphLayoutmsg.setText(app.font40, msg);
+       // glyphLayouterror.setText(app.font40, error);
+       // glyphLayoutIP.setText(app.font40, IPad);
+       // float fex = glyphLayouterror.width/2, fey = glyphLayouterror.height/2;
+       // float fmx = glyphLayoutmsg.width/2, fmy = glyphLayoutmsg.height/2;
+       // float fix = glyphLayoutIP.width/2, fiy = glyphLayoutIP.height/2;
+        //float x = w/2, y = h/2;
 
         //Only retrieve active messages if the exit command hasn't been invoked. Otherwise, null values may be accessed.
         /*if(!hardexit)
@@ -135,9 +136,9 @@ public class ConnectionMenuScreen implements Screen {
             }
         }*/
         //Draw all text on screen. If you don't wish to see the debug, remove the error draw.
-        app.font40.draw(app.batch, msg, x - fmx, y + fmy);
-        app.font40.draw(app.batch, error, x - fex, y + fey - 300);
-        app.font40.draw(app.batch, IPad, x - fix, y + fiy + 300);
+     //   app.font40.draw(app.batch, msg, x - fmx, y + fmy);
+     //   app.font40.draw(app.batch, error, x - fex, y + fey - 300);
+     //   app.font40.draw(app.batch, IPad, x - fix, y + fiy + 300);
         app.batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
@@ -175,8 +176,6 @@ public class ConnectionMenuScreen implements Screen {
     }
 
 
-
-
     private void initButtons() {
 
         Table table = new Table(skin);
@@ -185,39 +184,57 @@ public class ConnectionMenuScreen implements Screen {
         table.setFillParent(true);
 
         buttonCreate = new TextButton("Create Server", skin, "default8");
-        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.f, Interpolation.pow5Out))));
         buttonCreate.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.createServerScreen);
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                app.setScreen(app.createServerScreen);
+
+                            }
+                        })));
             }
         });
 
-
         buttonJoin = new TextButton("Join Server", skin, "default8");
-        buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
         buttonJoin.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.joinServerScreen);
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                app.setScreen(app.joinServerScreen);
+
+                            }
+                        })));
             }
         });
 
+
         buttonBack = new TextButton("Back", skin, "default8");
-        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 2.f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Exit the app, terminate any active servers or connections.
-                app.setScreen(app.mainMenyScreen);
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                app.setScreen(new MainMenyScreen(app));
+
+                            }
+                        })));
             }
         });
 
-        table.add(buttonCreate).bottom().left().padLeft(150).expandX().padBottom(30);
+
+        table.add(buttonCreate).bottom().left().padLeft(-170).expandX().padBottom(30);
         table.row();
-        table.add(buttonJoin).bottom().left().padLeft(150).padBottom(30);
+        table.add(buttonJoin).bottom().left().padLeft(-170).padBottom(30);
         table.row();
-        table.add(buttonBack).top().left().padLeft(150).padBottom(30);
+        table.add(buttonBack).top().left().padLeft(-170).padBottom(30);
         stage.addActor(table);
     }
 }
