@@ -76,7 +76,7 @@ public class JoinServerScreen implements Screen{
         this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
-        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/background4.jpg"))));
+        Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/main_blurred.jpg"))));
         background.setPosition(0, 0);
         background.setSize((stageBackground.getWidth()), stageBackground.getHeight());
         stageBackground.addActor(background);
@@ -148,7 +148,6 @@ public class JoinServerScreen implements Screen{
         }
 
         app.batch.begin();
-        app.font40.draw(app.batch, "Screen: JoinServerScreen", 30, 30);
         app.font40.draw(app.batch, chooseServer, x - fcx, h - fcy);
         app.font40.draw(app.batch, playerName, x - fpx, h - fpy * 5);
         app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy);
@@ -343,7 +342,7 @@ public class JoinServerScreen implements Screen{
         buttonBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.connectionMenuScreen);
+                app.setScreen(new ConnectionMenuScreen(app));
             }
         });
 

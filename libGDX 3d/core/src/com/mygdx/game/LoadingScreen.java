@@ -49,6 +49,7 @@ public class
         app.assets.load("img/greek.jpg", Texture.class);
         app.assets.load("img/badlogic.jpg", Texture.class);
         app.assets.load("img/Background.jpg", Texture.class);
+        app.assets.load("img/main_blurred.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
         app.assets.load("ui/TextUI.pack", TextureAtlas.class);
         app.assets.load("ui/Buttons.pack", TextureAtlas.class);
@@ -115,6 +116,7 @@ public class
             image.setSize(w/2,h/12);   //skala så det passar på skärmen, finns bättre sätt?
             stage.addActor(image);
         }
+
     }
 
     private void update(float delta){
