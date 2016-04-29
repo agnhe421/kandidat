@@ -51,6 +51,12 @@ public class BaseWorld<T extends BaseEntity> implements Disposable {
 		entities.add(entity);
 	}
 
+
+	//TO REMOVE AN ENTITY FROM THE WORLD
+	public void remove (int index) {
+		entities.removeIndex(index);
+	}
+
 	public T add (final String type, float x, float y, float z) {
 		final T entity = constructors.get(type).construct(x, y, z);
 		add(entity);

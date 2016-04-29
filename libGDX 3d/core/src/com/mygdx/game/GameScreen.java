@@ -25,6 +25,7 @@ import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
 import com.badlogic.gdx.physics.bullet.collision.btPersistentManifold;
 import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
+import com.badlogic.gdx.physics.bullet.dynamics.btDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
@@ -78,6 +80,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     // Score lables
 
     public static float time;
+
     private boolean remove = false;
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
@@ -282,7 +285,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         // Play background music.
         // gameSound.playBackgroundMusic(0.45f);
 
-
         //-------------------------load countdown--------------------------
         labelStyleCountdown = new Label.LabelStyle(app.font40, Color.GREEN);
         LabelCountdown = new Label("", labelStyleCountdown);
@@ -302,7 +304,16 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
        // shoot(screenX, screenY);
         Gdx.app.log("SHOOT", "SHOOT");
-       // Gdx.app.log("SHOOT", "SHOOT");
+
+        //TO REMOVE AN ENTITY FROM THE WORLD
+//        world.remove(playerEntityList.indexOf(player1.body) + 2);
+
+        //LOG THE POSITION OF A BALL
+        Vector3 tmpVec = new Vector3(0,0,0);
+        world.entities.get(1).body.getWorldTransform().getTranslation(tmpVec);
+
+        Gdx.app.log("LOG",tmpVec+ "");
+
 
         //if(countdownFinished){
         Ray ray = camera.getPickRay(screenX, screenY);
@@ -335,20 +346,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
             float normFactor = playerList.get(thisUnitId).impulseFactor / vec.len();
             Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
-            //Servern ska bara behöva applicera rörelse på sig själv här.
-            //Alla andra enheters rörelse tas hand om via sina egna trådar
-            /*if(app.createServerScreen.create != null)
-            {
-                //app.createServerScreen.create.setClickPosVector(normVec);
-                app.createServerScreen.create.srvrUser.applyCharMovement(normVec);
-                app.createServerScreen.create.sendSrvrClickPos(normVec);
-            }
-            else if(app.joinServerScreen.join != null)
-            {
-                //app.joinServerScreen.join.unitUser.applyCharMovement(normVec);
-                app.joinServerScreen.join.setClickPosVector(normVec);
-                app.joinServerScreen.join.sendClickPosVector(normVec);
-            }*/
             playerEntityList.get(thisUnitId).body.activate();
             ((btRigidBody) playerEntityList.get(thisUnitId).body).applyCentralImpulse(normVec);
             Gdx.app.log("HEJ!", "Player " + (thisUnitId+1));
@@ -461,6 +458,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
            /* player1 = world.add("test1", 0, 3.5f, 2.5f);
             player1.body.setContactCallbackFlag(1);
             player1.body.setContactCallbackFilter(1);
+            playerEntityList.add(player1);
 
             player_2 = new Player(apple, "apple");
             world.addConstructor("test2", player_2.bulletConstructor);
@@ -471,6 +469,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             world.addConstructor("test3", player_3.bulletConstructor);
             player3 = world.add("test3", 0, 3.5f, -2.5f);
             player3.body.setContactCallbackFilter(1);
+            playerEntityList.add(player1);
 
             player_4 = new Player(peach, "peach");
             world.addConstructor("test4", player_4.bulletConstructor);
