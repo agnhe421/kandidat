@@ -113,7 +113,12 @@ public class JoinServerScreen implements Screen{
         if(join != null)
         {
             if(join.getAllReadyState())
-                app.setScreen(new GameScreen(app));
+            {
+                PropertiesSingleton.getInstance().setNrPlayers(join.getPlayerAmount());
+                app.gameScreen = new GameScreen(app);
+                app.setScreen(app.gameScreen);
+            }
+
             msg = join.getMsg();
             error = join.getError();
             msglog = join.getLog();
@@ -320,7 +325,7 @@ public class JoinServerScreen implements Screen{
                         error = "No server selected!";
                     } else {
                         //IPad = "Connecting to: " + serverIPad;
-                        join = new JoinServer(serverIPad, 8081, "player"); //All hail Manly Banger, the Rock God!
+                        join = new JoinServer(serverIPad, 8081, "player", app); //All hail Manly Banger, the Rock God!
                         join.start();
                         join.getMsg();
                         join.getError();

@@ -14,11 +14,11 @@ import javax.swing.plaf.synth.SynthEditorPaneUI;
 public class Player extends BaseBulletTest {
     private BulletEntity bulletEntity;
     public BulletConstructor bulletConstructor;
-    private Vector3 position;
+    private Vector3 position, impulseVector;
     private Model model;
     private int score = 0;
     public int impulseFactor = 0;
-    public int weigth = 0;
+    public int weigth = 1;
     private String name;
 
     // Variables
@@ -51,7 +51,7 @@ public class Player extends BaseBulletTest {
 
     // Set the weith depending on the model
     public int setWeigth(String name){
-        if(name == "fotball"){
+        if(name == "football"){
             return weigthFotball;
         }
         if(name == "apple"){
@@ -60,7 +60,7 @@ public class Player extends BaseBulletTest {
         if(name == "peach"){
             return weigthPeach;
         }
-        else return 0;
+        else return 1;
     }
 
     // Set the impulse strength depending on the model
@@ -74,12 +74,14 @@ public class Player extends BaseBulletTest {
         if(name == "peach"){
             return impulsePeach;
         }
-        else return 0;
+        else return 3;
     }
 
     public void setScore(int points){
          score += points;
     }
+
+    public void setImpulseVector(Vector3 newVec) {impulseVector = newVec;}
 
     public int getScore(){
         return score;

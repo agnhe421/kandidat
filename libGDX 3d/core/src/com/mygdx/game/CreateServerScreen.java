@@ -40,7 +40,7 @@ public class CreateServerScreen implements Screen{
     private Stage stage, stageBackground;
     private Skin skin;
 
-    private TextButton buttonBack, buttonReady, buttonCreate, buttonDisconnect;
+    private TextButton buttonBack, buttonReady, buttonDisconnect;
     private String player1 = "Player 1", serverName = "Server name", playerList = "";
     public String msg = "msg", error = "error", msglog = "log", IPad = "IP";
     public CreateServerScreen(final BaseGame app)
@@ -60,7 +60,7 @@ public class CreateServerScreen implements Screen{
 
         if (create == null) {
             //Create a new server, update the text accordingly.
-            create = new CreateServer();
+            create = new CreateServer(app);
             create.start();
             IPad = create.getIpAddress();
             msg = create.getMsg();
@@ -259,7 +259,9 @@ public class CreateServerScreen implements Screen{
                 if(rdy)
                 {
                     create.sendReadyMsg();
-                    app.setScreen(new GameScreen(app));
+                    PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
+                    app.gameScreen = new GameScreen(app);
+                    app.setScreen(app.gameScreen);
                 }
                 msg = "Not all players are ready.";
             }

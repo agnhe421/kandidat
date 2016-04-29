@@ -4,7 +4,10 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
+import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -19,7 +22,7 @@ import java.util.Vector;
  */
 public class JoinServer extends Thread
 {
-    protected String dstAdress, name;
+    protected String dstAdress;
     protected int dstPort;
     protected Socket socket;
     private String msgtake = "msgtake", msgsend = "", error = "No Error", msglog = "";
@@ -27,23 +30,26 @@ public class JoinServer extends Thread
     private boolean connected, ready, allready;
     private static final int SIZE = 1024;
     private byte[] buffer;
-    private int reads, msgnr, score;
-    private Vector3 posData, clickPos;
+    private int reads, msgnr;
+    public User unitUser;
     private Vector<User> playerList;
     BufferedOutputStream bufferedOutputStream;
     BufferedInputStream bufferedInputStream;
+    BaseGame app;
 
-    public JoinServer(String dstAdress, int dstPort, String name)
+    public JoinServer(String dstAdress, int dstPort, String name, final BaseGame app)
     {
+        this.app = app;
+        unitUser = new User(name, 0, new Vector3(), new Vector3());
         playerList = new Vector<User>();
         this.dstAdress = dstAdress;
         this.dstPort = dstPort;
         //The name is placeholder, you should be able to enter it yourself when it is integrated with the UI.
-        this.name = name;
+        unitUser.setId(name);
         connected = false;
         ready = false;
         allready = false;
-        posData = new Vector3();
+        unitUser.setPosition(new Vector3());
         strConv = new Vector<String>();
     }
 
@@ -80,9 +86,9 @@ public class JoinServer extends Thread
                 //Clear the receiving vector.
                 strConv.clear();
                 //Initial condition for setting player name.
-                if(name == "player")
-                    msgsend = name;
-                if(name != "player" && !ready)
+                if(unitUser.getId().equals("player"))
+                    msgsend = unitUser.id;
+                if(unitUser.getId() != "player" && !ready && !playerList.isEmpty())
                 {
                     ready = true;
                     sendMessage("READY_CHECK");
@@ -90,6 +96,7 @@ public class JoinServer extends Thread
                 //Send message statement.
                 if(connected && !msgsend.equals(""))
                 {
+                    Gdx.app.log("HEJ!", "Sending message: " + msgsend);
                     sendMessage(msgsend);
                     ++msgnr;
                     msgsend = "";
@@ -114,62 +121,68 @@ public class JoinServer extends Thread
                     if(!connected)
                         break;
                     //Extract this users data from list.
-                    char playerNr = name.charAt(name.length() - 1);
+                    char playerNr = unitUser.getId().charAt(unitUser.getId().length() - 1);
                     int thisPlayerId = Character.getNumericValue(playerNr);
                     //Gdx.app.log("Msglog: ", allData.get(thisPlayerId));
 
                     for(int idu = 1, idp = 0; idu <= playerList.size(); ++idu)
                     {
-                        if(idu != Character.getNumericValue(name.charAt(name.length() - 1)))
+                        if(idu != Character.getNumericValue(unitUser.getId().charAt(unitUser.getId().length() - 1)))
                         {
                             playerList.get(idp).setPosition(new Vector3().fromString(strConv.get(idu)));
                             ++idp;
                         }
                         else
-                            posData = new Vector3().fromString(strConv.get(idu));
+                            unitUser.setPosition(new Vector3().fromString(strConv.get(idu)));
                     }
-                    posData = new Vector3().fromString(strConv.get(thisPlayerId));
+                    unitUser.setPosition(new Vector3().fromString(strConv.get(thisPlayerId)));
 
                     //Simulate movement to display changes to server, and check network speed.
                     //posData.add(1.0f, 0.0f, 0.0f);
-                    msglog = posData.toString() + "\n";
-                    sendData(posData.toString());
+                    msglog = unitUser.getPosition().toString() + "\n";
+                    sendData(unitUser.getPosition().toString());
                 }
                 else if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
-                    User usr = new User();
-                    usr.setId(strConv.get(1));
-                    usr.setScore(Integer.parseInt(strConv.get(2)));
+                    Gdx.app.log("HEJ!", "user data got.");
+                    User usr = new User(strConv.get(1), Integer.parseInt(strConv.get(2)), new Vector3(), new Vector3());
                     //usr.setPosition(new Vector3().fromString(strConv.get(3)));
                     //usr.setClickPos(new Vector3().fromString(strConv.get(4)));
                     playerList.add(usr);
                 }
                 else if(strConv.get(0).equals("CLICK_POS_INCOMING"))
                 {
-                    for(int idu = 1, idp = 0; idu <= playerList.size(); ++idu)
+                    Gdx.app.log("HEJ!", "Receiving impulse vector.");
+                    //Den tar bara emot en position från en spelare åt gången.
+                    int playerId = 0;
+                    for(int idu = 0; idu < playerList.size(); ++idu)
                     {
-                        if(idu != Character.getNumericValue(name.charAt(name.length() - 1)))
+                        if(playerList.get(idu).id.equals(strConv.get(1)))
                         {
-                            playerList.get(idp).setClickPos(new Vector3().fromString(strConv.get(idu)));
-                            ++idp;
+                            playerId = idu;
+                            break;
                         }
-                        else
-                            clickPos = new Vector3().fromString(strConv.get(idu));
                     }
+                    Gdx.app.log("HEJ!", "Player ID: " + playerId);
+                    //playerList.get(playerId).applyCharMovement(new Vector3().fromString(strConv.get(2)));
+                    playerList.get(playerId).setClickPos(new Vector3().fromString(strConv.get(2)));
+                    app.gameScreen.updateImpulse(playerList.get(playerId).getClickPos(),
+                            Character.getNumericValue(playerList.get(playerId).getId().charAt
+                                    (playerList.get(playerId).getId().length() - 1)) - 1);
                 }
                 else if(strConv.get(0).equals("SCORE_INCOMING"))
                 {
-                    for(int idu = 1, idp = 0; idu <= playerList.size(); ++idu, ++idp)
+                    //Den tar bara emot en position från en spelare åt gången.
+                    int playerId = 0;
+                    for(int idu = 0; idu < playerList.size(); ++idu)
                     {
-                        if(idu != Character.getNumericValue(name.charAt(name.length() - 1)))
+                        if(playerList.get(idu).id.equals(strConv.get(1)))
                         {
-                            playerList.get(idp).setScore(Integer.parseInt(strConv.get(idu)));
-                            ++idp;
+                            playerId = idu;
+                            break;
                         }
-                        else
-                            score = Integer.parseInt(strConv.get(idu));
                     }
-
+                    playerList.get(playerId).setScore(Integer.parseInt(strConv.get(2)));
                 }
                 //Check for a name change request.
                 else if(strConv.get(0).equals("NAME_CHANGE"))
@@ -192,16 +205,17 @@ public class JoinServer extends Thread
                 //Otherwise, handle message.
                 else if(!strConv.get(0).equals(""))
                 {
-                    if(name.equals("player"))
+                    if(unitUser.getId().equals("player"))
                     {
                         setJoinName(strConv.get(0));
-                        msgsend = name;
+                        msgsend = unitUser.getId();
+                        Gdx.app.log("HEJ!", "New name:" + unitUser.getId());
                     }
                     msgtake = "Receiving: " + strConv.get(0);
                 }
                 else
                 {
-                    msgtake = "Current name: " + name;
+                    msgtake = "Current name: " + unitUser.getId();
                 }
             }
         }catch(UnknownHostException e)
@@ -321,18 +335,27 @@ public class JoinServer extends Thread
         allPosData.add(temp);
         return allPosData;
     }*/
-
+    public void setScore(int newScore) {unitUser.setScore(newScore);}
+    public String getPlayerId(int index) {return playerList.get(index).getId();}
+    public String getUnitUserId() {return unitUser.getId();}
     public String getLog() {return msglog;}
     public String getError() {return error;}
     public String getMsg() {return msgtake;}
+    public int getPlayerAmount() {return playerList.size() + 1;}
     public Boolean connected() {return connected;}
     public Boolean getAllReadyState() {return allready;}
-    public void setJoinName(String id) {this.name = id;}
+    public void setJoinName(String id) {unitUser.setId(id);}
     public void setClickPosVector(Vector3 newClickPos)
     {
-        clickPos = newClickPos;
+        unitUser.setClickPos(newClickPos);
         sendMessage(newClickPos.toString());
     }
+    public void sendClickPosVector(Vector3 normVec)
+    {
+        Gdx.app.log("HEJ!", "Sending impulse vector.");
+        sendMessage("CLICK_POS_INCOMING|" + normVec.toString());
+    }
+    public void sendNewScore() { sendMessage("SCORE_INCOMING|" + unitUser.getScore());}
     //Send message via output stream.
     private void sendMessage(String msg)
     {
@@ -367,16 +390,42 @@ public class JoinServer extends Thread
         }
     }
 
-    private class User
+    private class User //extends BaseBulletTest
     {
+
+        public User(String _name, int _score, Vector3 _clickPos, Vector3 _position)
+        {
+            setScore(_score);
+            setId(_name);
+            setClickPos(_clickPos);
+            setPosition(_position);
+        }
+
         private Vector3 clickPos, position;
         private int score;
         private String id;
+        //private BulletEntity playerChar;
+        //private BulletConstructor constructor;
 
+        public Vector3 getPosition() {return position;}
+        public Vector3 getClickPos() {return clickPos;}
+        public String getId() {return id;}
+        public int getScore() {return score;}
         public void setScore(int newScore) {score = newScore;}
         public void setId(String newId) {id = newId;}
         public void setClickPos(Vector3 newClickPos) {clickPos = newClickPos;}
         public void setPosition(Vector3 newPosition) {position = newPosition;}
+        /*public void applyCharMovement(Vector3 normVec)
+        {
+            playerChar.body.activate();
+            ((btRigidBody) playerChar.body).applyCentralImpulse(normVec);
+        }
+        public BulletConstructor initConstructor(Model model, float weight)
+        {
+            disposables.add(model);
+            BulletConstructor bulletConstructor = (new BulletConstructor(model, weight, new btSphereShape(0.8f)));
+            return bulletConstructor;
+        }*/
     }
 
 }
