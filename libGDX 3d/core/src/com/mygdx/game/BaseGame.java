@@ -23,6 +23,7 @@ public class BaseGame extends Game {
     public LobbyScreen lobbyScreen;
     public JoinServerScreen joinServerScreen;
     public CreateServerScreen createServerScreen;
+    public GameScreen gameScreen;
 
     public static final int VIRTUAL_WIDTH = 3840;
     public static final int VIRTUAL_HEIGHT = 2160;
@@ -44,6 +45,7 @@ public class BaseGame extends Game {
         lobbyScreen = new LobbyScreen(this);
         joinServerScreen = new JoinServerScreen(this);
         createServerScreen = new CreateServerScreen(this);
+        //gameScreen = new GameScreen(this);
 
 
         settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
