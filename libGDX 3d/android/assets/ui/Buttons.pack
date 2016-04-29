@@ -5,77 +5,35 @@ filter: Nearest,Nearest
 repeat: none
 pink
   rotate: false
-  xy: 1, 593
+  xy: 1, 399
   size: 770, 417
   orig: 770, 417
   offset: 0, 0
   index: -1
-back
-  rotate: false
-  xy: 1, 466
-  size: 480, 125
-  orig: 480, 125
-  offset: 0, 0
-  index: -1
-create
-  rotate: false
-  xy: 1, 339
-  size: 480, 125
-  orig: 480, 125
-  offset: 0, 0
-  index: -1
-disconnect
-  rotate: false
-  xy: 1, 212
-  size: 480, 125
-  orig: 480, 125
-  offset: 0, 0
-  index: -1
-join
-  rotate: false
-  xy: 1, 85
-  size: 480, 125
-  orig: 480, 125
-  offset: 0, 0
-  index: -1
 Standard2
   rotate: false
+  xy: 1, 233
+  size: 789, 164
+  orig: 789, 164
+  offset: 0, 0
+  index: -1
+Standard2pressed
+  rotate: false
+  xy: 1, 67
+  size: 789, 164
+  orig: 789, 164
+  offset: 0, 0
+  index: -1
+Standard
+  rotate: false
   xy: 1, 13
-  size: 448, 70
-  orig: 448, 70
-  offset: 0, 0
-  index: -1
-play
-  rotate: false
-  xy: 483, 399
-  size: 340, 192
-  orig: 340, 192
-  offset: 0, 0
-  index: -1
-ready
-  rotate: false
-  xy: 483, 272
-  size: 480, 125
-  orig: 480, 125
-  offset: 0, 0
-  index: -1
-score
-  rotate: false
-  xy: 483, 145
-  size: 480, 125
-  orig: 480, 125
-  offset: 0, 0
-  index: -1
-settings
-  rotate: false
-  xy: 483, 18
-  size: 480, 125
-  orig: 480, 125
+  size: 272, 52
+  orig: 272, 52
   offset: 0, 0
   index: -1
 knob
   rotate: false
-  xy: 773, 960
+  xy: 773, 766
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
@@ -83,26 +41,7 @@ knob
 black
   rotate: false
   xy: 1, 1
-  size: 20, 10
-  orig: 20, 10
-  offset: 0, 0
-  index: -1
-
-Buttons2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-Standard2pressed
-  rotate: false
-  xy: 1, 55
-  size: 448, 70
-  orig: 448, 70
-  offset: 0, 0
-  index: -1
-Standard
-  rotate: false
-  xy: 1, 1
-  size: 272, 52
-  orig: 272, 52
+  size: 17, 10
+  orig: 17, 10
   offset: 0, 0
   index: -1
