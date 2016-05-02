@@ -18,6 +18,16 @@ public class GameSound implements Audio {
     private Music backgroundMusic;
     private float musicVolume;
 
+    //TODO: Klipp in denna kod i collision listener i din game screen för att spela rätt ljud.
+    //TODO: Du måste ha playerList vectorn för att det ska fungera. Det finns i GameScreen, 160502
+    /*
+    if(userValue0 <= playerList.size() && userValue1 <= playerList.size()){
+        gameSound.playCollisionSound(p1Position, playerList.get(userValue0-1).getModelName(), playerList.get(userValue1-1).getModelName());
+        Gdx.app.log("userValue0 = ", "" + playerList.get(userValue0 - 1).getModelName());
+        Gdx.app.log("userValue1 = ", "" + playerList.get(userValue1 - 1).getModelName());
+    }
+    */
+
     public GameSound(){
         // Load the sounds
         ballPlaceHolderSound = Gdx.audio.newSound(Gdx.files.internal("sound/ballph.wav"));
@@ -46,10 +56,10 @@ public class GameSound implements Audio {
         // TODO: Ersätt alltså med Vuforias camera view position.
         Vector3 tempEar = new Vector3(0f, 0f, 0f);
 
-        // Räkna distansen utifrån deras Vec3 positioner.
+        // Calculate distance from the camera and the collision.
         Vector3 distance = new Vector3( player1.x - tempEar.x, 0, player1.z - tempEar.z );
 
-        // Justera volymen.
+        // Scale the volume.
         float volumeFactor = 1 / distance.len();
 
         // Play the correct sound based on the collision.

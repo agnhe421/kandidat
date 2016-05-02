@@ -95,7 +95,7 @@ public class GameScreenTeams extends BaseBulletTest implements Screen {
 
     // Sound
     static GameSound gameSound;
-    int collisonUserId0, collisonUserId1;
+    int collisionUserId0, collisionUserId1;
 
     // Game mode variables.
     ArrayList<BulletEntity> team1;
@@ -129,13 +129,13 @@ public class GameScreenTeams extends BaseBulletTest implements Screen {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                         e.setColor(Color.BLUE);
                         Gdx.app.log(Float.toString(time), "Contact started " + userValue0);
-                        collisonUserId0 = userValue0;
+                        collisionUserId0 = userValue0;
                     }
                     if (match1) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                         e.setColor(Color.RED);
                         Gdx.app.log(Float.toString(time), "Contact started " + userValue1);
-                        collisonUserId1 = userValue1;
+                        collisionUserId1 = userValue1;
                     }
                     // Play the collision sound.
 //                    gameSound.playCollisionSound(p1, p2);
@@ -152,12 +152,12 @@ public class GameScreenTeams extends BaseBulletTest implements Screen {
                 if (match0) {
                     final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                     e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId1);
+                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
                 }
                 if (match1) {
                     final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                     e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId0);
+                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
                 }
             }
         }
@@ -391,15 +391,15 @@ public class GameScreenTeams extends BaseBulletTest implements Screen {
         if(app.assets.update() && scoreTimer > 0){
 
             // If player one falls,
-            if((((btRigidBody) player1.body).getCenterOfMassPosition().y < 0) && (collisonUserId0 == 1 || collisonUserId1 == 1)
-                    && (!(collisonUserId0 == 2) || !(collisonUserId1 == 2)) ){
+            if((((btRigidBody) player1.body).getCenterOfMassPosition().y < 0) && (collisionUserId0 == 1 || collisionUserId1 == 1)
+                    && (!(collisionUserId0 == 2) || !(collisionUserId1 == 2)) ){
 
                 // Give the individual points to the player that knocked the opponent down.
-                if(collisonUserId0 == 3 || collisonUserId1 == 3){
+                if(collisionUserId0 == 3 || collisionUserId1 == 3){
                     player_3.setScore(1);
                     Gdx.app.log("Team 2 scored", "Player 3 scored.");
                 }
-                else if(collisonUserId0 == 4 || collisonUserId1 == 4){
+                else if(collisionUserId0 == 4 || collisionUserId1 == 4){
                     player_4.setScore(1);
                     Gdx.app.log("Team 2 scored", "Player 4 scored.");
                 }
@@ -409,15 +409,15 @@ public class GameScreenTeams extends BaseBulletTest implements Screen {
             }
 
             // If player two falls
-            if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (collisonUserId0 == 2 || collisonUserId1 == 2)
-                    && (!(collisonUserId0 == 1) || !(collisonUserId1 == 1)) ){ // Not teammate
+            if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (collisionUserId0 == 2 || collisionUserId1 == 2)
+                    && (!(collisionUserId0 == 1) || !(collisionUserId1 == 1)) ){ // Not teammate
 
                 // Give the individual points to the player that knocked the opponent down.
-                if(collisonUserId0 == 3 || collisonUserId1 == 3){
+                if(collisionUserId0 == 3 || collisionUserId1 == 3){
                     player_3.setScore(1);
                     Gdx.app.log("Team 2 scored", "Player 3 scored.");
                 }
-                else if(collisonUserId0 == 4 || collisonUserId1 == 4){
+                else if(collisionUserId0 == 4 || collisionUserId1 == 4){
                     player_4.setScore(1);
                     Gdx.app.log("Team 2 scored", "Player 4 scored.");
                 }
@@ -426,15 +426,15 @@ public class GameScreenTeams extends BaseBulletTest implements Screen {
             }
 
             // If player 3 falls
-            if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (collisonUserId0 == 3 || collisonUserId1 == 3)
-                && (!(collisonUserId0 == 4) || !(collisonUserId1 == 4)) ){
+            if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (collisionUserId0 == 3 || collisionUserId1 == 3)
+                && (!(collisionUserId0 == 4) || !(collisionUserId1 == 4)) ){
 
                 // Give the individual points to the player that knocked the opponent down.
-                if(collisonUserId0 == 1 || collisonUserId1 == 1){
+                if(collisionUserId0 == 1 || collisionUserId1 == 1){
                     player_1.setScore(1);
                     Gdx.app.log("Team 1 scored", "Player 1 scored.");
                 }
-                else if(collisonUserId0 == 2 || collisonUserId1 == 2){
+                else if(collisionUserId0 == 2 || collisionUserId1 == 2){
                     player_2.setScore(1);
                     Gdx.app.log("Team 1 scored", "Player 2 scored.");
                 }
@@ -443,15 +443,15 @@ public class GameScreenTeams extends BaseBulletTest implements Screen {
             }
 
             // If player 4 falls
-            if((((btRigidBody) player4.body).getCenterOfMassPosition().y < 0) && (collisonUserId0 == 4 || collisonUserId1 == 4)
-                    && (!(collisonUserId0 == 3) || !(collisonUserId1 == 3)) ){
+            if((((btRigidBody) player4.body).getCenterOfMassPosition().y < 0) && (collisionUserId0 == 4 || collisionUserId1 == 4)
+                    && (!(collisionUserId0 == 3) || !(collisionUserId1 == 3)) ){
 
                 // Give the individual points to the player that knocked the opponent down.
-                if(collisonUserId0 == 1 || collisonUserId1 == 1){
+                if(collisionUserId0 == 1 || collisionUserId1 == 1){
                     player_1.setScore(1);
                     Gdx.app.log("Team 1 scored", "Player 1 scored.");
                 }
-                else if(collisonUserId0 == 2 || collisonUserId1 == 2){
+                else if(collisionUserId0 == 2 || collisionUserId1 == 2){
                     player_2.setScore(1);
                     Gdx.app.log("Team 1 scored", "Player 2 scored.");
                 }

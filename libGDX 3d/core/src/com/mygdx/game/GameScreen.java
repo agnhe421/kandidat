@@ -70,7 +70,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     boolean loading = false;
 
 
-    // Controll
+    // Control
     private ClosestRayResultCallback rayTestCB;
     private Vector3 rayFrom = new Vector3();
     private Vector3 rayTo = new Vector3();
@@ -91,7 +91,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     // Sound
     static GameSound gameSound;
-    int collisonUserId0, collisonUserId1;
+    int collisionUserId0, collisionUserId1;
 
     //countdown
     private Label LabelCountdown;
@@ -134,13 +134,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                         e.setColor(Color.BLUE);
                         Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
-                        collisonUserId0 = userValue0;
+                        collisionUserId0 = userValue0;
                     }
                     if (match1) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                         e.setColor(Color.RED);
                         Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
-                        collisonUserId1 = userValue1;
+                        collisionUserId1 = userValue1;
                     }
                     // Play the collision sound.
 //                    gameSound.playCollisionSound(p1, p2);
@@ -157,12 +157,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 if (match0) {
                     final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                     e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId1);
+                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
                 }
                 if (match1) {
                     final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                     e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId0);
+                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
                 }
             }
         }
@@ -439,8 +439,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         /*if (app.assets.update() && loading) {
 
-            Model fotball = app.assets.get("3d/football2.g3dj", Model.class);
-            String id = fotball.nodes.get(0).id;
+            Model football = app.assets.get("3d/football2.g3dj", Model.class);
+            String id = football.nodes.get(0).id;
 =======
         if (app.assets.update() && loading) {
             Model football = app.assets.get("3d/balls/football2.g3dj", Model.class);
@@ -500,13 +500,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
                   if ((((btRigidBody) playerEntityList.get(1).body).getCenterOfMassPosition().y < 0) && (((btRigidBody) playerEntityList.get(1).body).getCenterOfMassPosition().y > -0.08)
           if(app.assets.update() && playerCreated) {
               if ((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
-                          && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0) {
+                          && (collisionUserId0 == 2 || collisionUserId1 == 2) && scoreTimer > 0) {
                   player_1.setScore(10);
                   Gdx.app.log("PLAYER2", "KRASH");
 
               }
               if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -0.08)
-                      && (collisonUserId0 == 3 ||  collisonUserId1 == 3) && scoreTimer > 0){
+                      && (collisionUserId0 == 3 ||  collisionUserId1 == 3) && scoreTimer > 0){
                   player_2.setScore(10);
                   Gdx.app.log("PLAYER3", "KRASH");
               }
