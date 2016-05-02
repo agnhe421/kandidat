@@ -230,11 +230,11 @@ public class ConnectionMenuScreen implements Screen {
         });
 
 
-        table.add(buttonCreate).bottom().left().padLeft(-170).expandX().padBottom(30);
+        table.add(buttonCreate).expandX().bottom().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         table.row();
-        table.add(buttonJoin).bottom().left().padLeft(-170).padBottom(30);
+        table.add(buttonJoin).bottom().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         table.row();
-        table.add(buttonBack).top().left().padLeft(-170).padBottom(30);
+        table.add(buttonBack).top().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         stage.addActor(table);
     }
 }

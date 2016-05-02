@@ -41,6 +41,8 @@ public class MainMenyScreen implements Screen {
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
 
+    int size_x = 280;
+    int size_y = 60;
 
     public MainMenyScreen(final BaseGame app)
     {
@@ -146,7 +148,7 @@ public class MainMenyScreen implements Screen {
         buttonSetting.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f),moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
                         Actions.run(new Runnable() {
                             public void run() {
                                 app.setScreen(app.settingScreen);
@@ -174,11 +176,11 @@ public class MainMenyScreen implements Screen {
 
 
 
-        table.add(buttonPlay).expandX().left().padLeft(-170).padBottom(30);
+        table.add(buttonPlay).expandX().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/5);
         table.row();
-        table.add(buttonSetting).bottom().left().padLeft(-170).padBottom(30);
+        table.add(buttonSetting).bottom().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         table.row();
-        table.add(buttonSkipServer).bottom().left().padLeft(-170).padBottom(30);
+        table.add(buttonSkipServer).bottom().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
 
         stage.addActor(table);
     }
