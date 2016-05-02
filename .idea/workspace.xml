@@ -1,7 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4ff03f2d-2c95-4d5e-a438-d924873917f2" name="Default" comment="" />
+    <list default="true" id="4ff03f2d-2c95-4d5e-a438-d924873917f2" name="Default" comment="">
+      <change type="DELETED" beforePath="D:\Git\kandidat\BallPit\BallPit.iml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Git\kandidat\BallPit\app\app.iml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/outputs/apk/BallPit-debug-unaligned.apk" afterPath="$PROJECT_DIR$/BallPit/app/build/outputs/apk/BallPit-debug-unaligned.apk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/outputs/apk/BallPit-debug.apk" afterPath="$PROJECT_DIR$/BallPit/app/build/outputs/apk/BallPit-debug.apk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/classes/debug/com/qualcomm/vuforia/samples/libGDX/screens/ChooseBallScreen.class" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/classes/debug/com/qualcomm/vuforia/samples/libGDX/screens/ChooseBallScreen.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/classes/debug/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.class" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/classes/debug/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/classes/debug/com/qualcomm/vuforia/samples/libGDX/LaunchGame.class" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/classes/debug/com/qualcomm/vuforia/samples/libGDX/LaunchGame.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/classes/debug/com/qualcomm/vuforia/samples/libGDX/screens/PlayScreen.class" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/classes/debug/com/qualcomm/vuforia/samples/libGDX/screens/PlayScreen.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/dex/debug/classes.dex" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/dex/debug/classes.dex" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/outputFileStates.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/resources-debug-androidTest.ap_" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/resources-debug.ap_" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/resources-debug.ap_" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/BallPit/.gradle/2.8/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/ActivityLauncher.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/ActivityLauncher.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/ActivitySplashScreen.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/ActivitySplashScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/AndroidManifest.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aapt/AndroidManifest.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aapt/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/manifest/androidTest/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/manifest/androidTest/debug/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Area.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Area.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BaseBulletTest.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BaseBulletTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BaseEntity.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BaseEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BaseWorld.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BaseWorld.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BasicBulletTest.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BasicBulletTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Box3D.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Box3D.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/generated/source/buildConfig/androidTest/debug/com/qualcomm/vuforia/samples/VuforiaSamples/test/BuildConfig.java" afterPath="$PROJECT_DIR$/BallPit/app/build/generated/source/buildConfig/androidTest/debug/com/qualcomm/vuforia/samples/VuforiaSamples/test/BuildConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/generated/source/buildConfig/debug/com/qualcomm/vuforia/samples/VuforiaSamples/BuildConfig.java" afterPath="$PROJECT_DIR$/BallPit/app/build/generated/source/buildConfig/debug/com/qualcomm/vuforia/samples/VuforiaSamples/BuildConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BulletConstructor.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BulletConstructor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BulletEntity.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BulletEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BulletTest.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BulletTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BulletWorld.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BulletWorld.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/assets/debug/Buttons.json" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/assets/debug/Buttons.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/assets/Buttons.json" afterPath="$PROJECT_DIR$/BallPit/app/src/main/assets/Buttons.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/assets/debug/Buttons.pack" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/assets/debug/Buttons.pack" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/assets/Buttons.pack" afterPath="$PROJECT_DIR$/BallPit/app/src/main/assets/Buttons.pack" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/CameraCalibration.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/CameraCalibration.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/CameraDevice.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/CameraDevice.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseBallScreen.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseBallScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/CylinderTarget.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/CylinderTarget.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/CylinderTargetResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/CylinderTargetResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/DataSet.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/DataSet.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/EyeID.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/EyeID.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Eyewear.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Eyewear.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/EyewearCalibrationProfileManager.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/EyewearCalibrationProfileManager.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/EyewearCalibrationReading.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/EyewearCalibrationReading.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/EyewearUserCalibrator.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/EyewearUserCalibrator.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Frame.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Frame.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libGDX 3d/core/src/com/mygdx/game/GameScreen.java" afterPath="$PROJECT_DIR$/libGDX 3d/core/src/com/mygdx/game/GameScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Image.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Image.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ImageTarget.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ImageTarget.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ImageTargetBuilder.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ImageTargetBuilder.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/ImageTargetRenderer.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/ImageTargetRenderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ImageTargetResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ImageTargetResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/ImageTargets.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/ImageTargets.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/LaunchGame.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/LaunchGame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/utils/LoadingDialogHandler.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/utils/LoadingDialogHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Marker.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Marker.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/MarkerResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/MarkerResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/MarkerTracker.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/MarkerTracker.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Matrices.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Matrices.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/MediaMetadataCompat.aidl" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/MediaMetadataCompat.aidl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/session/MediaSessionCompat.aidl" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/session/MediaSessionCompat.aidl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Mesh.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Mesh.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/utils/MeshObject.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/utils/MeshObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/MultiTarget.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/MultiTarget.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/MultiTargetResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/MultiTargetResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/NonCopyable.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/NonCopyable.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Obb2D.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Obb2D.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Obb3D.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Obb3D.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ObjectTarget.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ObjectTarget.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ObjectTargetResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ObjectTargetResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ObjectTracker.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ObjectTracker.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/session/ParcelableVolumeInfo.aidl" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/session/ParcelableVolumeInfo.aidl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/PlayScreen.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/PlayScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/session/PlaybackStateCompat.aidl" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/session/PlaybackStateCompat.aidl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Prop.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Prop.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/PropResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/PropResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/QCAR.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/QCAR.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/RatingCompat.aidl" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/aidl/android/support/v4/media/RatingCompat.aidl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Reconstruction.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Reconstruction.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ReconstructionFromTarget.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/ReconstructionFromTarget.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Rectangle.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Rectangle.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Renderer.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Renderer.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenu.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenuAnimator.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenuAnimator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenuGroup.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenuGroup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenuInterface.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenuInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenuView.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleAppMenu/SampleAppMenuView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/SampleApplicationControl.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/SampleApplicationControl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/SampleApplicationException.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/SampleApplicationException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/utils/SampleApplicationGLView.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/utils/SampleApplicationGLView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/SampleApplicationSession.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/SampleApplicationSession.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/SmartTerrainBuilder.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/SmartTerrainBuilder.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/SmartTerrainTrackable.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/SmartTerrainTrackable.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/SmartTerrainTracker.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/SmartTerrainTracker.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/State.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/State.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/StateUpdater.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/StateUpdater.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/assets/debug/StonesAndChips.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/assets/debug/StonesAndChips.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/assets/StonesAndChips.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/assets/StonesAndChips.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Surface.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Surface.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/SurfaceResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/SurfaceResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/System.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/System.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TargetFinder.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TargetFinder.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TargetSearchResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TargetSearchResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/assets/debug/Tarmac.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/assets/debug/Tarmac.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/assets/Tarmac.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/assets/Tarmac.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TextTracker.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TextTracker.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/utils/Texture.java" afterPath="$PROJECT_DIR$/BallPit/app/src/main/java/com/qualcomm/vuforia/samples/Vuforia/SampleApplication/utils/Texture.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Tool.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Tool.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Trackable.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Trackable.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TrackableResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TrackableResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TrackableSource.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TrackableSource.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Tracker.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Tracker.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TrackerManager.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/TrackerManager.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Type.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Type.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/UpdateCallback.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/UpdateCallback.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Vectors.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Vectors.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VideoBackgroundConfig.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VideoBackgroundConfig.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VideoBackgroundTextureInfo.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VideoBackgroundTextureInfo.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VideoMode.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VideoMode.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VirtualButton.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VirtualButton.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VirtualButtonResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/VirtualButtonResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/VuforiaSamples-5-0-10.iml" afterPath="$PROJECT_DIR$/BallPit/VuforiaSamples-5-0-10.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Word.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/Word.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/WordList.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/WordList.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/WordResult.h" afterPath="$PROJECT_DIR$/BallPit/app/build/include/QCAR/WordResult.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/about_screen.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/about_screen.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/about_screen.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/about_screen.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/activities_list.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/activities_list.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/activities_list.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/activities_list.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/activities_list_text_view.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/activities_list_text_view.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/activities_list_text_view.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/activities_list_text_view.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/build.gradle" afterPath="$PROJECT_DIR$/BallPit/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build.gradle" afterPath="$PROJECT_DIR$/BallPit/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/drawable/camera_button_background.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/drawable/camera_button_background.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/drawable/camera_button_background.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/drawable/camera_button_background.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/camera_overlay.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/camera_overlay.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/camera_overlay.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/camera_overlay.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/camera_overlay_textreco.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/camera_overlay_textreco.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/camera_overlay_textreco.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/camera_overlay_textreco.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/camera_overlay_udt.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/camera_overlay_udt.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/camera_overlay_udt.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/camera_overlay_udt.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/drawable/close_button_background.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/drawable/close_button_background.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/drawable/close_button_background.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/drawable/close_button_background.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values-hdpi/dimens.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values-hdpi/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values-ldpi/dimens.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values-ldpi/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values-mdpi/dimens.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values-mdpi/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values-xhdpi/dimens.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values-xhdpi/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values-xxhdpi/dimens.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values-xxhdpi/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/BallPit/gradle/wrapper/gradle-wrapper.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/gradle.properties" afterPath="$PROJECT_DIR$/BallPit/gradle.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/gradlew" afterPath="$PROJECT_DIR$/BallPit/gradlew" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/license.txt" afterPath="$PROJECT_DIR$/BallPit/license.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/outputs/logs/manifest-merger-debug-report.txt" afterPath="$PROJECT_DIR$/BallPit/app/build/outputs/logs/manifest-merger-debug-report.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/incremental/mergeAssets/androidTest/debug/merger.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/incremental/mergeAssets/androidTest/debug/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/incremental/mergeAssets/debug/merger.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/incremental/mergeAssets/debug/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/incremental/mergeResourcesandroidTest/debug/merger.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/incremental/mergeResourcesandroidTest/debug/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/incremental/mergeResourcesdebug/merger.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/incremental/mergeResourcesdebug/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/drawable/new_target_button_background.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/drawable/new_target_button_background.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/drawable/new_target_button_background.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/drawable/new_target_button_background.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/proguard-rules.pro" afterPath="$PROJECT_DIR$/BallPit/app/proguard-rules.pro" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/sample_app_menu_group.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/sample_app_menu_group.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/sample_app_menu_group.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/sample_app_menu_group.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/sample_app_menu_group_divider.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/sample_app_menu_group_divider.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/sample_app_menu_group_divider.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/sample_app_menu_group_divider.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/sample_app_menu_group_radio_button.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/sample_app_menu_group_radio_button.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/sample_app_menu_group_radio_button.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/sample_app_menu_group_radio_button.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/sample_app_menu_layer.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/sample_app_menu_layer.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/sample_app_menu_layer.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/sample_app_menu_layer.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/settings.gradle" afterPath="$PROJECT_DIR$/BallPit/settings.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/splash_screen.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/layout/splash_screen.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/splash_screen.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/layout/splash_screen.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/src/main/res/values-v13/styles.xml" afterPath="$PROJECT_DIR$/BallPit/app/src/main/res/values-v13/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-hdpi/values-hdpi.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-hdpi/values-hdpi.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-ldpi/values-ldpi.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-ldpi/values-ldpi.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-mdpi/values-mdpi.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-mdpi/values-mdpi.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-v13/values-v13.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-v13/values-v13.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-xhdpi/values-xhdpi.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-xhdpi/values-xhdpi.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-xxhdpi/values-xxhdpi.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values-xxhdpi/values-xxhdpi.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values/values.xml" afterPath="$PROJECT_DIR$/BallPit/app/build/intermediates/res/merged/debug/values/values.xml" />
+    </list>
     <ignored path="kandidat.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,10 +220,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="23" />
-    <option name="y" value="295" />
-    <option name="width" value="1180" />
-    <option name="height" value="728" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1938" />
+    <option name="height" value="1048" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -59,13 +248,13 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane />
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -73,7 +262,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/test_ui" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/BallPit" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="Application" factoryName="Application">
@@ -172,30 +361,31 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="23" y="295" width="1180" height="728" extended-state="0" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973205" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
