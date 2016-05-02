@@ -100,8 +100,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             final int userValue1 = manifold.getBody1().getUserValue();
 
             // Take the positions of the colliding balls. Used in the handling of sounds.
-            Vector3 p1 = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
-            Vector3 p2 = ((btRigidBody) manifold.getBody1()).getCenterOfMassPosition();
+            Vector3 p1Position = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
 
             // Set the time which the player1 can receive a points after a collision has happened.
             // 1 second = 30f
@@ -122,8 +121,9 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
                         Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
                         collisonUserId1 = userValue1;
                     }
-                    // Play the collision sound.
-                    gameSound.playCollisionSound(p1, p2);
+
+                    // Play the collision sound if colliding with a ball.
+
                 }
             }
         }
@@ -313,7 +313,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             String id3 = peach.nodes.get(0).id;
             Node node2 = peach.getNode(id3);
 
-            player_1 = new Player(fotball, "fotball");
+            player_1 = new Player(fotball, "football");
             world.addConstructor("test1", player_1.bulletConstructor);
             player1 = world.add("test1", 0, 3.5f, 2.5f);
             player1.body.setContactCallbackFlag(1);

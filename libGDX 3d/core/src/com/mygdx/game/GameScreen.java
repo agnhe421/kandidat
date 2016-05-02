@@ -142,7 +142,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                         collisonUserId1 = userValue1;
                     }
                     // Play the collision sound.
-                    gameSound.playCollisionSound(p1, p2);
+//                    gameSound.playCollisionSound(p1, p2);
             }
          }
         }
@@ -360,8 +360,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             }
 
         }
-
-
             // Är det normVec som ska skickas till servern som ´sen skickar till varje client och varje client lägger impulsen på rätt spelare.
             // sendImpulse(normVec);
             // Skriva en ny funktion i GameScreen som faktiskt sätter denna impuls, vart ska den sättas? Vill inte att den ska köras varje frame.

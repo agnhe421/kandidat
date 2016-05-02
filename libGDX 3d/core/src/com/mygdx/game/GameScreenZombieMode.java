@@ -127,7 +127,7 @@ public class GameScreenZombieMode extends BaseBulletTest implements Screen {
                         collisonUserId1 = userValue1;
                     }
                     // Play the collision sound.
-                    gameSound.playCollisionSound(p1, p2);
+//                    gameSound.playCollisionSound(p1, p2);
                     //count the number of collision
                     hit_count = PropertiesSingleton.getInstance().getHitCount();
                     PropertiesSingleton.getInstance().setHitCount(hit_count + 1);
