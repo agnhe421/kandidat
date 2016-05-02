@@ -78,7 +78,7 @@ public class GameScreenZombieMode extends BaseBulletTest implements Screen {
 
     // Sound
     static GameSound gameSound;
-    int collisonUserId0, collisonUserId1;
+    int collisionUserId0, collisionUserId1;
 
     //countdown
     private Label LabelCountdown, LabelGameTime;
@@ -118,16 +118,16 @@ public class GameScreenZombieMode extends BaseBulletTest implements Screen {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                        // e.setColor(Color.BLUE);
                         Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
-                        collisonUserId0 = userValue0;
+                        collisionUserId0 = userValue0;
                     }
                     if (match1) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                         //e.setColor(Color.RED);
                         Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
-                        collisonUserId1 = userValue1;
+                        collisionUserId1 = userValue1;
                     }
                     // Play the collision sound.
-                    gameSound.playCollisionSound(p1, p2);
+//                    gameSound.playCollisionSound(p1, p2);
                     //count the number of collision
                     hit_count = PropertiesSingleton.getInstance().getHitCount();
                     PropertiesSingleton.getInstance().setHitCount(hit_count + 1);
@@ -145,12 +145,12 @@ public class GameScreenZombieMode extends BaseBulletTest implements Screen {
                 if (match0) {
                     final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                    // e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId1);
+                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
                 }
                 if (match1) {
                     final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                     e.setColor(Color.GREEN);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisonUserId0);
+                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
                 }
             }
         }
