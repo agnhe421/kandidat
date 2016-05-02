@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -40,16 +42,19 @@ public class SettingScreen implements Screen {
     private Skin skin;
     // Buttons
     private TextButton buttonBack;
+    private Label labelVolume, labelSound;
+    private Label.LabelStyle labelStyle;
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
     // Texture
-   // private Texture background;
+
     //music and slider
     public Music music;
     public float soundVolume = 0.5f;
     private Slider slider;
     private Slider slider2;
+
 
     public SettingScreen(final BaseGame app){
         this.app = app;
@@ -76,7 +81,7 @@ public class SettingScreen implements Screen {
         stageBackground.addActor(background);
 
         initSlider();
-        initButtons();
+
     }
 
     @Override
@@ -88,11 +93,6 @@ public class SettingScreen implements Screen {
 
         stageBackground.draw();
 
-        app.batch.begin();
-        app.font40.draw(app.batch, "Music", w/2 -280/2, h/2 + 120);
-        app.font40.draw(app.batch, "Sound effects",  w/2 -280/2, h/2);
-        app.batch.end();
-
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             System.out.println("Back key was pressed");
             app.setScreen(app.mainMenyScreen);
@@ -100,6 +100,7 @@ public class SettingScreen implements Screen {
 
         stage.draw();
     }
+
 
     public void update(float delta)
     {
@@ -125,6 +126,7 @@ public class SettingScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        stageBackground.dispose();
         if(skin != null){
             skin.dispose();
         }
@@ -138,15 +140,22 @@ public class SettingScreen implements Screen {
         music.play();
 
     }
+    //TODO: music ch soundeffects text, och backknappen?
 
     public void initSlider(){
+        Table table = new Table(skin);
+        stage.addActor(table);
+        table.setFillParent(true);
+
+        labelStyle = new Label.LabelStyle(app.font40, Color.WHITE);
+        labelVolume = new Label("Music: ", labelStyle);
+        labelSound = new Label("Sound effects: ", labelStyle);
+
         //public Slider(float min, float max, float stepSize, boolean vertical, Slider.SliderStyle style)
         slider = new Slider(0.0f, 1.0f, 0.1f, false, skin); //init slider
         slider.setValue(music.getVolume()); //the sliders position is equal to the musics volume
         music.setVolume(slider.getValue()); //volume is where the slider is
         slider.setAnimateDuration(0.1f);    //how fast the slider react when you move it
-        slider.setPosition(w / 2 - 280 / 2, h / 2 + 40);
-        slider.setSize(280, 50);
 
         slider.addListener(new ChangeListener() {
             @Override
@@ -162,9 +171,6 @@ public class SettingScreen implements Screen {
         slider2.setValue(music.getVolume());
         music.setVolume(slider.getValue());
         slider2.setAnimateDuration(0.1f);
-        slider2.setPosition(w / 2 - 280 / 2, h / 2 - 100);
-        slider2.setSize(280, 50);
-
         slider2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -174,24 +180,7 @@ public class SettingScreen implements Screen {
             }
         });
 
-
-        stage.addActor(slider);
-        stage.addActor(slider2);
-    }
-
-    private void initButtons() {
-
-        Table table = new Table(skin);
-        stage.addActor(table);
-        // table.setDebug(true);
-        table.setFillParent(true);
-
-        int size_x = 280;
-        int size_y = 60;
-
         buttonBack = new TextButton("Back", skin, "default8");
-        buttonBack.setSize(size_x, size_y);
-        // buttonBack.setPosition(Gdx.graphics.getWidth() / 2 - size_x / 2, Gdx.graphics.getHeight() / 2 - size_y / 2);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override
@@ -200,7 +189,17 @@ public class SettingScreen implements Screen {
             }
         });
 
-        table.add(buttonBack).expandY().expandX().padBottom(-300);
-        stage.addActor(table);
+        table.add(labelVolume).expandX();
+        table.row();
+        table.add(slider).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
+        table.row();
+        table.add(labelSound);
+        table.row();
+        table.add(slider2).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
+        table.row();
+        table.add(buttonBack).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
+
     }
+
+
 }

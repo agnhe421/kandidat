@@ -61,7 +61,6 @@ public class
         System.out.println("LOADING");
         Gdx.input.setInputProcessor(stage);
 
-
         //ladda in loadingBar bilder som ligger i en atlas fil
         app.assets.load("ui/loading.pack", TextureAtlas.class);
         app.assets.finishLoading(); //vänta tills loading.pack har laddats in innnan den fortsätter
@@ -103,10 +102,6 @@ public class
         update(delta);
 
         stage.draw();
-
-        app.batch.begin();
-        app.font40.draw(app.batch, "Screen: LOADING", 30, 30);
-        app.batch.end();
 
         //läsa in funktionen selectLoadingBarPicture när assets har laddats i 10%
         //och sedan rita ut det

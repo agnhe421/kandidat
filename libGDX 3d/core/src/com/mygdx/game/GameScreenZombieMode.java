@@ -271,11 +271,11 @@ public class GameScreenZombieMode extends BaseBulletTest implements Screen {
                 Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
                 if(app.createServerScreen.create != null)
                 {
-                    app.createServerScreen.create.setClickPosVector(normVec);
+                    //app.createServerScreen.create.setClickPosVector(normVec);
                 }
                 else if(app.joinServerScreen.join != null)
                 {
-                    app.joinServerScreen.join.setClickPosVector(normVec);
+                    //app.joinServerScreen.join.setClickPosVector(normVec);
                 }
                 player1.body.activate();
                 ((btRigidBody) player1.body).applyCentralImpulse(normVec);

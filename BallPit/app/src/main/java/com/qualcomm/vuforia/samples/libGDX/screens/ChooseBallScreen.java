@@ -203,7 +203,9 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
         for(int i = 0; i<ballNames.size; i++)
         {
             Model tmpModel = assets.get("3d/balls/"+ballNames.get(i)+".g3dj", Model.class);
-            tmpModel.meshes.get(0).scale(30,30,30);
+
+            for(int k = 0; k<tmpModel.meshes.size;k++)
+//                tmpModel.meshes.get(k).scale(30,30,30);
 //            String id = tmpModel.nodes.get(0).id;
 //            Node node = tmpModel.getNode(id);
 //            node.scale.set(30f, 30f, 30f);
