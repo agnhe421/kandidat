@@ -92,11 +92,6 @@ public class ScoreScreen implements Screen{
 
         initHighscoreList();
 
-        // Variabler för att kunna skapa highscore -> ska hämtas från en lista med spelare
-        playerName = "Sofie";
-        score = 10;
-        playerImg = "img/footbal_portrait.png";
-
         int current_round = PropertiesSingleton.getInstance().getRound();
         System.out.println("ScoreScreen: " + current_round);
         String round = Integer.toString(current_round);

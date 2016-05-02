@@ -40,7 +40,7 @@ public class CreateServerScreen implements Screen{
     private Stage stage, stageBackground;
     private Skin skin;
 
-    private TextButton buttonBack, buttonReady, buttonCreate, buttonDisconnect;
+    private TextButton buttonBack, buttonReady, buttonDisconnect;
     private String player1 = "Player 1", serverName = "Server name", playerList = "";
     public String msg = "msg", error = "error", msglog = "log", IPad = "IP";
     public CreateServerScreen(final BaseGame app)
@@ -60,7 +60,7 @@ public class CreateServerScreen implements Screen{
 
         if (create == null) {
             //Create a new server, update the text accordingly.
-            create = new CreateServer();
+            create = new CreateServer(app);
             create.start();
             IPad = create.getIpAddress();
             msg = create.getMsg();
@@ -202,30 +202,6 @@ public class CreateServerScreen implements Screen{
         // table.setDebug(true);
         table.setFillParent(true);
 
-        /*buttonCreate = new TextButton("Create Server", skin, "default8");
-        buttonCreate.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 200 + buttonSizeY / 2);
-        buttonCreate.setSize(buttonSizeX, buttonSizeY);
-        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
-        buttonCreate.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (app.connectionMenuScreen.create == null) {
-                    //Create a new server, update the text accordingly.
-                    app.connectionMenuScreen.create = new CreateServer();
-                    app.connectionMenuScreen.create.start();
-                    IPad = app.connectionMenuScreen.create.getIpAddress();
-                    msg = app.connectionMenuScreen.create.getMsg();
-                    error = app.connectionMenuScreen.create.getError();
-                    //app.setScreen(app.pickScreen);
-                } else {
-                    //Further clicks will only update the text.
-                    msg = app.connectionMenuScreen.create.getMsg();
-                    error = app.connectionMenuScreen.create.getError();
-                    //app.setScreen(app.pickScreen);
-                }
-            }
-        });*/
-
         buttonDisconnect = new TextButton("Disconnect.", skin, "default8");
         buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
         buttonDisconnect.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 265 + buttonSizeY / 2);
@@ -261,7 +237,9 @@ public class CreateServerScreen implements Screen{
                 if(rdy)
                 {
                     create.sendReadyMsg();
-                    app.setScreen(new GameScreen(app));
+                    PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
+                    app.gameScreen = new GameScreen(app);
+                    app.setScreen(app.gameScreen);
                 }
                 msg = "Not all players are ready.";
             }

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -28,12 +29,14 @@ public class CreateServer extends Thread
     private Boolean threadRun, nameAssignmentDone, allReady;
     private Vector<User> userList;
     private int currentListSize;
-    private User srvrUser;
+    public User srvrUser;
     DataHandler handler;
+    BaseGame app;
 
     //public CreateServer(String name) {setServerName(name);}
-    public CreateServer()
+    public CreateServer(final BaseGame app)
     {
+        this.app = app;
         srvrUser = new User();
         srvrUser.setName("Player 1");
         srvrUser.setPosition(new Vector3(0.0f, 0.0f, 0.0f));
@@ -205,6 +208,15 @@ public class CreateServer extends Thread
 
         return ip;
     }
+
+    public void sendSrvrClickPos(Vector3 normVec)
+    {
+        Gdx.app.log("HEJ!", "Sending impulse vector.");
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).conThread.sendMessage("CLICK_POS_INCOMING|" + srvrUser.id + "|" + normVec.toString());
+        }
+    }
     //Reassign all usernames whenever someone disconnects.
     private void reassignNames()
     {
@@ -216,7 +228,7 @@ public class CreateServer extends Thread
         }
     }
 
-    private void sendDataFromClient(String data, int clientID)
+    private void sendDataFromClient(String data, int clientID, String clientName)
     {
         for(int idu = 0; idu < userList.size(); ++idu)
         {
@@ -224,7 +236,7 @@ public class CreateServer extends Thread
                 ++idu;
             if(idu == userList.size())
                 break;
-            userList.get(idu).conThread.sendMessage(data);
+            userList.get(idu).conThread.sendMessage(data + "|" + clientName);
         }
     }
 
@@ -254,6 +266,15 @@ public class CreateServer extends Thread
             userList.get(idu).conThread.sendData(dataString);
         }
         //TODO Perform calculations for collisions.
+    }
+
+    private void sendUserInfoToClients(String userInfo)
+    {
+        //String userInfo = "USER_DATA_INCOMING|" + srvrUser.id + "|" + 0 + "|" + new Vector3().toString() + "|" + new Vector3().toString();
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).conThread.sendMessage(userInfo);
+        }
     }
 
     /**
@@ -439,10 +460,7 @@ public class CreateServer extends Thread
                 {
                     try
                     {
-                        Gdx.app.log("Errorlog", "Reading data");
                         readStatus = bufferedInputStream.read(buff, 0, SIZE);
-                        Gdx.app.log("Errorlog", "Readstatus is: " + readStatus);
-                        Gdx.app.log("Errorlog", "runCon is: " + runCon.toString());
                         if(readStatus == -1 || !runCon)
                         {
                             Gdx.app.log("Errorlog", "Cancelling read.");
@@ -506,7 +524,6 @@ public class CreateServer extends Thread
                 //socket.setSoTimeout(5000);
                 while(runCon)
                 {
-                    Gdx.app.log("Errorlog", "Checkpoint 1");
                     //Reset capture string.
                     strConv.clear();
                     //Check for a namechange request.
@@ -518,7 +535,7 @@ public class CreateServer extends Thread
                     //Read the stream for incoming data. If a unit disconnects, the stream will return -1.
                     //reads = dataInputStream.read(buffer, 0, SIZE);
                     strConv = readData(reads, buffer);
-                    Gdx.app.log("Errorlog", "Checkpoint 2");
+                    Gdx.app.log("HEJ!", "Got:" + strConv.get(0));
                     if(!runCon)
                         break;
                     //Incoming positional data from user. This is the answer to the data sent by the handler.
@@ -532,19 +549,27 @@ public class CreateServer extends Thread
                     }
                     else if(strConv.get(0).equals("CLICK_POS_INCOMING"))
                     {
+                        Gdx.app.log("HEJ!", "Receiving impulse vector.");
                         user.setNormVec(new Vector3().fromString(strConv.get(1)));
-                        sendDataFromClient("CLICK_POS_INCOMING" + strConv.get(1), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2);
+                        Gdx.app.log("HEJ!", "Player name: " + user.id);
+                        Gdx.app.log("HEJ!", "Player ID: " + Character.getNumericValue(user.id.charAt(user.id.length() - 1)));
+                        app.gameScreen.updateImpulse(new Vector3().fromString(strConv.get(1)), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 1);
+                        sendDataFromClient("CLICK_POS_INCOMING|" + strConv.get(1), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id);
                     }
                     else if(strConv.get(0).equals("SCORE_INCOMING"))
                     {
-                        user.setScore(Integer.parseInt(strConv.get(1)));
-                        sendDataFromClient("SCORE_INCOMING" + strConv.get(1), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2);
+                        //user.setScore(Integer.parseInt(strConv.get(1)));
+                        sendDataFromClient("SCORE_INCOMING|" + strConv.get(1), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id);
                     }
                     //If the name change request is given, send the new name to the unit.
                     else if(strConv.get(0).equals("NAME_CHANGE"))
                     {
                         msgsend = user.id;
                     }
+                    /*else if(strConv.get(0).equals("DATA_GET"))
+                    {
+                        if()
+                    }*/
                     else if(strConv.get(0).equals("READY_CHECK"))
                         user.setReadyState(true);
                     //All other messages will be handled appropriately.
@@ -559,7 +584,9 @@ public class CreateServer extends Thread
                         //Connection confirmation received from player.
                         else if(strConv.get(0).equals(user.id))
                         {
+                            Gdx.app.log("HEJ!", "User data sent.");
                             nameGet = true;
+                            sendUserInfoToClients("USER_DATA_INCOMING|" + srvrUser.id + "|" + 0 + "|" + new Vector3().toString() + "|" + new Vector3().toString());
                             msgtake = user.id + " has connected!";
                         }
                         //All other messages will get this player id as a response.
@@ -579,8 +606,6 @@ public class CreateServer extends Thread
                         sendMessage(msgsend);
                         msgsend = "";
                     }
-                    Gdx.app.log("Errorlog", "Checkpoint 3");
-                    //msglog += strConv + "\n";
                 }
             }catch(IOException e)
             {
@@ -635,7 +660,7 @@ public class CreateServer extends Thread
     public Boolean checkIfVectorNull() {return userList == null;}
     public String getUserId(int idx) {return userList.get(idx).id;}
     public String getUserPosition(int idx) {return userList.get(idx).getPosition().toString();}
-    public void setServerName(String name) {srvrName = name;}
+    public void setServerName(String name) {srvrName = name;}   //May be used to set a new name for the server.
     public Boolean checkReadyState()
     {
         for(int idu = 0; idu < userList.size(); ++idu)
@@ -659,7 +684,6 @@ public class CreateServer extends Thread
     public void setClickPosVector(Vector3 newClickPos)
     {
         srvrUser.setNormVec(newClickPos);
-        sendDataFromClient(newClickPos.toString(), 100);
     }
     public void activatePosTransfer()
     {
@@ -686,23 +710,28 @@ public class CreateServer extends Thread
     public class User
     {
         //The ID will be used later to identify which unit will receive data.
-        //The ID will be specified before connecting by that player. Such as Manly Banger, the Rock God!
+        //The ID will be specified before connecting by that player. Such as Manly Banger, the Rock God! Maybe.
         private String id;
         public Socket socket;
         public ConnectThread conThread;
         private Vector3 posData, clickPos;
-        private int score;
         private Boolean readyState;
+        private BulletEntity playerChar;
+        public BulletConstructor constructor;
 
         public Vector3 getPosition() {return posData;}                          //Return position.
         public void setPosition(Vector3 newPos) {posData = newPos;}             //Set new position.
         public void setName(String id) {this.id = id;}                          //Set new name.
         public void setNormVec(Vector3 newClickPos) {clickPos = newClickPos;}   //Set new impulse vector.
-        public void setScore(int newScore) {score = newScore;}                  //Set new score.
-        public void setReadyState(Boolean rdy) {readyState = rdy;}
+        public void setReadyState(Boolean rdy) {readyState = rdy;}              //Set the ready state of user.
+        public void applyCharMovement(Vector3 normVec)                          //Apply movement to character.
+        {
+            playerChar.body.activate();
+            ((btRigidBody)playerChar.body).applyCentralImpulse(normVec);
+        }
     }
 
-    public Vector3 getSrvrPos() {return srvrUser.getPosition();}
-    public String getSrvrName() {return srvrUser.id;}
+    public Vector3 getSrvrPos() {return srvrUser.getPosition();}                //Return user position.
+    public String getSrvrName() {return srvrUser.id;}                           //Return user name.
 
 }

@@ -44,14 +44,12 @@ public class JoinServerScreen implements Screen{
     private Vector<TextButton> buttonServerList;
     private Boolean sendFail;
     private SendPacket sendPacket;
-    JoinServer join;
+    public JoinServer join;
     private float buttonSizeX = 250, buttonSizeY = 50;
 
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
-
-    int nr_connected_players = 0, nr_servers = 2;
 
     public JoinServerScreen(final BaseGame app)
     {
@@ -113,7 +111,14 @@ public class JoinServerScreen implements Screen{
         if(join != null)
         {
             if(join.getAllReadyState())
-                app.setScreen(new GameScreen(app));
+            {
+                PropertiesSingleton.getInstance().setNrPlayers(join.getPlayerAmount());
+                app.gameScreen = new GameScreen(app);
+                if(join == null)
+                    Gdx.app.log("HEJ!", "JoinServerScreen: Join is null.");
+                app.setScreen(app.gameScreen);
+            }
+
             msg = join.getMsg();
             error = join.getError();
             msglog = join.getLog();
@@ -319,7 +324,7 @@ public class JoinServerScreen implements Screen{
                         error = "No server selected!";
                     } else {
                         //IPad = "Connecting to: " + serverIPad;
-                        join = new JoinServer(serverIPad, 8081, "player"); //All hail Manly Banger, the Rock God!
+                        join = new JoinServer(serverIPad, 8081, "player", app); //All hail Manly Banger, the Rock God!
                         join.start();
                         join.getMsg();
                         join.getError();

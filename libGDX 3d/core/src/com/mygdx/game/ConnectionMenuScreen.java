@@ -206,7 +206,7 @@ public class ConnectionMenuScreen implements Screen {
                 stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
                         Actions.run(new Runnable() {
                             public void run() {
-                                app.setScreen(new JoinServerScreen(app));
+                                app.setScreen(app.joinServerScreen);
 
                             }
                         })));
