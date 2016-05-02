@@ -119,7 +119,7 @@ public class CreateServerScreen implements Screen{
 
         if(create != null)
         {
-            playerList = create.getSrvrName() + " Position: " + create.getSrvrPos().toString() + "\n";
+            playerList = create.getServerName() + "\n";
             app.connectcounter = 0;
             //Detta blir långsamt ibland av nån anledning.
             if(!create.checkIfVectorNull())
@@ -134,9 +134,9 @@ public class CreateServerScreen implements Screen{
                 if(create.getConnections() == 0)
                     break;
                 if(idx != app.connectcounter - 1)
-                    playerList += create.getUserId(idx) + " Position: " + create.getUserPosition(idx) + "\n";
+                    playerList += create.getUserId(idx) + "\n";
                 else
-                    playerList += create.getUserId(idx) + " Position: " + create.getUserPosition(idx);
+                    playerList += create.getUserId(idx);
             }
             //Check if the server thread dies due to exception.
             if(!create.isAlive())
