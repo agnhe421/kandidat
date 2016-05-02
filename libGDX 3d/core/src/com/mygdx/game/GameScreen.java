@@ -17,6 +17,8 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
@@ -346,19 +348,21 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
             float normFactor = playerList.get(thisUnitId).impulseFactor / vec.len();
             Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
-            playerEntityList.get(thisUnitId).body.activate();
-            ((btRigidBody) playerEntityList.get(thisUnitId).body).applyCentralImpulse(normVec);
-            Gdx.app.log("HEJ!", "Player " + (thisUnitId+1));
-            Gdx.app.log("HEJ!", "Normvec: " + normVec.toString());
             if(app.createServerScreen.create != null)
             {
-                app.createServerScreen.create.sendSrvrClickPos(normVec);
+                playerEntityList.get(thisUnitId).body.activate();
+                ((btRigidBody) playerEntityList.get(thisUnitId).body).applyCentralImpulse(normVec);
             }
-            else if(app.joinServerScreen.join != null)
+            Gdx.app.log("HEJ!", "Player " + (thisUnitId+1));
+            Gdx.app.log("HEJ!", "Normvec: " + normVec.toString());
+            /*if(app.createServerScreen.create != null)
+            {
+                app.createServerScreen.create.sendSrvrClickPos(normVec, bodyPosition);
+            }*/
+            if(app.joinServerScreen.join != null)
             {
                 app.joinServerScreen.join.sendClickPosVector(normVec);
             }
-
         }
 
 
@@ -414,13 +418,70 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public void updateImpulse(Vector3 newImpulseVector, int playerID)
     {
         Gdx.app.log("HEJ!", "Updating impulse for player: " + (playerID + 1));
+        //playerList.get(playerID).setPosition
         playerList.get(playerID).setImpulseVector(newImpulseVector);
         playerEntityList.get(playerID).body.activate();
         ((btRigidBody)playerEntityList.get(playerID).body).applyCentralImpulse(newImpulseVector);
     }
 
+    public void updatePositions(Vector<Vector3> checkCharPos, Vector<Vector3> checkCharRot)
+    {
+        if(playerCreated)
+        {
+            Gdx.app.log("HEJ!", "Updating positions and rotations.");
+            Matrix4 tmp;
+            Quaternion tmpq;
+            for (int ide = 1; ide <= playerEntityList.size(); ++ide)
+            {
+                tmpq = new Quaternion().setEulerAngles(checkCharRot.get(ide - 1).x, checkCharRot.get(ide - 1).y, checkCharRot.get(ide - 1).z);
+                tmp = new Matrix4().set(tmpq);
+                Gdx.app.log("HEJ!", "Moving player " + ide);
+                Gdx.app.log("HEJ!", "Size of vector: " + checkCharPos.size());
+                playerEntityList.get(ide - 1).body.activate();
+                world.entities.get(ide).body.setWorldTransform(tmp.setTranslation(checkCharPos.get(ide - 1)));
+                //((btRigidBody)world.entities.get(ide).body).setAngularVelocity(checkCharRot.get(ide - 1));
+            }
+        }
+    }
+
+    /*public void updatePosition(Vector3 checkCharPos, int PlayerID)
+    {
+        if(playerCreated)
+        {
+            Matrix4 tmp = new Matrix4();
+            world.entities.get(PlayerID).body.setWorldTransform(tmp.setToTranslation(checkCharPos));
+        }
+    }*/
+
     @Override
     public void render () {
+
+        if(app.createServerScreen.create != null)
+        {
+            Vector<Vector3> tempPosList = new Vector<Vector3>();
+            Vector<Vector3> tempRotList = new Vector<Vector3>();
+            for(int ide = 1; ide <= playerEntityList.size(); ++ide)
+            {
+                Vector3 tmpv = new Vector3(), tmpr;
+                Quaternion tmpq = new Quaternion();
+                world.entities.get(ide).body.getWorldTransform().getTranslation(tmpv);
+                world.entities.get(ide).body.getWorldTransform().getRotation(tmpq);
+                tmpr = new Vector3(tmpq.getYaw(), tmpq.getPitch(), tmpq.getRoll());
+                tempPosList.add(tmpv);
+                tempRotList.add(tmpr);
+            }
+            for(int idu = 0; idu < playerEntityList.size(); ++idu)
+            {
+                app.createServerScreen.create.sendCharData(tempPosList, tempRotList);
+            }
+        }
+        /*else if(app.joinServerScreen.join != null)
+        {
+            Vector3 tmp = new Vector3();
+            world.entities.get(thisUnitId + 1).body.getWorldTransform().getTranslation(tmp);
+            app.joinServerScreen.join.sendCharPosition(tmp);
+        }*/
+
         super.render();
 
         if(instance != null) {

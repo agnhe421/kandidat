@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 
@@ -209,12 +210,12 @@ public class CreateServer extends Thread
         return ip;
     }
 
-    public void sendSrvrClickPos(Vector3 normVec)
+    public void sendSrvrClickPos(Vector3 normVec, Vector3 charPos)
     {
         Gdx.app.log("HEJ!", "Sending impulse vector.");
         for(int idu = 0; idu < userList.size(); ++idu)
         {
-            userList.get(idu).conThread.sendMessage("CLICK_POS_INCOMING|" + srvrUser.id + "|" + normVec.toString());
+            userList.get(idu).conThread.sendMessage("CLICK_POS_INCOMING|" + srvrUser.id + "|" + normVec.toString() + "|" + charPos.toString());
         }
     }
     //Reassign all usernames whenever someone disconnects.
@@ -228,15 +229,22 @@ public class CreateServer extends Thread
         }
     }
 
-    private void sendDataFromClient(String data, int clientID, String clientName)
+    public void sendCharData(Vector<Vector3> charPos, Vector<Vector3> charRot)
     {
+        Gdx.app.log("HEJ!", "Size of vectors: " + charPos.size());
+        String posTotal = "";
+        for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
+            posTotal += charPos.get(idu).toString() + "|";
+        for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
+        {
+            if(idu != PropertiesSingleton.getInstance().getNrPlayers() - 1)
+                posTotal += charRot.get(idu).toString() + "|";
+            else
+                posTotal += charRot.get(idu).toString();
+        }
         for(int idu = 0; idu < userList.size(); ++idu)
         {
-            if(idu == clientID)
-                ++idu;
-            if(idu == userList.size())
-                break;
-            userList.get(idu).conThread.sendMessage(data + "|" + clientName);
+            userList.get(idu).conThread.sendMessage("POSITION_INCOMING|" + posTotal);
         }
     }
 
@@ -538,38 +546,19 @@ public class CreateServer extends Thread
                     Gdx.app.log("HEJ!", "Got:" + strConv.get(0));
                     if(!runCon)
                         break;
-                    //Incoming positional data from user. This is the answer to the data sent by the handler.
-                    if(strConv.get(0).equals("POS_DATA_INCOMING"))
-                    {
-                        user.setPosition(new Vector3().fromString(strConv.get(1)));
-                        dataProcessed = true;
-                        //handler.changeState(); The user thread cant do this, the handler can only send
-                        //data if it has received the all clear from ALL user threads. Otherwise, all
-                        //threads will tell it to switch state, which will have unforseen consequenses.
-                    }
                     else if(strConv.get(0).equals("CLICK_POS_INCOMING"))
                     {
-                        Gdx.app.log("HEJ!", "Receiving impulse vector.");
                         user.setNormVec(new Vector3().fromString(strConv.get(1)));
-                        Gdx.app.log("HEJ!", "Player name: " + user.id);
-                        Gdx.app.log("HEJ!", "Player ID: " + Character.getNumericValue(user.id.charAt(user.id.length() - 1)));
-                        app.gameScreen.updateImpulse(new Vector3().fromString(strConv.get(1)), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 1);
-                        sendDataFromClient("CLICK_POS_INCOMING|" + strConv.get(1), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id);
-                    }
-                    else if(strConv.get(0).equals("SCORE_INCOMING"))
-                    {
-                        //user.setScore(Integer.parseInt(strConv.get(1)));
-                        sendDataFromClient("SCORE_INCOMING|" + strConv.get(1), Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id);
+                        app.gameScreen.updateImpulse(new Vector3().fromString(strConv.get(1)),
+                                Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 1);
+                        /*sendDataFromClient("CLICK_POS_INCOMING|" + strConv.get(1),
+                                Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id, strConv.get(2));*/
                     }
                     //If the name change request is given, send the new name to the unit.
                     else if(strConv.get(0).equals("NAME_CHANGE"))
                     {
                         msgsend = user.id;
                     }
-                    /*else if(strConv.get(0).equals("DATA_GET"))
-                    {
-                        if()
-                    }*/
                     else if(strConv.get(0).equals("READY_CHECK"))
                         user.setReadyState(true);
                     //All other messages will be handled appropriately.

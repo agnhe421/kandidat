@@ -147,40 +147,6 @@ public class JoinServer extends Thread
                     //usr.setClickPos(new Vector3().fromString(strConv.get(4)));
                     playerList.add(usr);
                 }
-                else if(strConv.get(0).equals("CLICK_POS_INCOMING"))
-                {
-                    Gdx.app.log("HEJ!", "Receiving impulse vector.");
-                    //Den tar bara emot en position från en spelare åt gången.
-                    int playerId = 0;
-                    for(int idu = 0; idu < playerList.size(); ++idu)
-                    {
-                        if(playerList.get(idu).id.equals(strConv.get(1)))
-                        {
-                            playerId = idu;
-                            break;
-                        }
-                    }
-                    Gdx.app.log("HEJ!", "Player ID: " + playerId);
-                    //playerList.get(playerId).applyCharMovement(new Vector3().fromString(strConv.get(2)));
-                    playerList.get(playerId).setClickPos(new Vector3().fromString(strConv.get(2)));
-                    app.gameScreen.updateImpulse(playerList.get(playerId).getClickPos(),
-                            Character.getNumericValue(playerList.get(playerId).getId().charAt
-                                    (playerList.get(playerId).getId().length() - 1)) - 1);
-                }
-                else if(strConv.get(0).equals("SCORE_INCOMING"))
-                {
-                    //Den tar bara emot en position från en spelare åt gången.
-                    int playerId = 0;
-                    for(int idu = 0; idu < playerList.size(); ++idu)
-                    {
-                        if(playerList.get(idu).id.equals(strConv.get(1)))
-                        {
-                            playerId = idu;
-                            break;
-                        }
-                    }
-                    playerList.get(playerId).setScore(Integer.parseInt(strConv.get(2)));
-                }
                 //Check for a name change request.
                 else if(strConv.get(0).equals("NAME_CHANGE"))
                 {
@@ -193,6 +159,17 @@ public class JoinServer extends Thread
                         sendMessage("READY_TRUE");
                     else
                         sendMessage("READY_FALSE");
+                }
+                else if(strConv.get(0).equals("POSITION_INCOMING") && app.gameScreen != null)
+                {
+                    Gdx.app.log("HEJ!", "Size of strConv: " + strConv.size());
+                    Vector<Vector3> rec_pos = new Vector<Vector3>(), rec_rot = new Vector<Vector3>();
+                    Vector<Float> rec_deg = new Vector<Float>();
+                    for(int idv = 1; idv <= playerList.size() + 1; ++idv)
+                        rec_pos.add(new Vector3().fromString(strConv.get(idv)));
+                    for(int idv = 1 + rec_pos.size(); idv <= playerList.size() + rec_pos.size() + 1; ++idv)
+                        rec_rot.add(new Vector3().fromString(strConv.get(idv)));
+                    app.gameScreen.updatePositions(rec_pos, rec_rot);
                 }
                 else if(strConv.get(0).equals("ALL_READY_NOW"))
                 {
@@ -261,6 +238,7 @@ public class JoinServer extends Thread
             }
         }
     }
+
     //Read incoming data from input stream.
     private Vector<String> readData(BufferedInputStream bis, int readStatus, byte[] buff)
     {
