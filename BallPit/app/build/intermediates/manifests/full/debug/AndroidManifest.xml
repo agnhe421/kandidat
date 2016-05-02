@@ -80,7 +80,7 @@
         -->
         <!-- Splash Screen Activity -->
         <activity
-            android:name="com.qualcomm.vuforia.samples.Vuforia.ActivitySplashScreen"
+            android:name="com.qualcomm.vuforia.samples.Vuforia.ActivityLauncher"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:noHistory="true"
             android:screenOrientation="landscape" >
@@ -91,7 +91,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.qualcomm.vuforia.samples.Vuforia.ActivityLauncher"
+            android:name="com.qualcomm.vuforia.samples.Vuforia.ActivitySplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="landscape" >
         </activity>

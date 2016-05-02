@@ -175,7 +175,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         for(int i = 0; i<islandNames.size; i++)
         {
             Model tmpModel = assets.get("3d/islands/"+islandNames.get(i)+".g3db", Model.class);
-            tmpModel.meshes.get(0).scale(0.01f,0.01f,0.01f);
+            tmpModel.meshes.get(0).scale(3,3,3);
 //            Texture texture2 = new Texture(Gdx.files.internal("3d/islands/"+islandNames.get(i)+".jpg"), Pixmap.Format.RGB888, false);
 //            TextureAttribute textureAttribute = new TextureAttribute(TextureAttribute.Diffuse, texture2);
 //            Material material = tmpModel.materials.get(0);

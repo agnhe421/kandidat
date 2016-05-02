@@ -71,7 +71,7 @@ public class PlayScreen extends BaseBulletTest implements Screen {
 
 
         Model ship = assets.get("3d/balls/"+choosenBall+".g3dj", Model.class);
-        ship.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+//        ship.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
 
 
         disposables.add(ship);

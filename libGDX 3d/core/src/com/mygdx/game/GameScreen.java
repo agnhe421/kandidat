@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
@@ -309,8 +310,17 @@ public class GameScreen extends BaseBulletTest implements Screen {
 //        world.remove(playerEntityList.indexOf(player1.body) + 2);
 
         //LOG THE POSITION OF A BALL
-        Vector3 tmpVec = new Vector3(0,0,0);
-        world.entities.get(1).body.getWorldTransform().getTranslation(tmpVec);
+        Vector3 tmpVec = new Vector3(0,2,0);
+        world.entities.get(1).body.getWorldTransform().setToTranslation(tmpVec);
+
+
+        Matrix4 m = new Matrix4();
+        world.entities.get(1).body.setWorldTransform(m.setToTranslation(tmpVec));
+
+
+        //FÅ ROTATIONEN
+//        (((btRigidBody) player1.body).getAngularVelocity();
+
 
         Gdx.app.log("LOG",tmpVec+ "");
 
