@@ -180,7 +180,6 @@ public class CreateServer extends Thread
 
     public void sendSrvrClickPos(Vector3 normVec, Vector3 charPos)
     {
-        Gdx.app.log("HEJ!", "Sending impulse vector.");
         for(int idu = 0; idu < userList.size(); ++idu)
         {
             userList.get(idu).conThread.sendMessage("CLICK_POS_INCOMING|" + serverUser.id + "|" + normVec.toString() + "|" + charPos.toString());
@@ -226,10 +225,8 @@ public class CreateServer extends Thread
     {
         for(int idu = 0; idu < userList.size(); ++idu)
         {
-            Gdx.app.log("HEJ!", "is " + thisIndex + " equal to " + userList.get(idu).id + "?");
             if(idu != thisIndex)
             {
-                Gdx.app.log("HEJ!", "Sending data to: " + userList.get(idu).id);
                 sendUserInfoToClients("USER_DATA_INCOMING|" + name + "|" + score, idu);
             }
         }
@@ -457,7 +454,6 @@ public class CreateServer extends Thread
                         //Send server info to player.
                         else if(strConv.get(0).equals(user.id))
                         {
-                            Gdx.app.log("HEJ!", "Sending user info to: " + user.id);
                             nameGet = true;
                             sendUserInfoToClients("USER_DATA_INCOMING|" + serverUser.id + "|" + 0,
                                     Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2);
@@ -466,20 +462,16 @@ public class CreateServer extends Thread
                         //User info received. If more information is required, send that too.
                         else if(strConv.get(0).equals("USER_DATA_GOT"))
                         {
-                            Gdx.app.log("HEJ!", user.id + " Internal index: " + internalIndex);
                             if(internalIndex < userList.size())
                             {
-                                Gdx.app.log("HEJ!", "Sending user info to: " + user.id);
                                 sendUserInfoToClients("USER_DATA_INCOMING|" + userList.get(internalIndex - 1).id + "|" + 0,
                                         Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2);
                                 ++internalIndex;
-                                Gdx.app.log("HEJ!", user.id + " has new internal index: " + internalIndex);
                             }
                             else
                             {
                                 if(userList.size() > 1 && updateNeeded)
                                 {
-                                    Gdx.app.log("HEJ!", user.id + " is updating other users.");
                                     updateOtherUsers(Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id, 0);
                                     updateNeeded = false;
                                 }

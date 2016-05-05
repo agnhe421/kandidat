@@ -43,6 +43,7 @@ public class ReceivePacket extends Thread
             dSocket.setBroadcast(true);
             //While the server is active, keep looking for connect request packets.
             msg = getClass().getName() + ">>>Ready to receive broadcast packets!";
+            //Start the cleanup thread handling the response vector.
             clean = new Cleanup();
             clean.start();
             while(threadRun)
@@ -66,13 +67,16 @@ public class ReceivePacket extends Thread
                     //byte[] sendData = fullmsg.getBytes();
                     byte[] sendData = "SERVER_CONNECT_CONFIRMATION".getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, dPacket.getAddress(), dPacket.getPort());
+                    //Create a new response thread and add it to the response vector.
                     responseVector.add(0, new Thread(new responseThread(dSocket, sendPacket)));
+                    //Start the new thread.
                     responseVector.get(0).start();
                     //Send response packet.
                     //dSocket.send(sendPacket);
                     msg += getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress() + "\n";
                 }
             }
+            //Stop cleanup and make sure that the response vector is empty.
             clean.stopClean();
             for(Thread t: responseVector)
             {
@@ -92,22 +96,21 @@ public class ReceivePacket extends Thread
             error = "Exception: " + e.toString();
         }
     }
-
+    //Response thread, sends a UDP packet as response for an asking client.
     public class responseThread implements Runnable
     {
-
         private DatagramSocket dSocket;
         private DatagramPacket response;
-
         responseThread(DatagramSocket sock, DatagramPacket pack)
         {
+            //Use the existing datagram socket and packet.
             dSocket = sock;
             response = pack;
         }
-
         @Override
         public void run()
         {
+            //Set active requests to true and send the response.
             activeRequests = true;
             try
             {
@@ -117,10 +120,9 @@ public class ReceivePacket extends Thread
                 e.printStackTrace();
                 error = "Exception: " + e.toString();
             }
-
         }
     }
-
+    //Cleanup thread for the response vector.
     public class Cleanup extends Thread
     {
         Boolean running;
@@ -130,20 +132,25 @@ public class ReceivePacket extends Thread
             running = true;
             while(running)
             {
+                //If any there are active requests and the vector isn't empty, check for dead threads.
                 if(activeRequests && !responseVector.isEmpty())
                 {
                     for(Thread t: responseVector)
                     {
+                        //If the thread is dead, remove it from the vector.
                         if(!t.isAlive())
                             responseVector.remove(t);
                     }
                     if(responseVector.isEmpty() && !serverAccepting)
                     {
+                        //If there are no active response threads, and the server is not waiting for
+                        //incoming connection requests, set active requests to false.
                         activeRequests = false;
                     }
                 }
             }
         }
+        //Stop the cleanup process.
         public void stopClean()
         {
             running = false;
