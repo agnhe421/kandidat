@@ -80,6 +80,44 @@ public class JoinServerScreen implements Screen{
         stageBackground.addActor(background);
 
         initButtons();
+
+        serverIPad = "";
+        if (!serverIPs.isEmpty()) {
+            serverIPs.clear();
+            serverIPs = new Vector<String>();
+        }
+        if (!buttonServerList.isEmpty()) {
+            for (int ids = 0; ids < buttonServerList.size(); ++ids) {
+                buttonServerList.get(ids).remove();
+            }
+            buttonServerList.clear();
+            buttonServerList = new Vector<TextButton>();
+        }
+        sendPacket = new SendPacket();
+        sendPacket.start();
+        try {
+            sendPacket.join();
+            serverIPs = sendPacket.getIPs();
+            if (sendPacket.getErrorState()) {
+                msg = sendPacket.getMsg();
+                error = sendPacket.getError();
+                sendFail = sendPacket.getErrorState();
+            }
+            sendPacket = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            error = "Exception: " + e.toString();
+        }
+        if (!sendFail)
+        {
+            for (int ids = 0; ids < serverIPs.size(); ++ids) {
+                addServerButton(serverIPs.get(ids), ids);
+            }
+            for (int ids = 0; ids < buttonServerList.size(); ++ids) {
+                stage.addActor(buttonServerList.get(ids));
+            }
+            chooseServer = "Servers found: " + serverIPs.size();
+        }
     }
 
     @Override
@@ -271,8 +309,8 @@ public class JoinServerScreen implements Screen{
                     e.printStackTrace();
                     error = "Exception: " + e.toString();
                 }
-                if (sendFail) {
-                } else {
+                if (!sendFail)
+                {
                     for (int ids = 0; ids < serverIPs.size(); ++ids) {
                         addServerButton(serverIPs.get(ids), ids);
                     }
@@ -287,7 +325,7 @@ public class JoinServerScreen implements Screen{
 
         buttonDisconnect = new TextButton("Disconnect", skin, "default8");
         buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
-        buttonDisconnect.setPosition(w / 2 - buttonSizeX / 2, h / 6 - 65);
+        buttonDisconnect.setPosition(w / 2 - buttonSizeX / 2, h / 6 + 65);
         buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonDisconnect.addListener(new ClickListener() {
             @Override
@@ -299,7 +337,7 @@ public class JoinServerScreen implements Screen{
             }
         });
 
-        buttonConnect = new TextButton("Connect", skin, "default8");
+        /*buttonConnect = new TextButton("Connect", skin, "default8");
         buttonConnect.setSize(buttonSizeX, buttonSizeY);
         buttonConnect.setPosition(w / 2 - buttonSizeX / 2, h / 6 + 65);
         buttonConnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
@@ -334,7 +372,7 @@ public class JoinServerScreen implements Screen{
                 }
             }
 
-        });
+        });*/
 
 
 
@@ -361,9 +399,22 @@ public class JoinServerScreen implements Screen{
         //stage.addActor(table);
     }
 
-    public void addServerButton(final String ipAdress, int buttID)
+    public void updateDisplayedPlayers(int nrPlayers, final String ipAddress)
     {
-        final TextButton buttonServer = new TextButton(ipAdress, skin, "default8");
+        String newText = ipAddress + "  Connections: " + nrPlayers;
+        for (TextButton tb:buttonServerList)
+        {
+            if(tb.getText().equals(ipAddress))
+            {
+                tb.setText(newText);
+                break;
+            }
+        }
+    }
+
+    public void addServerButton(final String ipAddress, int buttID)
+    {
+        final TextButton buttonServer = new TextButton(ipAddress, skin, "default8");
         float offset = (buttonSizeY + 15)*buttID;
         buttonServer.setPosition(w/2 - (w*(2.0f/3.0f)/2), h/2 + 150 - offset);
         buttonServer.setSize(w*(2.0f/3.0f), 50);
@@ -372,6 +423,20 @@ public class JoinServerScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 serverIPad = buttonServer.getText().toString();
+                if (join == null) {
+                    if (!serverIPs.isEmpty()) {
+                        serverIPs.clear();
+                        serverIPs = new Vector<String>();
+                    }
+                    //IPad = "Connecting to: " + serverIPad;
+                    join = new JoinServer(serverIPad, 8081, "player", app); //All hail Manly Banger, the Rock God!
+                    join.start();
+                    join.getMsg();
+                    join.getError();
+                } else {
+                    join.getMsg();
+                    join.getError();
+                }
             }
         });
         buttonServerList.add(buttonServer);

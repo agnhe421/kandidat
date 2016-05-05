@@ -114,6 +114,7 @@ public class JoinServer extends Thread
                 {
                     if(ready != true)
                     {
+                        app.joinServerScreen.updateDisplayedPlayers(playerList.size(), dstAdress);
                         ready = true;
                         sendMessage("READY_CHECK");
                     }
@@ -225,6 +226,7 @@ public class JoinServer extends Thread
                             allRead = true;
                             break;
                         }
+                        //Add element at logical terminator '|'.
                         else if(temp.charAt(idt) == '|')
                         {
                             msg.add(element);
@@ -277,6 +279,8 @@ public class JoinServer extends Thread
             error = "Exception: " + e.toString();
         }
     }
+
+
 
     public void disconnect()
     {
