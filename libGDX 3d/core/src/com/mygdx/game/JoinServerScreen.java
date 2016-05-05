@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -155,9 +156,9 @@ public class JoinServerScreen implements Screen{
         app.batch.begin();
         app.font40.draw(app.batch, chooseServer, x - fcx, h - fcy);
         app.font40.draw(app.batch, playerName, x - fpx, h - fpy * 5);
-        app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy);
-        app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly);
-        app.font40.draw(app.batch, error, w/2 - ferx, h/2 + 65 + fery);
+       // app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy);
+       // app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly);
+      //  app.font40.draw(app.batch, error, w/2 - ferx, h/2 + 65 + fery);
         app.batch.end();
 
         stage.draw();
@@ -217,27 +218,10 @@ public class JoinServerScreen implements Screen{
 
     private void initButtons()
     {
-        //TODO Lägga in buttonConnect i table, oklart varför det inte fungerar nu
-
-        /*int space = 0;
         Table table = new Table(skin);
         stage.addActor(table);
         table.setFillParent(true);
 
-            buttonConnect = new TextButton("Server 1", skin, "default");
-            buttonConnect.setWidth(w - w/3);
-            buttonConnect.getLabel().setAlignment(Align.left);
-            buttonConnect.setPosition(w / 2 - buttonConnect.getWidth() / 2, h / 2 - buttonConnect.getHeight() / 2 - space);
-            buttonConnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-            space += 20;
-            System.out.print(space);
-            buttonConnect.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    buttonConnect.setText("Server 1        Connected: " + nr_connected_players);
-                }
-            });
-        */
         buttonRefresh = new TextButton("Refresh list", skin, "default8");
         buttonRefresh.setSize(buttonSizeX, buttonSizeY);
         buttonRefresh.setPosition(w / 2 - buttonSizeX / 2, h / 6 + 65 * 2);
@@ -352,14 +336,13 @@ public class JoinServerScreen implements Screen{
         });
 
 
-        stage.addActor(buttonConnect);
-        stage.addActor(buttonBack);
-        stage.addActor(buttonRefresh);
-        stage.addActor(buttonDisconnect);
-        //table.add(buttonConnect).  //.left().width(w - w/3).height(40);
-        //table.add(buttonBack);
+        table.add(buttonConnect).size(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/7);
+        table.add(buttonBack).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
+        table.row();
+        table.add(buttonRefresh).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
+        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
 
-        //stage.addActor(table);
+        stage.addActor(table);
     }
 
     public void addServerButton(final String ipAdress, int buttID)

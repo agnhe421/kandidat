@@ -48,7 +48,7 @@ public class BaseGame extends Game {
         //gameScreen = new GameScreen(this);
 
 
-//        settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
+       settingScreen.initMusic(); //call the function initMusic() through the class settingScreen
         initFonts();
         setScreen(new LoadingScreen(this));
     }

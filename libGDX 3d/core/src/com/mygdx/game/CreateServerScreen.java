@@ -150,11 +150,10 @@ public class CreateServerScreen implements Screen{
 
         app.font40.draw(app.batch, serverName, x - fex, y + fey + 120);
         app.font40.draw(app.batch, player1, x - fmx, y + fmy + 50);
-        app.font40.draw(app.batch, "Screen: createServer", 30, 30);
         app.font40.draw(app.batch, playerList, 75, y + fmy + 250);
         app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy + 265);
-        app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly + 265);
-        app.font40.draw(app.batch, error, w / 2 - ferx, h / 2 + 65 + fery + 265);
+        //app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly + 265);
+        //app.font40.draw(app.batch, error, w / 2 - ferx, h / 2 + 65 + fery + 265);
 
         app.batch.end();
         stage.draw();
@@ -203,9 +202,7 @@ public class CreateServerScreen implements Screen{
         table.setFillParent(true);
 
         buttonDisconnect = new TextButton("Disconnect.", skin, "default8");
-        buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
-        buttonDisconnect.setPosition(w / 2 - buttonSizeX / 2, h / 2 - 265 + buttonSizeY / 2);
-        buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
+        buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonDisconnect.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -229,7 +226,7 @@ public class CreateServerScreen implements Screen{
         });*/
 
         buttonReady = new TextButton("Ready", skin, "default8");
-        buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
+        buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonReady.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -246,10 +243,10 @@ public class CreateServerScreen implements Screen{
         });
 
         //table.add(buttonBack).padRight(5);
-        table.add(buttonReady);
-        table.row();
+        table.add(buttonReady).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
+        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 7);;
         //stage.addActor(buttonCreate);
-        stage.addActor(buttonDisconnect);
+
         stage.addActor(table);
     }
 
