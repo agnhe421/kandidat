@@ -112,9 +112,9 @@ public class JoinServer extends Thread
                 //Receive confirmation of a finished user list.
                 else if(strConv.get(0).equals("ALL_USERS_SENT"))
                 {
+                    app.joinServerScreen.updateDisplayedPlayers(playerList.size(), dstAdress);
                     if(ready != true)
                     {
-                        app.joinServerScreen.updateDisplayedPlayers(playerList.size(), dstAdress);
                         ready = true;
                         sendMessage("READY_CHECK");
                     }

@@ -157,8 +157,6 @@ public class JoinServerScreen implements Screen{
             {
                 PropertiesSingleton.getInstance().setNrPlayers(join.getPlayerAmount());
                 app.gameScreen = new GameScreen(app);
-                if(join == null)
-                    Gdx.app.log("HEJ!", "JoinServerScreen: Join is null.");
                 app.setScreen(app.gameScreen);
             }
 
@@ -360,7 +358,6 @@ public class JoinServerScreen implements Screen{
 
         });*/
 
-
         buttonBack = new TextButton("Back", skin, "default8");
         buttonBack.setSize(buttonSizeX, buttonSizeY);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
@@ -388,7 +385,12 @@ public class JoinServerScreen implements Screen{
         String newText = ipAddress + "  Connections: " + nrPlayers;
         for (TextButton tb:buttonServerList)
         {
-            if(tb.getText().equals(ipAddress))
+            String buttonIP;
+            if(tb.getText().toString().indexOf(' ') == -1)
+                buttonIP = tb.getText().toString();
+            else
+                buttonIP = tb.getText().toString().substring(0, tb.getText().toString().indexOf(' '));
+            if(buttonIP.equals(ipAddress))
             {
                 tb.setText(newText);
                 break;
@@ -396,10 +398,10 @@ public class JoinServerScreen implements Screen{
         }
     }
 
-    public void addServerButton(final String ipAddress, int buttID)
+    public void addServerButton(final String ipAddress, int buttonID)
     {
         final TextButton buttonServer = new TextButton(ipAddress, skin, "default8");
-        float offset = (buttonSizeY + 15)*buttID;
+        float offset = (buttonSizeY + 15)*buttonID;
         buttonServer.setPosition(w/2 - (w*(2.0f/3.0f)/2), h/2 + 150 - offset);
         buttonServer.setSize(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
         buttonServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -407,7 +409,9 @@ public class JoinServerScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 serverIPad = buttonServer.getText().toString();
-                if (join == null) {
+                if (join == null)
+                {
+
                     if (!serverIPs.isEmpty()) {
                         serverIPs.clear();
                         serverIPs = new Vector<String>();

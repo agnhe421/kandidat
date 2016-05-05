@@ -232,11 +232,6 @@ public class CreateServer extends Thread
         }
     }
 
-    /**
-     * Datahandler thread, responsible for sending all positional data to every user.
-     */
-
-
     //The thread handling the actual connection part.
     private class ConnectThread extends Thread
     {
@@ -378,6 +373,8 @@ public class CreateServer extends Thread
                     }catch(IOException e)
                     {
                         allRead = true;
+                        runCon = false;
+                        readStatus = -1;
                         e.printStackTrace();
                         error = "Exception: " + e.toString();
                         Gdx.app.log("Errorlog", "Exception! Error:" + error);
@@ -430,8 +427,6 @@ public class CreateServer extends Thread
                     {
                         app.gameScreen.updateImpulse(new Vector3().fromString(strConv.get(1)),
                                 Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 1);
-                        /*sendDataFromClient("CLICK_POS_INCOMING|" + strConv.get(1),
-                                Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id, strConv.get(2));*/
                     }
                     //If the name change request is given, send the new name to the unit.
                     else if(strConv.get(0).equals("NAME_CHANGE"))
