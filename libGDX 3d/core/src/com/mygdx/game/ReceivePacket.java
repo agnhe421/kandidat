@@ -6,13 +6,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Vector;
 
-import javax.xml.crypto.Data;
-
-/**
- * Created by Andreas on 2016-03-18.
- * The listener thread, checking for incoming packets containing connection requests. This is controlled
- * from the CreateServer thread, and terminated there as well.
- */
 public class ReceivePacket extends Thread
 {
     DatagramSocket dSocket;
@@ -23,6 +16,7 @@ public class ReceivePacket extends Thread
     private Vector<Thread> responseVector;
     private Cleanup clean;
 
+    //Constructor
     public ReceivePacket(String id)
     {
         serverAccepting = false;

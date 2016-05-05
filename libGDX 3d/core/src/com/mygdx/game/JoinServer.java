@@ -129,6 +129,12 @@ public class JoinServer extends Thread
                         rec_rot.add(new Vector3().fromString(strConv.get(idv)));
                     app.gameScreen.updatePositions(rec_pos, rec_rot);
                 }
+                else if(strConv.get(0).equals("SCORE_INCOMING"))
+                {
+                    PropertiesSingleton.getInstance().setScore(
+                            Integer.parseInt(strConv.get(1)),
+                            Integer.parseInt(strConv.get(2)));
+                }
                 //If the all clear message is received, start the game.
                 else if(strConv.get(0).equals("ALL_READY_NOW"))
                 {

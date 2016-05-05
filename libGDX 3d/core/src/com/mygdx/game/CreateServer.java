@@ -213,6 +213,15 @@ public class CreateServer extends Thread
         }
     }
 
+    public void sendScoresToClients(int index)
+    {
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            String msg = "SCORE_INCOMING|" + index + "|" + PropertiesSingleton.getInstance().getScore(index);
+            userList.get(idu).conThread.sendMessage(msg);
+        }
+    }
+
     //Send user info to clients.
     private void sendUserInfoToClients(String userInfo, int index)
     {

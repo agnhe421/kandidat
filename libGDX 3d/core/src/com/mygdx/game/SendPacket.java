@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -26,19 +25,19 @@ public class SendPacket extends Thread
     private String msg = "msg", error = "No Error", serverIP = "";
     private Vector<String> takenIPs;
     private Boolean failure;
-    private int serversDetected;
 
+    //Constructor
     public SendPacket()
     {
         failure = false;
     }
+
     //The thread will only run once, compared to the server thread that will loop perpetually,
     //listening for incoming packets.
     @Override
     public void run()
     {
         takenIPs = new Vector<String>();
-        serversDetected = 0;
         System.setProperty("java.net.preferIPv4Stack", "true");
         try
         {
@@ -85,7 +84,7 @@ public class SendPacket extends Thread
             byte[] recvBuf = new byte[15000];
             DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
             Boolean looking = true;
-            dSocket.setSoTimeout(2500);
+            dSocket.setSoTimeout(1500);
             while(looking)
             {
                 try

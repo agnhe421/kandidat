@@ -463,58 +463,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             modelBatch.end();
         }
 
-        /*if (app.assets.update() && loading) {
-
-            Model fotball = app.assets.get("3d/football2.g3dj", Model.class);
-            String id = fotball.nodes.get(0).id;
-            Model football = app.assets.get("3d/football2.g3dj", Model.class);
-            String id = football.nodes.get(0).id;
-
-        if (app.assets.update() && loading) {
-            Model football = app.assets.get("3d/balls/football2.g3dj", Model.class);
-            String id = football.nodes.get(0).id;
-
-            Model apple = app.assets.get("3d/balls/apple.g3dj", Model.class);
-            String id2 = apple.nodes.get(0).id;
-            Node node = apple.getNode(id2);
-            node.scale.set(0.8f, 0.8f, 0.8f);
-
-            Model peach = app.assets.get("3d/balls/peach.g3dj", Model.class);
-            String id3 = peach.nodes.get(0).id;
-            Node node2 = peach.getNode(id3);
-
-            player_1 = new Player(football, "football");
-            world.addConstructor("test1", player_1.bulletConstructor);
-            /*if(app.joinServerScreen.join != null)
-            {
-                world.addConstructor("test1", app.joinServerScreen.join.constructor);
-                app.joinServerScreen.join.playerChar = world.add("test1", 0, 3.5f, 2.5f);
-            }*/
-           /* player1 = world.add("test1", 0, 3.5f, 2.5f);
-            player1.body.setContactCallbackFlag(1);
-            player1.body.setContactCallbackFilter(1);
-            playerEntityList.add(player1);
-
-            player_2 = new Player(apple, "apple");
-            world.addConstructor("test2", player_2.bulletConstructor);
-            player2 = world.add("test2", 0, 3.5f, 0.5f);
-            player2.body.setContactCallbackFilter(1);
-
-            player_3 = new Player(peach, "peach");
-            world.addConstructor("test3", player_3.bulletConstructor);
-            player3 = world.add("test3", 0, 3.5f, -2.5f);
-            player3.body.setContactCallbackFilter(1);
-            playerEntityList.add(player1);
-
-            player_4 = new Player(peach, "peach");
-            world.addConstructor("test4", player_4.bulletConstructor);
-            player4 = world.add("test4", 0, 3.5f, -2.5f);
-            player4.body.setContactCallbackFilter(1);
-
-            Gdx.app.log("Loaded", "LOADED");
-            loading = false;
-            playerCreated = true;
-*/
         // Count the score timer down.
         /*if(collisionHappened){
             scoreTimer -= 1f;
