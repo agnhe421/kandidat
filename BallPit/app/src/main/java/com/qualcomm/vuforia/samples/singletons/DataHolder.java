@@ -13,4 +13,8 @@ public class DataHolder {
     public float[] getData2() {return data2;}
     public void setData2(float[] data2) {this.data2 = data2;}
 
+    private boolean isTracking;
+    public boolean getIsTracking() {return isTracking;}
+    public void setIsTracking(boolean isTracking) {this.isTracking = isTracking;}
+
 }

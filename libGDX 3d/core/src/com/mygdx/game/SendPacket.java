@@ -48,25 +48,6 @@ public class SendPacket extends Thread
             dSocket.setBroadcast(true);
             //Create new datapacket to send, checking for servers.
             byte[] sendData = "SERVER_CONNECT_CHECK".getBytes();
-            /*try
-            {
-                //Set default address to send to.
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 8081);
-                //Send packet to default destination.
-                dSocket.send(sendPacket);
-                msg = getClass().getName() + ">>>Request packet sent to: 255.255.255.255 (DEFAULT)\n";
-
-            }catch(UnknownHostException e)
-            {
-                e.printStackTrace();
-                error = "Exception: " + e.toString();
-                failure = true;
-            }catch(IOException e)
-            {
-                e.printStackTrace();
-                error = "Exception: " + e.toString();
-                failure = true;
-            }*/
             //Create variable for all available network interfaces.
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while(interfaces.hasMoreElements())
@@ -101,7 +82,6 @@ public class SendPacket extends Thread
                 }
             }
             //Create a buffer for received data, and wait for a response.
-            //msg += getClass().getName() + ">>>Done looping over all network interfaces. Now waiting for a reply!\n";
             byte[] recvBuf = new byte[15000];
             DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
             Boolean looking = true;
@@ -112,19 +92,6 @@ public class SendPacket extends Thread
                 {
                     dSocket.receive(receivePacket);
                     String message = new String(receivePacket.getData()).trim();
-                    /*String check = "", recName = "";
-                    for(int idm = 0; idm < message.length(); ++idm)
-                    {
-                        if(message.charAt(idm) == '|')
-                        {
-                            for(int idn = idm + 1; idn < message.length(); ++idn)
-                            {
-                                recName += message.charAt(idn);
-                            }
-                            break;
-                        }
-                        check += message.charAt(idm);
-                    }*/
                     if(message.equals("SERVER_CONNECT_CONFIRMATION"))
                     {
                         serverIP = receivePacket.getAddress().getHostAddress();
@@ -136,20 +103,6 @@ public class SendPacket extends Thread
                     looking = false;
                 }
             }
-            //dSocket.receive(receivePacket);
-
-            //Get response string data.
-            /*String message = new String(receivePacket.getData()).trim();
-            //Check data for validity.
-            if(message.equals("SERVER_CONNECT_CONFIRMATION"))
-            {
-                //Get the servers IP-address.
-                serverIP = receivePacket.getAddress().getHostAddress();
-            }
-            //If no server is found, set default failure message.
-            else
-                serverIP = "FAILED_CONNECTION";*/
-
             //Close the datagram socket.
         }catch(SocketException e)
         {
