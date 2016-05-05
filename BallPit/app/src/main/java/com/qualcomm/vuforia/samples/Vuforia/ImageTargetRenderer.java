@@ -153,14 +153,20 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
 
 
         if(state.getNumTrackableResults() == 0) {
+//
+//            float[] identity = new float[16];
+//
+//        for(int i = 0; i < 16; i++){
+//                    identity[i] = 0;
+//        }
+//        DataHolder.getInstance().setData(identity);
+//        DataHolder.getInstance().setData2(identity);
 
-            float[] identity = new float[16];
-
-            for(int i = 0; i < 16; i++){
-                        identity[i] = 0;
-            }
-            DataHolder.getInstance().setData(identity);
-            DataHolder.getInstance().setData2(identity);
+            DataHolder.getInstance().setIsTracking(false);
+        }
+        else
+        {
+            DataHolder.getInstance().setIsTracking(true);
         }
 
         // did we find any trackables this frame?
@@ -183,19 +189,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
             // deal with the modelview and projection matrices
             float[] modelViewProjection = new float[16];
 
-            if (!mActivity.isExtendedTrackingActive())
-            {
-                Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f,
-                        OBJECT_SCALE_FLOAT);
-                Matrix.scaleM(modelViewMatrix, 0, OBJECT_SCALE_FLOAT,
-                        OBJECT_SCALE_FLOAT, OBJECT_SCALE_FLOAT);
-
-            } else
-            {
-                Matrix.rotateM(modelViewMatrix, 0, 90.0f, 1.0f, 0, 0);
-                Matrix.scaleM(modelViewMatrix, 0, kBuildingScale,
-                        kBuildingScale, kBuildingScale);
-            }
 
 
             Matrix.multiplyMM(modelViewProjection, 0, vuforiaAppSession

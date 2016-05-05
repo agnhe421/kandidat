@@ -40,7 +40,7 @@ public class CreateServerScreen implements Screen{
     private Stage stage, stageBackground;
     private Skin skin;
 
-    private TextButton buttonBack, buttonReady, buttonDisconnect;
+    private TextButton buttonReady, buttonDisconnect;
     private String player1 = "Player 1", serverName = "Server name", playerList = "";
     public String msg = "msg", error = "error", msglog = "log", IPad = "IP";
     public CreateServerScreen(final BaseGame app)
