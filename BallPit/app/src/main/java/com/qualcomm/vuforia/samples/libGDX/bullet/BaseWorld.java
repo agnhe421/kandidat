@@ -35,7 +35,9 @@ public class BaseWorld<T extends BaseEntity> implements Disposable {
 	}
 
 	private final ObjectMap<String, Constructor<T>> constructors = new ObjectMap<String, Constructor<T>>();
-	protected final Array<T> entities = new Array<T>();
+
+	//CHANGED TO PUBLIC, PROTECTED BEFORE
+	public final Array<T> entities = new Array<T>();
 	private final Array<Model> models = new Array<Model>();
 
 	public void addConstructor (final String name, final Constructor<T> constructor) {

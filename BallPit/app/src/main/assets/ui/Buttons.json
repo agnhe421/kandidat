@@ -1,0 +1,20 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+  white: { a: 1, b: 1, g: 1, r: 1 },
+  red: { a: 1, b: 0, g: 0, r: 1 },
+  black: { a: 1, b: 0, g: 0, r: 0 }
+},
+  com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+  default: { font: default-font }
+},
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+  default: { down: Standard2pressed, up: Standard2, font: default-font, fontColor: white },
+  default8: { down: Standard2pressed, up: Standard2, font: default-font, fontColor: white}
+  toggle:   { down: Standard2, up: Standard2, checked: Standard2, font: default-font, fontColor: white, downFontColor: red }
+},
+
+  com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+  default-horizontal: {background: black,  knob: knob },
+  default-vertical: { background: black, knob: knob }
+}
+}

@@ -57,6 +57,7 @@ import com.badlogic.gdx.utils.Array;
 
 
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 import com.qualcomm.vuforia.samples.Vuforia.VuforiaCamera;
 import com.qualcomm.vuforia.samples.libGDX.LaunchGame;
@@ -93,12 +94,12 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
     Array<String> voted;
     Array<ImageButton> voteButtons;
 
-    private final LaunchGame app;
+    private final BaseGame app;
 
-    public ChooseIslandScreen(final LaunchGame app, Array<String> islandNames, Array<String> ballNames){
+    public ChooseIslandScreen(final BaseGame app){
         this.app = app;
-        this.islandNames = islandNames;
-        this.ballNames = ballNames;
+        this.islandNames = app.islandNames;
+        this.ballNames = app.ballNames;
 
         this.assets = PropertiesSingleton.getInstance().getAssets();
 
@@ -209,7 +210,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
 
                     PropertiesSingleton.getInstance().setChoosenIsland(islandNames.get(currentIsland));
 
-                    app.setScreen(new ChooseBallScreen(app,ballNames));
+                    app.setScreen(new ChooseBallScreen(app));
                 }
             });
 

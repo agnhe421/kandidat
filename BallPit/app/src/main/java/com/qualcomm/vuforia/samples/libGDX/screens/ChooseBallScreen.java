@@ -40,6 +40,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 import com.qualcomm.vuforia.samples.Vuforia.VuforiaCamera;
 import com.qualcomm.vuforia.samples.libGDX.LaunchGame;
@@ -93,11 +94,11 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
     ImageButton readyButon;
     boolean playerReady = false;
 
-    private final LaunchGame app;
+    private final BaseGame app;
 
-    public ChooseBallScreen(final LaunchGame app,Array<String> ballNames){
+    public ChooseBallScreen(final BaseGame app){
         this.app = app;
-        this.ballNames = ballNames;
+        this.ballNames = app.ballNames;
 
         this.assets = PropertiesSingleton.getInstance().getAssets();
 
@@ -189,7 +190,8 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 
                 PropertiesSingleton.getInstance().setChoosenBall(choosenBall);
 
-                app.setScreen(new PlayScreen(app));
+                app.gameScreen = new GameScreen(app);
+               app.setScreen(app.gameScreen);
 
 
             }
