@@ -72,7 +72,9 @@ public class CreateServer extends Thread
                     //TODO Nackdel: om svaret från servern försvinner så kan den inte ta emot nåt nytt.
                     //This loop prevents the main thread from accepting new users until the
                     //handler has finished sending data.
+                    receiver.setServerAccepting(true);
                     socket = serverSocket.accept();
+                    receiver.setServerAccepting(false);
                     //Add the user to the vector.
                     User user = new User();
                     userList.add(user);
@@ -81,7 +83,6 @@ public class CreateServer extends Thread
                     ConnectThread connectThread = new ConnectThread(user, socket);
                     connectThread.start();
                     //Tell the receiver the connection has been made, so that it can look for new requests.
-                    receiver.confirmConnection();
                     if(userList.size() != 1)
                         userList.get(userList.size() - 1).conThread.setUpdateNeeded();
                 }
@@ -179,7 +180,6 @@ public class CreateServer extends Thread
 
     public void sendSrvrClickPos(Vector3 normVec, Vector3 charPos)
     {
-        Gdx.app.log("HEJ!", "Sending impulse vector.");
         for(int idu = 0; idu < userList.size(); ++idu)
         {
             userList.get(idu).conThread.sendMessage("CLICK_POS_INCOMING|" + serverUser.id + "|" + normVec.toString() + "|" + charPos.toString());
@@ -213,6 +213,15 @@ public class CreateServer extends Thread
         }
     }
 
+    public void sendScoresToClients(int index)
+    {
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            String msg = "SCORE_INCOMING|" + index + "|" + PropertiesSingleton.getInstance().getScore(index);
+            userList.get(idu).conThread.sendMessage(msg);
+        }
+    }
+
     //Send user info to clients.
     private void sendUserInfoToClients(String userInfo, int index)
     {
@@ -225,19 +234,12 @@ public class CreateServer extends Thread
     {
         for(int idu = 0; idu < userList.size(); ++idu)
         {
-            Gdx.app.log("HEJ!", "is " + thisIndex + " equal to " + userList.get(idu).id + "?");
             if(idu != thisIndex)
             {
-                Gdx.app.log("HEJ!", "Sending data to: " + userList.get(idu).id);
                 sendUserInfoToClients("USER_DATA_INCOMING|" + name + "|" + score, idu);
             }
         }
     }
-
-    /**
-     * Datahandler thread, responsible for sending all positional data to every user.
-     */
-
 
     //The thread handling the actual connection part.
     private class ConnectThread extends Thread
@@ -380,6 +382,8 @@ public class CreateServer extends Thread
                     }catch(IOException e)
                     {
                         allRead = true;
+                        runCon = false;
+                        readStatus = -1;
                         e.printStackTrace();
                         error = "Exception: " + e.toString();
                         Gdx.app.log("Errorlog", "Exception! Error:" + error);
@@ -425,16 +429,13 @@ public class CreateServer extends Thread
                     //Read the stream for incoming data. If a unit disconnects, the stream will return -1.
                     //reads = dataInputStream.read(buffer, 0, SIZE);
                     strConv = readData(reads, buffer);
-                    if(!runCon)
+                    if(!runCon || reads == -1)
                         break;
-                    Gdx.app.log("HEJ!", user.id + " got:" + strConv.get(0));
                     //If incoming click positions are registered, update character impulse for that character.
                     if(strConv.get(0).equals("CLICK_POS_INCOMING"))
                     {
                         app.gameScreen.updateImpulse(new Vector3().fromString(strConv.get(1)),
                                 Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 1);
-                        /*sendDataFromClient("CLICK_POS_INCOMING|" + strConv.get(1),
-                                Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id, strConv.get(2));*/
                     }
                     //If the name change request is given, send the new name to the unit.
                     else if(strConv.get(0).equals("NAME_CHANGE"))
@@ -457,7 +458,6 @@ public class CreateServer extends Thread
                         //Send server info to player.
                         else if(strConv.get(0).equals(user.id))
                         {
-                            Gdx.app.log("HEJ!", "Sending user info to: " + user.id);
                             nameGet = true;
                             sendUserInfoToClients("USER_DATA_INCOMING|" + serverUser.id + "|" + 0,
                                     Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2);
@@ -466,20 +466,16 @@ public class CreateServer extends Thread
                         //User info received. If more information is required, send that too.
                         else if(strConv.get(0).equals("USER_DATA_GOT"))
                         {
-                            Gdx.app.log("HEJ!", user.id + " Internal index: " + internalIndex);
                             if(internalIndex < userList.size())
                             {
-                                Gdx.app.log("HEJ!", "Sending user info to: " + user.id);
                                 sendUserInfoToClients("USER_DATA_INCOMING|" + userList.get(internalIndex - 1).id + "|" + 0,
                                         Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2);
                                 ++internalIndex;
-                                Gdx.app.log("HEJ!", user.id + " has new internal index: " + internalIndex);
                             }
                             else
                             {
                                 if(userList.size() > 1 && updateNeeded)
                                 {
-                                    Gdx.app.log("HEJ!", user.id + " is updating other users.");
                                     updateOtherUsers(Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 2, user.id, 0);
                                     updateNeeded = false;
                                 }

@@ -210,7 +210,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         Model football = app.assets.get("3d/balls/football2.g3dj", Model.class);
         float playerPosOffset = 0.0f;
-        Gdx.app.log("HEJ!", "Nr of players: " + PropertiesSingleton.getInstance().getNrPlayers());
         int joinOffset = 0;
         for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
         {
@@ -218,7 +217,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             {
                 if(idu != Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1)
                 {
-                    Gdx.app.log("HEJ!", "Adding other.");
                     playerList.add(new Player(football, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 3.5f, 1.0f + playerPosOffset));
@@ -226,9 +224,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 }
                 else
                 {
-                    Gdx.app.log("HEJ!", "Adding me.");
                     ++joinOffset;
-                    Gdx.app.log("HEJ!", "New offset: " + joinOffset);
                     thisUnitId = idu;
                     playerList.add(new Player(football, app.joinServerScreen.join.getUnitUserId()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
@@ -239,7 +235,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             }
             else if(app.createServerScreen.create != null)
             {
-                Gdx.app.log("HEJ!", "Create is not null.");
                 thisUnitId = 0;
                 if(idu == 0)
                 {
@@ -258,7 +253,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 }
             }
             playerPosOffset += 2;
-            Gdx.app.log("HEJ!", "End of loop.");
         }
         playerCreated = true;
         if (USE_CONTACT_CACHE) {
@@ -266,9 +260,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             contactCache.entities = world.entities;
             // contactCache.setCacheTime(contactTime); // Change the contact time
         }
-        Gdx.app.log("SHOOT", "END");
-        Gdx.app.log("SHOOT", "Singleton: " + PropertiesSingleton.getInstance().getNrPlayers());
-        Gdx.app.log("SHOOT", "Nr of characters: " + playerList.size());
         // Sound
         gameSound = new GameSound();
         // Play background music.
@@ -285,14 +276,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
     @Override
     public boolean tap (float x, float y, int count, int button) {
         shoot(x, y);
-        Gdx.app.log("TAP", "Tap");
         return true;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
        // shoot(screenX, screenY);
-        Gdx.app.log("SHOOT", "SHOOT");
 
         //TO REMOVE AN ENTITY FROM THE WORLD
 //        world.remove(playerEntityList.indexOf(player1.body) + 2);
@@ -349,8 +338,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 playerEntityList.get(thisUnitId).body.activate();
                 ((btRigidBody) playerEntityList.get(thisUnitId).body).applyCentralImpulse(normVec);
             }
-            Gdx.app.log("HEJ!", "Player " + (thisUnitId+1));
-            Gdx.app.log("HEJ!", "Normvec: " + normVec.toString());
             if(app.joinServerScreen.join != null)
             {
                 app.joinServerScreen.join.sendClickPosVector(normVec);
@@ -407,7 +394,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public void updateImpulse(Vector3 newImpulseVector, int playerID)
     {
-        Gdx.app.log("HEJ!", "Updating impulse for player: " + (playerID + 1));
         //playerList.get(playerID).setPosition
         playerList.get(playerID).setImpulseVector(newImpulseVector);
         playerEntityList.get(playerID).body.activate();
@@ -477,58 +463,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             modelBatch.end();
         }
 
-        /*if (app.assets.update() && loading) {
-
-            Model fotball = app.assets.get("3d/football2.g3dj", Model.class);
-            String id = fotball.nodes.get(0).id;
-            Model football = app.assets.get("3d/football2.g3dj", Model.class);
-            String id = football.nodes.get(0).id;
-
-        if (app.assets.update() && loading) {
-            Model football = app.assets.get("3d/balls/football2.g3dj", Model.class);
-            String id = football.nodes.get(0).id;
-
-            Model apple = app.assets.get("3d/balls/apple.g3dj", Model.class);
-            String id2 = apple.nodes.get(0).id;
-            Node node = apple.getNode(id2);
-            node.scale.set(0.8f, 0.8f, 0.8f);
-
-            Model peach = app.assets.get("3d/balls/peach.g3dj", Model.class);
-            String id3 = peach.nodes.get(0).id;
-            Node node2 = peach.getNode(id3);
-
-            player_1 = new Player(football, "football");
-            world.addConstructor("test1", player_1.bulletConstructor);
-            /*if(app.joinServerScreen.join != null)
-            {
-                world.addConstructor("test1", app.joinServerScreen.join.constructor);
-                app.joinServerScreen.join.playerChar = world.add("test1", 0, 3.5f, 2.5f);
-            }*/
-           /* player1 = world.add("test1", 0, 3.5f, 2.5f);
-            player1.body.setContactCallbackFlag(1);
-            player1.body.setContactCallbackFilter(1);
-            playerEntityList.add(player1);
-
-            player_2 = new Player(apple, "apple");
-            world.addConstructor("test2", player_2.bulletConstructor);
-            player2 = world.add("test2", 0, 3.5f, 0.5f);
-            player2.body.setContactCallbackFilter(1);
-
-            player_3 = new Player(peach, "peach");
-            world.addConstructor("test3", player_3.bulletConstructor);
-            player3 = world.add("test3", 0, 3.5f, -2.5f);
-            player3.body.setContactCallbackFilter(1);
-            playerEntityList.add(player1);
-
-            player_4 = new Player(peach, "peach");
-            world.addConstructor("test4", player_4.bulletConstructor);
-            player4 = world.add("test4", 0, 3.5f, -2.5f);
-            player4.body.setContactCallbackFilter(1);
-
-            Gdx.app.log("Loaded", "LOADED");
-            loading = false;
-            playerCreated = true;
-*/
         // Count the score timer down.
         /*if(collisionHappened){
             scoreTimer -= 1f;

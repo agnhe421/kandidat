@@ -1,10 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
-import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -88,7 +85,6 @@ public class JoinServer extends Thread
                 //Send message statement.
                 if(connected && !msgsend.equals(""))
                 {
-                    Gdx.app.log("HEJ!", "Sending message: " + msgsend);
                     sendMessage(msgsend);
                     msgsend = "";
                 }
@@ -103,7 +99,6 @@ public class JoinServer extends Thread
                 //Receive string containing user data, such as ID and score.
                 if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
-                    Gdx.app.log("HEJ!", "user data got.");
                     User usr = new User(strConv.get(1), Integer.parseInt(strConv.get(2)));
                     playerList.add(usr);
                     msgsend = "USER_DATA_GOT";
@@ -117,6 +112,7 @@ public class JoinServer extends Thread
                 //Receive confirmation of a finished user list.
                 else if(strConv.get(0).equals("ALL_USERS_SENT"))
                 {
+                    app.joinServerScreen.updateDisplayedPlayers(playerList.size(), dstAdress);
                     if(ready != true)
                     {
                         ready = true;
@@ -133,6 +129,12 @@ public class JoinServer extends Thread
                         rec_rot.add(new Vector3().fromString(strConv.get(idv)));
                     app.gameScreen.updatePositions(rec_pos, rec_rot);
                 }
+                else if(strConv.get(0).equals("SCORE_INCOMING"))
+                {
+                    PropertiesSingleton.getInstance().setScore(
+                            Integer.parseInt(strConv.get(1)),
+                            Integer.parseInt(strConv.get(2)));
+                }
                 //If the all clear message is received, start the game.
                 else if(strConv.get(0).equals("ALL_READY_NOW"))
                 {
@@ -146,7 +148,6 @@ public class JoinServer extends Thread
                     {
                         setJoinName(strConv.get(0));
                         msgsend = unitUser.getId();
-                        Gdx.app.log("HEJ!", "New name:" + unitUser.getId());
                     }
                     msgtake = "Receiving: " + strConv.get(0);
                 }
@@ -231,6 +232,7 @@ public class JoinServer extends Thread
                             allRead = true;
                             break;
                         }
+                        //Add element at logical terminator '|'.
                         else if(temp.charAt(idt) == '|')
                         {
                             msg.add(element);
@@ -263,7 +265,6 @@ public class JoinServer extends Thread
     public void setJoinName(String id) {unitUser.setId(id);}
     public void sendClickPosVector(Vector3 normVec)
     {
-        Gdx.app.log("HEJ!", "Sending impulse vector.");
         sendMessage("CLICK_POS_INCOMING|" + normVec.toString());
     }
     //Send message via output stream.
@@ -284,6 +285,8 @@ public class JoinServer extends Thread
             error = "Exception: " + e.toString();
         }
     }
+
+
 
     public void disconnect()
     {
