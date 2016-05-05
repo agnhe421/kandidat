@@ -20,25 +20,25 @@ public class LaunchGame extends Game {
         islandNames = new Array<String>();
         ballNames = new Array<String>();
 
-        islandNames.add("collision1");
-//        islandNames.add("greek");
-//        islandNames.add("darkice");
+        islandNames.add("island");
+        islandNames.add("greek");
+        islandNames.add("darkice");
 
         ballNames.add("apple"); //
         ballNames.add("bomb");
         ballNames.add("earth");
         ballNames.add("football");//
-//        ballNames.add("heart");
-//        ballNames.add("neon2");
-//        ballNames.add("peach");
-//        ballNames.add("yarn");
+        ballNames.add("heart");
+        ballNames.add("neon");
+        ballNames.add("peach");
+        ballNames.add("yarn");
 
         assets = new AssetManager();
         for(int i = 0; i<islandNames.size; i++)
             assets.load("3d/islands/"+islandNames.get(i)+".g3db", Model.class);
 
         for(int i = 0; i<ballNames.size; i++)
-            assets.load("3d/balls/"+ballNames.get(i)+".g3dj", Model.class);
+            assets.load("3d/balls/"+ballNames.get(i)+".g3db", Model.class);
 
         assets.load("3d/misc/"+"arrow"+".g3db", Model.class);
 

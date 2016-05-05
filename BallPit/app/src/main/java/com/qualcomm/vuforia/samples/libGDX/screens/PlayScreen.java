@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
@@ -22,6 +24,10 @@ import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
 import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.qualcomm.vuforia.samples.singletons.DataHolder;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 import com.qualcomm.vuforia.samples.libGDX.bullet.BaseBulletTest;
 import com.qualcomm.vuforia.samples.libGDX.bullet.BulletConstructor;
@@ -40,6 +46,11 @@ public class PlayScreen extends BaseBulletTest implements Screen {
 
     ModelInstance instance;
     ModelInstance IslandModelinstance;
+
+    private Stage stage;
+    BitmapFont fontH1;
+    BitmapFont fontH3;
+    Label labelTitle;
 
     Model arrowInstance;
 
@@ -69,16 +80,17 @@ public class PlayScreen extends BaseBulletTest implements Screen {
     public void create () {
         super.create();
 
+        Model ship = assets.get("3d/balls/"+choosenBall+".g3db", Model.class);
 
-        Model ship = assets.get("3d/balls/"+choosenBall+".g3dj", Model.class);
-//        ship.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+        for(int k = 0; k<ship.meshes.size;k++)
+            ship.meshes.get(k).scale(0.2f,0.2f,0.2f);
 
 
         disposables.add(ship);
-        world.addConstructor("ball", new BulletConstructor(ship, 1024, new btSphereShape(7f)));
-        player = world.add("ball", 0, 200f, 0f);
+        world.addConstructor("ball", new BulletConstructor(ship, 1000, new btSphereShape(9f)));
+        player = world.add("ball", 0, 300f, 0f);
 
-        player.body.setRollingFriction(1000);
+        player.body.setRollingFriction(4);
 
 
         final Model island = assets.get("3d/islands/"+choosenIsland+".g3db", Model.class);
@@ -91,9 +103,17 @@ public class PlayScreen extends BaseBulletTest implements Screen {
 
 
         arrowInstance = assets.get("3d/misc/"+"arrow"+".g3db", Model.class);
-        arrowInstance.meshes.get(0).scale(0.1f, 0.1f, 0.1f);
+//        arrowInstance.meshes.get(0).scale(0.1f, 0.1f, 0.1f);
 
 
+        this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
+
+        initFonts();
+        Label.LabelStyle labelStyle = new Label.LabelStyle(fontH1, Color.WHITE);
+        labelTitle = new Label("NOT TRACKING ", labelStyle);
+        labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, Gdx.graphics.getHeight() - labelTitle.getHeight() * 2);
+
+        stage.addActor(labelTitle);
 
         Gdx.input.setInputProcessor(this);
 
@@ -163,12 +183,12 @@ public class PlayScreen extends BaseBulletTest implements Screen {
                 controller = new AnimationController(instance);
 
                 // Pick the current animation by name
-                controller.setAnimation("Cube|CubeAction", -1);
+                controller.setAnimation("ArrowAction", -1);
 
 
                 Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) player.body).getCenterOfMassPosition().x), 0, (tmpV1.z - ((btRigidBody) player.body).getCenterOfMassPosition().z));
 
-                float normFactor = 5000 / vec.len();
+                float normFactor = 12000 / vec.len();
                 Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
                 player.body.activate();
                 ((btRigidBody) player.body).applyCentralImpulse(normVec);
@@ -236,6 +256,20 @@ public class PlayScreen extends BaseBulletTest implements Screen {
 //            world.entities.removeIndex(1);
 //            removed = true;
         }
+
+
+        if(DataHolder.getInstance().getIsTracking() == false)
+        {
+            labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, labelTitle.getHeight() * 2);
+        }
+        else
+        {
+            labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, -labelTitle.getHeight() * 2);
+        }
+
+
+        stage.act();
+        stage.draw();
     }
 
     public static btConvexHullShape createConvexHullShape (final Model model, boolean optimize) {
@@ -272,9 +306,24 @@ public class PlayScreen extends BaseBulletTest implements Screen {
     public void dispose () {
 //        if (rayTestCB != null) rayTestCB.dispose();
 //        rayTestCB = null;
+
+        stage.dispose();
         super.dispose();
     }
 
+    // Hur man lägger till egna ttf fonts i Libgdx
+    private void initFonts(){
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/candy.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 20;
+        params.color = Color.WHITE;
+        fontH1 = generator.generateFont(params);
+
+        params.size = 12;
+        params.color = Color.WHITE;
+        fontH3 = generator.generateFont(params);
+        generator.dispose();
+    }
 
 
 }

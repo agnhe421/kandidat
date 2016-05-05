@@ -27,17 +27,18 @@ public class JoinServer extends Thread
     private boolean connected, ready, allready;
     private static final int SIZE = 1024;
     private byte[] buffer;
-    private int reads, msgnr;
+    private int reads;
     public User unitUser;
     private Vector<User> playerList;
     BufferedOutputStream bufferedOutputStream;
     BufferedInputStream bufferedInputStream;
     BaseGame app;
 
+    //Constructor
     public JoinServer(String dstAdress, int dstPort, String name, final BaseGame app)
     {
         this.app = app;
-        unitUser = new User(name, 0, new Vector3(), new Vector3());
+        unitUser = new User(name, 0);
         playerList = new Vector<User>();
         this.dstAdress = dstAdress;
         this.dstPort = dstPort;
@@ -46,17 +47,16 @@ public class JoinServer extends Thread
         connected = false;
         ready = false;
         allready = false;
-        unitUser.setPosition(new Vector3());
         strConv = new Vector<String>();
     }
 
     @Override
     public void run()
     {
+        //Create buffer.
         buffer = new byte[SIZE];
         //Instantiate the socket and the input/output streams.
         socket = null;
-        msgnr = 1;
         bufferedOutputStream = null;
         bufferedInputStream = null;
         try
@@ -77,7 +77,7 @@ public class JoinServer extends Thread
             //socket.setSoTimeout(5000);
             //Set connection state.
             connected = true;
-            //Set the message to send to the server.
+            //Main connection loop.
             while(connected)
             {
                 //Clear the receiving vector.
@@ -85,101 +85,28 @@ public class JoinServer extends Thread
                 //Initial condition for setting player name.
                 if(unitUser.getId().equals("player"))
                     msgsend = unitUser.id;
-                if(unitUser.getId() != "player" && !ready && !playerList.isEmpty())
-                {
-                    ready = true;
-                    sendMessage("READY_CHECK");
-                }
                 //Send message statement.
                 if(connected && !msgsend.equals(""))
                 {
                     Gdx.app.log("HEJ!", "Sending message: " + msgsend);
                     sendMessage(msgsend);
-                    ++msgnr;
                     msgsend = "";
                 }
-                //Read the input stream for data, if the server closes, the stream returns -1.
-                /**As long as the position data is sent with the right format (toString() will fix it)
-                 * one can build a new vector using fromString() for the calculations, therefore using
-                 * a DataInputStream instead of an ObjectInputStream is possible.
-                 */
-                strConv = readData(bufferedInputStream, reads, buffer);
+                //Read the input stream for data.
+                strConv = readData(reads, buffer);
                 //Check if the server has closed.
                 if(!connected)
                 {
                     break;
                 }
                 Gdx.app.log("strConv", "Data received. Message: " + strConv.get(0));
-                //Receive string containing all position data for all users.
-                if(strConv.get(0).equals("POS_DATA_INCOMING"))
-                {
-                    /*if(strConv.equals("POS_DATA_INCOMING"))
-                        continue;*/
-                    if(!connected)
-                        break;
-                    //Extract this users data from list.
-                    char playerNr = unitUser.getId().charAt(unitUser.getId().length() - 1);
-                    int thisPlayerId = Character.getNumericValue(playerNr);
-                    //Gdx.app.log("Msglog: ", allData.get(thisPlayerId));
-
-                    for(int idu = 1, idp = 0; idu <= playerList.size(); ++idu)
-                    {
-                        if(idu != Character.getNumericValue(unitUser.getId().charAt(unitUser.getId().length() - 1)))
-                        {
-                            playerList.get(idp).setPosition(new Vector3().fromString(strConv.get(idu)));
-                            ++idp;
-                        }
-                        else
-                            unitUser.setPosition(new Vector3().fromString(strConv.get(idu)));
-                    }
-                    unitUser.setPosition(new Vector3().fromString(strConv.get(thisPlayerId)));
-
-                    //Simulate movement to display changes to server, and check network speed.
-                    //posData.add(1.0f, 0.0f, 0.0f);
-                    msglog = unitUser.getPosition().toString() + "\n";
-                    sendData(unitUser.getPosition().toString());
-                }
-                else if(strConv.get(0).equals("USER_DATA_INCOMING"))
+                //Receive string containing user data, such as ID and score.
+                if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
                     Gdx.app.log("HEJ!", "user data got.");
-                    User usr = new User(strConv.get(1), Integer.parseInt(strConv.get(2)), new Vector3(), new Vector3());
-                    //usr.setPosition(new Vector3().fromString(strConv.get(3)));
-                    //usr.setClickPos(new Vector3().fromString(strConv.get(4)));
+                    User usr = new User(strConv.get(1), Integer.parseInt(strConv.get(2)));
                     playerList.add(usr);
-                }
-                else if(strConv.get(0).equals("CLICK_POS_INCOMING"))
-                {
-                    Gdx.app.log("HEJ!", "Receiving impulse vector.");
-                    //Den tar bara emot en position från en spelare åt gången.
-                    int playerId = 0;
-                    for(int idu = 0; idu < playerList.size(); ++idu)
-                    {
-                        if(playerList.get(idu).id.equals(strConv.get(1)))
-                        {
-                            playerId = idu;
-                            break;
-                        }
-                    }
-                    Gdx.app.log("HEJ!", "Player ID: " + playerId);
-                    //playerList.get(playerId).applyCharMovement(new Vector3().fromString(strConv.get(2)));
-                    playerList.get(playerId).setClickPos(new Vector3().fromString(strConv.get(2)));
-                    app.gameScreen.updateImpulse(playerList.get(playerId).getClickPos(),
-                            Character.getNumericValue(playerList.get(playerId).getId().charAt
-                                    (playerList.get(playerId).getId().length() - 1)) - 1);
-                }
-                else if(strConv.get(0).equals("SCORE_INCOMING"))
-                {
-                    //Den tar bara emot en position från en spelare åt gången.
-                    int playerId = 0;
-                    for(int idu = 0; idu < playerList.size(); ++idu)
-                    {
-                        if(playerList.get(idu).id.equals(strConv.get(1)))
-                        {
-                            playerId = idu;
-                            break;
-                        }
-                    }
-                    playerList.get(playerId).setScore(Integer.parseInt(strConv.get(2)));
+                    msgsend = "USER_DATA_GOT";
                 }
                 //Check for a name change request.
                 else if(strConv.get(0).equals("NAME_CHANGE"))
@@ -187,13 +114,26 @@ public class JoinServer extends Thread
                     msgsend = "NAME_CHANGE";
                     setJoinName("player");
                 }
-                else if(strConv.get(0).equals("READY_CHECK"))
+                //Receive confirmation of a finished user list.
+                else if(strConv.get(0).equals("ALL_USERS_SENT"))
                 {
-                    if(ready)
-                        sendMessage("READY_TRUE");
-                    else
-                        sendMessage("READY_FALSE");
+                    if(ready != true)
+                    {
+                        ready = true;
+                        sendMessage("READY_CHECK");
+                    }
                 }
+                //Handle incoming positional data, updating all character positions in the gamescreen.
+                else if(strConv.get(0).equals("POSITION_INCOMING") && app.gameScreen != null)
+                {
+                    Vector<Vector3> rec_pos = new Vector<Vector3>(), rec_rot = new Vector<Vector3>();
+                    for(int idv = 1; idv <= playerList.size() + 1; ++idv)
+                        rec_pos.add(new Vector3().fromString(strConv.get(idv)));
+                    for(int idv = 1 + rec_pos.size(); idv <= playerList.size() + rec_pos.size() + 1; ++idv)
+                        rec_rot.add(new Vector3().fromString(strConv.get(idv)));
+                    app.gameScreen.updatePositions(rec_pos, rec_rot);
+                }
+                //If the all clear message is received, start the game.
                 else if(strConv.get(0).equals("ALL_READY_NOW"))
                 {
                     allready = true;
@@ -261,8 +201,9 @@ public class JoinServer extends Thread
             }
         }
     }
+
     //Read incoming data from input stream.
-    private Vector<String> readData(BufferedInputStream bis, int readStatus, byte[] buff)
+    private Vector<String> readData(int readStatus, byte[] buff)
     {
         Vector<String> msg = new Vector<String>();
         String element = "";
@@ -271,7 +212,7 @@ public class JoinServer extends Thread
         {
             try
             {
-                readStatus = bis.read(buff, 0, SIZE);
+                readStatus = bufferedInputStream.read(buff, 0, SIZE);
                 if(readStatus == -1)
                 {
                     msgtake = "Server is offline.";
@@ -309,29 +250,7 @@ public class JoinServer extends Thread
 
         return msg;
     }
-    //Send positional data.
-    private void sendData(String data)
-    {
-        sendMessage("POS_DATA_INCOMING|" + data);
-    }
-    //Extract this users position from data string.
-    /*private Vector<String> extractData(String fullData)
-    {
-        Vector<String> allPosData = new Vector<String>();
-        String temp = "";
-        for(int ids = 0; ids < fullData.length(); ++ids)
-        {
-            if(fullData.charAt(ids) == '|')
-            {
-                allPosData.add(temp);
-                temp = "";
-            }
-            else
-                temp += fullData.charAt(ids);
-        }
-        allPosData.add(temp);
-        return allPosData;
-    }*/
+
     public void setScore(int newScore) {unitUser.setScore(newScore);}
     public String getPlayerId(int index) {return playerList.get(index).getId();}
     public String getUnitUserId() {return unitUser.getId();}
@@ -342,17 +261,11 @@ public class JoinServer extends Thread
     public Boolean connected() {return connected;}
     public Boolean getAllReadyState() {return allready;}
     public void setJoinName(String id) {unitUser.setId(id);}
-    public void setClickPosVector(Vector3 newClickPos)
-    {
-        unitUser.setClickPos(newClickPos);
-        sendMessage(newClickPos.toString());
-    }
     public void sendClickPosVector(Vector3 normVec)
     {
         Gdx.app.log("HEJ!", "Sending impulse vector.");
         sendMessage("CLICK_POS_INCOMING|" + normVec.toString());
     }
-    public void sendNewScore() { sendMessage("SCORE_INCOMING|" + unitUser.getScore());}
     //Send message via output stream.
     private void sendMessage(String msg)
     {
@@ -374,7 +287,7 @@ public class JoinServer extends Thread
 
     public void disconnect()
     {
-        //Set connected state to false.
+        //Set connected state to false and close the socket.
         connected = false;
         try
         {
@@ -386,43 +299,23 @@ public class JoinServer extends Thread
             error = "Exception: " + e.toString();
         }
     }
-
-    private class User //extends BaseBulletTest
+    //User class, contains player name and score.
+    private class User
     {
-
-        public User(String _name, int _score, Vector3 _clickPos, Vector3 _position)
+        //Constructor
+        public User(String _name, int _score)
         {
             setScore(_score);
             setId(_name);
-            setClickPos(_clickPos);
-            setPosition(_position);
         }
 
-        private Vector3 clickPos, position;
         private int score;
         private String id;
-        //private BulletEntity playerChar;
-        //private BulletConstructor constructor;
 
-        public Vector3 getPosition() {return position;}
-        public Vector3 getClickPos() {return clickPos;}
         public String getId() {return id;}
         public int getScore() {return score;}
         public void setScore(int newScore) {score = newScore;}
         public void setId(String newId) {id = newId;}
-        public void setClickPos(Vector3 newClickPos) {clickPos = newClickPos;}
-        public void setPosition(Vector3 newPosition) {position = newPosition;}
-        /*public void applyCharMovement(Vector3 normVec)
-        {
-            playerChar.body.activate();
-            ((btRigidBody) playerChar.body).applyCentralImpulse(normVec);
-        }
-        public BulletConstructor initConstructor(Model model, float weight)
-        {
-            disposables.add(model);
-            BulletConstructor bulletConstructor = (new BulletConstructor(model, weight, new btSphereShape(0.8f)));
-            return bulletConstructor;
-        }*/
     }
 
 }

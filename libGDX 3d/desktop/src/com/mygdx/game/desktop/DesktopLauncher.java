@@ -10,8 +10,8 @@ public class DesktopLauncher {
 
 		// Debug screen resolutions
 
-//		config.width = 1280;
-//		config.height = 720;
+		config.width = 1280;
+		config.height = 720;
 
 //		config.width = 800;
 //		config.height = 600;
@@ -22,8 +22,8 @@ public class DesktopLauncher {
 //		config.width = 2560;
 //		config.height = 1440;
 
-		config.width = 1920;
-		config.height = 1080;
+//		config.width = 1920;
+//		config.height = 1080;
 
 //		config.width = 1777;
 //		config.height = 1080;
