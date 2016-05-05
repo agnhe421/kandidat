@@ -72,7 +72,9 @@ public class CreateServer extends Thread
                     //TODO Nackdel: om svaret från servern försvinner så kan den inte ta emot nåt nytt.
                     //This loop prevents the main thread from accepting new users until the
                     //handler has finished sending data.
+                    receiver.setServerAccepting(true);
                     socket = serverSocket.accept();
+                    receiver.setServerAccepting(false);
                     //Add the user to the vector.
                     User user = new User();
                     userList.add(user);
@@ -81,7 +83,6 @@ public class CreateServer extends Thread
                     ConnectThread connectThread = new ConnectThread(user, socket);
                     connectThread.start();
                     //Tell the receiver the connection has been made, so that it can look for new requests.
-                    receiver.confirmConnection();
                     if(userList.size() != 1)
                         userList.get(userList.size() - 1).conThread.setUpdateNeeded();
                 }
@@ -425,9 +426,8 @@ public class CreateServer extends Thread
                     //Read the stream for incoming data. If a unit disconnects, the stream will return -1.
                     //reads = dataInputStream.read(buffer, 0, SIZE);
                     strConv = readData(reads, buffer);
-                    if(!runCon)
+                    if(!runCon || reads == -1)
                         break;
-                    Gdx.app.log("HEJ!", user.id + " got:" + strConv.get(0));
                     //If incoming click positions are registered, update character impulse for that character.
                     if(strConv.get(0).equals("CLICK_POS_INCOMING"))
                     {
