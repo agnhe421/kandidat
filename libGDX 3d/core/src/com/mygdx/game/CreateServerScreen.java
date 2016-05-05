@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -43,6 +45,10 @@ public class CreateServerScreen implements Screen{
     private TextButton buttonBack, buttonReady, buttonDisconnect;
     private String player1 = "Player 1", serverName = "Server name", playerList = "";
     public String msg = "msg", error = "error", msglog = "log", IPad = "IP";
+
+    private Label labelList, labelPlayer, labelServer;
+    private Label.LabelStyle labelStyle;
+
     public CreateServerScreen(final BaseGame app)
     {
         this.app = app;
@@ -124,7 +130,7 @@ public class CreateServerScreen implements Screen{
             //Detta blir långsamt ibland av nån anledning.
             if(!create.checkIfVectorNull())
                 app.connectcounter = create.getConnections();
-            //
+
             msg = create.getMsg();
             error = create.getError();
             msglog = create.getlog();
@@ -148,9 +154,9 @@ public class CreateServerScreen implements Screen{
             }
         }
 
-        app.font40.draw(app.batch, serverName, x - fex, y + fey + 120);
-        app.font40.draw(app.batch, player1, x - fmx, y + fmy + 50);
-        app.font40.draw(app.batch, playerList, 75, y + fmy + 250);
+       // app.font40.draw(app.batch, serverName, x - fex, y + fey + 120);
+        // app.font40.draw(app.batch, player1, x - fmx, y + fmy + 50);
+        //  app.font40.draw(app.batch, playerList, 75, y + fmy + 250);
         app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy + 265);
         //app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly + 265);
         //app.font40.draw(app.batch, error, w / 2 - ferx, h / 2 + 65 + fery + 265);
@@ -201,7 +207,13 @@ public class CreateServerScreen implements Screen{
         // table.setDebug(true);
         table.setFillParent(true);
 
-        buttonDisconnect = new TextButton("Disconnect.", skin, "default8");
+        labelStyle = new Label.LabelStyle(app.font40, Color.BLACK);
+        labelList = new Label( playerList, labelStyle);
+        labelPlayer = new Label(player1, labelStyle);
+        labelServer = new Label(serverName, labelStyle);
+
+
+        buttonDisconnect = new TextButton("Disconnect", skin, "default8");
         buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonDisconnect.addListener(new ClickListener() {
             @Override
@@ -216,14 +228,6 @@ public class CreateServerScreen implements Screen{
             }
         });
 
-        /*buttonBack = new TextButton("Back", skin, "default8");
-        buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonBack.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                app.setScreen(app.connectionMenuScreen);
-            }
-        });*/
 
         buttonReady = new TextButton("Ready", skin, "default8");
         buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -231,8 +235,7 @@ public class CreateServerScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Boolean rdy = create.checkReadyState();
-                if(rdy)
-                {
+                if (rdy) {
                     create.sendReadyMsg();
                     PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
                     app.gameScreen = new GameScreen(app);
@@ -242,10 +245,15 @@ public class CreateServerScreen implements Screen{
             }
         });
 
-        //table.add(buttonBack).padRight(5);
-        table.add(buttonReady).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
-        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 7);;
-        //stage.addActor(buttonCreate);
+        table.add(labelServer);
+        table.row();
+        table.add(labelPlayer);
+        table.row();
+        table.add(labelList);
+        table.row();
+        table.add(buttonDisconnect).size(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight() / 7);
+        table.add(buttonReady).size(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/7);
+
 
         stage.addActor(table);
     }

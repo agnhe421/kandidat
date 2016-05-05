@@ -39,6 +39,10 @@ public class JoinServerScreen implements Screen{
     private TextButton buttonBack, buttonConnect, buttonRefresh, buttonDisconnect;
     private Skin skin;
 
+
+  //  private Label labelChoose;
+  //  private Label.LabelStyle labelStyle;
+
     private String playerName = "Player 1", chooseServer = "Choose server";
     private String serverIPad = "IP", msg = "msg", error = "error", msglog = "log";
     private Vector<String> serverIPs;
@@ -156,9 +160,9 @@ public class JoinServerScreen implements Screen{
         app.batch.begin();
         app.font40.draw(app.batch, chooseServer, x - fcx, h - fcy);
         app.font40.draw(app.batch, playerName, x - fpx, h - fpy * 5);
-       // app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy);
-       // app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly);
-      //  app.font40.draw(app.batch, error, w/2 - ferx, h/2 + 65 + fery);
+        //app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy);
+        //app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly);
+        //app.font40.draw(app.batch, error, w/2 - ferx, h/2 + 65 + fery);
         app.batch.end();
 
         stage.draw();
@@ -223,8 +227,6 @@ public class JoinServerScreen implements Screen{
         table.setFillParent(true);
 
         buttonRefresh = new TextButton("Refresh list", skin, "default8");
-        buttonRefresh.setSize(buttonSizeX, buttonSizeY);
-        buttonRefresh.setPosition(w / 2 - buttonSizeX / 2, h / 6 + 65 * 2);
         buttonRefresh.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonRefresh.addListener(new ClickListener() {
             @Override
@@ -322,8 +324,6 @@ public class JoinServerScreen implements Screen{
         });
 
 
-
-
         buttonBack = new TextButton("Back", skin, "default8");
         buttonBack.setSize(buttonSizeX, buttonSizeY);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
@@ -336,10 +336,11 @@ public class JoinServerScreen implements Screen{
         });
 
 
+        table.row();
         table.add(buttonConnect).size(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/7);
         table.add(buttonBack).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
         table.row();
-        table.add(buttonRefresh).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
+        table.add(buttonRefresh).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7); 
         table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
 
         stage.addActor(table);
@@ -350,7 +351,7 @@ public class JoinServerScreen implements Screen{
         final TextButton buttonServer = new TextButton(ipAdress, skin, "default8");
         float offset = (buttonSizeY + 15)*buttID;
         buttonServer.setPosition(w/2 - (w*(2.0f/3.0f)/2), h/2 + 150 - offset);
-        buttonServer.setSize(w*(2.0f/3.0f), 50);
+        buttonServer.setSize(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
         buttonServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonServer.addListener(new ClickListener() {
             @Override
