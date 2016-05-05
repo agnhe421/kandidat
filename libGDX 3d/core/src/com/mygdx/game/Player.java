@@ -56,7 +56,6 @@ public class Player extends BaseBulletTest implements Comparable<Player> {
 
 
     // Set the weith depending on the model
-
     public int setweight(String name){
         if(name == "football"){
             return weightFootball;

@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -23,9 +22,8 @@ import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
 import com.badlogic.gdx.physics.bullet.collision.ContactCache;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
-import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
 import com.badlogic.gdx.physics.bullet.collision.btPersistentManifold;
-import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
+import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -37,7 +35,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
 
 public class GameCoinScreen extends BaseBulletTest implements Screen {
 
@@ -52,11 +49,13 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     Vector3 rayTo = new Vector3();
 
     ModelInstance instance;
-    public Vector<BulletEntity> coinEntitys = new Vector<BulletEntity>();
-    private Coin coin_1;
-    private int n_coins = 5;
 
+    private Coin coin_1;
+    private int n_coins = 3;
+
+    public ArrayList<BulletEntity> coinEntityList;
     public ArrayList<BulletEntity> playerEntityList;
+    public ArrayList<BulletEntity> powerUpEntityList;
 
     float gameOverTimer = 0;
     float coinTimer = 0;
@@ -65,6 +64,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     boolean gameOverGameScreen = false;
     boolean playerCreated = false;
     boolean isCollisionHappened = false;
+    boolean removed = false;
 
     private AnimationController controller;
     private AnimationController[] controllers = new AnimationController[n_coins];
@@ -81,7 +81,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     private boolean move = false;
     final boolean USE_CONTACT_CACHE = true;
     TestContactCache contactCache;
-    private BulletEntity coin;
+    private BulletEntity coin, powerupSpeed;
     public Player player_1, player_2, player_3;
 
     // Sound
@@ -117,14 +117,14 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
                     if (match0) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                         e.setColor(Color.BLUE);
-                        //Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
+                        Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
                         collisonUserId0 = userValue0;
                         move = false;
                     }
                     if (match1) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue1));
                         e.setColor(Color.RED);
-                        //Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
+                        Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
                         collisonUserId1 = userValue1;
                         move = false;
                     }
@@ -168,12 +168,15 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         app.assets.load("3d/balls/apple.g3dj", Model.class);
         app.assets.load("3d/balls/peach.g3dj", Model.class);
         app.assets.load("3d/gem.g3dj", Model.class);
+        app.assets.load("3d/powerup/powerup_speed.g3db", Model.class);
         loading = true;
 
         font = new BitmapFont();
         rayTestCB = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
 
         playerEntityList = new ArrayList<BulletEntity>(10);
+        coinEntityList = new ArrayList<BulletEntity>(10);
+        powerUpEntityList =  new ArrayList<BulletEntity>(10);
 
         // Init Score lables
         labelStyle = new Label.LabelStyle(font, Color.PINK);
@@ -340,6 +343,16 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             player3.body.setContactCallbackFilter(1);
             playerEntityList.add(player3);
 
+            // Create powerup
+            Model speedModel = app.assets.get("3d/powerup/powerup_speed.g3db", Model.class);
+            disposables.add(speedModel);
+            speedModel.meshes.get(0).scale(0.02f, 0.02f, 0.02f);
+            world.addConstructor("speed", new BulletConstructor(speedModel, 0.1f, new btSphereShape(0.8f)));
+            powerupSpeed = world.add("speed", 2, 1, -4);
+            powerupSpeed.body.setContactCallbackFilter(1);
+            ((btRigidBody) powerupSpeed.body).setGravity(new Vector3(0, 0, 0));
+            powerUpEntityList.add(powerupSpeed);
+
             Model coinModel = app.assets.get("3d/gem.g3dj", Model.class);
             coinModel.meshes.get(0).scale(0.02f, 0.02f, 0.02f);
 
@@ -354,9 +367,10 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
                 coin = world.add("coin", x, 1, -z);
                 coin.body.setContactCallbackFilter(1);
                 ((btRigidBody) coin.body).setGravity(new Vector3(0, 0, 0));
-                coinEntitys.add(coin);
+                coinEntityList.add(coin);
                 //initAnimationController(coin.modelInstance, i); Kommentera fram för animation
             }
+
 
             loading = false;
             playerCreated = true;
@@ -364,7 +378,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
         if(playerCreated){
             // You need to call update on the animation controller so it will advance the animation.  Pass in frame delta
-            for(int i = 0; i < coinEntitys.size(); i++) {
+            for(int i = 0; i < coinEntityList.size(); i++) {
                 // controllers[i].update(Gdx.graphics.getDeltaTime());
             }
         }
@@ -376,14 +390,15 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         }
 
         if(app.assets.update() && playerCreated) {
+
             // Check collision between coins and player 1
-            if(!move && collisonUserId1 >= playerEntityList.size() +1 && collisonUserId1 <= (playerEntityList.size() +1 + coinEntitys.size()) ||
-                    (collisonUserId0 >= playerEntityList.size() +1 && collisonUserId1 <= (playerEntityList.size() +1 + coinEntitys.size()))) {
+            if(!move && collisonUserId1 >= playerEntityList.size() + powerUpEntityList.size() +1 && collisonUserId1 <= (powerUpEntityList.size() + playerEntityList.size() +1 + coinEntityList.size()) ||
+                    (collisonUserId0 >= (playerEntityList.size() + powerUpEntityList.size() +1) && collisonUserId1 <= (playerEntityList.size()+ powerUpEntityList.size() +1 + coinEntityList.size()))) {
 
                 int  x = rand.nextInt(15) + 1;
                 int  z = rand.nextInt(15) + 1;
 
-                BulletEntity temp = coinEntitys.get(collisonUserId1 -  (playerEntityList.size() + 1));
+                BulletEntity temp = coinEntityList.get(collisonUserId1 -  (playerEntityList.size() + powerUpEntityList.size() + 1));
                 player_1.setScore(5);
 
                 Matrix4 m = new Matrix4();
@@ -392,13 +407,28 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
                 world.entities.get(collisonUserId1).body.setWorldTransform(m.setToTranslation(tmpVec));
                 ((btRigidBody) temp.body).setGravity(new Vector3(0, 0, 0));
                 ((btRigidBody) temp.body).setLinearVelocity(new Vector3(0, 0, 0));
-                ((btRigidBody) temp.body).setAngularVelocity(new Vector3(0,0,0));
+                ((btRigidBody) temp.body).setAngularVelocity(new Vector3(0, 0, 0));
 
                 move = true;
             }
 
+            //System.out.println("Player " + playerEntityList.size() + "Powerups " + powerUpEntityList.size() + "Collid " + collisonUserId1);
 
-            // Check fall and collision with player 1 for player 2
+            // Check collision with powerups and player 1
+            //if(collisonUserId1 >= (playerEntityList.size() +1) && collisonUserId1 <= (playerEntityList.size() +1 + powerUpEntityList.size()) ||
+              //      (collisonUserId0 >= (playerEntityList.size() +1) && collisonUserId1 <= (playerEntityList.size() +1 + powerUpEntityList.size()))) {
+
+                //Matrix4 m = new Matrix4();
+                //Vector3 tmpVec = new Vector3(20, 1, -30);
+                //world.entities.get(collisonUserId1).body.setWorldTransform(m.setToTranslation(tmpVec));
+                /*if(!removed) {
+                    world.remove(collisonUserId1);
+                    powerUpEntityList.remove(collisonUserId1 - (playerEntityList.size() + 1));
+                }*/
+                //System.out.println("POWERUP");
+           // }
+
+                // Check fall and collision with player 1 for player 2
             if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
                     && (collisonUserId0 == 2 || collisonUserId1 == 2) && scoreTimer > 0){
                 player_1.setScore(10);
