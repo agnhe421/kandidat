@@ -48,7 +48,7 @@ public class SettingScreen implements Screen {
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
     // Texture
-   // private Texture background;
+
     //music and slider
     public Music music;
     public float soundVolume = 0.5f;
@@ -145,7 +145,6 @@ public class SettingScreen implements Screen {
     public void initSlider(){
         Table table = new Table(skin);
         stage.addActor(table);
-        table.setDebug(true);
         table.setFillParent(true);
 
         labelStyle = new Label.LabelStyle(app.font40, Color.WHITE);
@@ -157,8 +156,6 @@ public class SettingScreen implements Screen {
         slider.setValue(music.getVolume()); //the sliders position is equal to the musics volume
         music.setVolume(slider.getValue()); //volume is where the slider is
         slider.setAnimateDuration(0.1f);    //how fast the slider react when you move it
-        slider.setPosition((w / 2) - w / 9, (h / 2.3f));
-        slider.setSize((w * 0.22f), h * 0.087f);
 
         slider.addListener(new ChangeListener() {
             @Override
@@ -174,9 +171,6 @@ public class SettingScreen implements Screen {
         slider2.setValue(music.getVolume());
         music.setVolume(slider.getValue());
         slider2.setAnimateDuration(0.1f);
-        slider2.setPosition((w / 2) - w / 9, (h / 2.9f));
-        slider2.setSize(w * 0.22f, h * 0.087f);
-
         slider2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -186,13 +180,7 @@ public class SettingScreen implements Screen {
             }
         });
 
-
-        int size_x = 280;
-        int size_y = 60;
-
         buttonBack = new TextButton("Back", skin, "default8");
-        buttonBack.setSize(size_x, size_y); // TODO: ändra size här beroende av width och height.
-        // buttonBack.setPosition(Gdx.graphics.getWidth() / 2 - size_x / 2, Gdx.graphics.getHeight() / 2 - size_y / 2);
         buttonBack.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonBack.addListener(new ClickListener() {
             @Override
@@ -203,13 +191,13 @@ public class SettingScreen implements Screen {
 
         table.add(labelVolume).expandX();
         table.row();
-        table.add(slider);
+        table.add(slider).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         table.row();
         table.add(labelSound);
         table.row();
-        table.add(slider2);
+        table.add(slider2).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         table.row();
-        table.add(buttonBack);
+        table.add(buttonBack).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
 
     }
 
