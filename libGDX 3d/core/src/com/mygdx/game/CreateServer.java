@@ -269,6 +269,7 @@ public class CreateServer extends Thread
                 error = "Exception: " + e.toString();
             }
             user = usr;
+            user.setReadyState(false);
             user.socket = socket;
             try
             {
