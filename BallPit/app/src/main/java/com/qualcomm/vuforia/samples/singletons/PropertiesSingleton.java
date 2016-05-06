@@ -3,13 +3,13 @@ package com.qualcomm.vuforia.samples.singletons;
 import com.badlogic.gdx.assets.AssetManager;
 
 public class PropertiesSingleton {
-    private String choosenIsland;
-    public String getChoosenIsland() {return choosenIsland;}
-    public void setChoosenIsland(String choosenIsland) {this.choosenIsland = choosenIsland;}
+    private String chosenIsland;
+    public String getChosenIsland() {return chosenIsland;}
+    public void setChosenIsland(String chosenIsland) {this.chosenIsland = chosenIsland;}
 
-    private String choosenBall;
-    public String getChoosenBall() {return choosenBall;}
-    public void setChoosenBall(String choosenBall) {this.choosenBall = choosenBall;}
+    private String[] chosenBalls;
+    public String getChosenBall(int index) {return chosenBalls[index];}
+    public void setChosenBall(int index, String chosenBall) {chosenBalls[index] = chosenBall;}
 
     private AssetManager assets;
     public AssetManager getAssets() {return assets;}
@@ -23,8 +23,11 @@ public class PropertiesSingleton {
     // General game stuff.
     private int nrPlayers;
 
-    public void setNrPlayers(int nrPlayers) {
+    public void setNrPlayers(int nrPlayers)
+    {
         this.nrPlayers = nrPlayers;
+        playerScores = new int[nrPlayers];
+        chosenBalls = new String[nrPlayers];
     }
 
     public int getNrPlayers() {
@@ -54,7 +57,12 @@ public class PropertiesSingleton {
     }
 
     // Scores.
-    private int[] playerScores = new int[4];
+    private int[] playerScores;
+
+    public void setScore(int index, int score)
+    {
+        playerScores[index] += score;
+    }
 
     public void setPlayer1Score(int playerScore) {
         this.playerScores[0] = playerScore + this.playerScores[0];
@@ -72,64 +80,6 @@ public class PropertiesSingleton {
         this.playerScores[3] = playerScore + this.playerScores[3];
     }
 
-    public int[] getPlayerScores() {
-        return this.playerScores;
-    }
-
-    public int getPlayer1Score() {
-        return this.playerScores[0];
-    }
-
-    public int getPlayer2Score() {
-        return this.playerScores[1];
-    }
-
-    public int getPlayer3Score() {
-        return this.playerScores[2];
-    }
-
-    public int getPlayer4Score() {
-        return this.playerScores[3];
-    }
-
-    // Balls.
-    private String[] balls = new String[]{"", "", "", ""};
-    private String ballsString = ""; // The ballsString will be separated by "/".
-
-    public void setPlayer1Ball(String modelString) {
-        balls[0] = modelString;
-    }
-
-    public void setPlayer2Ball(String modelString) {
-        balls[1] = modelString;
-    }
-
-    public void setPlayer3Ball(String modelString) {
-        balls[2] = modelString;
-    }
-
-    public void setPlayer4Ball(String modelString) {
-        balls[3] = modelString;
-    }
-
-    public String[] getBallsArray() {
-        return this.balls;
-    }
-
-    // Should be called in the GameScreen before sending it to the server?
-    public void createBallString() {
-        for (int i = 0; i < nrPlayers; i++) {
-            if (balls[i] != "") {
-                ballsString = balls[i] + "/";
-            }
-        }
-    }
-
-    public String getBallString() {
-        return this.ballsString;
-    }
-
-
-
+    public int getScore(int index) {return playerScores[index];}
 
 }

@@ -10,23 +10,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalShadowLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.DepthShaderProvider;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -43,7 +39,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 import com.qualcomm.vuforia.samples.Vuforia.VuforiaCamera;
-import com.qualcomm.vuforia.samples.libGDX.LaunchGame;
 
 /*******************************************************************************
  * Copyright 2011 See AUTHORS file.
@@ -91,7 +86,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
     Image accept;
 
     String choosenBall = "";
-    ImageButton readyButon;
+    ImageButton readyButton;
     boolean playerReady = false;
 
     private final BaseGame app;
@@ -107,6 +102,11 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 
     @Override
     public void create () {
+        if(app.createServerScreen.create != null)
+        {
+            app.createServerScreen.create.resetUserChoiceState();
+        }
+
         modelBatch = new ModelBatch();
 
         fps = new FPSLogger();
@@ -176,31 +176,26 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
         voteButtonStyle.up = voteSkin.getDrawable("notready");  //Set image for not pressed button
         voteButtonStyle.checked = voteSkin.getDrawable("ready");  //Set image for not pressed button
 
-        readyButon = new ImageButton(voteButtonStyle);
+        readyButton = new ImageButton(voteButtonStyle);
 
 
-        readyButon.addListener(new ClickListener() {
+        readyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//
-                choosenBall = ballNames.get(currentBall);
-                playerReady = true;
-
-                Gdx.app.log("click", "");
-
-                PropertiesSingleton.getInstance().setChoosenBall(choosenBall);
-
-                app.gameScreen = new GameScreen(app);
-               app.setScreen(app.gameScreen);
-
-
+                if (app.joinServerScreen.join != null) {
+                    app.joinServerScreen.join.sendBallChoice(ballNames.get(currentBall));
+                } else if (app.createServerScreen.create != null) {
+                    app.createServerScreen.create.serverUser.setBallChoice(ballNames.get(currentBall));
+                    app.createServerScreen.create.serverUser.setChosen(true);
+                    app.createServerScreen.create.startBallsDistribute();
+                }
             }
         });
 
-        readyButon.setSize((stage.getWidth()) / 6, stage.getWidth() / 6);
+        readyButton.setSize((stage.getWidth()) / 6, stage.getWidth() / 6);
 
-        readyButon.setPosition(Gdx.graphics.getHeight() / 2 - readyButon.getWidth() / 2, 0);
-        stage.addActor(readyButon);
+        readyButton.setPosition(Gdx.graphics.getHeight() / 2 - readyButton.getWidth() / 2, 0);
+        stage.addActor(readyButton);
 
         for(int i = 0; i<ballNames.size; i++)
         {
@@ -226,6 +221,19 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 
     @Override
     public void render () {
+
+        if(app.joinServerScreen.join != null)
+            if(app.joinServerScreen.join.getBallChosenState())
+            {
+                app.gameScreen = new GameScreen(app);
+                app.setScreen(app.gameScreen);
+            }
+        if(app.createServerScreen.create != null)
+            if(app.createServerScreen.create.checkBallChosen() && app.createServerScreen.create.getSwitchScreen())
+            {
+                app.gameScreen = new GameScreen(app);
+                app.setScreen(app.gameScreen);
+            }
 
 
         fps.log();
@@ -335,7 +343,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 
             if(playerReady == true)
             {
-                readyButon.setChecked(false);
+                readyButton.setChecked(false);
                 Gdx.app.log("toggle",playerReady + "");
             }
 

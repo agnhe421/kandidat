@@ -1,6 +1,6 @@
 package com.qualcomm.vuforia.samples.libGDX.screens;
 
-import com.badlogic.gdx.Gdx;
+/*import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -59,15 +59,15 @@ public class PlayScreen extends BaseBulletTest implements Screen {
 
     private final LaunchGame app;
 
-    String choosenIsland;
-    String choosenBall;
+    String chosenIsland;
+    String chosenBall;
 
     public PlayScreen(final LaunchGame app){
         this.app = app;
         this.assets = PropertiesSingleton.getInstance().getAssets();
 
-        this.choosenIsland = PropertiesSingleton.getInstance().getChoosenIsland();
-        this.choosenBall = PropertiesSingleton.getInstance().getChoosenBall();
+        this.chosenIsland = PropertiesSingleton.getInstance().getChosenIsland();
+        //this.chosenBall = PropertiesSingleton.getInstance().getChosenBall();
         this.create();
     }
 
@@ -75,7 +75,7 @@ public class PlayScreen extends BaseBulletTest implements Screen {
     public void create () {
         super.create();
 
-        Model ship = assets.get("3d/balls/"+choosenBall+".g3db", Model.class);
+        Model ship = assets.get("3d/balls/"+chosenBall+".g3db", Model.class);
 
         for(int k = 0; k<ship.meshes.size;k++)
             ship.meshes.get(k).scale(0.2f,0.2f,0.2f);
@@ -88,7 +88,7 @@ public class PlayScreen extends BaseBulletTest implements Screen {
         player.body.setRollingFriction(4);
 
 
-        final Model island = assets.get("3d/islands/"+choosenIsland+".g3db", Model.class);
+        final Model island = assets.get("3d/islands/"+chosenIsland+".g3db", Model.class);
         disposables.add(island);
         final BulletConstructor sceneConstructor = new BulletConstructor(island, 0f, new btBvhTriangleMeshShape(
                 island.meshParts));
@@ -321,4 +321,4 @@ public class PlayScreen extends BaseBulletTest implements Screen {
     }
 
 
-}
+}*/

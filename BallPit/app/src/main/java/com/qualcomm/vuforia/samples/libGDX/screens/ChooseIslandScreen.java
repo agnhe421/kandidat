@@ -57,6 +57,7 @@ import com.badlogic.gdx.utils.Array;
 
 
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.qualcomm.vuforia.samples.Network.CreateServer;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 import com.qualcomm.vuforia.samples.Vuforia.VuforiaCamera;
@@ -91,7 +92,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
     Image swipe;
     Image accept;
 
-    Array<String> voted;
+    String voted;
     Array<ImageButton> voteButtons;
 
     private final BaseGame app;
@@ -109,6 +110,11 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
 
     @Override
     public void create () {
+        if(app.createServerScreen.create != null)
+        {
+            app.createServerScreen.create.resetUserChoiceState();
+        }
+
         modelBatch = new ModelBatch();
 
         fps = new FPSLogger();
@@ -129,7 +135,6 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         cam.update();
 
         instances = new Array<ModelInstance>();
-        voted = new Array<String>();
         voteButtons = new Array<ImageButton>();
 
 
@@ -195,9 +200,19 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
             item1Button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-
-                    boolean found = false;
-                    for(int k = 0; k < voted.size; k++)
+                    voted = islandNames.get(currentIsland);
+                    if(app.joinServerScreen.join != null)
+                    {
+                        app.joinServerScreen.join.sendIslandChoice(voted);
+                    }
+                    else if (app.createServerScreen != null)
+                    {
+                        app.createServerScreen.create.serverUser.setIslandChoice(voted);
+                        app.createServerScreen.create.serverUser.setChosen(true);
+                        app.createServerScreen.create.startIslandVote();
+                    }
+                    //boolean found = false;
+                    /*for(int k = 0; k < voted.size; k++)
                     {
                         if(voted.get(k) == islandNames.get(currentIsland))
                             found = true;
@@ -208,9 +223,9 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
 
                     Gdx.app.log("voted", voted + "");
 
-                    PropertiesSingleton.getInstance().setChoosenIsland(islandNames.get(currentIsland));
+                    PropertiesSingleton.getInstance().setChoosenIsland(islandNames.get(currentIsland));*/
 
-                    app.setScreen(new ChooseBallScreen(app));
+                    //app.setScreen(new ChooseBallScreen(app));
                 }
             });
 
@@ -235,6 +250,12 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
     @Override
     public void render () {
 
+        if(app.joinServerScreen.join != null)
+            if(app.joinServerScreen.join.getIslandChosenState())
+                app.setScreen(new ChooseBallScreen(app));
+        if(app.createServerScreen.create != null)
+            if(app.createServerScreen.create.checkIslandChosen() && app.createServerScreen.create.getSwitchScreen())
+                app.setScreen(new ChooseBallScreen(app));
 
         fps.log();
         Gdx.gl.glClearColor(0, 0, 0, 0f);

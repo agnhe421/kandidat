@@ -108,8 +108,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
     boolean countdownFinished = false;
 
     AssetManager assets;
-    String choosenIsland;
-    String choosenBall;
+    String chosenIsland;
+    String chosenBall;
     BulletEntity player;
     Model arrowInstance;
     Label labelTitle;
@@ -121,9 +121,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         this.app = app;
         this.assets = PropertiesSingleton.getInstance().getAssets();
-
-        this.choosenIsland = PropertiesSingleton.getInstance().getChoosenIsland();
-        this.choosenBall = PropertiesSingleton.getInstance().getChoosenBall();
+        if(app.createServerScreen.create != null)
+            thisUnitId = 0;
+        else if(app.joinServerScreen.join != null)
+            thisUnitId = (Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(
+                    app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1);
+        this.chosenIsland = PropertiesSingleton.getInstance().getChosenIsland();
+        this.chosenBall = PropertiesSingleton.getInstance().getChosenBall(thisUnitId);
         this.create();
 
     }
@@ -188,7 +192,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
     public void create () {
         super.create();
 
-        final Model island = assets.get("3d/islands/"+choosenIsland+".g3db", Model.class);
+        final Model island = assets.get("3d/islands/"+chosenIsland+".g3db", Model.class);
         disposables.add(island);
         final BulletConstructor sceneConstructor = new BulletConstructor(island, 0f, new btBvhTriangleMeshShape(
                 island.meshParts));
@@ -259,7 +263,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 //        Model football = app.assets.get("3d/balls/football.g3db", Model.class);
 
 
-        Model choosenBallModel = assets.get("3d/balls/"+choosenBall+".g3db", Model.class);
+        Model choosenBallModel = assets.get("3d/balls/"+chosenBall+".g3db", Model.class);
 
         for(int k = 0; k<choosenBallModel.meshes.size;k++)
             choosenBallModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
