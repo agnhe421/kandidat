@@ -46,6 +46,7 @@ import com.qualcomm.vuforia.samples.Vuforia.SampleApplication.utils.LoadingDialo
 import com.qualcomm.vuforia.samples.Vuforia.SampleApplication.utils.SampleApplicationGLView;
 import com.qualcomm.vuforia.samples.Vuforia.SampleApplication.utils.Texture;
 import com.qualcomm.vuforia.samples.VuforiaSamples.R;
+import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.libGDX.LaunchGame;
 
 
@@ -99,7 +100,7 @@ public class ImageTargets extends AndroidApplication implements SampleApplicatio
         config.r = config.g = config.b = config.a = 8;
 
         // Create the libgdx View
-        gameView = initializeForView(new LaunchGame(),config);
+        gameView = initializeForView(new BaseGame(),config);
 
         if (graphics.getView() instanceof SurfaceView) {
             SurfaceView glView = (SurfaceView) graphics.getView();

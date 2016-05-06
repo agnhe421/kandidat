@@ -56,11 +56,6 @@ public class PlayScreen extends BaseBulletTest implements Screen {
 
     private AnimationController controller;
 
-    //2x 14 utan jordnötter
-    //1x 16
-    //1x 29 extra stark
-    //1x 11 med biff
-
 
     private final LaunchGame app;
 

@@ -45,7 +45,7 @@ public class LaunchGame extends Game {
         assets.finishLoading();
 
         PropertiesSingleton.getInstance().setAssets(assets);
-        setScreen(new ChooseIslandScreen(this, islandNames, ballNames));
+//        setScreen(new ChooseIslandScreen(this));
 
     }
 
