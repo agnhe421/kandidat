@@ -209,22 +209,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
         this.scoreStage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
 
-        // Create the entitie
-
-//        world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 1f);
-
-        // Load models
-//        app.assets.load("3d/balls/football.g3db", Model.class);
-//        app.assets.load("3d/balls/apple.g3db", Model.class);
-//        app.assets.load("3d/balls/peach.g3db", Model.class);
-//        loading = true;
-
-//        while(loading)
-//        {
-//            app.assets.update();
-//            if(app.assets.isLoaded("3d/balls/football.g3db"))
-//                loading = false;
-//        }
         Gdx.app.log("SHOOT", "Begin");
 
         // Create font
@@ -260,21 +244,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
         scoreStage.getRoot().setPosition(0, stage.getHeight());
         Gdx.input.setInputProcessor(this);
 
-//        Model football = app.assets.get("3d/balls/football.g3db", Model.class);
+        Model chosenBallModel = assets.get("3d/balls/"+chosenBall+".g3db", Model.class);
 
-
-        Model choosenBallModel = assets.get("3d/balls/"+chosenBall+".g3db", Model.class);
-
-        for(int k = 0; k<choosenBallModel.meshes.size;k++)
-            choosenBallModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
-
-
-//        disposables.add(choosenBall);
-//        world.addConstructor("ball", new BulletConstructor(ship, 1000, new btSphereShape(9f)));
-//        player = world.add("ball", 0, 300f, 0f);
-
-//        player.body.setRollingFriction(4);
-
+        for(int k = 0; k<chosenBallModel.meshes.size;k++)
+            chosenBallModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
 
         float playerPosOffset = 0.0f;
         Gdx.app.log("HEJ!", "Nr of players: " + PropertiesSingleton.getInstance().getNrPlayers());
@@ -286,7 +259,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 if(idu != Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1)
                 {
                     Gdx.app.log("HEJ!", "Adding other.");
-                    playerList.add(new Player(choosenBallModel, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
+                    playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -297,7 +270,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     ++joinOffset;
                     Gdx.app.log("HEJ!", "New offset: " + joinOffset);
                     thisUnitId = idu;
-                    playerList.add(new Player(choosenBallModel, app.joinServerScreen.join.getUnitUserId()));
+                    playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getUnitUserId()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFlag(1);
@@ -310,7 +283,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 thisUnitId = 0;
                 if(idu == 0)
                 {
-                    playerList.add(new Player(choosenBallModel, app.createServerScreen.create.getServerName()));
+                    playerList.add(new Player(chosenBallModel, app.createServerScreen.create.getServerName()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -318,7 +291,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 }
                 else
                 {
-                    playerList.add(new Player(choosenBallModel, app.createServerScreen.create.getUserId(idu - 1)));
+                    playerList.add(new Player(chosenBallModel, app.createServerScreen.create.getUserId(idu - 1)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -507,17 +480,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
     }
 
-    /*public void updatePosition(Vector3 checkCharPos, int PlayerID)
-    {
-        if(playerCreated)
-        {
-            Matrix4 tmp = new Matrix4();
-            world.entities.get(PlayerID).body.setWorldTransform(tmp.setToTranslation(checkCharPos));
-        }
-    }*/
-
     @Override
-    public void render () {
+    public void render ()
+    {
 
         if(app.createServerScreen.create != null)
         {
@@ -538,12 +503,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 app.createServerScreen.create.sendCharData(tempPosList, tempRotList);
             }
         }
-        /*else if(app.joinServerScreen.join != null)
-        {
-            Vector3 tmp = new Vector3();
-            world.entities.get(thisUnitId + 1).body.getWorldTransform().getTranslation(tmp);
-            app.joinServerScreen.join.sendCharPosition(tmp);
-        }*/
+        //TODO if(app.joinServerScreen.join != null)
+            //TODO if(!app.joinServerScreen.join.isAlive())
+                //TODO Om servern kopplar ifrån/enheten kopplar från servern, boota till main menu.
 
         super.render();
 

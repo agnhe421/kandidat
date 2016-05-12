@@ -113,6 +113,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         if(app.createServerScreen.create != null)
         {
             app.createServerScreen.create.resetUserChoiceState();
+            app.createServerScreen.create.startIslandVote();
         }
 
         modelBatch = new ModelBatch();
@@ -207,9 +208,10 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
                     }
                     else if (app.createServerScreen != null)
                     {
+                        Gdx.app.log("HEJ!", "server island chosen");
                         app.createServerScreen.create.serverUser.setIslandChoice(voted);
                         app.createServerScreen.create.serverUser.setChosen(true);
-                        app.createServerScreen.create.startIslandVote();
+                        app.createServerScreen.create.notifyIsland();
                     }
                     //boolean found = false;
                     /*for(int k = 0; k < voted.size; k++)

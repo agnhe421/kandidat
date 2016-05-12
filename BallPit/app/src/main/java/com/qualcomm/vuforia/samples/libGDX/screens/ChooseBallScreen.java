@@ -105,8 +105,8 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
         if(app.createServerScreen.create != null)
         {
             app.createServerScreen.create.resetUserChoiceState();
+            app.createServerScreen.create.startBallsDistribute();
         }
-
         modelBatch = new ModelBatch();
 
         fps = new FPSLogger();
@@ -187,7 +187,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
                 } else if (app.createServerScreen.create != null) {
                     app.createServerScreen.create.serverUser.setBallChoice(ballNames.get(currentBall));
                     app.createServerScreen.create.serverUser.setChosen(true);
-                    app.createServerScreen.create.startBallsDistribute();
+                    app.createServerScreen.create.notifyBalls();
                 }
             }
         });

@@ -142,13 +142,13 @@ public class JoinServerScreen implements Screen{
         GlyphLayout glyphChooseServer = new GlyphLayout();
         glyphChooseServer.setText(app.font40, chooseServer);
 
-        GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(), glyphLayoutlog = new GlyphLayout();
+        //GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(), glyphLayoutlog = new GlyphLayout();
 
         float fpx = glyphPlayerName.width/2, fpy = glyphPlayerName.height/2;
         float fcx = glyphChooseServer.width/2, fcy = glyphChooseServer.height/2;
-        float fmsgx = glyphLayoutmsg.width/2, fmsgy = glyphLayoutmsg.height/2;
-        float fmlx = glyphLayoutlog.width/2, fmly = glyphLayoutlog.height/2;
-        float ferx = glyphLayouterror.width/2, fery = glyphLayouterror.height/2;
+        //float fmsgx = glyphLayoutmsg.width/2, fmsgy = glyphLayoutmsg.height/2;
+        //float fmlx = glyphLayoutlog.width/2, fmly = glyphLayoutlog.height/2;
+        //float ferx = glyphLayouterror.width/2, fery = glyphLayouterror.height/2;
         float x = w/2, y = h/2;
 
         if(join != null)
