@@ -76,6 +76,7 @@ public class CreateServerScreen implements Screen{
             //Further clicks will only update the text.
             msg = create.getMsg();
             error = create.getError();
+            //app.setScreen(app.pickScreen);
         }
 
         this.skin = new Skin();
