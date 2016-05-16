@@ -118,38 +118,90 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             final int userValue0 = manifold.getBody0().getUserValue();
             final int userValue1 = manifold.getBody1().getUserValue();
 
-            // Take the positions of the colliding balls. Used in the handling of sounds.
-            Vector3 p1Position = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
 
-            // Set the time which the player1 can receive a points after a collision has happened.
-            // 1 second = 30f
-            scoreTimer = 210f;  // 210/30 = 7 seconds
-            collisionHappened = true;
+//
+//            // Set the time which the player1 can receive a points after a collision has happened.
+//            // 1 second = 30f
+//            scoreTimer = 21f;  // 210/30 = 7 seconds
+//            collisionHappened = true;
+//
+            if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0) && (((btRigidBody) player1.body).getCenterOfMassPosition() != null))) {
+//
+//                Vector3 p1 = ((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition();
+//                Vector3 p2 = new Vector3(p1);
+//
+//                Vector3 linearVelocity =  new Vector3(((btRigidBody)world.entities.get(userValue0).body).getLinearVelocity());
+//                linearVelocity = linearVelocity.nor();
+//
+//
+//                p1.x = p1.x - linearVelocity.x;
+//                p1.z = p1.z - linearVelocity.z;
+//
+                Vector3 vec;
 
-            if((entities.get(userValue0) != entities.get(0))){
-                if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
-                    if (match0) {
-                        final BulletEntity e = (BulletEntity) (entities.get(userValue0));
-                        e.setColor(Color.BLUE);
-                        //Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
-                        collisionUserId0 = userValue0;
-                        move = false;
-                    }
-                    if (match1) {
-                        final BulletEntity e = (BulletEntity) (entities.get(userValue1));
-                        e.setColor(Color.RED);
-                        //Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
-                        collisionUserId1 = userValue1;
-                        move = false;
-                    }
+            Vector3 p1 = new Vector3();
+            ((btRigidBody)world.entities.get(userValue0).body).getWorldTransform().getTranslation(p1);
+//            Gdx.app.log("PosUser0", "" + pos1);
 
-                    // Play the collision sound if colliding with a ball.
-                    if(userValue0 <= playerList.size() && userValue1 <= playerList.size()){
-                        gameSound.playCollisionSound(p1Position, playerList.get(userValue0-1).getModelName(), playerList.get(userValue1-1).getModelName());
-                        Gdx.app.log("userValue0 = ", "" + playerList.get(userValue0 - 1).getModelName());
-                        Gdx.app.log("userValue1 = ", "" + playerList.get(userValue1 - 1).getModelName());
-                    }
+
+            Vector3 p2 = new Vector3();
+            ((btRigidBody)world.entities.get(userValue1).body).getWorldTransform().getTranslation(p2);
+//            Gdx.app.log("PosUser0", "" + pos2);
+//
+//
+//
+//
+//                Gdx.app.log("User0", "" + ((btRigidBody) world.entities.get(userValue0).body).getLinearVelocity().len());
+//                Gdx.app.log("User1", "" + ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len());
+//
+//
+
+
+
+                if (((btRigidBody) world.entities.get(userValue0).body).getLinearVelocity().len() < ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len()) {
+
+                    vec = new Vector3((p1.x - p2.x), 0, (p1.z - p2.z));
+
+                    float normFactor = 20000 / vec.len();
+                    Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+                    ((btRigidBody) entities.get(userValue0).body).applyCentralImpulse(normVec);
+                } else {
+                    vec = new Vector3((p2.x - p1.x), 0, (p2.z - p1.z));
+
+                    float normFactor = 20000 / vec.len();
+                    Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+                    ((btRigidBody) entities.get(userValue1).body).applyCentralImpulse(normVec);
                 }
+
+
+
+
+//
+//                if ((entities.get(userValue0) != entities.get(0))) {
+//                    if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
+//                        if (match0) {
+//                            final BulletEntity e = (BulletEntity) (entities.get(userValue0));
+//                            e.setColor(Color.BLUE);
+//                            //Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
+//                            collisionUserId0 = userValue0;
+//                            move = false;
+//                        }
+//                        if (match1) {
+//                            final BulletEntity e = (BulletEntity) (entities.get(userValue1));
+//                            e.setColor(Color.RED);
+//                            //Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
+//                            collisionUserId1 = userValue1;
+//                            move = false;
+//                        }
+//
+//                        // Play the collision sound if colliding with a ball.
+//                        if (userValue0 <= playerList.size() && userValue1 <= playerList.size()) {
+//                            gameSound.playCollisionSound(p1, playerList.get(userValue0 - 1).getModelName(), playerList.get(userValue1 - 1).getModelName());
+//                            Gdx.app.log("userValue0 = ", "" + playerList.get(userValue0 - 1).getModelName());
+//                            Gdx.app.log("userValue1 = ", "" + playerList.get(userValue1 - 1).getModelName());
+//                        }
+//                    }
+//                }
             }
         }
 
@@ -158,18 +210,22 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             final int userValue0 = colObj0.getUserValue();
             final int userValue1 = colObj1.getUserValue();
 
-            if (entities.get(userValue0) == entities.get(1)|| entities.get(userValue1) == entities.get(1)) {
-                if (match0) {
-                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
-                    e.setColor(Color.BLACK);
-                    //Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
-                }
-                if (match1) {
-                    final BulletEntity e = (BulletEntity) (entities.get(userValue1));
-                    e.setColor(Color.BLACK);
-                    //Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
-                }
-            }
+//            Gdx.app.log("ENDED","");
+
+//            ((btRigidBody)world.entities.get(userValue0).body).setGravity(new Vector3(0, -100, 0));
+//
+//            if (entities.get(userValue0) == entities.get(1)|| entities.get(userValue1) == entities.get(1)) {
+//                if (match0) {
+//                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
+//                    e.setColor(Color.BLACK);
+//                    //Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
+//                }
+//                if (match1) {
+//                    final BulletEntity e = (BulletEntity) (entities.get(userValue1));
+//                    e.setColor(Color.BLACK);
+//                    //Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
+//                }
+//            }
         }
     }
 
@@ -285,10 +341,10 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     @Override
     public boolean keyDown (int keycode) {
         player2.body.activate();
-        Vector3 moveDown = new Vector3(1f, 0f, 0f);
-        Vector3 moveUp = new Vector3(-1f, 0f, 0f);
-        Vector3 moveLeft = new Vector3(0f, 0f, 1f);
-        Vector3 moveRight = new Vector3(0f, 0f, -1f);
+        Vector3 moveDown = new Vector3(6f, 0f, 0f);
+        Vector3 moveUp = new Vector3(-6f, 0f, 0f);
+        Vector3 moveLeft = new Vector3(0f, 0f, 6f);
+        Vector3 moveRight = new Vector3(0f, 0f, -1000f);
 
         switch(keycode) {
             case Input.Keys.UP: up = true;
@@ -347,27 +403,27 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
             player_1 = new Player(football, "football");
             world.addConstructor("test1", player_1.bulletConstructor);
-            player1 = world.add("test1", 0, 3.5f, 2.5f);
+            player1 = world.add("test1", 20, 3.5f, 0f);
             player1.body.setContactCallbackFlag(1);
             player1.body.setContactCallbackFilter(1);
             playerEntityList.add(player1);
 
             player_2 = new Player(apple, "apple");
             world.addConstructor("test2", player_2.bulletConstructor);
-            player2 = world.add("test2", 0, 3.5f, 0.5f);
+            player2 = world.add("test2", 0, 3.5f, 20f);
             player2.body.setContactCallbackFilter(1);
             playerEntityList.add(player2);
 
             player_3 = new Player(peach, "peach");
             world.addConstructor("test3", player_3.bulletConstructor);
-            player3 = world.add("test3", 0, 3.5f, -2.5f);
+            player3 = world.add("test3", 0, 3.5f, -20f);
             player3.body.setContactCallbackFilter(1);
             playerEntityList.add(player3);
 
 
             player_4 = new Player(football, "football");
             world.addConstructor("test4", player_3.bulletConstructor);
-            player4 = world.add("test4", 0, 3.5f, -2.5f);
+            player4 = world.add("test4", -20, 3.5f, 0f);
             player4.body.setContactCallbackFilter(1);
             playerEntityList.add(player4);
 

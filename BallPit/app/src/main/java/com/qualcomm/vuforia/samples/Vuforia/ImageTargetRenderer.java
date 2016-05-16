@@ -189,8 +189,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
             // deal with the modelview and projection matrices
             float[] modelViewProjection = new float[16];
 
-
-
             Matrix.multiplyMM(modelViewProjection, 0, vuforiaAppSession
                     .getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
 

@@ -432,7 +432,7 @@ public class CreateServer extends Thread
                         break;
                     Gdx.app.log("HEJ!", user.id + " got:" + strConv.get(0));
                     //If incoming click positions are registered, update character impulse for that character.
-                    if(strConv.get(0).equals("CLICK_POS_INCOMING"))
+                    if(strConv.get(0).equals("CLICK_POS_INCOMING") && (app.gameScreen != null))
                     {
                         app.gameScreen.updateImpulse(fromString(strConv.get(1)),
                                 Character.getNumericValue(user.id.charAt(user.id.length() - 1)) - 1);

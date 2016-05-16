@@ -1,6 +1,7 @@
 package com.qualcomm.vuforia.samples.singletons;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 
 public class PropertiesSingleton {
     private String choosenIsland;
@@ -14,6 +15,10 @@ public class PropertiesSingleton {
     private AssetManager assets;
     public AssetManager getAssets() {return assets;}
     public void setAssets(AssetManager assets) {this.assets = assets;}
+
+    private BaseGame app;
+    public BaseGame getBaseGame() {return app;}
+    public void setBaseGame(BaseGame app) {this.app = app;}
 
     private static final PropertiesSingleton holder = new PropertiesSingleton();
     public static PropertiesSingleton getInstance() {return holder;}

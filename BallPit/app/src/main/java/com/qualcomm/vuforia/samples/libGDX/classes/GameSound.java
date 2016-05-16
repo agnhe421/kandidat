@@ -7,13 +7,16 @@ import com.badlogic.gdx.audio.AudioRecorder;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector3;
 
 public class GameSound implements Audio {
 
+    private static final GameSound holder = new GameSound();
+    public static GameSound getInstance() {return holder;}
+
     private Sound ballPlaceHolderSound, applePlaceHolderSound;
-    private Music backgroundMusic;
+    private Music menuMusic;
+    private Music gameMusic;
     private float musicVolume;
 
     //TODO: Klipp in denna kod i collision listener i din game screen för att spela rätt ljud.
@@ -28,37 +31,53 @@ public class GameSound implements Audio {
 
     public GameSound(){
         // Load the sounds
-        ballPlaceHolderSound = Gdx.audio.newSound(Gdx.files.internal("sound/ballph.wav"));
+        ballPlaceHolderSound = Gdx.audio.newSound(Gdx.files.internal("sound/yarn_football.ogg"));
         applePlaceHolderSound = Gdx.audio.newSound(Gdx.files.internal("sound/appleph.wav"));
 
         // Load the music
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Davicii - Levels.mp3"));
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music/menu.ogg"));
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music/Davicii - Levels.mp3"));
     }
 
     // TODO: Skriv om så att tar emot volymen från optionsmenyn.
-    public void playBackgroundMusic(float theMusicVolume){
-        musicVolume = theMusicVolume;
+    public void playMusic(String musicName){
 
-        if(!backgroundMusic.isPlaying()) { backgroundMusic.play(); }
-        backgroundMusic.setVolume(musicVolume);
+        if(musicName == "menu")
+        {
+            if(!menuMusic.isPlaying()) {
+                menuMusic.play();
+                menuMusic.setLooping(true);
+            }
+            menuMusic.setVolume(0.5f);
+        }
+
+        if(musicName == "game")
+        {
+            if(!menuMusic.isPlaying()) {
+                gameMusic.play();
+                gameMusic.setLooping(true);
+            }
+            gameMusic.setVolume(0.5f);
+        }
+
+
     }
 
-    public void stopBackgroundMusic(){
-        if(backgroundMusic.isPlaying()){ backgroundMusic.stop(); }
+    public void stopMusic(String musicName){
+        if(menuMusic.isPlaying()){ menuMusic.stop(); }
     }
 
     // Calculate distances and adjust volumes.
-    public void playCollisionSound(Vector3 player1, String p1ModelName, String p2ModelName ){
+    public void playCollisionSound(Vector3 player1, String p1ModelName, String p2ModelName, Vector3 cameraPos){
 
-        // Temporär "öron"-position. Denna ska ersättas med vart användaren fysiskt står från vuforias viewmatrix eller nåt.
-        // TODO: Ersätt alltså med Vuforias camera view position.
-        Vector3 tempEar = new Vector3(0f, 0f, 0f);
 
         // Calculate distance from the camera and the collision.
-        Vector3 distance = new Vector3( player1.x - tempEar.x, 0, player1.z - tempEar.z );
+        Vector3 distance = new Vector3( player1.x - cameraPos.x, 0, player1.z - cameraPos.z );
 
         // Scale the volume.
-        float volumeFactor = 1 / distance.len();
+        float volumeFactor = 30 / distance.len();
+
+        Gdx.app.log("Volume factor:", volumeFactor + "");
 
         // Play the correct sound based on the collision.
         if(p1ModelName.equals("football")){

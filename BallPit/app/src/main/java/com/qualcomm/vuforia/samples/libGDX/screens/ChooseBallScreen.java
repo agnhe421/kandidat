@@ -190,6 +190,14 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 
                 PropertiesSingleton.getInstance().setChoosenBall(choosenBall);
 
+                for(int i = 0; i<ballNames.size; i++)
+                {
+                    Model tmpModel = assets.get("3d/balls/"+ballNames.get(i)+".g3db", Model.class);
+
+                    for(int k = 0; k<tmpModel.meshes.size;k++)
+                        tmpModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
+                }
+
                 app.gameScreen = new GameScreen(app);
                app.setScreen(app.gameScreen);
 

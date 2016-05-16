@@ -106,7 +106,7 @@ public class JoinServer extends Thread
                 {
                     break;
                 }
-                Gdx.app.log("strConv", "Data received. Message: " + strConv.get(0));
+//                Gdx.app.log("strConv", "Data received. Message: " + strConv.get(0));
                 //Receive string containing user data, such as ID and score.
                 if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
@@ -136,12 +136,12 @@ public class JoinServer extends Thread
                     Vector<Vector3> rec_pos = new Vector<Vector3>(), rec_rot = new Vector<Vector3>();
                     for(int idv = 1; idv <= playerList.size() + 1; ++idv)
                     {
-                        Gdx.app.log("VECTOOOR:", "" + strConv.get(idv));
+//                        Gdx.app.log("VECTOOOR:", "" + strConv.get(idv));
                         rec_pos.add(fromString(strConv.get(idv)));
                     }
                     for(int idv = 1 + rec_pos.size(); idv <= playerList.size() + rec_pos.size() + 1; ++idv)
                     {
-                        Gdx.app.log("VECTOOOR2:", "" + strConv.get(idv));
+//                        Gdx.app.log("VECTOOOR2:", "" + strConv.get(idv));
                         rec_rot.add(fromString(strConv.get(idv)));
                     }
 

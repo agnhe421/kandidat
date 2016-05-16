@@ -241,7 +241,10 @@ public class CreateServerScreen implements Screen{
                 {
                     create.sendReadyMsg();
                     PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
-                app.setScreen(new ChooseIslandScreen(app));
+//                app.setScreen(new ChooseIslandScreen(app));
+
+                    PropertiesSingleton.getInstance().setBaseGame(app);
+                    app.launchVuforia();
                 }
                 msg = "Not all players are ready.";
             }

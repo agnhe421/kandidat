@@ -19,8 +19,24 @@ import com.qualcomm.vuforia.samples.libGDX.screens.JoinServerScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.LoadingScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.MainMenyScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.SettingScreen;
+import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
 public class BaseGame extends Game {
+
+
+    // Define an interface for your various callbacks to the android launcher
+    public interface MyGameCallback {
+        public void onStartActivityA();
+    }
+
+    // Local variable to hold the callback implementation
+    private MyGameCallback myGameCallback;
+
+    // ** Additional **
+    // Setter for the callback
+    public void setMyGameCallback(MyGameCallback callback) {
+        myGameCallback = callback;
+    }
 
     public SpriteBatch batch;
     public BitmapFont font40, font120;
@@ -40,7 +56,7 @@ public class BaseGame extends Game {
 
     public static final int VIRTUAL_WIDTH = 3840;
     public static final int VIRTUAL_HEIGHT = 2160;
-    public static final float ASPECT_RATIO =  1.7f;
+    public static final float ASPECT_RATIO = 1.7f;
     public Camera camera;
     public Integer connectcounter = 0;
     public final int serverPort = 8081;
@@ -71,7 +87,7 @@ public class BaseGame extends Game {
         setScreen(new LoadingScreen(this));
     }
 
-    private void initFonts(){
+    private void initFonts() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/copyfonts.com_gulim.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
@@ -85,4 +101,13 @@ public class BaseGame extends Game {
         generator.dispose();
     }
 
+    public void launchVuforia() {
+        // check the calling class has actually implemented MyGameCallback
+        if (myGameCallback != null) {
+
+            // initiate which ever callback method you need.
+                myGameCallback.onStartActivityA();
+        }
+
+    }
 }
