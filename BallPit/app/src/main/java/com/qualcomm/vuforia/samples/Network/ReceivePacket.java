@@ -1,5 +1,7 @@
 package com.qualcomm.vuforia.samples.Network;
 
+import com.qualcomm.vuforia.samples.libGDX.BaseGame;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -15,14 +17,12 @@ public class ReceivePacket extends Thread
     private Boolean serverAccepting;
     private Vector<Thread> responseVector;
     private Cleanup clean;
-<<<<<<< HEAD
     private BaseGame app;
-=======
->>>>>>> f4d1ad0f11e27720ee52ce673f2c8a85f9154fdd
 
     //Constructor
-    public ReceivePacket(String id)
+    public ReceivePacket(String id, final BaseGame app)
     {
+        this.app = app;
         serverAccepting = false;
         activeRequests = false;
         serverID = id;
@@ -110,6 +110,7 @@ public class ReceivePacket extends Thread
         {
             //Set active requests to true and send the response.
             activeRequests = true;
+            clean.notifyCleaning();
             try
             {
                 dSocket.send(response);
@@ -130,7 +131,6 @@ public class ReceivePacket extends Thread
             running = true;
             while(running)
             {
-<<<<<<< HEAD
                 try
                 {
                     if(!activeRequests)
@@ -145,11 +145,10 @@ public class ReceivePacket extends Thread
                     e.printStackTrace();
                     error = "Excepton: " + e.toString();
                 }
-=======
->>>>>>> f4d1ad0f11e27720ee52ce673f2c8a85f9154fdd
                 //If any there are active requests and the vector isn't empty, check for dead threads.
                 if(activeRequests && !responseVector.isEmpty())
                 {
+                    app.createServerScreen.create.notifyServer();
                     for(Thread t: responseVector)
                     {
                         //If the thread is dead, remove it from the vector.
@@ -163,6 +162,13 @@ public class ReceivePacket extends Thread
                         activeRequests = false;
                     }
                 }
+            }
+        }
+        public void notifyCleaning()
+        {
+            synchronized (this)
+            {
+                this.notify();
             }
         }
         //Stop the cleanup process.

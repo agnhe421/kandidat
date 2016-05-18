@@ -147,7 +147,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             collisionHappened = true;
 
             if((entities.get(userValue0) != entities.get(0))){
-            if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
+                if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
                     if (match0) {
                         final BulletEntity e = (BulletEntity) (entities.get(userValue0));
                         e.setColor(Color.BLUE);
@@ -162,8 +162,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     }
                     // Play the collision sound.
 //                    gameSound.playCollisionSound(p1, p2);
+                }
             }
-         }
         }
 
         @Override
@@ -260,16 +260,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
 //        Model football = app.assets.get("3d/balls/football.g3db", Model.class);
 
-<<<<<<< HEAD
-=======
-
-        Model choosenBallModel = assets.get("3d/balls/"+chosenBall+".g3db", Model.class);
-
-        for(int k = 0; k<choosenBallModel.meshes.size;k++)
-            choosenBallModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
-
-
->>>>>>> f4d1ad0f11e27720ee52ce673f2c8a85f9154fdd
 //        disposables.add(choosenBall);
 //        world.addConstructor("ball", new BulletConstructor(ship, 1000, new btSphereShape(9f)));
 //        player = world.add("ball", 0, 300f, 0f);
@@ -290,7 +280,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 if(idu != Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1)
                 {
                     Gdx.app.log("HEJ!", "Adding other.");
-                    playerList.add(new Player(choosenBallModel, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
+                    playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -301,7 +291,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     ++joinOffset;
                     Gdx.app.log("HEJ!", "New offset: " + joinOffset);
                     thisUnitId = idu;
-                    playerList.add(new Player(choosenBallModel, app.joinServerScreen.join.getUnitUserId()));
+                    playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getUnitUserId()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFlag(1);
@@ -314,7 +304,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 thisUnitId = 0;
                 if(idu == 0)
                 {
-                    playerList.add(new Player(choosenBallModel, app.createServerScreen.create.getServerName()));
+                    playerList.add(new Player(chosenBallModel, app.createServerScreen.create.getServerName()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -322,7 +312,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 }
                 else
                 {
-                    playerList.add(new Player(choosenBallModel, app.createServerScreen.create.getUserId(idu - 1)));
+                    playerList.add(new Player(chosenBallModel, app.createServerScreen.create.getUserId(idu - 1)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -349,7 +339,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         LabelCountdown.setPosition(Gdx.graphics.getHeight() / 2, Gdx.graphics.getWidth() / 2);
         stage.addActor(LabelCountdown);
         Gdx.app.log("SHOOT", "Nr of characters: " + playerList.size());
-          // Sound
+        // Sound
         //-------------------------------------------------------------------
     }
 
@@ -362,7 +352,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-       // shoot(screenX, screenY);
+        // shoot(screenX, screenY);
         Gdx.app.log("SHOOT", "SHOOT");
 
         //TO REMOVE AN ENTITY FROM THE WORLD
@@ -412,7 +402,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 //            instance = new ModelInstance(model,tmpV1);
 
             Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) playerEntityList.get(thisUnitId).body).getCenterOfMassPosition().x),
-                                      0, (tmpV1.z - ((btRigidBody) playerEntityList.get(thisUnitId).body).getCenterOfMassPosition().z));
+                    0, (tmpV1.z - ((btRigidBody) playerEntityList.get(thisUnitId).body).getCenterOfMassPosition().z));
 
 
             instance = new ModelInstance(arrowInstance, tmpV1);
@@ -436,10 +426,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 app.joinServerScreen.join.sendClickPosVector(normVec);
             }
         }
-            // Är det normVec som ska skickas till servern som ´sen skickar till varje client och varje client lägger impulsen på rätt spelare.
-            // sendImpulse(normVec);
-            // Skriva en ny funktion i GameScreen som faktiskt sätter denna impuls, vart ska den sättas? Vill inte att den ska köras varje frame.
-            // Ifall klick har hänt,
+        // Är det normVec som ska skickas till servern som ´sen skickar till varje client och varje client lägger impulsen på rätt spelare.
+        // sendImpulse(normVec);
+        // Skriva en ny funktion i GameScreen som faktiskt sätter denna impuls, vart ska den sättas? Vill inte att den ska köras varje frame.
+        // Ifall klick har hänt,
         //}
         return true;
     }
@@ -816,10 +806,5 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }else{
             LabelCountdown.setText(String.format("%.0f", seconds));
         }
-
     }
-
-
-
-
-    }
+}
