@@ -49,6 +49,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     // Players
     //public Player player_1, player_2, player_3, player_4;
     Vector<Player> playerList = new Vector<Player>();
+    Vector<Integer> playerScorePosList = new Vector();
 
     // Controls
     ClosestRayResultCallback rayTestCB;
@@ -70,7 +71,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     // Gameplay variables
     float gameOverTimer = 0;
     float coinTimer = 0;
-    public float scoreTimer;
+    private float[][] scoreTimers;
     boolean collisionHappened = false;
     boolean gameOverGameScreen = false;
     boolean playerCreated = false;
@@ -85,7 +86,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     private AnimationController[] controllers = new AnimationController[n_coins];
 
     // UI
-    private Label labelScorePlayer1, labelScorePlayer2, labelScorePlayer3, labelScorePlayer4;
+    private Vector<Label> labelScorePlayers = new Vector<Label>();
     private Label.LabelStyle labelStyle;
     private BitmapFont font;
 
@@ -118,14 +119,20 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             final int userValue0 = manifold.getBody0().getUserValue();
             final int userValue1 = manifold.getBody1().getUserValue();
 
+            collisionHappened = true;
 
+            if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0))) {
+
+                // Give the score timers a value to the ones that have collided.
 //
-//            // Set the time which the player1 can receive a points after a collision has happened.
-//            // 1 second = 30f
-//            scoreTimer = 21f;  // 210/30 = 7 seconds
-//            collisionHappened = true;
-//
-            if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0) && (((btRigidBody) player1.body).getCenterOfMassPosition() != null))) {
+//                for (int i = 0; i < 4; i++)
+//                {
+//                    scoreTimers[userValue0-1][i] = 0; // 210/30 = 7 seconds
+//                    scoreTimers[userValue1-1][i] = 0;
+//                }
+
+                scoreTimers[userValue0-1][userValue1-1] = 210f; // 210/30 = 7 seconds
+                scoreTimers[userValue1-1][userValue0-1] = 210f;
 //
 //                Vector3 p1 = ((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition();
 //                Vector3 p2 = new Vector3(p1);
@@ -155,20 +162,17 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 //                Gdx.app.log("User1", "" + ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len());
 //
 //
-
-
-
                 if (((btRigidBody) world.entities.get(userValue0).body).getLinearVelocity().len() < ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len()) {
 
                     vec = new Vector3((p1.x - p2.x), 0, (p1.z - p2.z));
 
-                    float normFactor = 20000 / vec.len();
+                    float normFactor = 200 / vec.len();
                     Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
                     ((btRigidBody) entities.get(userValue0).body).applyCentralImpulse(normVec);
                 } else {
                     vec = new Vector3((p2.x - p1.x), 0, (p2.z - p1.z));
 
-                    float normFactor = 20000 / vec.len();
+                    float normFactor = 200 / vec.len();
                     Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
                     ((btRigidBody) entities.get(userValue1).body).applyCentralImpulse(normVec);
                 }
@@ -255,19 +259,6 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
         // Init Score lables
         labelStyle = new Label.LabelStyle(font, Color.PINK);
-        labelScorePlayer1 = new Label("", labelStyle);
-        labelScorePlayer1.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 1);
-        labelScorePlayer2 = new Label("", labelStyle);
-        labelScorePlayer2.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 2);
-        labelScorePlayer3 = new Label("", labelStyle);
-        labelScorePlayer3.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 3);
-        labelScorePlayer4 = new Label("", labelStyle);
-        labelScorePlayer4.setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 4);
-
-        stage.addActor(labelScorePlayer1);
-        stage.addActor(labelScorePlayer2);
-        stage.addActor(labelScorePlayer3);
-        stage.addActor(labelScorePlayer4);
 
 
         Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/scorebg1.png"))));
@@ -288,6 +279,8 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         gameSound = new GameSound();
         // Play background music.
         // gameSound.playBackgroundMusic(0.45f);
+
+        scoreTimers = new float[4][4];
     }
 
     @Override
@@ -403,27 +396,27 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
             player_1 = new Player(football, "football");
             world.addConstructor("test1", player_1.bulletConstructor);
-            player1 = world.add("test1", 20, 3.5f, 0f);
+            player1 = world.add("test1", 10, 3.5f, 0f);
             player1.body.setContactCallbackFlag(1);
             player1.body.setContactCallbackFilter(1);
             playerEntityList.add(player1);
 
             player_2 = new Player(apple, "apple");
             world.addConstructor("test2", player_2.bulletConstructor);
-            player2 = world.add("test2", 0, 3.5f, 20f);
+            player2 = world.add("test2", 0, 3.5f, 10f);
             player2.body.setContactCallbackFilter(1);
             playerEntityList.add(player2);
 
             player_3 = new Player(peach, "peach");
             world.addConstructor("test3", player_3.bulletConstructor);
-            player3 = world.add("test3", 0, 3.5f, -20f);
+            player3 = world.add("test3", 0, 3.5f, -10f);
             player3.body.setContactCallbackFilter(1);
             playerEntityList.add(player3);
 
 
             player_4 = new Player(football, "football");
             world.addConstructor("test4", player_3.bulletConstructor);
-            player4 = world.add("test4", -20, 3.5f, 0f);
+            player4 = world.add("test4", -10, 3.5f, 0f);
             player4.body.setContactCallbackFilter(1);
             playerEntityList.add(player4);
 
@@ -431,6 +424,17 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             playerList.add(player_2);
             playerList.add(player_3);
             playerList.add(player_4);
+
+            playerScorePosList.add(Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 2);
+            playerScorePosList.add(Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 4);
+            playerScorePosList.add(Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 6);
+            playerScorePosList.add(Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * 8);
+
+            for(int i = 0; i < playerList.size();i++) {
+                labelScorePlayers.add(new Label("", labelStyle));
+                labelScorePlayers.get(i).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * ((i+1)*2));
+                stage.addActor(labelScorePlayers.get(i));
+            }
 
 
             // Create powerup
@@ -475,11 +479,34 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         }
 
         // Count the score timer down
-        if(collisionHappened){
-            scoreTimer -= 1f;
-            if(scoreTimer < 0) { collisionHappened = false; }
+        for(int i = 0; i < 4; i++){ //TODO: hårdkodat
+
+            for(int k = 0; k < 4; k++){
+                if(scoreTimers[i][k] > 0){
+                    scoreTimers[i][k] -= 1f;
+                }
+            }
         }
 
+
+        if(playerCreated == true) {
+            // Give score to the correct player.
+            for (int i = 0; i < 4; i++) {
+                if ((((btRigidBody) playerEntityList.get(i).body).getCenterOfMassPosition().y < 0)
+                        && playerList.get(i).getHasFallen() == false
+                        ) {
+
+                    playerList.get(i).setHasFallen(true);
+                    // Give the score.
+                    for (int k = 0; k < 4; k++) { // TODO: nrPlayers
+                        if (scoreTimers[i][k] > 0) {
+                            playerList.get(k).setScore(44);
+                            updateScorePos();
+                        }
+                    }
+                }
+            }
+        }
         if(app.assets.update() && playerCreated) {
 
             // Check collision between coins and player 1
@@ -492,7 +519,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
                 BulletEntity temp = coinEntityList.get(collisionUserId1 -  (playerEntityList.size() + powerUpEntityList.size() + 1));
 
-                player_1.setScore(5);
+//                player_1.setScore(5);
 
                 Matrix4 m = new Matrix4();
                 Vector3 tmpVec = new Vector3(x, 1, -z);
@@ -521,23 +548,18 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
                 //System.out.println("POWERUP");
            // }
 
-                // Check fall and collision with player 1 for player 2
-            if((((btRigidBody) player2.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player2.body).getCenterOfMassPosition().y > -0.08)
-                    && (collisionUserId0 == 2 || collisionUserId1 == 2) && scoreTimer > 0){
-                player_1.setScore(10);
-
-            }
-            // Check fall and collision with player 1 for player 3
-            if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0) && (((btRigidBody) player3.body).getCenterOfMassPosition().y > -0.08)
-                    && (collisionUserId0 == 3 ||  collisionUserId1 == 3) && scoreTimer > 0){
-                player_1.setScore(10);
-            }
+//            // Check fall and collision with player 1 for player 3
+//            if((((btRigidBody) player3.body).getCenterOfMassPosition().y < 0)){
+//                player_3.setScore(10);
+//                updateScorePos();
+//            }
 
             // Gameover if player 1 falls
             if(((btRigidBody) player1.body).getCenterOfMassPosition().y < 0 && !gameOverGameScreen ){
                 // setScore to the other players
-                player_2.setScore(20);
-                player_3.setScore(20);
+//                player_2.setScore(20);
+//                player_3.setScore(20);
+//                updateScorePos();
 
                 // Add 1 to the current round
                 int current_round = PropertiesSingleton.getInstance().getRound();
@@ -552,43 +574,55 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
         // Set the score
         if(playerCreated) {
-            labelScorePlayer1.setText("Score player 1: " + player_1.getScore());
-            labelScorePlayer2.setText("Score player 2: " + player_2.getScore());
-            labelScorePlayer3.setText("Score player 3: " + player_3.getScore());
-            labelScorePlayer4.setText("Score player 4: " + player_4.getScore());
+            labelScorePlayers.get(0).setText("Score player 1: " + player_1.getScore());
+            labelScorePlayers.get(1).setText("Score player 2: " + player_2.getScore());
+            labelScorePlayers.get(2).setText("Score player 3: " + player_3.getScore());
+            labelScorePlayers.get(3).setText("Score player 4: " + player_4.getScore());
         }
 
         stage.draw();
         scoreStage.draw();
     }
 
-    // Sorts and draws the scores.
-    private void drawScores(){
-        // TODO: Borde egentligen inte kallas varenda renderingsframe, borde enbart köras när det sker förändringar i någons score. Därför ska den kallas i poängsystemet i render(), men vi har ju inget riktigt poängsystem än.
+
+
+    //LÄGG ÖVER TILL BALLPIT////////////////////////////////////////
+    private void updateScorePos(){
         if(playerCreated) {
-            Collections.sort(playerList);
 
-            labelScorePlayer1.setText("Score " + playerList.get(0).getModelName() + ": " + playerList.get(0).getScore());
-            labelScorePlayer2.setText("Score " + playerList.get(1).getModelName() + ": " + playerList.get(1).getScore());
-            labelScorePlayer3.setText("Score " + playerList.get(2).getModelName() + ": " + playerList.get(2).getScore());
-            labelScorePlayer4.setText("Score " + playerList.get(3).getModelName() + ": " + playerList.get(3).getScore());
+            Array<Integer> currentScores = new Array<Integer>();
 
-            // TODO: KOD NEDAN ÄR INTE FÄRDIG OCH DEN ÄR TILL FÖR KUNNA ANIMERA NÄR NÅGON AVANCERAR I PLACERING FÖR SCORE.
-            /*
-            // Set the score for the players in the same label.
-            LabelScorePlayer1.setText("P1: " + playerList.get(0).getScore());
-            LabelScorePlayer2.setText("P2: " + playerList.get(1).getScore());
-            LabelScorePlayer3.setText("P3: " + playerList.get(2).getScore());
-            LabelScorePlayer4.setText("P4: " + playerList.get(3).getScore());
+            for(int i = 0; i < playerList.size(); i++)
+            {
+                currentScores.add(playerList.get(i).getScore());
+            }
 
-            // Take the actors for the score labels and move them to advance in positions. TODO: ta bort getHeight funktionsanropet.
-            stage.getRoot().getChildren().get(0).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 1));
-            stage.getRoot().getChildren().get(1).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 2));
-            stage.getRoot().getChildren().get(2).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 3));
-            stage.getRoot().getChildren().get(3).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * scoreLabelAnimationTimer));
-            */
+            currentScores.sort();
+            currentScores.reverse();
+
+            int currentPosIdx = 0;
+            for(int i = 0; i < currentScores.size; i++)
+            {
+//                Gdx.app.log(currentScores.get(i) + "","");
+                boolean found = false;
+                for(int k = 0; k < playerList.size(); k++)
+                {
+                    if(currentScores.get(i) == playerList.get(k).getScore() && found == false) {
+
+
+                        Gdx.app.log("IDX:" + currentPosIdx, "POS: " + playerScorePosList.get(currentPosIdx));
+                        labelScorePlayers.get(k).setPosition(200, playerScorePosList.get(currentPosIdx));
+
+//                                .addAction(Actions.moveTo(20, playerScorePosList.get(currentPosIdx), 0.5f));
+                        currentPosIdx++;
+                        found = true;
+                    }
+                }
+            }
+
         }
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -635,18 +669,21 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
         scoreStage.act();
 
+        for(int i = 0; i<labelScorePlayers.size();i++)
+            labelScorePlayers.get(i).act(Gdx.graphics.getDeltaTime());
+
         gameOverTimer += Gdx.graphics.getDeltaTime();
 
-        if(gameOverTimer > 0.5)
-        {
-            super.setGameOver();
-            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
-                    Actions.run(new Runnable() {
-                        public void run() {
-                            app.setScreen(new ScoreScreen(app));
-                            dispose();
-                        }
-                    })));
-        }
+//        if(gameOverTimer > 0.5)
+//        {
+//            super.setGameOver();
+//            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
+//                    Actions.run(new Runnable() {
+//                        public void run() {
+////                            app.setScreen(new ScoreScreen(app));
+////                            dispose();
+//                        }
+//                    })));
+//        }
     }
 }

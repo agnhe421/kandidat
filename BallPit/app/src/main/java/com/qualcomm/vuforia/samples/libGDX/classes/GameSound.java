@@ -17,7 +17,8 @@ public class GameSound implements Audio {
     private Sound ballPlaceHolderSound, applePlaceHolderSound;
     private Music menuMusic;
     private Music gameMusic;
-    private float musicVolume;
+    private float musicVolume = 0.5f;
+    private float soundVolume = 0.5f;
 
     //TODO: Klipp in denna kod i collision listener i din game screen för att spela rätt ljud.
     //TODO: Du måste ha playerList vectorn för att det ska fungera. Det finns i GameScreen, 160502
@@ -48,7 +49,7 @@ public class GameSound implements Audio {
                 menuMusic.play();
                 menuMusic.setLooping(true);
             }
-            menuMusic.setVolume(0.5f);
+            menuMusic.setVolume(musicVolume);
         }
 
         if(musicName == "game")
@@ -57,7 +58,7 @@ public class GameSound implements Audio {
                 gameMusic.play();
                 gameMusic.setLooping(true);
             }
-            gameMusic.setVolume(0.5f);
+            gameMusic.setVolume(musicVolume);
         }
 
 
@@ -65,6 +66,18 @@ public class GameSound implements Audio {
 
     public void stopMusic(String musicName){
         if(menuMusic.isPlaying()){ menuMusic.stop(); }
+    }
+
+    public float getMusicVolume(){
+        return musicVolume;
+    }
+
+    public void setMusicVolume(float volume) {
+
+      musicVolume = volume;
+
+        menuMusic.setVolume(musicVolume);
+        gameMusic.setVolume(musicVolume);
     }
 
     // Calculate distances and adjust volumes.
@@ -81,9 +94,9 @@ public class GameSound implements Audio {
 
         // Play the correct sound based on the collision.
         if(p1ModelName.equals("football")){
-            if(p2ModelName.equals("football")){ballPlaceHolderSound.play(volumeFactor);}
+            if(p2ModelName.equals("football")){ballPlaceHolderSound.play(soundVolume*volumeFactor);}
             if(p2ModelName.equals("peach")) {}
-            if(p2ModelName.equals("apple")){applePlaceHolderSound.play(volumeFactor);}
+            if(p2ModelName.equals("apple")){applePlaceHolderSound.play(soundVolume*volumeFactor);}
             if(p2ModelName.equals("bomb")) {}
         }
 
@@ -107,6 +120,17 @@ public class GameSound implements Audio {
             if(p2ModelName.equals("apple")) {}
             if(p2ModelName.equals("bomb")) {}
         }
+    }
+
+    public float getSFXVolume(){
+
+        return soundVolume;
+    }
+
+    public void setSFXVolume(float volume) {
+
+        soundVolume = volume;
+
     }
 
     @Override

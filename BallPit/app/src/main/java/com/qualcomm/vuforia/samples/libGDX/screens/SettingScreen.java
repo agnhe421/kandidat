@@ -24,6 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
+import com.qualcomm.vuforia.samples.libGDX.classes.GameSound;
+import com.qualcomm.vuforia.samples.singletons.DataHolder;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
@@ -51,7 +53,6 @@ public class SettingScreen implements Screen {
     // Texture
 
     //music and slider
-    public Music music;
     public float soundVolume = 0.5f;
     private Slider slider;
     private Slider slider2;
@@ -134,13 +135,6 @@ public class SettingScreen implements Screen {
 
     }
 
-    public void initMusic(){
-        music = Gdx.audio.newMusic(Gdx.files.internal("sound/theReef.mp3")); //read in the file
-        music.setLooping(true);
-        music.setVolume(soundVolume); //when it start set volume = 0.5f.
-        music.play();
-
-    }
     //TODO: music ch soundeffects text, och backknappen?
 
     public void initSlider(){
@@ -154,29 +148,29 @@ public class SettingScreen implements Screen {
 
         //public Slider(float min, float max, float stepSize, boolean vertical, Slider.SliderStyle style)
         slider = new Slider(0.0f, 1.0f, 0.1f, false, skin); //init slider
-        slider.setValue(music.getVolume()); //the sliders position is equal to the musics volume
-        music.setVolume(slider.getValue()); //volume is where the slider is
-        slider.setAnimateDuration(0.1f);    //how fast the slider react when you move it
+        slider.setValue(GameSound.getInstance().getMusicVolume()); //the sliders position is equal to the musics volume
+//        GameSound.getInstance().setMusicVolume(slider.getValue()); //volume is where the slider is
+        slider.setAnimateDuration(0.2f);    //how fast the slider react when you move it
 
         slider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (slider.isDragging()) {
-                    music.setVolume(slider.getValue());  //when the slider is moving the musics volume
+                    GameSound.getInstance().setMusicVolume(slider.getValue());  //when the slider is moving the musics volume
                 }                                       //will change according to where the slider is.
             }
         });
 
 
         slider2 = new Slider(0.0f, 1.0f, 0.1f, false, skin);
-        slider2.setValue(music.getVolume());
-        music.setVolume(slider.getValue());
-        slider2.setAnimateDuration(0.1f);
+        slider2.setValue(GameSound.getInstance().getSFXVolume());
+//        GameSound.getInstance().setSFXVolume(slider.getValue());
+        slider2.setAnimateDuration(0.2f);
         slider2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (slider2.isDragging()) {
-                    music.setVolume(slider2.getValue());  //when the slider is moving the musics volume
+                    GameSound.getInstance().setSFXVolume(slider2.getValue());  //when the slider is moving the musics volume
                 }                                       //will change according to where the slider is.
             }
         });

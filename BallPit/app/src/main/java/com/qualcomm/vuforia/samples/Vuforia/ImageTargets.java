@@ -108,12 +108,15 @@ public class ImageTargets extends AndroidApplication implements SampleApplicatio
             glView.setZOrderOnTop(true);
         }
 
+        addContentView(gameView, new LayoutParams(LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT));
+
         vuforiaAppSession = new SampleApplicationSession(this);
 
         startLoadingAnimation();
         mDatasetStrings.add("StonesAndChips.xml");
-        mDatasetStrings.add("Tarmac.xml");
-        mDatasetStrings.add("Test.xml");
+//        mDatasetStrings.add("Tarmac.xml");
+//        mDatasetStrings.add("Test.xml");
 
         vuforiaAppSession
                 .initAR(this, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -330,8 +333,6 @@ public class ImageTargets extends AndroidApplication implements SampleApplicatio
             // that the OpenGL ES surface view gets added
             // BEFORE the camera is started and video
             // background is configured.
-            addContentView(gameView, new LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT));
 
             addContentView(mGlView, new LayoutParams(LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT));

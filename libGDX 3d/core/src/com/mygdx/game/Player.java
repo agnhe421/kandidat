@@ -21,6 +21,8 @@ public class Player extends BaseBulletTest implements Comparable<Player> {
     public int weight = 1;
     private String name;
 
+    private boolean hasFallen = false;
+
     // Variables
 //    private int weightFootball = 3;
 //    private int weightApple = 1;
@@ -50,7 +52,7 @@ public class Player extends BaseBulletTest implements Comparable<Player> {
 
     public BulletConstructor initBulletConstructor(Model model, float weight) {
         disposables.add(model);
-        BulletConstructor bulletConstructor = (new BulletConstructor(model, weight, new btSphereShape(9f)));
+        BulletConstructor bulletConstructor = (new BulletConstructor(model, weight, new btSphereShape(0.8f)));
         return bulletConstructor;
     }
 
@@ -83,5 +85,13 @@ public class Player extends BaseBulletTest implements Comparable<Player> {
     public int compareTo(Player comparesTo){
         int compareScore = ((Player)comparesTo).getScore();
         return compareScore - this.score;
+    }
+
+    public void setHasFallen(boolean hasFallen){
+        this.hasFallen = hasFallen;
+    }
+
+    public boolean getHasFallen(){
+        return hasFallen;
     }
 }

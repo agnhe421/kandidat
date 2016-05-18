@@ -211,10 +211,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
         Model football = app.assets.get("3d/balls/football2.g3dj", Model.class);
         float playerPosOffset = 0.0f;
         int joinOffset = 0;
+        //Create player characters.
         for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
         {
+            //If the unit is a client.
             if(app.joinServerScreen.join != null)
             {
+                //Check whether or not the current index corresponds to this client or someone else.
                 if(idu != Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1)
                 {
                     playerList.add(new Player(football, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
@@ -224,6 +227,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 }
                 else
                 {
+                    //In order for the client to retrieve the correct data from the playerlist
+                    //an offset is required for when the client id is set.
                     ++joinOffset;
                     thisUnitId = idu;
                     playerList.add(new Player(football, app.joinServerScreen.join.getUnitUserId()));
@@ -233,8 +238,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
                 }
             }
+            //If the user is the host.
             else if(app.createServerScreen.create != null)
             {
+                //The server is always player one, and always gets index zero.
                 thisUnitId = 0;
                 if(idu == 0)
                 {
@@ -406,12 +413,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
         {
             Matrix4 tmp;
             Quaternion tmpq;
-            for (int ide = 1; ide <= playerEntityList.size(); ++ide)
+            for (int ide = 0; ide < playerEntityList.size(); ++ide)
             {
-                tmpq = new Quaternion().setEulerAngles(checkCharRot.get(ide - 1).x, checkCharRot.get(ide - 1).y, checkCharRot.get(ide - 1).z);
+                tmpq = new Quaternion().setEulerAngles(checkCharRot.get(ide).x, checkCharRot.get(ide).y, checkCharRot.get(ide).z);
                 tmp = new Matrix4().set(tmpq);
-                playerEntityList.get(ide - 1).body.activate();
-                world.entities.get(ide).body.setWorldTransform(tmp.setTranslation(checkCharPos.get(ide - 1)));
+                playerEntityList.get(ide).body.activate();
+                world.entities.get(ide + 1).body.setWorldTransform(tmp.setTranslation(checkCharPos.get(ide)));
                 //((btRigidBody)world.entities.get(ide).body).setAngularVelocity(checkCharRot.get(ide - 1));
             }
         }

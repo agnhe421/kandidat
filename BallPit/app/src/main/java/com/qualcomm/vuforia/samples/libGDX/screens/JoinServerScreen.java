@@ -14,12 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.qualcomm.vuforia.samples.Network.JoinServer;
 import com.qualcomm.vuforia.samples.Network.SendPacket;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
+import com.qualcomm.vuforia.samples.singletons.DataHolder;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
 import java.util.Vector;
@@ -41,6 +43,10 @@ public class JoinServerScreen implements Screen{
 
     private TextButton buttonBack, buttonConnect, buttonRefresh, buttonDisconnect;
     private Skin skin;
+
+
+    //  private Label labelChoose;
+    //  private Label.LabelStyle labelStyle;
 
     private String playerName = "Player 1", chooseServer = "Choose server";
     private String serverIPad = "IP", msg = "msg", error = "error", msglog = "log";
@@ -84,6 +90,44 @@ public class JoinServerScreen implements Screen{
         stageBackground.addActor(background);
 
         initButtons();
+
+        serverIPad = "";
+        if (!serverIPs.isEmpty()) {
+            serverIPs.clear();
+            serverIPs = new Vector<String>();
+        }
+        if (!buttonServerList.isEmpty()) {
+            for (int ids = 0; ids < buttonServerList.size(); ++ids) {
+                buttonServerList.get(ids).remove();
+            }
+            buttonServerList.clear();
+            buttonServerList = new Vector<TextButton>();
+        }
+        sendPacket = new SendPacket();
+        sendPacket.start();
+        try {
+            sendPacket.join();
+            serverIPs = sendPacket.getIPs();
+            if (sendPacket.getErrorState()) {
+                msg = sendPacket.getMsg();
+                error = sendPacket.getError();
+                sendFail = sendPacket.getErrorState();
+            }
+            sendPacket = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            error = "Exception: " + e.toString();
+        }
+        if (!sendFail)
+        {
+            for (int ids = 0; ids < serverIPs.size(); ++ids) {
+                addServerButton(serverIPs.get(ids), ids);
+            }
+            for (int ids = 0; ids < buttonServerList.size(); ++ids) {
+                stage.addActor(buttonServerList.get(ids));
+            }
+            chooseServer = "Servers found: " + serverIPs.size();
+        }
     }
 
     @Override
@@ -103,65 +147,64 @@ public class JoinServerScreen implements Screen{
         GlyphLayout glyphChooseServer = new GlyphLayout();
         glyphChooseServer.setText(app.font40, chooseServer);
 
-        GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(), glyphLayoutlog = new GlyphLayout();
+        //GlyphLayout glyphLayoutmsg = new GlyphLayout(), glyphLayouterror = new GlyphLayout(), glyphLayoutlog = new GlyphLayout();
 
         float fpx = glyphPlayerName.width/2, fpy = glyphPlayerName.height/2;
         float fcx = glyphChooseServer.width/2, fcy = glyphChooseServer.height/2;
-        float fmsgx = glyphLayoutmsg.width/2, fmsgy = glyphLayoutmsg.height/2;
-        float fmlx = glyphLayoutlog.width/2, fmly = glyphLayoutlog.height/2;
-        float ferx = glyphLayouterror.width/2, fery = glyphLayouterror.height/2;
+        //float fmsgx = glyphLayoutmsg.width/2, fmsgy = glyphLayoutmsg.height/2;
+        //float fmlx = glyphLayoutlog.width/2, fmly = glyphLayoutlog.height/2;
+        //float ferx = glyphLayouterror.width/2, fery = glyphLayouterror.height/2;
         float x = w/2, y = h/2;
 
         if(join != null)
         {
-             if(join.getAllReadyState())
+            if(join.getAllReadyState())
             {
                 PropertiesSingleton.getInstance().setNrPlayers(join.getPlayerAmount());
-                if(join == null)
-                    Gdx.app.log("HEJ!", "JoinServerScreen: Join is null.");
+                //app.gameScreen = new GameScreen(app);
+
+                DataHolder.getInstance().setActivateCamera(true);
                 app.setScreen(new ChooseIslandScreen(app));
             }
-
 
             msg = join.getMsg();
             error = join.getError();
             msglog = join.getLog();
             if(join.connected())
-            //IPad = "Connected to: " + serverIPad + ".";
-            //This disconnects the join function if the server disconnects. Assuming that the
-            //phone receives the SERVER_SHUTDOWN message before the server shuts down completely.
-            if(join.getMsg().equals("Server is offline."))
-            {
-                try
+                //This disconnects the join function if the server disconnects. Assuming that the
+                //phone receives the SERVER_SHUTDOWN message before the server shuts down completely.
+                if(join.getMsg().equals("Server is offline."))
                 {
-                    join.join();
-                    error = "No Error.";
-                }catch(InterruptedException e)
-                {
-                    e.printStackTrace();
-                    error = "Exception: " + e.toString();
+                    try
+                    {
+                        join.join();
+                        error = "No Error.";
+                    }catch(InterruptedException e)
+                    {
+                        e.printStackTrace();
+                        error = "Exception: " + e.toString();
+                    }
+                    disconnectAll();
+                    //IPad = "Standing by.";
+                    msg = "Server disconnected.";
                 }
-                disconnectAll();
-                //IPad = "Standing by.";
-                msg = "Server disconnected.";
-            }
-            //Check if the join thread dies due to exception.
-            else if(!join.isAlive())
-            {
-                disconnectAll();
-                msg = "Heartbeat died.";
-                //IPad = "Standing by.";
-                msglog = join.getLog();
-            }
+                //Check if the join thread dies due to exception.
+                else if(!join.isAlive())
+                {
+                    disconnectAll();
+                    msg = "Heartbeat died.";
+                    //IPad = "Standing by.";
+                    msglog = join.getLog();
+                }
 
         }
 
         app.batch.begin();
         app.font40.draw(app.batch, chooseServer, x - fcx, h - fcy);
         app.font40.draw(app.batch, playerName, x - fpx, h - fpy * 5);
-        app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy);
-        app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly);
-        app.font40.draw(app.batch, error, w/2 - ferx, h/2 + 65 + fery);
+        //app.font40.draw(app.batch, msg, w/2 - fmsgx, h/2 + fmsgy);
+        //app.font40.draw(app.batch, msglog, w/2 - fmlx, h/2 - 65 + fmly);
+        //app.font40.draw(app.batch, error, w/2 - ferx, h/2 + 65 + fery);
         app.batch.end();
 
         stage.draw();
@@ -221,30 +264,11 @@ public class JoinServerScreen implements Screen{
 
     private void initButtons()
     {
-        //TODO Lägga in buttonConnect i table, oklart varför det inte fungerar nu
-
-        /*int space = 0;
         Table table = new Table(skin);
         stage.addActor(table);
         table.setFillParent(true);
 
-            buttonConnect = new TextButton("Server 1", skin, "default");
-            buttonConnect.setWidth(w - w/3);
-            buttonConnect.getLabel().setAlignment(Align.left);
-            buttonConnect.setPosition(w / 2 - buttonConnect.getWidth() / 2, h / 2 - buttonConnect.getHeight() / 2 - space);
-            buttonConnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-            space += 20;
-            System.out.print(space);
-            buttonConnect.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    buttonConnect.setText("Server 1        Connected: " + nr_connected_players);
-                }
-            });
-        */
         buttonRefresh = new TextButton("Refresh list", skin, "default8");
-        buttonRefresh.setSize(buttonSizeX, buttonSizeY);
-        buttonRefresh.setPosition(w / 2 - buttonSizeX / 2, h / 6 + 65 * 2);
         buttonRefresh.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonRefresh.addListener(new ClickListener() {
             @Override
@@ -276,8 +300,8 @@ public class JoinServerScreen implements Screen{
                     e.printStackTrace();
                     error = "Exception: " + e.toString();
                 }
-                if (sendFail) {
-                } else {
+                if (!sendFail)
+                {
                     for (int ids = 0; ids < serverIPs.size(); ++ids) {
                         addServerButton(serverIPs.get(ids), ids);
                     }
@@ -292,7 +316,7 @@ public class JoinServerScreen implements Screen{
 
         buttonDisconnect = new TextButton("Disconnect", skin, "default8");
         buttonDisconnect.setSize(buttonSizeX, buttonSizeY);
-        buttonDisconnect.setPosition(w / 2 - buttonSizeX / 2, h / 6 - 65);
+        buttonDisconnect.setPosition(w / 2 - buttonSizeX / 2, h / 6 + 65);
         buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
         buttonDisconnect.addListener(new ClickListener() {
             @Override
@@ -304,7 +328,7 @@ public class JoinServerScreen implements Screen{
             }
         });
 
-        buttonConnect = new TextButton("Connect", skin, "default8");
+        /*buttonConnect = new TextButton("Connect", skin, "default8");
         buttonConnect.setSize(buttonSizeX, buttonSizeY);
         buttonConnect.setPosition(w / 2 - buttonSizeX / 2, h / 6 + 65);
         buttonConnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
@@ -339,10 +363,7 @@ public class JoinServerScreen implements Screen{
                 }
             }
 
-        });
-
-
-
+        });*/
 
         buttonBack = new TextButton("Back", skin, "default8");
         buttonBack.setSize(buttonSizeX, buttonSizeY);
@@ -356,27 +377,61 @@ public class JoinServerScreen implements Screen{
         });
 
 
-        stage.addActor(buttonConnect);
-        stage.addActor(buttonBack);
-        stage.addActor(buttonRefresh);
-        stage.addActor(buttonDisconnect);
-        //table.add(buttonConnect).  //.left().width(w - w/3).height(40);
-        //table.add(buttonBack);
+        table.row();
+        table.add(buttonConnect).size(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/7);
+        table.add(buttonBack).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
+        table.row();
+        table.add(buttonRefresh).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
+        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
 
-        //stage.addActor(table);
+        stage.addActor(table);
     }
 
-    public void addServerButton(final String ipAdress, int buttID)
+    public void updateDisplayedPlayers(int nrPlayers, final String ipAddress)
     {
-        final TextButton buttonServer = new TextButton(ipAdress, skin, "default8");
-        float offset = (buttonSizeY + 15)*buttID;
+        String newText = ipAddress + "  Connections: " + nrPlayers;
+        for (TextButton tb:buttonServerList)
+        {
+            String buttonIP;
+            if(tb.getText().toString().indexOf(' ') == -1)
+                buttonIP = tb.getText().toString();
+            else
+                buttonIP = tb.getText().toString().substring(0, tb.getText().toString().indexOf(' '));
+            if(buttonIP.equals(ipAddress))
+            {
+                tb.setText(newText);
+                break;
+            }
+        }
+    }
+
+    public void addServerButton(final String ipAddress, int buttonID)
+    {
+        final TextButton buttonServer = new TextButton(ipAddress, skin, "default8");
+        float offset = (buttonSizeY + 15)*buttonID;
         buttonServer.setPosition(w/2 - (w*(2.0f/3.0f)/2), h/2 + 150 - offset);
-        buttonServer.setSize(w*(2.0f/3.0f), 50);
+        buttonServer.setSize(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
         buttonServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonServer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 serverIPad = buttonServer.getText().toString();
+                if (join == null)
+                {
+
+                    if (!serverIPs.isEmpty()) {
+                        serverIPs.clear();
+                        serverIPs = new Vector<String>();
+                    }
+                    //IPad = "Connecting to: " + serverIPad;
+                    join = new JoinServer(serverIPad, 8081, "player", app); //All hail Manly Banger, the Rock God!
+                    join.start();
+                    join.getMsg();
+                    join.getError();
+                } else {
+                    join.getMsg();
+                    join.getError();
+                }
             }
         });
         buttonServerList.add(buttonServer);

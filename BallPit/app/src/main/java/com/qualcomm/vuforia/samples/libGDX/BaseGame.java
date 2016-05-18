@@ -23,21 +23,6 @@ import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
 public class BaseGame extends Game {
 
-
-    // Define an interface for your various callbacks to the android launcher
-    public interface MyGameCallback {
-        public void onStartActivityA();
-    }
-
-    // Local variable to hold the callback implementation
-    private MyGameCallback myGameCallback;
-
-    // ** Additional **
-    // Setter for the callback
-    public void setMyGameCallback(MyGameCallback callback) {
-        myGameCallback = callback;
-    }
-
     public SpriteBatch batch;
     public BitmapFont font40, font120;
     //public OrthographicCamera camera;
@@ -101,13 +86,4 @@ public class BaseGame extends Game {
         generator.dispose();
     }
 
-    public void launchVuforia() {
-        // check the calling class has actually implemented MyGameCallback
-        if (myGameCallback != null) {
-
-            // initiate which ever callback method you need.
-                myGameCallback.onStartActivityA();
-        }
-
-    }
 }
