@@ -109,7 +109,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     AssetManager assets;
     String chosenIsland;
-    String chosenBall;
     BulletEntity player;
     Model arrowInstance;
     Label labelTitle;
@@ -127,7 +126,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             thisUnitId = (Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(
                     app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1);
         this.chosenIsland = PropertiesSingleton.getInstance().getChosenIsland();
-        this.chosenBall = PropertiesSingleton.getInstance().getChosenBall(thisUnitId);
         this.create();
 
     }
@@ -209,6 +207,22 @@ public class GameScreen extends BaseBulletTest implements Screen {
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
         this.scoreStage = new Stage(new StretchViewport(Gdx.graphics.getHeight(), Gdx.graphics.getHeight()));
 
+        // Create the entitie
+
+//        world.add("ground", 0f, 0f, 0f).setColor(0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 0.25f + 0.5f * (float) Math.random(), 1f);
+
+        // Load models
+//        app.assets.load("3d/balls/football.g3db", Model.class);
+//        app.assets.load("3d/balls/apple.g3db", Model.class);
+//        app.assets.load("3d/balls/peach.g3db", Model.class);
+//        loading = true;
+
+//        while(loading)
+//        {
+//            app.assets.update();
+//            if(app.assets.isLoaded("3d/balls/football.g3db"))
+//                loading = false;
+//        }
         Gdx.app.log("SHOOT", "Begin");
 
         // Create font
@@ -244,16 +258,23 @@ public class GameScreen extends BaseBulletTest implements Screen {
         scoreStage.getRoot().setPosition(0, stage.getHeight());
         Gdx.input.setInputProcessor(this);
 
-        Model chosenBallModel = assets.get("3d/balls/"+chosenBall+".g3db", Model.class);
+//        Model football = app.assets.get("3d/balls/football.g3db", Model.class);
 
-        for(int k = 0; k<chosenBallModel.meshes.size;k++)
-            chosenBallModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
+//        disposables.add(choosenBall);
+//        world.addConstructor("ball", new BulletConstructor(ship, 1000, new btSphereShape(9f)));
+//        player = world.add("ball", 0, 300f, 0f);
+
+//        player.body.setRollingFriction(4);
+
 
         float playerPosOffset = 0.0f;
         Gdx.app.log("HEJ!", "Nr of players: " + PropertiesSingleton.getInstance().getNrPlayers());
         int joinOffset = 0;
         for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
         {
+            Model chosenBallModel = assets.get("3d/balls/"+PropertiesSingleton.getInstance().getChosenBall(idu)+".g3db", Model.class);
+            for(int idk = 0; idk < chosenBallModel.meshes.size; ++idk)
+                chosenBallModel.meshes.get(idk).scale(0.2f, 0.2f, 0.2f);
             if(app.joinServerScreen.join != null)
             {
                 if(idu != Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1)
@@ -480,9 +501,17 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
     }
 
-    @Override
-    public void render ()
+    /*public void updatePosition(Vector3 checkCharPos, int PlayerID)
     {
+        if(playerCreated)
+        {
+            Matrix4 tmp = new Matrix4();
+            world.entities.get(PlayerID).body.setWorldTransform(tmp.setToTranslation(checkCharPos));
+        }
+    }*/
+
+    @Override
+    public void render () {
 
         if(app.createServerScreen.create != null)
         {
@@ -503,9 +532,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 app.createServerScreen.create.sendCharData(tempPosList, tempRotList);
             }
         }
-        //TODO if(app.joinServerScreen.join != null)
-            //TODO if(!app.joinServerScreen.join.isAlive())
-                //TODO Om servern kopplar ifrån/enheten kopplar från servern, boota till main menu.
+        /*else if(app.joinServerScreen.join != null)
+        {
+            Vector3 tmp = new Vector3();
+            world.entities.get(thisUnitId + 1).body.getWorldTransform().getTranslation(tmp);
+            app.joinServerScreen.join.sendCharPosition(tmp);
+        }*/
 
         super.render();
 

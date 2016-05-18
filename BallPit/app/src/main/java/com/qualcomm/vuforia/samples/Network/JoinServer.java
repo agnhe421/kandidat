@@ -133,6 +133,7 @@ public class JoinServer extends Thread
                 {
                     for(int idu = 0; idu <= playerList.size(); ++idu)
                     {
+                        Gdx.app.log("HEJ!", "Setting ball: " + strConv.get(idu + 1) + " for player " + (idu + 1));
                         PropertiesSingleton.getInstance().setChosenBall(idu, strConv.get(idu + 1));
                     }
                     ballsChosen = true;
@@ -152,18 +153,6 @@ public class JoinServer extends Thread
                     PropertiesSingleton.getInstance().setScore(
                             Integer.parseInt(strConv.get(1)),
                             Integer.parseInt(strConv.get(2)));
-                }
-                else if(strConv.get(0).equals("PLAYER_DISCONNECTION"))
-                {
-                    playerList.remove(Integer.parseInt(strConv.get(1)));
-                    for(int idu = Integer.parseInt(strConv.get(2)); idu < Integer.parseInt(strConv.get(3)); ++idu)
-                    {
-
-                    }
-                }
-                else if(strConv.get(0).equals("PLAYER_DISCONNECTION_IN_GAME"))
-                {
-
                 }
                 //If the all clear message is received, start the game.
                 else if(strConv.get(0).equals("ALL_READY_NOW"))

@@ -17,7 +17,7 @@ public class ReceivePacket extends Thread
     private Boolean serverAccepting;
     private Vector<Thread> responseVector;
     private Cleanup clean;
-    BaseGame app;
+    private BaseGame app;
 
     //Constructor
     public ReceivePacket(String id, final BaseGame app)
@@ -145,7 +145,6 @@ public class ReceivePacket extends Thread
                     e.printStackTrace();
                     error = "Excepton: " + e.toString();
                 }
-
                 //If any there are active requests and the vector isn't empty, check for dead threads.
                 if(activeRequests && !responseVector.isEmpty())
                 {

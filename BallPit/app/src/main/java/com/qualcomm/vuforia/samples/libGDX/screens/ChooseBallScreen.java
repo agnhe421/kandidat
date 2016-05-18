@@ -107,6 +107,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
             app.createServerScreen.create.resetUserChoiceState();
             app.createServerScreen.create.startBallsDistribute();
         }
+
         modelBatch = new ModelBatch();
 
         fps = new FPSLogger();

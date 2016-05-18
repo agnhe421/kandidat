@@ -208,7 +208,6 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
                     }
                     else if (app.createServerScreen != null)
                     {
-                        Gdx.app.log("HEJ!", "server island chosen");
                         app.createServerScreen.create.serverUser.setIslandChoice(voted);
                         app.createServerScreen.create.serverUser.setChosen(true);
                         app.createServerScreen.create.notifyIsland();

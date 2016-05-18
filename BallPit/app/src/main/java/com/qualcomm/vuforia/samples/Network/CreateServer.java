@@ -30,23 +30,25 @@ public class CreateServer extends Thread
     private String serverName = "";
     private Boolean threadRun;
     private Boolean allReady;
-    private Boolean allIslandChosen, allBallsChosen, switchScreen;
+    private volatile Boolean allIslandChosen, allBallsChosen, switchScreen;
     private Vector<User> userList;
     private int currentListSize;
     public User serverUser;
+    BaseGame app;
     private IslandVote islandVote;
     private BallDistribute ballDistribute;
-    BaseGame app;
 
     //Constructor
     public CreateServer(final BaseGame app)
     {
-        islandVote = new IslandVote();
-        ballDistribute = new BallDistribute();
         this.app = app;
         switchScreen = false;
         serverUser = new User();
         serverUser.setName("Player 1");
+        islandVote = new IslandVote();
+        ballDistribute = new BallDistribute();
+        allIslandChosen = false;
+        allBallsChosen = false;
     }
 
 
@@ -72,6 +74,7 @@ public class CreateServer extends Thread
             //Main server thread loop.
             while(threadRun)
             {
+                //If the receiver has received a connection request, activate the socket, wait for the unit to connect.
                 if(!receiver.connectState())
                 {
                     synchronized (this)
@@ -126,7 +129,7 @@ public class CreateServer extends Thread
         }catch(InterruptedException e)
         {
             e.printStackTrace();
-            error = "Exception; " + e.toString();
+            error = "Exception: " + e.toString();
         }finally
         {
             if(socket != null)
@@ -244,12 +247,7 @@ public class CreateServer extends Thread
     {
         islandVote.start();
     }
-
-    public void startBallsDistribute()
-    {
-        ballDistribute.start();
-    }
-
+    //TODO Denna tråd orsakar segmenteringsfel, fixa det!
     public class IslandVote extends Thread
     {
         @Override
@@ -263,7 +261,6 @@ public class CreateServer extends Thread
             int indexMost = 0;
             while(running)
             {
-                Gdx.app.log("HEJ!", "Running islandvote.");
                 try
                 {
                     synchronized (this)
@@ -275,21 +272,18 @@ public class CreateServer extends Thread
                     e.printStackTrace();
                     error = "Exception: " + e.toString();
                 }
-                Gdx.app.log("HEJ!", "Islandvote notified.");
                 for(int idu = 0; idu <= userList.size(); ++idu)
                 {
                     if(idu == userList.size())
                     {
                         if(!serverUser.chosen)
                         {
-                            Gdx.app.log("HEJ!", "Server has not voted.");
                             allIslandChosen = false;
                             break;
                         }
                     }
                     else if(!userList.get(idu).chosen)
                     {
-                        Gdx.app.log("HEJ!", "Player " + (idu + 2) + "Has not voted.");
                         allIslandChosen = false;
                         break;
                     }
@@ -297,7 +291,6 @@ public class CreateServer extends Thread
                 }
                 if(allIslandChosen)
                 {
-                    Gdx.app.log("HEJ!", "All players have voted.");
                     for(int idu = 0; idu <= userList.size(); ++idu)
                     {
                         if(idu == userList.size())
@@ -348,6 +341,11 @@ public class CreateServer extends Thread
                 }
             }
         }
+    }
+
+    public void startBallsDistribute()
+    {
+        ballDistribute.start();
     }
 
     public class BallDistribute extends Thread
@@ -787,10 +785,23 @@ public class CreateServer extends Thread
         }
         return allReady;
     }
+//    public Boolean checkIslandChosen()
+//    {
+//        for(int idu = 0; idu < userList.size(); ++idu)
+//        {
+//            if(!userList.get(idu).chosen)
+//            {
+//                allIslandChosen = false;
+//                break;
+//            }
+//            allIslandChosen = true;
+//        }
+//        return allIslandChosen;
+//    }
     public Boolean checkIslandChosen()
-    {
-        return allIslandChosen;
-    }
+{
+    return allIslandChosen;
+}
     public void notifyIsland()
     {
         synchronized (islandVote)
@@ -798,6 +809,19 @@ public class CreateServer extends Thread
             islandVote.notify();
         }
     }
+//    public Boolean checkBallChosen()
+//    {
+//        for(int idu = 0; idu < userList.size(); ++idu)
+//        {
+//            if(!userList.get(idu).chosen)
+//            {
+//                allBallsChosen = false;
+//                break;
+//            }
+//            allBallsChosen = true;
+//        }
+//        return allBallsChosen;
+//    }
     public Boolean checkBallChosen()
     {
         return allBallsChosen;
