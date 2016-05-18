@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="gdx-bullet-natives">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/gdx-bullet-natives.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
