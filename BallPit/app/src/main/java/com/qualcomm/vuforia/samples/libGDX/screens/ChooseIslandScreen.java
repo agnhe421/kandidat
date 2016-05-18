@@ -113,7 +113,6 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         if(app.createServerScreen.create != null)
         {
             app.createServerScreen.create.resetUserChoiceState();
-            app.createServerScreen.create.startIslandVote();
         }
 
         modelBatch = new ModelBatch();
@@ -210,7 +209,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
                     {
                         app.createServerScreen.create.serverUser.setIslandChoice(voted);
                         app.createServerScreen.create.serverUser.setChosen(true);
-                        app.createServerScreen.create.notifyIsland();
+                        app.createServerScreen.create.startIslandVote();
                     }
                     //boolean found = false;
                     /*for(int k = 0; k < voted.size; k++)
