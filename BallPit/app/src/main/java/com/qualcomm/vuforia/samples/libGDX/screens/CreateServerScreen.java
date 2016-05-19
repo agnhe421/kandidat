@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -26,6 +27,7 @@ import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
@@ -44,8 +46,9 @@ public class CreateServerScreen implements Screen{
 
     private Stage stage, stageBackground;
     private Skin skin;
+    private Table container;
 
-    private TextButton buttonReady, buttonDisconnect;
+    private TextButton buttonReady, buttonDisconnect, buttonGameMode,buttonStandard, buttonZombie, buttonTeam;;
     private String player1 = "Player 1", serverName = "Server name", playerList = "";
     public String msg = "msg", error = "error", msglog = "log", IPad = "IP";
 
@@ -94,6 +97,8 @@ public class CreateServerScreen implements Screen{
 
 
         initButtons();
+        initScrollMenu();
+
     }
 
     @Override
@@ -215,9 +220,8 @@ public class CreateServerScreen implements Screen{
         labelPlayer = new Label(player1, labelStyle);
         labelServer = new Label(serverName, labelStyle);
 
-
         buttonDisconnect = new TextButton("Disconnect", skin, "default8");
-        buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
         buttonDisconnect.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -227,13 +231,13 @@ public class CreateServerScreen implements Screen{
                 msglog = "Log.";
                 error = "No error";
                 playerList = "";
-                app.setScreen(app.connectionMenuScreen);
+                app.setScreen(new ConnectionMenuScreen(app));
             }
         });
 
 
         buttonReady = new TextButton("Ready", skin, "default8");
-        buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
         buttonReady.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -248,17 +252,53 @@ public class CreateServerScreen implements Screen{
             }
         });
 
+        buttonStandard = new TextButton("Standard mode", skin, "default8");
+        buttonStandard.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+        buttonStandard.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
+                        Actions.run(new Runnable() {
+                            public void run() {
+                                app.setScreen(new MainMenyScreen(app));
+
+                            }
+                        })));
+            }
+        });
+
+
+        buttonZombie = new TextButton("Zombie mode", skin, "default8");
+        buttonZombie.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+
+        buttonTeam = new TextButton("Two against two", skin, "default8");
+        buttonTeam.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+
         table.add(labelServer);
         table.row();
         table.add(labelPlayer);
         table.row();
         table.add(labelList);
         table.row();
-        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 7);
-        table.add(buttonReady).size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 7);
-
+        table.add(buttonDisconnect).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);//.size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 7);
+        table.row();
+        table.add(buttonReady).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);//.size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 7);
+        table.row();
+        table.add(buttonStandard).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 9);
+        table.row();
+        table.add(buttonZombie).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 9);
+        table.row();
+        table.add(buttonTeam).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 9);//.height(Gdx.graphics.getHeight() / 2);//.expandY().fill().colspan(1);
+        table.row();
 
         stage.addActor(table);
+    }
+
+
+    private void initScrollMenu(){
+
+
+
     }
 
     public void disconnectAll()
@@ -282,5 +322,4 @@ public class CreateServerScreen implements Screen{
         error = "No Error";
         IPad = "IP";
     }
-
 }

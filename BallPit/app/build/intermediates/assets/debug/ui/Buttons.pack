@@ -3,44 +3,44 @@ Buttons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-pink
-  rotate: false
-  xy: 1, 399
-  size: 770, 417
-  orig: 770, 417
-  offset: 0, 0
-  index: -1
 Standard2
   rotate: false
-  xy: 1, 233
+  xy: 1, 565
   size: 789, 164
   orig: 789, 164
   offset: 0, 0
   index: -1
 Standard2pressed
   rotate: false
-  xy: 1, 67
+  xy: 1, 399
   size: 789, 164
   orig: 789, 164
   offset: 0, 0
   index: -1
-Standard
+round
   rotate: false
-  xy: 1, 13
-  size: 272, 52
-  orig: 272, 52
+  xy: 1, 65
+  size: 356, 332
+  orig: 356, 332
+  offset: 0, 0
+  index: -1
+transparent
+  rotate: false
+  xy: 792, 629
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
 knob
   rotate: false
-  xy: 773, 766
-  size: 50, 50
-  orig: 50, 50
+  xy: 1, 1
+  size: 62, 62
+  orig: 62, 62
   offset: 0, 0
   index: -1
 black
   rotate: false
-  xy: 1, 1
+  xy: 359, 387
   size: 17, 10
   orig: 17, 10
   offset: 0, 0

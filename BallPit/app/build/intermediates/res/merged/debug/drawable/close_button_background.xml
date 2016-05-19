@@ -4,4 +4,4 @@
     <item android:drawable="@drawable/icon_plus_pressed" android:state_pressed="true"/>
     <item android:drawable="@drawable/icon_plus_normal"/>
 
-</selector><!-- From: file:/D:/Program/TNM094Master/BallPit/app/src/main/res/drawable/close_button_background.xml -->
+</selector><!-- From: file:/C:/Users/Agnes/Documents/tnm094/kandidat/BallPit/app/src/main/res/drawable/close_button_background.xml -->

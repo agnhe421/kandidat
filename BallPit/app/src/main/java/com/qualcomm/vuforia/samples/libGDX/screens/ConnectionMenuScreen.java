@@ -237,6 +237,7 @@ public class ConnectionMenuScreen implements Screen {
         table.add(buttonJoin).bottom().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         table.row();
         table.add(buttonBack).top().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
+
         stage.addActor(table);
     }
 }

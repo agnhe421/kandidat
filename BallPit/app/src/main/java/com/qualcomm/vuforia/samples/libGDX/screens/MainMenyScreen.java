@@ -37,7 +37,7 @@ public class MainMenyScreen implements Screen {
     private Stage stage, stageBackground;
     private Skin skin;
     // Buttons
-    private TextButton buttonPlay, buttonSetting, buttonSkipServer;
+    private TextButton buttonPlay, buttonSetting, buttonSkipServer, buttonHelp;
     // width och heigth
     private float w = Gdx.graphics.getWidth();
     private float h = Gdx.graphics.getHeight();
@@ -78,9 +78,7 @@ public class MainMenyScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
-
         stageBackground.draw();
-
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
@@ -142,8 +140,6 @@ public class MainMenyScreen implements Screen {
             }
         });
 
-
-
         buttonSetting = new TextButton("Settings", skin, "default8");
         buttonSetting.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
         buttonSetting.addListener(new ClickListener() {
@@ -160,15 +156,15 @@ public class MainMenyScreen implements Screen {
         });
 
 
-        buttonSkipServer = new TextButton("Skip Server", skin, "default8");
-        buttonSkipServer.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 2.f, Interpolation.pow5Out))));
-        buttonSkipServer.addListener(new ClickListener() {
+        buttonHelp = new TextButton("Help", skin, "default8");
+        buttonHelp.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+        buttonHelp.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
                         Actions.run(new Runnable() {
                             public void run() {
-                              //TODO  app.setScreen(new GameCoinScreen(app));
+                                app.setScreen(new HelpScreen(app));
 
                             }
                         })));
@@ -176,12 +172,11 @@ public class MainMenyScreen implements Screen {
         });
 
 
-
-        table.add(buttonPlay).expandX().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/5);
+        table.add(buttonPlay).expandX().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         table.row();
         table.add(buttonSetting).bottom().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
         table.row();
-        table.add(buttonSkipServer).bottom().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
+        table.add(buttonHelp).bottom().left().padLeft(-170).padBottom(10).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);
 
         stage.addActor(table);
     }

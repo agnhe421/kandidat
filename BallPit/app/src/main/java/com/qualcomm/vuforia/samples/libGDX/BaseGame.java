@@ -10,11 +10,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Array;
-import com.qualcomm.vuforia.samples.libGDX.screens.ChooseBallScreen;
-import com.qualcomm.vuforia.samples.libGDX.screens.ChooseIslandScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.ConnectionMenuScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.CreateServerScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.GameScreen;
+import com.qualcomm.vuforia.samples.libGDX.screens.HelpScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.JoinServerScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.LoadingScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.MainMenyScreen;
@@ -33,6 +32,7 @@ public class BaseGame extends Game {
     public JoinServerScreen joinServerScreen;
     public CreateServerScreen createServerScreen;
     public GameScreen gameScreen;
+    public HelpScreen helpScreen;
 
     public AssetManager GameAssets;
     public Array<String> islandNames;
@@ -61,6 +61,7 @@ public class BaseGame extends Game {
         connectionMenuScreen = new ConnectionMenuScreen(this);
         joinServerScreen = new JoinServerScreen(this);
         createServerScreen = new CreateServerScreen(this);
+        helpScreen = new HelpScreen(this);
 
 
         //gameScreen = new GameScreen(this);
