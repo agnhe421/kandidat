@@ -34,8 +34,8 @@
       <file leaf-file-name="CreateServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/CreateServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.5833333">
-              <caret line="589" column="58" selection-start-line="589" selection-start-column="58" selection-end-line="589" selection-end-column="58" />
+            <state vertical-scroll-proportion="-9.138889">
+              <caret line="223" column="87" selection-start-line="223" selection-start-column="87" selection-end-line="223" selection-end-column="87" />
               <folding />
             </state>
           </provider>
@@ -61,6 +61,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="CreateServerScreen.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="173" column="9" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="JoinServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/JoinServer.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -74,8 +84,8 @@
       <file leaf-file-name="GameScreen.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.138889">
-              <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
+            <state vertical-scroll-proportion="-15.388889">
+              <caret line="572" column="85" selection-start-line="572" selection-start-column="85" selection-end-line="572" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -83,10 +93,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoadingScreen.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoadingScreen.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29262394">
+            <state vertical-scroll-proportion="0.0">
               <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
               <folding />
             </state>
@@ -113,11 +123,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PropertiesSingleton.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PropertiesSingleton.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="71" selection-start-line="10" selection-start-column="71" selection-end-line="10" selection-end-column="71" />
+            <state vertical-scroll-proportion="0.547763">
+              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding>
                 <element signature="e#1423#1424#0" expanded="true" />
                 <element signature="e#1461#1462#0" expanded="true" />
@@ -125,8 +135,8 @@
                 <element signature="e#1572#1573#0" expanded="true" />
                 <element signature="e#1617#1618#0" expanded="true" />
                 <element signature="e#1657#1658#0" expanded="true" />
-                <element signature="e#1759#1760#0" expanded="true" />
-                <element signature="e#1803#1804#0" expanded="true" />
+                <element signature="e#1768#1769#0" expanded="true" />
+                <element signature="e#1812#1813#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1563,7 +1573,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/CreateServer.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/JoinServer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/JoinServerScreen.java" />
@@ -1571,6 +1580,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java" />
       </list>
     </option>
   </component>
@@ -2202,46 +2212,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="71" selection-start-line="10" selection-start-column="71" selection-end-line="10" selection-end-column="71" />
-          <folding>
-            <element signature="e#1423#1424#0" expanded="true" />
-            <element signature="e#1461#1462#0" expanded="true" />
-            <element signature="e#1541#1542#0" expanded="true" />
-            <element signature="e#1572#1573#0" expanded="true" />
-            <element signature="e#1617#1618#0" expanded="true" />
-            <element signature="e#1657#1658#0" expanded="true" />
-            <element signature="e#1759#1760#0" expanded="true" />
-            <element signature="e#1803#1804#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/Player.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="173" column="9" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
-          <folding>
-            <element signature="e#8352#9147#0" expanded="true" />
-            <element signature="e#9146#9147#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/BaseGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="31" column="41" selection-start-line="31" selection-start-column="41" selection-end-line="31" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -2270,10 +2244,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/GameSound.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="262" column="57" selection-start-line="262" selection-start-column="57" selection-end-line="262" selection-end-column="57" />
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -2286,18 +2260,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/CreateServer.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.5833333">
-          <caret line="589" column="58" selection-start-line="589" selection-start-column="58" selection-end-line="589" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="262" column="57" selection-start-line="262" selection-start-column="57" selection-end-line="262" selection-end-column="57" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/GameSound.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/BaseGame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+          <caret line="31" column="41" selection-start-line="31" selection-start-column="41" selection-end-line="31" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -2312,19 +2294,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.138889">
-          <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
+        <state vertical-scroll-proportion="-15.388889">
+          <caret line="572" column="85" selection-start-line="572" selection-start-column="85" selection-end-line="572" selection-end-column="85" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29262394">
-          <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="173" column="9" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/CreateServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.138889">
+          <caret line="223" column="87" selection-start-line="223" selection-start-column="87" selection-end-line="223" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.547763">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding>
+            <element signature="e#1423#1424#0" expanded="true" />
+            <element signature="e#1461#1462#0" expanded="true" />
+            <element signature="e#1541#1542#0" expanded="true" />
+            <element signature="e#1572#1573#0" expanded="true" />
+            <element signature="e#1617#1618#0" expanded="true" />
+            <element signature="e#1657#1658#0" expanded="true" />
+            <element signature="e#1768#1769#0" expanded="true" />
+            <element signature="e#1812#1813#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
