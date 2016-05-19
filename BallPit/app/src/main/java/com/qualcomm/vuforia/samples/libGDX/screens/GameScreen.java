@@ -834,7 +834,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public void playCollisionSound(Vector3 pos, String m1, String m2)
     {
-//        gameSound.playCollisionSound(pos, m1, m2);
+        gameSound.playCollisionSound(pos, m1, m2, camera.position);
     }
 
     //--------------Countdown-------------------------------------

@@ -269,11 +269,8 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         fps.log();
         Gdx.gl.glClearColor(0, 0, 0, 0f);
 
-
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-
 
         final float delta = Math.min(1f / 10f, Gdx.graphics.getDeltaTime());
 
