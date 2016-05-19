@@ -11,6 +11,10 @@ public class PropertiesSingleton {
     public String getChosenBall(int index) {return chosenBalls[index];}
     public void setChosenBall(int index, String chosenBall) {chosenBalls[index] = chosenBall;}
 
+    public String[] getBallNames(){
+        return chosenBalls;
+    }
+
     private String gameMode;
     public String getGameMode() {return gameMode;}
     public void setGameMode(String newGameMode) {gameMode = newGameMode;}
@@ -49,17 +53,6 @@ public class PropertiesSingleton {
         this.round = round + 1;
     }
 
-    // hitCounts
-    private int hitCount = 0;
-
-    public int getHitCount() {
-        return hitCount;
-    }
-
-    public void setHitCount(int hitCount) {
-        this.hitCount = hitCount;
-    }
-
     // Scores.
     private int[] playerScores;
 
@@ -68,22 +61,13 @@ public class PropertiesSingleton {
         playerScores[index] += score;
     }
 
-    public void setPlayer1Score(int playerScore) {
-        this.playerScores[0] = playerScore + this.playerScores[0];
-    }
-
-    public void setPlayer2Score(int playerScore) {
-        this.playerScores[1] = playerScore + this.playerScores[1];
-    }
-
-    public void setPlayer3Score(int playerScore) {
-        this.playerScores[2] = playerScore + this.playerScores[2];
-    }
-
-    public void setPlayer4Score(int playerScore) {
-        this.playerScores[3] = playerScore + this.playerScores[3];
+    public int[] getScores()
+    {
+       return playerScores;
     }
 
     public int getScore(int index) {return playerScores[index];}
+
+
 
 }
