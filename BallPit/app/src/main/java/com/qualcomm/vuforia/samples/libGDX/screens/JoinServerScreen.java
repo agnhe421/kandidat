@@ -408,7 +408,7 @@ public class JoinServerScreen implements Screen{
     {
         final TextButton buttonServer = new TextButton(ipAddress, skin, "default8");
         float offset = (buttonSizeY + 15)*buttonID;
-        buttonServer.setPosition((Gdx.graphics.getWidth()/6), (Gdx.graphics.getHeight() / 2));
+        buttonServer.setPosition((Gdx.graphics.getWidth()/7), (Gdx.graphics.getHeight() / 2));
         buttonServer.setSize((Gdx.graphics.getWidth() / 4)*3, Gdx.graphics.getHeight() / 7);
         buttonServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonServer.addListener(new ClickListener() {

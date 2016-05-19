@@ -19,7 +19,7 @@ public class PropertiesSingleton {
     }
 
     public int getNrPlayers() {
-        return this.nrPlayers;
+        return 3;
     }
 
     // Rounds.

@@ -31,10 +31,12 @@ import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.qualcomm.vuforia.Prop;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.libGDX.bullet.BaseBulletTest;
 import com.qualcomm.vuforia.samples.libGDX.bullet.BaseWorld;
@@ -61,8 +63,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
     BaseGame app;
 
     // UI
-    private Label LabelScorePlayer1,LabelScorePlayer2,LabelScorePlayer3, LabelScorePlayer4;
+    private Vector<Label> labelScorePlayers = new Vector<Label>();
     private Label.LabelStyle labelStyle;
+    Vector<Integer> playerScorePosList = new Vector();
 
     // Stages
 
@@ -114,6 +117,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
     Label labelTitle;
     private AnimationController controller;
 
+    private volatile float[][] scoreTimers;
+
 
     public GameScreen(final BaseGame app)
     {
@@ -138,34 +143,56 @@ public class GameScreen extends BaseBulletTest implements Screen {
             final int userValue1 = manifold.getBody1().getUserValue();
 
 
-            Gdx.app.log("HALLÅ STARTEEEED", "Contact started 0 " + userValue0);
+            collisionHappened = true;
 
-            GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
+            if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0))) {
+                Gdx.app.log("HEJ!", "Contact commence.");
+                String model1 = PropertiesSingleton.getInstance().getChosenBall(userValue0 - 1);
+                String model2 = PropertiesSingleton.getInstance().getChosenBall(userValue1 - 1);
 
-            if(entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0)) {
-
-                Vector3 p1 = new Vector3();
-                ((btRigidBody)world.entities.get(userValue0).body).getWorldTransform().getTranslation(p1);
-
-                Vector3 p2 = new Vector3();
-                ((btRigidBody)world.entities.get(userValue1).body).getWorldTransform().getTranslation(p2);
-
-                Vector3 vec;
-
-                if (((btRigidBody) world.entities.get(userValue0).body).getLinearVelocity().len() < ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len()) {
-
-                    vec = new Vector3((p1.x - p2.x), 0, (p1.z - p2.z));
-
-                    float normFactor = 20000*6 / vec.len();
-                    Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
-                    ((btRigidBody) entities.get(userValue0).body).applyCentralImpulse(normVec);
-                } else {
-                    vec = new Vector3((p2.x - p1.x), 0, (p2.z - p1.z));
-
-                    float normFactor = 20000*6 / vec.len();
-                    Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
-                    ((btRigidBody) entities.get(userValue1).body).applyCentralImpulse(normVec);
+                GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), model1, model2, camera.position);
+                //GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
+                if(app.createServerScreen.create != null)
+                {
+                    app.createServerScreen.create.sendSoundPrompt(((btRigidBody)world.entities.get(userValue0).body)
+                            .getCenterOfMassPosition(), model1, model2);
                 }
+                for (int i = 0; i < PropertiesSingleton.getInstance().getNrPlayers(); i++)
+                {
+                    scoreTimers[userValue0-1][i] = 0;
+                    scoreTimers[userValue1-1][i] = 0;
+                }
+
+                scoreTimers[userValue0 - 1][userValue1 - 1] = 210f; // 210/30 = 7 seconds
+                scoreTimers[userValue1 - 1][userValue0 - 1] = 210f;
+                Gdx.app.log("HALLÅ STARTEEEED", "Contact started 0 " + userValue0);
+
+                GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
+
+                if (entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0)) {
+
+                    Vector3 p1 = new Vector3();
+                    ((btRigidBody) world.entities.get(userValue0).body).getWorldTransform().getTranslation(p1);
+
+                    Vector3 p2 = new Vector3();
+                    ((btRigidBody) world.entities.get(userValue1).body).getWorldTransform().getTranslation(p2);
+
+                    Vector3 vec;
+
+                    if (((btRigidBody) world.entities.get(userValue0).body).getLinearVelocity().len() < ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len()) {
+
+                        vec = new Vector3((p1.x - p2.x), 0, (p1.z - p2.z));
+
+                        float normFactor = 20000 * 6 / vec.len();
+                        Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+                        ((btRigidBody) entities.get(userValue0).body).applyCentralImpulse(normVec);
+                    } else {
+                        vec = new Vector3((p2.x - p1.x), 0, (p2.z - p1.z));
+
+                        float normFactor = 20000 * 6 / vec.len();
+                        Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+                        ((btRigidBody) entities.get(userValue1).body).applyCentralImpulse(normVec);
+                    }
 
 //
 //                if ((entities.get(userValue0) != entities.get(0))) {
@@ -193,6 +220,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 //                        }
 //                    }
 //                }
+                }
             }
         }
 
@@ -200,19 +228,19 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactEnded (btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
             final int userValue0 = colObj0.getUserValue();
             final int userValue1 = colObj1.getUserValue();
-
-            if (entities.get(userValue0) == entities.get(1)|| entities.get(userValue1) == entities.get(1)) {
-                if (match0) {
-                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
-                    e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
-                }
-                if (match1) {
-                    final BulletEntity e = (BulletEntity) (entities.get(userValue1));
-                    e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
-                }
-            }
+            Gdx.app.log("HEJ!", "Contact ended.");
+//            if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
+//                   if (match0) {
+//                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
+//                    e.setColor(Color.BLACK);
+//                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
+//                }
+//                if (match1) {
+//                    final BulletEntity e = (BulletEntity) (entities.get(userValue1));
+//                    e.setColor(Color.BLACK);
+//                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
+//                }
+//            }
         }
     }
 
@@ -260,19 +288,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         // Init Score lables
         labelStyle = new Label.LabelStyle(app.font40, Color.PINK);
 
-        LabelScorePlayer1 = new Label("", labelStyle);
-        LabelScorePlayer1.setPosition(Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*1);
-        LabelScorePlayer2 = new Label("", labelStyle);
-        LabelScorePlayer2.setPosition(Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*2);
-        LabelScorePlayer3 = new Label("", labelStyle);
-        LabelScorePlayer3.setPosition(Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*3);
-        LabelScorePlayer4 = new Label("", labelStyle);
-        LabelScorePlayer4.setPosition(Gdx.graphics.getWidth()*0.01f, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20)*4);
-
-        stage.addActor(LabelScorePlayer1);
-        stage.addActor(LabelScorePlayer2);
-        stage.addActor(LabelScorePlayer3);
-        stage.addActor(LabelScorePlayer4);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(app.font120, Color.WHITE);
         labelTitle = new Label("NOT TRACKING ", labelStyle);
@@ -280,7 +295,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         stage.addActor(labelTitle);
 
-        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/scorebg1.png"))));
+        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/" + PropertiesSingleton.getInstance().getChosenIsland() +"1.jpg"))));
         scoreActor.setPosition(0, 0);
         scoreActor.setSize((stage.getWidth()), stage.getHeight());
         scoreStage.addActor(scoreActor);
@@ -295,20 +310,22 @@ public class GameScreen extends BaseBulletTest implements Screen {
 //        player = world.add("ball", 0, 300f, 0f);
 
 //        player.body.setRollingFriction(4);
-
-
         float playerPosOffset = 0.0f;
-        Gdx.app.log("HEJ!", "Nr of players: " + PropertiesSingleton.getInstance().getNrPlayers());
         int joinOffset = 0;
         for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
         {
             Model chosenBallModel = assets.get("3d/balls/"+PropertiesSingleton.getInstance().getChosenBall(idu)+".g3db", Model.class);
 
+            playerScorePosList.add(Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * (2*idu));
+
+            labelScorePlayers.add(new Label("", labelStyle));
+            labelScorePlayers.get(idu).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20) * ((idu+1)*2));
+            stage.addActor(labelScorePlayers.get(idu));
+
             if(app.joinServerScreen.join != null)
             {
                 if(idu != Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1)
                 {
-                    Gdx.app.log("HEJ!", "Adding other.");
                     playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
@@ -316,9 +333,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 }
                 else
                 {
-                    Gdx.app.log("HEJ!", "Adding me.");
                     ++joinOffset;
-                    Gdx.app.log("HEJ!", "New offset: " + joinOffset);
                     thisUnitId = idu;
                     playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getUnitUserId()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
@@ -329,10 +344,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
             }
             else if(app.createServerScreen.create != null)
             {
-                Gdx.app.log("HEJ!", "Create is not null.");
                 thisUnitId = 0;
                 if(idu == 0)
                 {
+
                     playerList.add(new Player(chosenBallModel, app.createServerScreen.create.getServerName()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f));
@@ -347,8 +362,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
                 }
             }
-            playerPosOffset += 2;
-            Gdx.app.log("HEJ!", "End of loop.");
+            playerPosOffset += 50.f;
         }
         playerCreated = true;
         if (USE_CONTACT_CACHE) {
@@ -370,6 +384,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
         Gdx.app.log("SHOOT", "Nr of characters: " + playerList.size());
         // Sound
         //-------------------------------------------------------------------
+
+        scoreTimers = new float[PropertiesSingleton.getInstance().getNrPlayers()][PropertiesSingleton.getInstance().getNrPlayers()];
     }
 
     @Override
@@ -448,8 +464,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 playerEntityList.get(thisUnitId).body.activate();
                 ((btRigidBody) playerEntityList.get(thisUnitId).body).applyCentralImpulse(normVec);
             }
-            Gdx.app.log("HEJ!", "Player " + (thisUnitId+1));
-            Gdx.app.log("HEJ!", "Normvec: " + normVec.toString());
             if(app.joinServerScreen.join != null)
             {
                 app.joinServerScreen.join.sendClickPosVector(normVec);
@@ -506,7 +520,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public void updateImpulse(Vector3 newImpulseVector, int playerID)
     {
-        Gdx.app.log("HEJ!", "Updating impulse for player: " + (playerID + 1));
         //playerList.get(playerID).setPosition
         playerList.get(playerID).setImpulseVector(newImpulseVector);
         playerEntityList.get(playerID).body.activate();
@@ -520,6 +533,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public void updatePositions(Vector<Vector3> checkCharPos, Vector<Vector3> checkCharRot)
     {
+//        Gdx.app.log("UPDATING POS", "HALLÅ ELLER");
+
         if(playerCreated)
         {
             Matrix4 tmp;
@@ -706,6 +721,43 @@ public class GameScreen extends BaseBulletTest implements Screen {
         */
 
 
+
+        if(playerCreated == true) {
+            // Count the score timer down
+            for (int i = 0; i < PropertiesSingleton.getInstance().getNrPlayers(); i++) {
+
+                labelScorePlayers.get(i).setText("Score player " + (i+1) + ": " + PropertiesSingleton.getInstance().getScore(i));
+
+                if ((((btRigidBody) playerEntityList.get(i).body).getCenterOfMassPosition().y < 0)
+                        && playerList.get(i).getHasFallen() == false
+                        ) {
+                    playerList.get(i).setHasFallen(true);
+
+                    int n_playersLeft = 0;
+                    // Give the score.
+                    for (int k = 0; k < PropertiesSingleton.getInstance().getNrPlayers(); k++) { // TODO: nrPlayers
+                        if (scoreTimers[i][k] > 0) {
+                            PropertiesSingleton.getInstance().setScore(k,44);
+                            updateScorePos();
+                        }
+
+                        if(playerList.get(k).getHasFallen() == false)
+                            n_playersLeft++;
+
+                    }
+
+                    if(n_playersLeft < 2)
+                        startGameOverTimer();
+                }
+
+                for (int k = 0; k < PropertiesSingleton.getInstance().getNrPlayers(); k++) {
+                    if (scoreTimers[i][k] > 0) {
+                        scoreTimers[i][k] -= 1f;
+                    }
+                }
+            }
+        }
+
         if(DataHolder.getInstance().getIsTracking() == false)
         {
             labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, labelTitle.getHeight() * 2);
@@ -717,29 +769,49 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         stage.draw();
         scoreStage.draw();
+        scoreStage.act();
+
+        for(int i = 0; i<labelScorePlayers.size();i++)
+            labelScorePlayers.get(i).act(Gdx.graphics.getDeltaTime());
+
     }
 
-    public static btConvexHullShape createConvexHullShape (final Model model, boolean optimize) {
-        final Mesh mesh = model.meshes.get(0);
-        final btConvexHullShape shape = new btConvexHullShape(mesh.getVerticesBuffer(), mesh.getNumVertices(), mesh.getVertexSize());
-        if (!optimize) return shape;
-        // now optimize the shape
-        final btShapeHull hull = new btShapeHull(shape);
-        hull.buildHull(shape.getMargin());
-        final btConvexHullShape result = new btConvexHullShape(hull);
-        // delete the temporary shape
-        shape.dispose();
-        hull.dispose();
-        return result;
+    private void updateScorePos(){
+        if(playerCreated) {
+
+            Array<Integer> currentScores = new Array<Integer>();
+            boolean[] found = new boolean[playerList.size()];
+
+            for(int i = 0; i < playerList.size(); i++)
+            {
+                currentScores.add(PropertiesSingleton.getInstance().getScore(i));
+                found[i] = false;
+            }
+            currentScores.sort();
+            currentScores.reverse();
+
+            int currentPosIdx = 0;
+            for(int i = 0; i < currentScores.size; i++)
+            {
+                for(int k = 0; k < playerList.size(); k++)
+                {
+                    if(found[k] == false && currentScores.get(i) == PropertiesSingleton.getInstance().getScore(k)) {
+                        labelScorePlayers.get(k).addAction(Actions.moveTo(20, playerScorePosList.get(currentPosIdx), 0.5f));
+                        currentPosIdx++;
+                        found[k] = true;
+                    }
+                }
+            }
+        }
     }
 
-    /*@Override
+    @Override
     public void update () {
         float delta = Gdx.graphics.getRawDeltaTime();
         time += delta;
         super.update();
         if (contactCache != null) contactCache.update(delta);
-    }*/
+    }
 
     @Override
     public void show() {
@@ -765,76 +837,65 @@ public class GameScreen extends BaseBulletTest implements Screen {
         //scoreStage.dispose(); // Borde disposas men det blir hack till nästa screen
     }
 
-    // Sorts and draws the scores.
-    private void drawScores(){
-        // TODO: Borde egentligen inte kallas varenda renderingsframe, borde enbart köras när det sker förändringar i någons score. Därför ska den kallas i poängsystemet i render(), men vi har ju inget riktigt poängsystem än.
-        if(playerCreated) {
-            Collections.sort(playerList);
 
-            LabelScorePlayer1.setText("Score " + playerList.get(0).getModelName() + ": " + playerList.get(0).getScore());
-            LabelScorePlayer2.setText("Score " + playerList.get(1).getModelName() + ": " + playerList.get(1).getScore());
-            LabelScorePlayer3.setText("Score " + playerList.get(2).getModelName() + ": " + playerList.get(2).getScore());
-            LabelScorePlayer4.setText("Score " + playerList.get(3).getModelName() + ": " + playerList.get(3).getScore());
-
-            // TODO: KOD NEDAN ÄR INTE FÄRDIG OCH DEN ÄR TILL FÖR KUNNA ANIMERA NÄR NÅGON AVANCERAR I PLACERING FÖR SCORE.
-            /*
-            // Set the score for the players in the same label.
-            LabelScorePlayer1.setText("P1: " + playerList.get(0).getScore());
-            LabelScorePlayer2.setText("P2: " + playerList.get(1).getScore());
-            LabelScorePlayer3.setText("P3: " + playerList.get(2).getScore());
-            LabelScorePlayer4.setText("P4: " + playerList.get(3).getScore());
-
-            // Take the actors for the score labels and move them to advance in positions. TODO: ta bort getHeight funktionsanropet.
-            stage.getRoot().getChildren().get(0).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 1));
-            stage.getRoot().getChildren().get(1).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 2));
-            stage.getRoot().getChildren().get(2).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * 3));
-            stage.getRoot().getChildren().get(3).setPosition(20, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 20 * scoreLabelAnimationTimer));
-            */
-        }
-    }
-/*
     private void startGameOverTimer() {
 
-        scoreStage.act();
+        Gdx.app.log("GAMEOVER", "GAMEOVER");
 
-        gameOverTimer += Gdx.graphics.getDeltaTime();
-
-        if (gameOverTimer > 0.5) {
-            super.setGameOver();
-            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
-                    Actions.run(new Runnable() {
-                        public void run() {
-
-                            PropertiesSingleton.getInstance().setNrPlayers(n_players);
-
-                            // Prepare necessary data for the highscore screen.
-
-                            // Set the scores.
-                            PropertiesSingleton.getInstance().setPlayer1Score(player_1.getScore());
-                            PropertiesSingleton.getInstance().setPlayer2Score(player_2.getScore());
-                            PropertiesSingleton.getInstance().setPlayer3Score(player_3.getScore());
-                            PropertiesSingleton.getInstance().setPlayer4Score(player_4.getScore());
-
-                            // Get the model names.
-                            PropertiesSingleton.getInstance().setPlayer1Ball(player_1.getModelName());
-                            PropertiesSingleton.getInstance().setPlayer2Ball(player_2.getModelName());
-                            PropertiesSingleton.getInstance().setPlayer3Ball(player_3.getModelName());
-                            PropertiesSingleton.getInstance().setPlayer4Ball(player_4.getModelName());
-
-                            // Prepare the "Ball String" so that it can later be sent over the network as a string.
-                            PropertiesSingleton.getInstance().createBallString();
-
-                            app.setScreen(new ScoreScreen(app));
-                            dispose();
-                        }
-                    })));
-            }
+        while(gameOverTimer < 0.5f)
+        {
+            gameOverTimer += Gdx.graphics.getDeltaTime();
         }
-*/
+
+//        super.setGameOver();
+        scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
+                Actions.run(new Runnable() {
+                    public void run() {
+                        DataHolder.getInstance().setActivateCamera(false);
+                        app.setScreen(new ScoreScreen(app));
+                    }
+                })));
+
+
+//        scoreStage.act();
+//
+//        gameOverTimer += Gdx.graphics.getDeltaTime();
+//
+//        if (gameOverTimer > 0.5) {
+//            super.setGameOver();
+//            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
+//                    Actions.run(new Runnable() {
+//                        public void run() {
+//
+//                            PropertiesSingleton.getInstance().setNrPlayers(n_players);
+//
+//                            // Prepare necessary data for the highscore screen.
+//
+//                            // Set the scores.
+//                            PropertiesSingleton.getInstance().setPlayer1Score(player_1.getScore());
+//                            PropertiesSingleton.getInstance().setPlayer2Score(player_2.getScore());
+//                            PropertiesSingleton.getInstance().setPlayer3Score(player_3.getScore());
+//                            PropertiesSingleton.getInstance().setPlayer4Score(player_4.getScore());
+//
+//                            // Get the model names.
+//                            PropertiesSingleton.getInstance().setPlayer1Ball(player_1.getModelName());
+//                            PropertiesSingleton.getInstance().setPlayer2Ball(player_2.getModelName());
+//                            PropertiesSingleton.getInstance().setPlayer3Ball(player_3.getModelName());
+//                            PropertiesSingleton.getInstance().setPlayer4Ball(player_4.getModelName());
+//
+//                            // Prepare the "Ball String" so that it can later be sent over the network as a string.
+//                            PropertiesSingleton.getInstance().createBallString();
+//
+//                            app.setScreen(new ScoreScreen(app));
+//                            dispose();
+//                        }
+//                    })));
+//            }
+        }
 
     public void playCollisionSound(Vector3 pos, String m1, String m2)
     {
-        gameSound.playCollisionSound(pos, m1, m2, camera.position);
+        GameSound.getInstance().playCollisionSound(pos, m1, m2, camera.position);
     }
 
     //--------------Countdown-------------------------------------

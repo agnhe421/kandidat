@@ -51,6 +51,7 @@ public class
     private void queueAsset()
     {
         app.assets.load("img/greek.jpg", Texture.class);
+
         app.assets.load("img/Background.jpg", Texture.class);
         app.assets.load("img/main_blurred.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
