@@ -157,6 +157,10 @@ public class JoinServer extends Thread
                 {
                     PropertiesSingleton.getInstance().setGameMode(strConv.get(1));
                 }
+                else if(strConv.get(0).equals("ROUND_OVER"))
+                {
+                    app.gameScreen.setToScoreScreen();
+                }
                 else if(strConv.get(0).equals("SCORE_INCOMING"))
                 {
                     PropertiesSingleton.getInstance().setScore(

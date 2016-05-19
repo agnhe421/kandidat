@@ -252,8 +252,16 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
     public void render () {
 
         if(app.joinServerScreen.join != null)
+        {
+            if(!app.joinServerScreen.join.isAlive())
+            {
+                app.joinServerScreen.join = null;
+                app.mainMenyScreen = new MainMenyScreen(app);
+                app.setScreen(app.mainMenyScreen);
+            }
             if(app.joinServerScreen.join.getIslandChosenState())
                 app.setScreen(new ChooseBallScreen(app));
+        }
         if(app.createServerScreen.create != null)
             if(app.createServerScreen.create.checkIslandChosen() && app.createServerScreen.create.getSwitchScreen())
                 app.setScreen(new ChooseBallScreen(app));

@@ -68,22 +68,6 @@ public class PropertiesSingleton {
         playerScores[index] += score;
     }
 
-    public void setPlayer1Score(int playerScore) {
-        this.playerScores[0] = playerScore + this.playerScores[0];
-    }
-
-    public void setPlayer2Score(int playerScore) {
-        this.playerScores[1] = playerScore + this.playerScores[1];
-    }
-
-    public void setPlayer3Score(int playerScore) {
-        this.playerScores[2] = playerScore + this.playerScores[2];
-    }
-
-    public void setPlayer4Score(int playerScore) {
-        this.playerScores[3] = playerScore + this.playerScores[3];
-    }
-
     public int getScore(int index) {return playerScores[index];}
 
 }

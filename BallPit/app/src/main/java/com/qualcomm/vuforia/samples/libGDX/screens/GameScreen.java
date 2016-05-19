@@ -513,6 +513,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
         ((btRigidBody)playerEntityList.get(playerID).body).applyCentralImpulse(newImpulseVector);
     }
 
+    public void setToScoreScreen()
+    {
+
+    }
+
     public void updatePositions(Vector<Vector3> checkCharPos, Vector<Vector3> checkCharRot)
     {
         if(playerCreated)
@@ -542,6 +547,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
     @Override
     public void render () {
 
+        if(app.joinServerScreen.join != null)
+            if(!app.joinServerScreen.join.isAlive())
+            {
+                app.joinServerScreen.join = null;
+                app.mainMenyScreen = new MainMenyScreen(app);
+                app.setScreen(app.mainMenyScreen);
+            }
         if(app.createServerScreen.create != null)
         {
             Vector<Vector3> tempPosList = new Vector<Vector3>();
