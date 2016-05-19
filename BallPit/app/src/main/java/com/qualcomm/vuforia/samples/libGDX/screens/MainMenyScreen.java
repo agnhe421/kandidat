@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
+import com.qualcomm.vuforia.samples.libGDX.classes.GameSound;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
@@ -70,6 +71,8 @@ public class MainMenyScreen implements Screen {
         stageBackground.addActor(background);
 
         initButtons();
+
+        GameSound.getInstance().playMusic("menu");
     }
 
     @Override
@@ -134,7 +137,6 @@ public class MainMenyScreen implements Screen {
                         Actions.run(new Runnable() {
                             public void run() {
                                 app.setScreen(new ConnectionMenuScreen(app));
-
                             }
                         })));
             }

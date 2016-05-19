@@ -13,7 +13,11 @@ public class DataHolder {
     public float[] getData2() {return data2;}
     public void setData2(float[] data2) {this.data2 = data2;}
 
-    private boolean isTracking;
+    private boolean activateCamera;
+    public boolean getActivateCamera() {return activateCamera;}
+    public void setActivateCamera(boolean activateCamera) {this.activateCamera = activateCamera;}
+
+    private boolean isTracking = false;
     public boolean getIsTracking() {return isTracking;}
     public void setIsTracking(boolean isTracking) {this.isTracking = isTracking;}
 

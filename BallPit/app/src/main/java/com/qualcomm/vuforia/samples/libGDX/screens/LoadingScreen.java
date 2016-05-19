@@ -50,16 +50,12 @@ public class
 
     private void queueAsset()
     {
-
         app.assets.load("img/greek.jpg", Texture.class);
-        app.assets.load("img/badlogic.jpg", Texture.class);
         app.assets.load("img/Background.jpg", Texture.class);
         app.assets.load("img/main_blurred.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
         app.assets.load("ui/TextUI.pack", TextureAtlas.class);
         app.assets.load("ui/Buttons.pack", TextureAtlas.class);
-
-
 
         app.islandNames.add("island");
         app.islandNames.add("greek");
@@ -80,9 +76,9 @@ public class
         for(int i = 0; i<app.ballNames.size; i++)
             app.GameAssets.load("3d/balls/"+app.ballNames.get(i)+".g3db", Model.class);
 
-        app.GameAssets.load("3d/misc/"+"arrow"+".g3db", Model.class);
+        app.GameAssets.load("3d/misc/" + "arrow" + ".g3db", Model.class);
 
-        app.GameAssets.finishLoading();
+//        app.GameAssets.finishLoading();
 
         PropertiesSingleton.getInstance().setAssets(app.GameAssets);
 //        setScreen(new ChooseIslandScreen(this, islandNames, ballNames));
@@ -138,7 +134,7 @@ public class
 
         //läsa in funktionen selectLoadingBarPicture när assets har laddats i 10%
         //och sedan rita ut det
-        if(app.assets.getProgress() >= 0.1f){
+        if(app.GameAssets.getProgress() >= 0.1f){
             image = selectLoadingBarPicture();
             image.setPosition(w / 28, h / 10); //random värden, bättre sätt?
             image.setSize(w/2,h/12);   //skala så det passar på skärmen, finns bättre sätt?
@@ -148,8 +144,8 @@ public class
     }
 
     private void update(float delta){
-        progress = MathUtils.lerp(progress, app.assets.getProgress(),0.1f);
-        if(app.assets.update() && progress >= app.assets.getProgress() - 0.01f) // retunerar false tills alla assets är inladdade
+        progress = MathUtils.lerp(progress, app.GameAssets.getProgress(),0.1f);
+        if(app.GameAssets.update() && app.assets.update() && progress >= app.GameAssets.getProgress() - 0.01f) // retunerar false tills alla assets är inladdade
         {
             app.setScreen(app.mainMenyScreen);
         }
@@ -183,27 +179,27 @@ public class
     public Image selectLoadingBarPicture(){
 
         //ladda upp bild 1 i loadingbar när det har gått 10%, bild2 20% osv
-        if(app.assets.getProgress() >= 0.1f && app.assets.getProgress() < 0.2f){
+        if(app.GameAssets.getProgress() >= 0.0f && app.GameAssets.getProgress() < 0.2f){
             return loadingBar1;
-        }else if(app.assets.getProgress() >= 0.2f && app.assets.getProgress() < 0.3f){
+        }else if(app.GameAssets.getProgress() >= 0.2f && app.GameAssets.getProgress() < 0.3f){
             return loadingBar2;
-        }else if(app.assets.getProgress() >= 0.3f && app.assets.getProgress() < 0.4f){
+        }else if(app.GameAssets.getProgress() >= 0.3f && app.GameAssets.getProgress() < 0.4f){
             return loadingBar3;
-        }else if(app.assets.getProgress() >= 0.4f && app.assets.getProgress() < 0.5f){
+        }else if(app.GameAssets.getProgress() >= 0.4f && app.GameAssets.getProgress() < 0.5f){
             return loadingBar4;
-        }else if(app.assets.getProgress() >= 0.5f && app.assets.getProgress() < 0.6f){
+        }else if(app.GameAssets.getProgress() >= 0.5f && app.GameAssets.getProgress() < 0.6f){
             return loadingBar5;
-        }else if(app.assets.getProgress() >= 0.6f && app.assets.getProgress() < 0.7f){
+        }else if(app.GameAssets.getProgress() >= 0.6f && app.GameAssets.getProgress() < 0.7f){
             return loadingBar6;
-        }else if(app.assets.getProgress() >= 0.7f && app.assets.getProgress() < 0.8f){
+        }else if(app.GameAssets.getProgress() >= 0.7f && app.GameAssets.getProgress() < 0.8f){
             return loadingBar7;
-        }else if(app.assets.getProgress() >= 0.8f && app.assets.getProgress() < 0.9f){
+        }else if(app.GameAssets.getProgress() >= 0.8f && app.GameAssets.getProgress() < 0.9f){
             return loadingBar8;
-        }else if(app.assets.getProgress() >= 0.9f && app.assets.getProgress() < 0.95f){
+        }else if(app.GameAssets.getProgress() >= 0.9f && app.GameAssets.getProgress() < 0.95f){
             return loadingBar9;
-        }else if(app.assets.getProgress() >= 0.95f && app.assets.getProgress() < 0.98f){
+        }else if(app.GameAssets.getProgress() >= 0.95f && app.GameAssets.getProgress() < 0.98f){
             return loadingBar10;
-        }else if(app.assets.getProgress() >= 0.98f ){
+        }else if(app.GameAssets.getProgress() >= 0.98f ){
             return loadingBar11;}
         else{
             return loadingBar11;

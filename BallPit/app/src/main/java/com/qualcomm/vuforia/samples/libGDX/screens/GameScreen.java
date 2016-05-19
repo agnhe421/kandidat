@@ -109,7 +109,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     AssetManager assets;
     String chosenIsland;
-    String chosenBall;
     BulletEntity player;
     Model arrowInstance;
     Label labelTitle;
@@ -127,7 +126,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             thisUnitId = (Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(
                     app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1);
         this.chosenIsland = PropertiesSingleton.getInstance().getChosenIsland();
-        this.chosenBall = PropertiesSingleton.getInstance().getChosenBall(thisUnitId);
         this.create();
 
     }
@@ -139,33 +137,63 @@ public class GameScreen extends BaseBulletTest implements Screen {
             final int userValue0 = manifold.getBody0().getUserValue();
             final int userValue1 = manifold.getBody1().getUserValue();
 
-            // Take the positions of the colliding balls. Used in the handling of sounds.
-            Vector3 p1 = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
-            Vector3 p2 = ((btRigidBody) manifold.getBody1()).getCenterOfMassPosition();
 
-            // Set the time which the player1 can receive a points after a collision has happened.
-            // 1 second = 30f
-            scoreTimer = 210f;  // 210/30 = 7 seconds
-            collisionHappened = true;
+            Gdx.app.log("HALLÅ STARTEEEED", "Contact started 0 " + userValue0);
 
-            if((entities.get(userValue0) != entities.get(0))){
-            if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
-                    if (match0) {
-                        final BulletEntity e = (BulletEntity) (entities.get(userValue0));
-                        e.setColor(Color.BLUE);
-                        Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
-                        collisionUserId0 = userValue0;
-                    }
-                    if (match1) {
-                        final BulletEntity e = (BulletEntity) (entities.get(userValue1));
-                        e.setColor(Color.RED);
-                        Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
-                        collisionUserId1 = userValue1;
-                    }
-                    // Play the collision sound.
-//                    gameSound.playCollisionSound(p1, p2);
+            GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
+
+            if(entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0)) {
+
+                Vector3 p1 = new Vector3();
+                ((btRigidBody)world.entities.get(userValue0).body).getWorldTransform().getTranslation(p1);
+
+                Vector3 p2 = new Vector3();
+                ((btRigidBody)world.entities.get(userValue1).body).getWorldTransform().getTranslation(p2);
+
+                Vector3 vec;
+
+                if (((btRigidBody) world.entities.get(userValue0).body).getLinearVelocity().len() < ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len()) {
+
+                    vec = new Vector3((p1.x - p2.x), 0, (p1.z - p2.z));
+
+                    float normFactor = 20000*6 / vec.len();
+                    Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+                    ((btRigidBody) entities.get(userValue0).body).applyCentralImpulse(normVec);
+                } else {
+                    vec = new Vector3((p2.x - p1.x), 0, (p2.z - p1.z));
+
+                    float normFactor = 20000*6 / vec.len();
+                    Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+                    ((btRigidBody) entities.get(userValue1).body).applyCentralImpulse(normVec);
+                }
+
+//
+//                if ((entities.get(userValue0) != entities.get(0))) {
+//                    if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
+//                        if (match0) {
+//                            final BulletEntity e = (BulletEntity) (entities.get(userValue0));
+//                            e.setColor(Color.BLUE);
+//                            //Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
+//                            collisionUserId0 = userValue0;
+//                            move = false;
+//                        }
+//                        if (match1) {
+//                            final BulletEntity e = (BulletEntity) (entities.get(userValue1));
+//                            e.setColor(Color.RED);
+//                            //Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
+//                            collisionUserId1 = userValue1;
+//                            move = false;
+//                        }
+//
+//                        // Play the collision sound if colliding with a ball.
+//                        if (userValue0 <= playerList.size() && userValue1 <= playerList.size()) {
+//                            gameSound.playCollisionSound(p1, playerList.get(userValue0 - 1).getModelName(), playerList.get(userValue1 - 1).getModelName());
+//                            Gdx.app.log("userValue0 = ", "" + playerList.get(userValue0 - 1).getModelName());
+//                            Gdx.app.log("userValue1 = ", "" + playerList.get(userValue1 - 1).getModelName());
+//                        }
+//                    }
+//                }
             }
-         }
         }
 
         @Override
@@ -262,13 +290,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
 //        Model football = app.assets.get("3d/balls/football.g3db", Model.class);
 
-
-        Model choosenBallModel = assets.get("3d/balls/"+chosenBall+".g3db", Model.class);
-
-        for(int k = 0; k<choosenBallModel.meshes.size;k++)
-            choosenBallModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
-
-
 //        disposables.add(choosenBall);
 //        world.addConstructor("ball", new BulletConstructor(ship, 1000, new btSphereShape(9f)));
 //        player = world.add("ball", 0, 300f, 0f);
@@ -281,12 +302,14 @@ public class GameScreen extends BaseBulletTest implements Screen {
         int joinOffset = 0;
         for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
         {
+            Model chosenBallModel = assets.get("3d/balls/"+PropertiesSingleton.getInstance().getChosenBall(idu)+".g3db", Model.class);
+
             if(app.joinServerScreen.join != null)
             {
                 if(idu != Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1)
                 {
                     Gdx.app.log("HEJ!", "Adding other.");
-                    playerList.add(new Player(choosenBallModel, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
+                    playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -297,7 +320,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     ++joinOffset;
                     Gdx.app.log("HEJ!", "New offset: " + joinOffset);
                     thisUnitId = idu;
-                    playerList.add(new Player(choosenBallModel, app.joinServerScreen.join.getUnitUserId()));
+                    playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getUnitUserId()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFlag(1);
@@ -310,7 +333,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 thisUnitId = 0;
                 if(idu == 0)
                 {
-                    playerList.add(new Player(choosenBallModel, app.createServerScreen.create.getServerName()));
+                    playerList.add(new Player(chosenBallModel, app.createServerScreen.create.getServerName()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -318,7 +341,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 }
                 else
                 {
-                    playerList.add(new Player(choosenBallModel, app.createServerScreen.create.getUserId(idu - 1)));
+                    playerList.add(new Player(chosenBallModel, app.createServerScreen.create.getUserId(idu - 1)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
@@ -345,7 +368,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         LabelCountdown.setPosition(Gdx.graphics.getHeight() / 2, Gdx.graphics.getWidth() / 2);
         stage.addActor(LabelCountdown);
         Gdx.app.log("SHOOT", "Nr of characters: " + playerList.size());
-          // Sound
+        // Sound
         //-------------------------------------------------------------------
     }
 
@@ -358,7 +381,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-       // shoot(screenX, screenY);
+        // shoot(screenX, screenY);
         Gdx.app.log("SHOOT", "SHOOT");
 
         //TO REMOVE AN ENTITY FROM THE WORLD
@@ -408,7 +431,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 //            instance = new ModelInstance(model,tmpV1);
 
             Vector3 vec = new Vector3((tmpV1.x - ((btRigidBody) playerEntityList.get(thisUnitId).body).getCenterOfMassPosition().x),
-                                      0, (tmpV1.z - ((btRigidBody) playerEntityList.get(thisUnitId).body).getCenterOfMassPosition().z));
+                    0, (tmpV1.z - ((btRigidBody) playerEntityList.get(thisUnitId).body).getCenterOfMassPosition().z));
 
 
             instance = new ModelInstance(arrowInstance, tmpV1);
@@ -432,10 +455,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 app.joinServerScreen.join.sendClickPosVector(normVec);
             }
         }
-            // Är det normVec som ska skickas till servern som ´sen skickar till varje client och varje client lägger impulsen på rätt spelare.
-            // sendImpulse(normVec);
-            // Skriva en ny funktion i GameScreen som faktiskt sätter denna impuls, vart ska den sättas? Vill inte att den ska köras varje frame.
-            // Ifall klick har hänt,
+        // Är det normVec som ska skickas till servern som ´sen skickar till varje client och varje client lägger impulsen på rätt spelare.
+        // sendImpulse(normVec);
+        // Skriva en ny funktion i GameScreen som faktiskt sätter denna impuls, vart ska den sättas? Vill inte att den ska köras varje frame.
+        // Ifall klick har hänt,
         //}
         return true;
     }
@@ -490,6 +513,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
         ((btRigidBody)playerEntityList.get(playerID).body).applyCentralImpulse(newImpulseVector);
     }
 
+    public void setToScoreScreen()
+    {
+
+    }
+
     public void updatePositions(Vector<Vector3> checkCharPos, Vector<Vector3> checkCharRot)
     {
         if(playerCreated)
@@ -519,6 +547,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
     @Override
     public void render () {
 
+        if(app.joinServerScreen.join != null)
+            if(!app.joinServerScreen.join.isAlive())
+            {
+                app.joinServerScreen.join = null;
+                app.mainMenyScreen = new MainMenyScreen(app);
+                app.setScreen(app.mainMenyScreen);
+            }
         if(app.createServerScreen.create != null)
         {
             Vector<Vector3> tempPosList = new Vector<Vector3>();
@@ -797,6 +832,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }
 */
 
+    public void playCollisionSound(Vector3 pos, String m1, String m2)
+    {
+        gameSound.playCollisionSound(pos, m1, m2, camera.position);
+    }
+
     //--------------Countdown-------------------------------------
     private void countDown() {
         float deltaTime = Gdx.graphics.getDeltaTime();
@@ -812,10 +852,5 @@ public class GameScreen extends BaseBulletTest implements Screen {
         }else{
             LabelCountdown.setText(String.format("%.0f", seconds));
         }
-
     }
-
-
-
-
-    }
+}

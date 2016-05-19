@@ -17,6 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -31,11 +32,13 @@ public class CreateServer extends Thread
     private String serverName = "";
     private Boolean threadRun;
     private Boolean allReady;
-    private Boolean allIslandChosen, allBallChosen, switchScreen;
+    private volatile Boolean allIslandChosen, allBallsChosen, switchScreen;
     private Vector<User> userList;
     private int currentListSize;
     public User serverUser;
     BaseGame app;
+    private IslandVote islandVote;
+    private BallDistribute ballDistribute;
 
     //Constructor
     public CreateServer(final BaseGame app)
@@ -44,6 +47,11 @@ public class CreateServer extends Thread
         switchScreen = false;
         serverUser = new User();
         serverUser.setName("Player 1");
+        islandVote = new IslandVote();
+        ballDistribute = new BallDistribute();
+        allIslandChosen = false;
+        allBallsChosen = false;
+        PropertiesSingleton.getInstance().setGameMode("");
     }
 
 
@@ -52,7 +60,7 @@ public class CreateServer extends Thread
     {
         //Instantiate the broadcast receiver, the vector of connected users and the socket.
         //Also initialize all checker boolean values.
-        receiver = new ReceivePacket(serverName);
+        receiver = new ReceivePacket(serverName, app);
         userList = new Vector<User>();
         threadRun = true;
         currentListSize = 0;
@@ -70,28 +78,31 @@ public class CreateServer extends Thread
             while(threadRun)
             {
                 //If the receiver has received a connection request, activate the socket, wait for the unit to connect.
-                if(receiver.connectState())
+                if(!receiver.connectState())
                 {
-                    //TODO Den nuvarande refresh listan gör så att man får refresha en i taget. Annars
-                    //TODO connectar inte användaren ordentligt. Temporär fix: receiver lyssnar bara om
-                    //TODO huvudtråden säger åt den att lyssna via confirmConnection().
-                    //TODO Nackdel: om svaret från servern försvinner så kan den inte ta emot nåt nytt.
-                    //This loop prevents the main thread from accepting new users until the
-                    //handler has finished sending data.
-                    receiver.setServerAccepting(true);
-                    socket = serverSocket.accept();
-                    receiver.setServerAccepting(false);
-                    //Add the user to the vector.
-                    User user = new User();
-                    userList.add(user);
-                    currentListSize = userList.size();
-                    //Create and start a connection thread for this specific user.
-                    ConnectThread connectThread = new ConnectThread(user, socket);
-                    connectThread.start();
-                    //Tell the receiver the connection has been made, so that it can look for new requests.
-                    if(userList.size() != 1)
-                        userList.get(userList.size() - 1).conThread.setUpdateNeeded();
+                    synchronized (this)
+                    {
+                        this.wait();
+                    }
                 }
+
+                //If the receiver has received a connection request, activate the socket, wait for the unit to connect.
+                //This loop prevents the main thread from accepting new users until the
+                //handler has finished sending data.
+                receiver.setServerAccepting(true);
+                socket = serverSocket.accept();
+                receiver.setServerAccepting(false);
+                //Add the user to the vector.
+                User user = new User();
+                userList.add(user);
+                currentListSize = userList.size();
+                //Create and start a connection thread for this specific user.
+                ConnectThread connectThread = new ConnectThread(user, socket);
+                connectThread.start();
+                //Tell the receiver the connection has been made, so that it can look for new requests.
+                if(userList.size() != 1)
+                    userList.get(userList.size() - 1).conThread.setUpdateNeeded();
+
                 //Check for disconnections. The only reason currentListSize does not equal to
                 //userList.size() is if someone disconnects as connections are handled in the if
                 //statement above.
@@ -118,6 +129,10 @@ public class CreateServer extends Thread
         {
             e.printStackTrace();
             error = "Exception: " + e.toString();
+        }catch(InterruptedException e)
+        {
+            e.printStackTrace();
+            error = "Exception: " + e.toString();
         }finally
         {
             if(socket != null)
@@ -133,6 +148,14 @@ public class CreateServer extends Thread
             }
         }
     }
+    public void notifyServer()
+    {
+        synchronized (this)
+        {
+            this.notify();
+        }
+    }
+
     public void stopServer()
     {
         //Stop the main server thread, deactivate the broadcast and close the server socket.
@@ -142,6 +165,7 @@ public class CreateServer extends Thread
         {
             receiver.join();
             serverSocket.close();
+            notifyServer();
         }catch(IOException e)
         {
             e.printStackTrace();
@@ -211,120 +235,204 @@ public class CreateServer extends Thread
             userList.get(idu).conThread.sendMessage("POSITION_INCOMING|" + posTotal);
         }
     }
-
+    //Send new score to clients.
     public void sendScoresToClients(int index)
     {
+        String msg = "SCORE_INCOMING|" + index + "|" + PropertiesSingleton.getInstance().getScore(index);
         for(int idu = 0; idu < userList.size(); ++idu)
         {
-            String msg = "SCORE_INCOMING|" + index + "|" + PropertiesSingleton.getInstance().getScore(index);
             userList.get(idu).conThread.sendMessage(msg);
         }
     }
-
+    //Commence island voting process.
     public void startIslandVote()
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Boolean running = true;
-                Vector<String> islands = new Vector<String>();
-                Vector<Integer> count = new Vector<Integer>();
-                islands.add(serverUser.islandChoice);
-                count.add(1);
-                int indexMost = 0;
-                while(running)
+        islandVote.start();
+    }
+    //This class is used to select the islad based on all player votes.
+    public class IslandVote extends Thread
+    {
+        @Override
+        public void run()
+        {
+            Boolean running = true;
+            allIslandChosen = false;
+            Vector<String> islands = new Vector<String>();
+            Vector<Integer> count = new Vector<Integer>();
+            count.add(1);
+            int indexMost = 0;
+            while(running)
+            {
+                try
                 {
-                    if(allIslandChosen)
+                    synchronized (this)
                     {
-                        for(int idu = 0; idu < userList.size(); ++idu)
-                        {
-                            if(userList.get(idu).chosen)
-                            {
-                                if(!islands.contains(userList.get(idu).islandChoice))
-                                {
-                                    islands.add(userList.get(idu).islandChoice);
-                                    count.add(1);
-                                }
-                                else
-                                {
-                                    int index = islands.indexOf(userList.get(idu).islandChoice);
-                                    int value = count.get(index);
-                                    ++value;
-                                    count.remove(index);
-                                    count.add(value);
-                                }
-                            }
-                        }
-                        int maxVal = 0;
-                        for(int idv = 0; idv < islands.size(); ++idv)
-                        {
-                            if(maxVal < count.get(idv))
-                            {
-                                maxVal = count.get(idv);
-                                indexMost = idv;
-                            }
-                        }
-                        PropertiesSingleton.getInstance().setChosenIsland(islands.get(indexMost));
-                        for(int idu = 0; idu < userList.size(); ++idu)
-                            userList.get(idu).conThread.sendMessage("ISLAND_VOTE_RESULT|" + PropertiesSingleton.getInstance().getChosenIsland());
-                        running = false;
-                        switchScreen = true;
+                        this.wait();
                     }
+                }catch(InterruptedException e)
+                {
+                    e.printStackTrace();
+                    error = "Exception: " + e.toString();
+                }
+                for(int idu = 0; idu <= userList.size(); ++idu)
+                {
+                    if(idu == userList.size())
+                    {
+                        if(!serverUser.chosen)
+                        {
+                            allIslandChosen = false;
+                            break;
+                        }
+                    }
+                    else if(!userList.get(idu).chosen)
+                    {
+                        allIslandChosen = false;
+                        break;
+                    }
+                    allIslandChosen = true;
+                }
+                if(allIslandChosen)
+                {
+                    for(int idu = 0; idu <= userList.size(); ++idu)
+                    {
+                        if(idu == userList.size())
+                        {
+                            if(!islands.contains(serverUser.islandChoice))
+                            {
+                                islands.add(serverUser.islandChoice);
+                                count.add(1);
+                            }
+                            else
+                            {
+                                int index = islands.indexOf(serverUser.islandChoice);
+                                int value = count.get(index);
+                                ++value;
+                                count.set(index, value);
+                            }
+                        }
+                        else if(userList.get(idu).chosen)
+                        {
+                            if (!islands.contains(userList.get(idu).islandChoice))
+                            {
+                                islands.add(userList.get(idu).islandChoice);
+                                count.add(1);
+                            }
+                            else
+                            {
+                                int index = islands.indexOf(userList.get(idu).islandChoice);
+                                int value = count.get(index);
+                                ++value;
+                                count.set(index, value);
+                            }
+                        }
+                    }
+                    int maxVal = 0, previousMax = 0, lastIndexMost = 0;
+                    for(int idv = 0; idv < islands.size(); ++idv)
+                    {
+                        if(maxVal < count.get(idv))
+                        {
+                            previousMax = maxVal;
+                            lastIndexMost = indexMost;
+                            maxVal = count.get(idv);
+                            indexMost = idv;
+                        }
+                    }
+                    if(previousMax == maxVal)
+                    {
+                        Random rand = new Random();
+                        int max = indexMost, min = lastIndexMost;
+                        int n = rand.nextInt(max) + min;
+                        Gdx.app.log("Randtest", "n: " + n);
+                        int diff1 = max - n, diff2 = n - min;
+                        if(diff1 <= diff2)
+                            indexMost = min;
+                        else
+                            indexMost = max;
+                    }
+                    PropertiesSingleton.getInstance().setChosenIsland(islands.get(indexMost));
+                    for(int idu = 0; idu < userList.size(); ++idu)
+                        userList.get(idu).conThread.sendMessage("ISLAND_VOTE_RESULT|" + PropertiesSingleton.getInstance().getChosenIsland());
+                    running = false;
+                    switchScreen = true;
                 }
             }
-        }).start();
+        }
     }
 
     public void startBallsDistribute()
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Boolean running = true;
-                Boolean allBallsGot = false;
-                while(running)
+        ballDistribute.start();
+    }
+
+    public class BallDistribute extends Thread
+    {
+        @Override
+        public void run()
+        {
+            Boolean running = true;
+            Boolean allBallsGot = false;
+            allBallsChosen = false;
+            while(running)
+            {
+                try
                 {
-                    for(int idu = 0; idu < userList.size(); ++idu)
+                    synchronized (this)
                     {
-                        if(!userList.get(idu).chosen)
+                        this.wait();
+                    }
+                }catch(InterruptedException e)
+                {
+                    e.printStackTrace();
+                    error = "Exception: " + e.toString();
+                }
+                for(int idu = 0; idu <= userList.size(); ++idu)
+                {
+                    if(idu == userList.size())
+                    {
+                        if(!serverUser.chosen)
                         {
                             allBallsGot = false;
                             break;
                         }
-                        allBallsGot = true;
                     }
-                    if(allBallsGot)
+                    else if(!userList.get(idu).chosen)
                     {
-                        String ballList = "ALL_BALLS_CHOSEN|";
-                        for(int idu = 0; idu <= userList.size(); ++idu)
-                        {
-                            if(idu == 0)
-                            {
-                                PropertiesSingleton.getInstance().setChosenBall(idu, serverUser.ballChoice);
-                                ballList += serverUser.ballChoice + "|";
-                            }
-                            else if(idu != userList.size())
-                            {
-                                PropertiesSingleton.getInstance().setChosenBall(idu, userList.get(idu-1).ballChoice);
-                                ballList += userList.get(idu - 1).ballChoice + "|";
-                            }
-                            else
-                            {
-                                PropertiesSingleton.getInstance().setChosenBall(idu, userList.get(idu - 1).ballChoice);
-                                ballList += userList.get(idu-1).ballChoice;
-                            }
-                        }
-                        for (User u:userList)
-                        {
-                            u.conThread.sendMessage(ballList);
-                        }
-                        running = false;
-                        allBallChosen = true;
-                        switchScreen = true;
+                        allBallsGot = false;
+                        break;
                     }
+                    allBallsGot = true;
+                }
+                if(allBallsGot)
+                {
+                    String ballList = "ALL_BALLS_CHOSEN|";
+                    for(int idu = 0; idu <= userList.size(); ++idu)
+                    {
+                        if(idu == 0)
+                        {
+                            PropertiesSingleton.getInstance().setChosenBall(idu, serverUser.ballChoice);
+                            ballList += serverUser.ballChoice + "|";
+                        }
+                        else if(idu != userList.size())
+                        {
+                            PropertiesSingleton.getInstance().setChosenBall(idu, userList.get(idu-1).ballChoice);
+                            ballList += userList.get(idu - 1).ballChoice + "|";
+                        }
+                        else
+                        {
+                            PropertiesSingleton.getInstance().setChosenBall(idu, userList.get(idu - 1).ballChoice);
+                            ballList += userList.get(idu-1).ballChoice;
+                        }
+                    }
+                    for (User u:userList)
+                    {
+                        u.conThread.sendMessage(ballList);
+                    }
+                    running = false;
+                    allBallsChosen = true;
+                    switchScreen = true;
                 }
             }
-        }).start();
+        }
     }
 
     public Boolean getSwitchScreen() {return switchScreen;}
@@ -334,6 +442,33 @@ public class CreateServer extends Thread
     {
         //String userInfo = "USER_DATA_INCOMING|" + serverUser.id + "|" + 0 + "|" + new Vector3().toString() + "|" + new Vector3().toString();
         userList.get(index).conThread.sendMessage(userInfo);
+    }
+
+    public void sendSoundPrompt(Vector3 pos, String m1, String m2)
+    {
+        String msg = "SOUND_PROMPT|" + pos.toString() + "|" + m1 + "|" + m2;
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).conThread.sendMessage(msg);
+        }
+    }
+
+    private void sendGameMode()
+    {
+        String msg = "GAME_MODE|" + PropertiesSingleton.getInstance().getGameMode();
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).conThread.sendMessage(msg);
+        }
+    }
+
+    public void sendRoundOverPrompt()
+    {
+        String msg = "ROUND_OVER";
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).conThread.sendMessage(msg);
+        }
     }
 
     //Update the playerlists of other users whenever a new client connects.
@@ -557,13 +692,15 @@ public class CreateServer extends Thread
                     {
                         user.setIslandChoice(strConv.get(1));
                         user.setChosen(true);
+                        notifyIsland();
                     }
                     else if(strConv.get(0).equals("BALL_CHOSEN"))
                     {
                         user.setBallChoice(strConv.get(1));
                         user.setChosen(true);
+                        notifyBalls();
                     }
-                        //All other messages will be handled appropriately.
+                    //All other messages will be handled appropriately.
                     else if(!strConv.get(0).equals(""))
                     {
                         //Set the initial player name.
@@ -691,31 +828,41 @@ public class CreateServer extends Thread
         }
         return allReady;
     }
+    //    public Boolean checkIslandChosen()
+//    {
+//        for(int idu = 0; idu < userList.size(); ++idu)
+//        {
+//            if(!userList.get(idu).chosen)
+//            {
+//                allIslandChosen = false;
+//                break;
+//            }
+//            allIslandChosen = true;
+//        }
+//        return allIslandChosen;
+//    }
     public Boolean checkIslandChosen()
     {
-        for(int idu = 0; idu < userList.size(); ++idu)
-        {
-            if(!userList.get(idu).chosen)
-            {
-                allIslandChosen = false;
-                break;
-            }
-            allIslandChosen = true;
-        }
         return allIslandChosen;
     }
+    public void notifyIsland()
+    {
+        synchronized (islandVote)
+        {
+            islandVote.notify();
+        }
+    }
+
     public Boolean checkBallChosen()
     {
-        for(int idu = 0; idu < userList.size(); ++idu)
+        return allBallsChosen;
+    }
+    public void notifyBalls()
+    {
+        synchronized (ballDistribute)
         {
-            if(!userList.get(idu).chosen)
-            {
-                allBallChosen = false;
-                break;
-            }
-            allBallChosen = true;
+            ballDistribute.notify();
         }
-        return allBallChosen;
     }
     //Send the all clear message to let all clients know that the games can begin.
     public void sendReadyMsg()
@@ -761,6 +908,4 @@ public class CreateServer extends Thread
         }
         throw new GdxRuntimeException("Malformed Vector3: " + v);
     }
-
-
 }

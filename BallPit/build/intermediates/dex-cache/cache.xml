@@ -2,6 +2,7 @@
 <items version="2" >
 
     <item
+<<<<<<< HEAD
         jar="C:\Users\Agnes\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -35,6 +36,41 @@
         revision="22.0.1"
         sha1="7a389b111c748796d7057a5fc288ee506d0fdea8">
         <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\gdx-freetype-afc401820f784b1643839b594ddef9c7c047b4e1.jar" />
+=======
+        jar="D:\Program\TNM094Master\BallPit\app\libs\gdx.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="10469e4371df07b778bcc0fa14205e4625b85d72">
+        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\gdx-d34a3c32053938b221dfe6d4aa3f537e3dd4f4a6.jar" />
+    </item>
+    <item
+        jar="D:\Program\TNM094Master\BallPit\app\libs\gdx-bullet.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="07155cc662ff0bdabe0e5af99d8f722eb6553a77">
+        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\gdx-bullet-3971d7f521931ad8935be7e7a331421d509bac82.jar" />
+    </item>
+    <item
+        jar="D:\Program\TNM094Master\BallPit\app\build\java\vuforia\Vuforia.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5649f0a8a49ca49701dc36af60f6c593ba4b3c2d">
+        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\Vuforia-8026be6600f3d5f71ffaa52814cbe1c655dcb26f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andreas\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-f58b95b0254963b24603c7cbd83e91766584da04.jar" />
+    </item>
+    <item
+        jar="D:\Program\TNM094Master\BallPit\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\classes-278c39a7cc9e0ab7168b7f5e10d40670f9033821.jar" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
     </item>
     <item
         jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\libs\gdx-bullet.jar"
@@ -44,6 +80,7 @@
         <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\gdx-bullet-f8dfe0d241c0571548f373c0f376b6481f998411.jar" />
     </item>
     <item
+<<<<<<< HEAD
         jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\java\vuforia\Vuforia.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -56,6 +93,20 @@
         revision="22.0.1"
         sha1="dd459f86946ba712fd473d09ef5c7f1ac8bff629">
         <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\gdx-backend-android-e158bfa5a4db04d40d3b6429320fd76333092a12.jar" />
+=======
+        jar="D:\Program\TNM094Master\BallPit\app\libs\gdx-freetype.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7a389b111c748796d7057a5fc288ee506d0fdea8">
+        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\gdx-freetype-dd7e6998bd018a91b7993ee57955372ab515e75b.jar" />
+    </item>
+    <item
+        jar="D:\Program\TNM094Master\BallPit\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-fd1faa50ea80f46212e34fdf621115bfc1309924.jar" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
     </item>
 
 </items>

@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.qualcomm.vuforia.samples.Network.CreateServer;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
+import com.qualcomm.vuforia.samples.singletons.DataHolder;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
@@ -221,7 +222,10 @@ public class CreateServerScreen implements Screen{
         labelServer = new Label(serverName, labelStyle);
 
         buttonDisconnect = new TextButton("Disconnect", skin, "default8");
-        buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+        stage.addActor(buttonDisconnect);
+        buttonDisconnect.setSize(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/6);
+        buttonDisconnect.setPosition(Gdx.graphics.getWidth() / 6, (Gdx.graphics.getHeight() / 3));
+        buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 0.5f, Interpolation.pow5Out))));
         buttonDisconnect.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -237,23 +241,34 @@ public class CreateServerScreen implements Screen{
 
 
         buttonReady = new TextButton("Ready", skin, "default8");
-        buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+        stage.addActor(buttonReady);
+        buttonReady.setSize(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/6);
+        buttonReady.setPosition((Gdx.graphics.getWidth() / 6) * 3, (Gdx.graphics.getHeight() / 3));
+        buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 0.5f, Interpolation.pow5Out))));
         buttonReady.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Boolean rdy = create.checkReadyState();
-                if (rdy) {
-                    create.sendReadyMsg();
-                    PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
-                    //app.gameScreen = new GameScreen(app);
-                    app.setScreen(new ChooseIslandScreen(app));
+                if (create.getConnections() != 0) {
+                    Boolean rdy = create.checkReadyState();
+                    if (rdy) {
+                        create.sendReadyMsg();
+                        PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
+                        //app.gameScreen = new GameScreen(app);
+
+                        DataHolder.getInstance().setActivateCamera(true);
+                        app.setScreen(new ChooseIslandScreen(app));
+                    }
+                    msg = "Not all players are ready.";
                 }
-                msg = "Not all players are ready.";
+                msg = "No connections present.";
             }
         });
 
-        buttonStandard = new TextButton("Standard mode", skin, "default8");
-        buttonStandard.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+        buttonStandard = new TextButton("Standard", skin, "default8");
+        stage.addActor(buttonStandard);
+        buttonStandard.setSize((Gdx.graphics.getWidth()/24)*5, Gdx.graphics.getHeight()/7);
+        buttonStandard.setPosition((Gdx.graphics.getWidth() / 24) * 4, (Gdx.graphics.getHeight() / 6));
+        buttonStandard.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 1.5f, Interpolation.pow5Out))));
         buttonStandard.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -268,30 +283,28 @@ public class CreateServerScreen implements Screen{
         });
 
 
-        buttonZombie = new TextButton("Zombie mode", skin, "default8");
-        buttonZombie.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+        buttonZombie = new TextButton("Zombie", skin, "default8");
+        stage.addActor(buttonZombie);
+        buttonZombie.setSize((Gdx.graphics.getWidth()/24)*5, Gdx.graphics.getHeight()/7);
+        buttonZombie.setPosition((Gdx.graphics.getWidth() / 48) * 19, (Gdx.graphics.getHeight() / 6));
+        buttonZombie.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 1.5f, Interpolation.pow5Out))));
 
-        buttonTeam = new TextButton("Two against two", skin, "default8");
-        buttonTeam.addAction(sequence(alpha(0), parallel(fadeIn(.0f), moveBy(150, 0, 1.5f, Interpolation.pow5Out))));
+        buttonTeam = new TextButton("Team", skin, "default8");
+        stage.addActor(buttonTeam);
+        buttonTeam.setSize((Gdx.graphics.getWidth()/24)*5, Gdx.graphics.getHeight()/7);
+        buttonTeam.setPosition((Gdx.graphics.getWidth() / 24) * 15, (Gdx.graphics.getHeight() / 6));
+        buttonTeam.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 1.5f, Interpolation.pow5Out))));
 
-        table.add(labelServer);
+
+        table.add(labelServer).top();
         table.row();
-        table.add(labelPlayer);
+        table.add(labelPlayer).top();
         table.row();
-        table.add(labelList);
-        table.row();
-        table.add(buttonDisconnect).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);//.size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 7);
-        table.row();
-        table.add(buttonReady).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 5);//.size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 7);
-        table.row();
-        table.add(buttonStandard).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 9);
-        table.row();
-        table.add(buttonZombie).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 9);
-        table.row();
-        table.add(buttonTeam).expandX().left().padTop(10).padLeft(-170).size(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 9);//.height(Gdx.graphics.getHeight() / 2);//.expandY().fill().colspan(1);
+        table.add(labelList).top().padBottom(Gdx.graphics.getHeight()/2);
         table.row();
 
         stage.addActor(table);
+
     }
 
 

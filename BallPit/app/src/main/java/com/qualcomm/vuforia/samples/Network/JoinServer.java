@@ -124,6 +124,11 @@ public class JoinServer extends Thread
                         sendMessage("READY_CHECK");
                     }
                 }
+                else if(strConv.get(0).equals("SOUND_PROMPT") && app.gameScreen != null)
+                {
+                    Vector3 pos = fromString(strConv.get(1));
+                    app.gameScreen.playCollisionSound(pos, strConv.get(2), strConv.get(3));
+                }
                 else if(strConv.get(0).equals("ISLAND_VOTE_RESULT"))
                 {
                     PropertiesSingleton.getInstance().setChosenIsland(strConv.get(1));
@@ -133,6 +138,7 @@ public class JoinServer extends Thread
                 {
                     for(int idu = 0; idu <= playerList.size(); ++idu)
                     {
+                        Gdx.app.log("HEJ!", "Setting ball: " + strConv.get(idu + 1) + " for player " + (idu + 1));
                         PropertiesSingleton.getInstance().setChosenBall(idu, strConv.get(idu + 1));
                     }
                     ballsChosen = true;
@@ -146,6 +152,14 @@ public class JoinServer extends Thread
                     for(int idv = 1 + rec_pos.size(); idv <= playerList.size() + rec_pos.size() + 1; ++idv)
                         rec_rot.add(fromString(strConv.get(idv)));
                     app.gameScreen.updatePositions(rec_pos, rec_rot);
+                }
+                else if(strConv.get(0).equals("GAME_MODE"))
+                {
+                    PropertiesSingleton.getInstance().setGameMode(strConv.get(1));
+                }
+                else if(strConv.get(0).equals("ROUND_OVER"))
+                {
+                    app.gameScreen.setToScoreScreen();
                 }
                 else if(strConv.get(0).equals("SCORE_INCOMING"))
                 {

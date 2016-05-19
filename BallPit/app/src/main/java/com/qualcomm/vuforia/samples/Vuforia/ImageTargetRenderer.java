@@ -135,24 +135,27 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
     private void renderFrame()
     {
 
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        if(DataHolder.getInstance().getActivateCamera() == true)
+        {
 
-        State state = mRenderer.begin();
-        mRenderer.drawVideoBackground();
+            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+            State state = mRenderer.begin();
+            mRenderer.drawVideoBackground();
 
-        // handle face culling, we need to detect if we are using reflection
-        // to determine the direction of the culling
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        if (Renderer.getInstance().getVideoBackgroundConfig().getReflection() == VIDEO_BACKGROUND_REFLECTION.VIDEO_BACKGROUND_REFLECTION_ON)
-            GLES20.glFrontFace(GLES20.GL_CW); // Front camera
-        else
-            GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
+            GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
+            // handle face culling, we need to detect if we are using reflection
+            // to determine the direction of the culling
+            GLES20.glEnable(GLES20.GL_CULL_FACE);
+            GLES20.glCullFace(GLES20.GL_BACK);
+            if (Renderer.getInstance().getVideoBackgroundConfig().getReflection() == VIDEO_BACKGROUND_REFLECTION.VIDEO_BACKGROUND_REFLECTION_ON)
+                GLES20.glFrontFace(GLES20.GL_CW); // Front camera
+            else
+                GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
 
 
-        if(state.getNumTrackableResults() == 0) {
+            if (state.getNumTrackableResults() == 0) {
 //
 //            float[] identity = new float[16];
 //
@@ -162,56 +165,48 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
 //        DataHolder.getInstance().setData(identity);
 //        DataHolder.getInstance().setData2(identity);
 
-            DataHolder.getInstance().setIsTracking(false);
+                DataHolder.getInstance().setIsTracking(false);
+            } else {
+                DataHolder.getInstance().setIsTracking(true);
+            }
+
+            // did we find any trackables this frame?
+            for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++) {
+                TrackableResult result = state.getTrackableResult(tIdx);
+                Trackable trackable = result.getTrackable();
+                printUserData(trackable);
+                Matrix44F modelViewMatrix_Vuforia = Tool
+                        .convertPose2GLMatrix(result.getPose());
+                float[] modelViewMatrix = modelViewMatrix_Vuforia.getData();
+
+
+                int textureIndex = trackable.getName().equalsIgnoreCase("stones") ? 0
+                        : 1;
+                textureIndex = trackable.getName().equalsIgnoreCase("tarmac") ? 2
+                        : textureIndex;
+
+                // deal with the modelview and projection matrices
+                float[] modelViewProjection = new float[16];
+
+                Matrix.multiplyMM(modelViewProjection, 0, vuforiaAppSession
+                        .getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
+
+                DataHolder.getInstance().setData(modelViewMatrix);
+
+                DataHolder.getInstance().setData2(vuforiaAppSession
+                        .getProjectionMatrix().getData());
+
+
+                // activate the shader program and bind the vertex/normal/tex coords
+                GLES20.glUseProgram(shaderProgramID);
+
+
+            }
+
+            GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+
+            mRenderer.end();
         }
-        else
-        {
-            DataHolder.getInstance().setIsTracking(true);
-        }
-
-        // did we find any trackables this frame?
-        for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++)
-        {
-            TrackableResult result = state.getTrackableResult(tIdx);
-            Trackable trackable = result.getTrackable();
-            printUserData(trackable);
-            Matrix44F modelViewMatrix_Vuforia = Tool
-                    .convertPose2GLMatrix(result.getPose());
-            float[] modelViewMatrix = modelViewMatrix_Vuforia.getData();
-
-
-
-            int textureIndex = trackable.getName().equalsIgnoreCase("stones") ? 0
-                    : 1;
-            textureIndex = trackable.getName().equalsIgnoreCase("tarmac") ? 2
-                    : textureIndex;
-
-            // deal with the modelview and projection matrices
-            float[] modelViewProjection = new float[16];
-
-
-
-            Matrix.multiplyMM(modelViewProjection, 0, vuforiaAppSession
-                    .getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
-
-            DataHolder.getInstance().setData(modelViewMatrix);
-
-            DataHolder.getInstance().setData2(vuforiaAppSession
-                    .getProjectionMatrix().getData());
-
-
-
-
-            // activate the shader program and bind the vertex/normal/tex coords
-            GLES20.glUseProgram(shaderProgramID);
-
-
-
-        }
-
-        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-
-        mRenderer.end();
     }
 
 

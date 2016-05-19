@@ -59,30 +59,12 @@ public class Player extends BaseBulletTest implements Comparable<Player> {
     // Set the weith depending on the model
 
     public int setweight(String name){
-        if(name == "football"){
-            return weightFootball;
-        }
-        if(name == "apple"){
-            return weightApple;
-        }
-        if(name == "peach"){
-            return weightPeach;
-        }
-        else return 1;
+        return 1000;
     }
 
     // Set the impulse strength depending on the model
     public int setImpulseFactor(String name){
-        if(name == "football"){
-            return impulseFootball;
-        }
-        if(name == "apple"){
-            return impulseApple;
-        }
-        if(name == "peach"){
-            return impulsePeach;
-        }
-        else return 3;
+         return 5000*6;
     }
 
     public void setScore(int points){

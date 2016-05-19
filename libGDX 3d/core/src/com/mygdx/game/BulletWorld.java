@@ -81,7 +81,7 @@ public class BulletWorld extends BaseWorld<BulletEntity> {
 	}
 
 	public BulletWorld () {
-		this(new Vector3(0, -10, 0));
+		this(new Vector3(0, -100, 0));
 	}
 
 	@Override

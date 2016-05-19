@@ -113,6 +113,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         if(app.createServerScreen.create != null)
         {
             app.createServerScreen.create.resetUserChoiceState();
+            app.createServerScreen.create.startIslandVote();
         }
 
         modelBatch = new ModelBatch();
@@ -209,7 +210,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
                     {
                         app.createServerScreen.create.serverUser.setIslandChoice(voted);
                         app.createServerScreen.create.serverUser.setChosen(true);
-                        app.createServerScreen.create.startIslandVote();
+                        app.createServerScreen.create.notifyIsland();
                     }
                     //boolean found = false;
                     /*for(int k = 0; k < voted.size; k++)
@@ -251,8 +252,16 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
     public void render () {
 
         if(app.joinServerScreen.join != null)
+        {
+            if(!app.joinServerScreen.join.isAlive())
+            {
+                app.joinServerScreen.join = null;
+                app.mainMenyScreen = new MainMenyScreen(app);
+                app.setScreen(app.mainMenyScreen);
+            }
             if(app.joinServerScreen.join.getIslandChosenState())
                 app.setScreen(new ChooseBallScreen(app));
+        }
         if(app.createServerScreen.create != null)
             if(app.createServerScreen.create.checkIslandChosen() && app.createServerScreen.create.getSwitchScreen())
                 app.setScreen(new ChooseBallScreen(app));
@@ -260,11 +269,8 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         fps.log();
         Gdx.gl.glClearColor(0, 0, 0, 0f);
 
-
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-
 
         final float delta = Math.min(1f / 10f, Gdx.graphics.getDeltaTime());
 
@@ -273,14 +279,14 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         if (rotation >= 360)
             rotation = 0;
 
-                instances.get(currentIsland).transform.setToRotation(0, 1, 0, rotation);
+        instances.get(currentIsland).transform.setToRotation(0, 1, 0, rotation);
 
-                cam.update();
+        cam.update();
 
-                modelBatch.begin(cam);
+        modelBatch.begin(cam);
 
-                modelBatch.render(instances.get(currentIsland), environment);
-                modelBatch.end();
+        modelBatch.render(instances.get(currentIsland), environment);
+        modelBatch.end();
 
 
 //                shadowLight.begin(Vector3.Zero, cam.direction);
@@ -360,45 +366,45 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
 
         swipe.addAction(Actions.fadeOut(1));
 
-if(instances != null) {
+        if(instances != null) {
 
-    voteButtons.get(currentIsland).setPosition(0, -voteButtons.get(currentIsland).getHeight());
+            voteButtons.get(currentIsland).setPosition(0, -voteButtons.get(currentIsland).getHeight());
 
-    if (velocityX > 0) {
+            if (velocityX > 0) {
 //            translateX = translateX+20;
 //            instances.get(0).transform.setToTranslation(translateX, 1, 0);
 
 //            instances.get(0).nodes.get(0).translation.set(translateX, 0, 0);
 
-        if (currentIsland != 0)
-            currentIsland--;
+                if (currentIsland != 0)
+                    currentIsland--;
 
-        Gdx.app.log("+", currentIsland + "");
+                Gdx.app.log("+", currentIsland + "");
 
-        CharSequence tmp;
-        tmp = islandNames.get(currentIsland);
-        LabelScore.setText(tmp);
+                CharSequence tmp;
+                tmp = islandNames.get(currentIsland);
+                LabelScore.setText(tmp);
 
 
-    } else {
+            } else {
 //            translateX = translateX-20;
 //            instances.get(0).transform.setToTranslation(translateX, 1, 0);
 //            instances.get(0).nodes.get(0).translation.set(translateX, 0, 0);
 
 
-        if (currentIsland < (islandNames.size-1))
-            currentIsland++;
+                if (currentIsland < (islandNames.size-1))
+                    currentIsland++;
 
-        Gdx.app.log("-", currentIsland + "");
+                Gdx.app.log("-", currentIsland + "");
 
-        CharSequence tmp;
-        tmp = islandNames.get(currentIsland);
-        LabelScore.setText(tmp);
+                CharSequence tmp;
+                tmp = islandNames.get(currentIsland);
+                LabelScore.setText(tmp);
 
-    }
-    voteButtons.get(currentIsland).setPosition(Gdx.graphics.getHeight() / 2 - accept.getWidth() / 2, accept.getHeight());
+            }
+            voteButtons.get(currentIsland).setPosition(Gdx.graphics.getHeight() / 2 - accept.getWidth() / 2, accept.getHeight());
 
-}
+        }
         return true;
     }
 

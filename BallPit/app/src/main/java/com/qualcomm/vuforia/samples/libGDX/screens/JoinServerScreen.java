@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.qualcomm.vuforia.samples.Network.JoinServer;
 import com.qualcomm.vuforia.samples.Network.SendPacket;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
+import com.qualcomm.vuforia.samples.singletons.DataHolder;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
 import java.util.Vector;
@@ -72,6 +73,8 @@ public class JoinServerScreen implements Screen{
 
     @Override
     public void show() {
+        if(join != null)
+            join = null;
         System.out.println("Join server");
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
@@ -161,6 +164,8 @@ public class JoinServerScreen implements Screen{
             {
                 PropertiesSingleton.getInstance().setNrPlayers(join.getPlayerAmount());
                 //app.gameScreen = new GameScreen(app);
+
+                DataHolder.getInstance().setActivateCamera(true);
                 app.setScreen(new ChooseIslandScreen(app));
             }
 
@@ -375,12 +380,9 @@ public class JoinServerScreen implements Screen{
 
 
         table.row();
-        table.add(buttonConnect).size(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/7);
-        table.add(buttonBack).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
-        table.row();
-        table.add(buttonRefresh).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
-        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
-
+        table.add(buttonRefresh).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7).bottom().expandY().padBottom(Gdx.graphics.getHeight()/4);
+        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7).bottom().padBottom(Gdx.graphics.getHeight() / 4);
+        table.add(buttonBack).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7).bottom().padBottom(Gdx.graphics.getHeight() / 4);
         stage.addActor(table);
     }
 
@@ -406,8 +408,8 @@ public class JoinServerScreen implements Screen{
     {
         final TextButton buttonServer = new TextButton(ipAddress, skin, "default8");
         float offset = (buttonSizeY + 15)*buttonID;
-        buttonServer.setPosition(w/2 - (w*(2.0f/3.0f)/2), h/2 + 150 - offset);
-        buttonServer.setSize(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
+        buttonServer.setPosition((Gdx.graphics.getWidth()/6), (Gdx.graphics.getHeight() / 2));
+        buttonServer.setSize((Gdx.graphics.getWidth() / 4)*3, Gdx.graphics.getHeight() / 7);
         buttonServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonServer.addListener(new ClickListener() {
             @Override
