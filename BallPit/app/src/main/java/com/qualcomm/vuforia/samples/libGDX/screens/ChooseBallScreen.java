@@ -224,9 +224,15 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
     public void render () {
 
         if(app.joinServerScreen.join != null)
+        {
+            if(!app.joinServerScreen.join.isAlive())
+            {
+                app.joinServerScreen.join = null;
+                app.mainMenyScreen = new MainMenyScreen(app);
+                app.setScreen(app.mainMenyScreen);
+            }
             if(app.joinServerScreen.join.getBallChosenState())
             {
-
                 for(int i = 0; i<ballNames.size; i++)
                 {
                     Model tmpModel = assets.get("3d/balls/"+ballNames.get(i)+".g3db", Model.class);
@@ -234,9 +240,28 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
                     for(int k = 0; k<tmpModel.meshes.size;k++)
                         tmpModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
                 }
+//                switch(PropertiesSingleton.getInstance().getGameMode())
+//                {
+//                    case "gameScreen":
+//                        app.gameScreen = new GameScreen(app);
+//                        app.setScreen(app.gameScreen);
+//                        break;
+//                    case "zombieMode":
+//
+//                        break;
+//                    case "coinRain":
+//
+//                        break;
+//                    case "2v2":
+//
+//                        break;
+//                    default:
+//                        break;
+//                }
                 app.gameScreen = new GameScreen(app);
                 app.setScreen(app.gameScreen);
             }
+        }
         if(app.createServerScreen.create != null)
             if(app.createServerScreen.create.checkBallChosen() && app.createServerScreen.create.getSwitchScreen())
             {
@@ -248,6 +273,24 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
                     for(int k = 0; k<tmpModel.meshes.size;k++)
                         tmpModel.meshes.get(k).scale(0.2f,0.2f,0.2f);
                 }
+//                switch(PropertiesSingleton.getInstance().getGameMode())
+//                {
+//                    case "gameScreen":
+//                        app.gameScreen = new GameScreen(app);
+//                        app.setScreen(app.gameScreen);
+//                        break;
+//                    case "zombieMode":
+//
+//                        break;
+//                    case "coinRain":
+//
+//                        break;
+//                    case "2v2":
+//
+//                        break;
+//                    default:
+//                        break;
+//                }
                 app.gameScreen = new GameScreen(app);
                 app.setScreen(app.gameScreen);
             }

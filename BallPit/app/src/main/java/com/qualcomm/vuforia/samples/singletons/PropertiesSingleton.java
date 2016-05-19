@@ -54,7 +54,7 @@ public class PropertiesSingleton {
     }
 
     // Scores.
-    private int[] playerScores;
+    private volatile int[] playerScores;
 
     public void setScore(int index, int score)
     {

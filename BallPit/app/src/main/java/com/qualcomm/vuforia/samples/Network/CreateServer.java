@@ -17,6 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -325,14 +326,28 @@ public class CreateServer extends Thread
                             }
                         }
                     }
-                    int maxVal = 0;
+                    int maxVal = 0, previousMax = 0, lastIndexMost = 0;
                     for(int idv = 0; idv < islands.size(); ++idv)
                     {
                         if(maxVal < count.get(idv))
                         {
+                            previousMax = maxVal;
+                            lastIndexMost = indexMost;
                             maxVal = count.get(idv);
                             indexMost = idv;
                         }
+                    }
+                    if(previousMax == maxVal)
+                    {
+                        Random rand = new Random();
+                        int max = indexMost, min = lastIndexMost;
+                        int n = rand.nextInt(max) + min;
+                        Gdx.app.log("Randtest", "n: " + n);
+                        int diff1 = max - n, diff2 = n - min;
+                        if(diff1 <= diff2)
+                            indexMost = min;
+                        else
+                            indexMost = max;
                     }
                     PropertiesSingleton.getInstance().setChosenIsland(islands.get(indexMost));
                     for(int idu = 0; idu < userList.size(); ++idu)
@@ -441,6 +456,15 @@ public class CreateServer extends Thread
     private void sendGameMode()
     {
         String msg = "GAME_MODE|" + PropertiesSingleton.getInstance().getGameMode();
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).conThread.sendMessage(msg);
+        }
+    }
+
+    public void sendRoundOverPrompt()
+    {
+        String msg = "ROUND_OVER";
         for(int idu = 0; idu < userList.size(); ++idu)
         {
             userList.get(idu).conThread.sendMessage(msg);

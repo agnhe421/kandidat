@@ -73,6 +73,8 @@ public class JoinServerScreen implements Screen{
 
     @Override
     public void show() {
+        if(join != null)
+            join = null;
         System.out.println("Join server");
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);

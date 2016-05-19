@@ -238,16 +238,20 @@ public class CreateServerScreen implements Screen{
         buttonReady.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Boolean rdy = create.checkReadyState();
-                if (rdy) {
-                    create.sendReadyMsg();
-                    PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
-                    //app.gameScreen = new GameScreen(app);
+                if(create.getConnections() != 0)
+                {
+                    Boolean rdy = create.checkReadyState();
+                    if (rdy) {
+                        create.sendReadyMsg();
+                        PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
+                        //app.gameScreen = new GameScreen(app);
 
-                    DataHolder.getInstance().setActivateCamera(true);
-                    app.setScreen(new ChooseIslandScreen(app));
+                        DataHolder.getInstance().setActivateCamera(true);
+                        app.setScreen(new ChooseIslandScreen(app));
+                    }
+                    msg = "Not all players are ready.";
                 }
-                msg = "Not all players are ready.";
+                msg = "No connections present.";
             }
         });
 

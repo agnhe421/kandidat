@@ -50,16 +50,13 @@ public class
 
     private void queueAsset()
     {
-
         app.assets.load("img/greek.jpg", Texture.class);
-//        app.assets.load("img/badlogic.jpg", Texture.class);
+
         app.assets.load("img/Background.jpg", Texture.class);
         app.assets.load("img/main_blurred.jpg", Texture.class);
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
         app.assets.load("ui/TextUI.pack", TextureAtlas.class);
         app.assets.load("ui/Buttons.pack", TextureAtlas.class);
-
-
 
         app.islandNames.add("island");
         app.islandNames.add("greek");

@@ -526,6 +526,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
         ((btRigidBody)playerEntityList.get(playerID).body).applyCentralImpulse(newImpulseVector);
     }
 
+    public void setToScoreScreen()
+    {
+
+    }
+
     public void updatePositions(Vector<Vector3> checkCharPos, Vector<Vector3> checkCharRot)
     {
 //        Gdx.app.log("UPDATING POS", "HALLÅ ELLER");
@@ -557,6 +562,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
     @Override
     public void render () {
 
+        if(app.joinServerScreen.join != null)
+            if(!app.joinServerScreen.join.isAlive())
+            {
+                app.joinServerScreen.join = null;
+                app.mainMenyScreen = new MainMenyScreen(app);
+                app.setScreen(app.mainMenyScreen);
+            }
         if(app.createServerScreen.create != null)
         {
             Vector<Vector3> tempPosList = new Vector<Vector3>();
@@ -885,7 +897,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public void playCollisionSound(Vector3 pos, String m1, String m2)
     {
-//        gameSound.playCollisionSound(pos, m1, m2);
+        gameSound.playCollisionSound(pos, m1, m2, camera.position);
     }
 
     //--------------Countdown-------------------------------------
