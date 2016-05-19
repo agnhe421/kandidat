@@ -60,7 +60,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
     ModelInstance instance;
 
     private Coin coin_1;
-    private int n_coins = 3;
+    private int n_coins = 0;
 
     public ArrayList<BulletEntity> coinEntityList;
 
@@ -501,6 +501,7 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
                     for (int k = 0; k < 4; k++) { // TODO: nrPlayers
                         if (scoreTimers[i][k] > 0) {
                             playerList.get(k).setScore(44);
+
                             updateScorePos();
                         }
                     }
@@ -591,35 +592,28 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         if(playerCreated) {
 
             Array<Integer> currentScores = new Array<Integer>();
+            boolean[] found = new boolean[playerList.size()];
 
             for(int i = 0; i < playerList.size(); i++)
             {
                 currentScores.add(playerList.get(i).getScore());
+                found[i] = false;
             }
-
             currentScores.sort();
             currentScores.reverse();
 
             int currentPosIdx = 0;
             for(int i = 0; i < currentScores.size; i++)
             {
-//                Gdx.app.log(currentScores.get(i) + "","");
-                boolean found = false;
                 for(int k = 0; k < playerList.size(); k++)
                 {
-                    if(currentScores.get(i) == playerList.get(k).getScore() && found == false) {
-
-
-                        Gdx.app.log("IDX:" + currentPosIdx, "POS: " + playerScorePosList.get(currentPosIdx));
-                        labelScorePlayers.get(k).setPosition(200, playerScorePosList.get(currentPosIdx));
-
-//                                .addAction(Actions.moveTo(20, playerScorePosList.get(currentPosIdx), 0.5f));
+                    if(found[k] == false && currentScores.get(i) == playerList.get(k).getScore()) {
+                        labelScorePlayers.get(k).addAction(Actions.moveTo(20, playerScorePosList.get(currentPosIdx), 0.5f));
                         currentPosIdx++;
-                        found = true;
+                        found[k] = true;
                     }
                 }
             }
-
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -674,16 +668,16 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
 
         gameOverTimer += Gdx.graphics.getDeltaTime();
 
-//        if(gameOverTimer > 0.5)
-//        {
-//            super.setGameOver();
-//            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
-//                    Actions.run(new Runnable() {
-//                        public void run() {
-////                            app.setScreen(new ScoreScreen(app));
-////                            dispose();
-//                        }
-//                    })));
-//        }
+        if(gameOverTimer > 0.5)
+        {
+            super.setGameOver();
+            scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 0, 0.5f), Actions.delay(1),
+                    Actions.run(new Runnable() {
+                        public void run() {
+                            app.setScreen(new ScoreScreen(app));
+//                            dispose();
+                        }
+                    })));
+        }
     }
 }

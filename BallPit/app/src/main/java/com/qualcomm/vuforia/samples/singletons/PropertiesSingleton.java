@@ -11,6 +11,10 @@ public class PropertiesSingleton {
     public String getChosenBall(int index) {return chosenBalls[index];}
     public void setChosenBall(int index, String chosenBall) {chosenBalls[index] = chosenBall;}
 
+    public String[] getBallNames(){
+        return chosenBalls;
+    }
+
     private String gameMode;
     public String getGameMode() {return gameMode;}
     public void setGameMode(String newGameMode) {gameMode = newGameMode;}
@@ -47,17 +51,6 @@ public class PropertiesSingleton {
         this.round = round + 1;
     }
 
-    // hitCounts
-    private int hitCount = 0;
-
-    public int getHitCount() {
-        return hitCount;
-    }
-
-    public void setHitCount(int hitCount) {
-        this.hitCount = hitCount;
-    }
-
     // Scores.
     private volatile int[] playerScores;
 
@@ -66,6 +59,13 @@ public class PropertiesSingleton {
         playerScores[index] += score;
     }
 
+    public int[] getScores()
+    {
+       return playerScores;
+    }
+
     public int getScore(int index) {return playerScores[index];}
+
+
 
 }
