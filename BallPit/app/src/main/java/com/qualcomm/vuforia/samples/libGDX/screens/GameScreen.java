@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.qualcomm.vuforia.Prop;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.libGDX.bullet.BaseBulletTest;
 import com.qualcomm.vuforia.samples.libGDX.bullet.BaseWorld;
@@ -136,13 +137,19 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactStarted (btPersistentManifold manifold, boolean match0, boolean match1) {
             final int userValue0 = manifold.getBody0().getUserValue();
             final int userValue1 = manifold.getBody1().getUserValue();
-
-
             Gdx.app.log("HALLÅ STARTEEEED", "Contact started 0 " + userValue0);
-
-            GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
-
             if(entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0)) {
+                Gdx.app.log("HEJ!", "Contact commence.");
+                String model1 = PropertiesSingleton.getInstance().getChosenBall(userValue0 - 1);
+                String model2 = PropertiesSingleton.getInstance().getChosenBall(userValue1 - 1);
+
+                GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), model1, model2, camera.position);
+                //GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
+                if(app.createServerScreen.create != null)
+                {
+                    app.createServerScreen.create.sendSoundPrompt(((btRigidBody)world.entities.get(userValue0).body)
+                            .getCenterOfMassPosition(), model1, model2);
+                }
 
                 Vector3 p1 = new Vector3();
                 ((btRigidBody)world.entities.get(userValue0).body).getWorldTransform().getTranslation(p1);
@@ -200,19 +207,19 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactEnded (btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
             final int userValue0 = colObj0.getUserValue();
             final int userValue1 = colObj1.getUserValue();
-
-            if (entities.get(userValue0) == entities.get(1)|| entities.get(userValue1) == entities.get(1)) {
-                if (match0) {
-                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
-                    e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
-                }
-                if (match1) {
-                    final BulletEntity e = (BulletEntity) (entities.get(userValue1));
-                    e.setColor(Color.BLACK);
-                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
-                }
-            }
+            Gdx.app.log("HEJ!", "Contact ended.");
+//            if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
+//                   if (match0) {
+//                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
+//                    e.setColor(Color.BLACK);
+//                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId1);
+//                }
+//                if (match1) {
+//                    final BulletEntity e = (BulletEntity) (entities.get(userValue1));
+//                    e.setColor(Color.BLACK);
+//                    Gdx.app.log(Float.toString(time), "Contact ended " + collisionUserId0);
+//                }
+//            }
         }
     }
 
@@ -298,7 +305,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
 
         float playerPosOffset = 0.0f;
-        Gdx.app.log("HEJ!", "Nr of players: " + PropertiesSingleton.getInstance().getNrPlayers());
         int joinOffset = 0;
         for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
         {
@@ -308,7 +314,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             {
                 if(idu != Character.getNumericValue(app.joinServerScreen.join.getUnitUserId().charAt(app.joinServerScreen.join.getUnitUserId().length() - 1)) - 1)
                 {
-                    Gdx.app.log("HEJ!", "Adding other.");
                     playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getPlayerId(idu - joinOffset)));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f + playerPosOffset));
@@ -316,9 +321,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 }
                 else
                 {
-                    Gdx.app.log("HEJ!", "Adding me.");
                     ++joinOffset;
-                    Gdx.app.log("HEJ!", "New offset: " + joinOffset);
                     thisUnitId = idu;
                     playerList.add(new Player(chosenBallModel, app.joinServerScreen.join.getUnitUserId()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
@@ -329,10 +332,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
             }
             else if(app.createServerScreen.create != null)
             {
-                Gdx.app.log("HEJ!", "Create is not null.");
                 thisUnitId = 0;
                 if(idu == 0)
                 {
+
                     playerList.add(new Player(chosenBallModel, app.createServerScreen.create.getServerName()));
                     world.addConstructor("Test " + idu, playerList.get(idu).bulletConstructor);
                     playerEntityList.add(world.add("Test " + idu, 0, 300f, 1.0f));
@@ -347,8 +350,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                     playerEntityList.get(idu).body.setContactCallbackFilter(1);
                 }
             }
-            playerPosOffset += 2;
-            Gdx.app.log("HEJ!", "End of loop.");
+            playerPosOffset += 50.f;
         }
         playerCreated = true;
         if (USE_CONTACT_CACHE) {
@@ -448,8 +450,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 playerEntityList.get(thisUnitId).body.activate();
                 ((btRigidBody) playerEntityList.get(thisUnitId).body).applyCentralImpulse(normVec);
             }
-            Gdx.app.log("HEJ!", "Player " + (thisUnitId+1));
-            Gdx.app.log("HEJ!", "Normvec: " + normVec.toString());
             if(app.joinServerScreen.join != null)
             {
                 app.joinServerScreen.join.sendClickPosVector(normVec);
@@ -506,7 +506,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public void updateImpulse(Vector3 newImpulseVector, int playerID)
     {
-        Gdx.app.log("HEJ!", "Updating impulse for player: " + (playerID + 1));
         //playerList.get(playerID).setPosition
         playerList.get(playerID).setImpulseVector(newImpulseVector);
         playerEntityList.get(playerID).body.activate();
@@ -733,13 +732,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
         return result;
     }
 
-    /*@Override
+    @Override
     public void update () {
         float delta = Gdx.graphics.getRawDeltaTime();
         time += delta;
         super.update();
         if (contactCache != null) contactCache.update(delta);
-    }*/
+    }
 
     @Override
     public void show() {
@@ -834,7 +833,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public void playCollisionSound(Vector3 pos, String m1, String m2)
     {
-        gameSound.playCollisionSound(pos, m1, m2, camera.position);
+        GameSound.getInstance().playCollisionSound(pos, m1, m2, camera.position);
     }
 
     //--------------Countdown-------------------------------------

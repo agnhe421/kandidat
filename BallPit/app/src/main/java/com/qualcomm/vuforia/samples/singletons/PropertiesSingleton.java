@@ -22,8 +22,6 @@ public class PropertiesSingleton {
     private static final PropertiesSingleton holder = new PropertiesSingleton();
     public static PropertiesSingleton getInstance() {return holder;}
 
-
-
     // General game stuff.
     private int nrPlayers;
 
