@@ -310,7 +310,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         labelStyle = new Label.LabelStyle(app.font40, Color.PINK);
 
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(app.font120, Color.WHITE);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(app.font40, Color.WHITE);
         labelTitle = new Label("NOT TRACKING ", labelStyle);
         labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, Gdx.graphics.getHeight() - labelTitle.getHeight() * 2);
 
@@ -820,7 +820,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         if(DataHolder.getInstance().getIsTracking() == false)
         {
-            labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, labelTitle.getHeight() * 2);
+            labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, labelTitle.getHeight() * 4);
         }
         else
         {
