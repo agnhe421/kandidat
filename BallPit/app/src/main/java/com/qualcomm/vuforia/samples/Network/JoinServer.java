@@ -52,6 +52,7 @@ public class JoinServer extends Thread
         ballsChosen = false;
         islandChosen = false;
         strConv = new Vector<String>();
+        PropertiesSingleton.getInstance().setGameMode("standard");
     }
 
     @Override
@@ -102,12 +103,21 @@ public class JoinServer extends Thread
                 {
                     break;
                 }
+                Gdx.app.log("HEJ!", "Receiving: " + strConv.get(0));
                 //Receive string containing user data, such as ID and score.
                 if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
                     User usr = new User(strConv.get(1), Integer.parseInt(strConv.get(2)));
                     playerList.add(usr);
                     msgsend = "USER_DATA_GOT";
+                }
+                else if(strConv.get(0).equals("GEM_POSITION_INCOMING"))
+                {
+                    PropertiesSingleton.getInstance().setSpecialCoinPosition(fromString(strConv.get(1)));
+                }
+                else if(strConv.get(0).equals("POWERUP_POSITION_INCOMING"))
+                {
+                    PropertiesSingleton.getInstance().setSpecialPowerupPosition(fromString(strConv.get(1)));
                 }
                 //Check for a name change request.
                 else if(strConv.get(0).equals("NAME_CHANGE"))
