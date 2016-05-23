@@ -152,21 +152,21 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
             if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0))) {
 
-//                //POWERUPS
-//                    if (userValue1 >= (playerEntityList.size() + 1) && userValue1 <= (playerEntityList.size() + 1 + powerupEntityList.size()) ||
-//                            (userValue0 >= (playerEntityList.size() + 1) && userValue0 <= (playerEntityList.size() + 1 + powerupEntityList.size()))) {
-//                        // Check if the id1 is boll and powerup id0
-//                        if (userValue1 < (1 + playerEntityList.size())) {
-//                            Matrix4 m = new Matrix4();
-//                            Vector3 tmpVec = new Vector3(0, -100, 0);
-//                            world.entities.get(userValue0).body.setWorldTransform(m.setToTranslation(tmpVec));
-//                        }
-//                        else{
-//                            Matrix4 m = new Matrix4();
-//                            Vector3 tmpVec = new Vector3(0, -100, 0);
-//                            world.entities.get(userValue1).body.setWorldTransform(m.setToTranslation(tmpVec));
-//                        }
-//                    }
+                //POWERUPS
+                    if (userValue1 >= (playerEntityList.size() + 1) && userValue1 <= (playerEntityList.size() + 1 + powerupEntityList.size()) ||
+                            (userValue0 >= (playerEntityList.size() + 1) && userValue0 <= (playerEntityList.size() + 1 + powerupEntityList.size()))) {
+                        // Check if the id1 is boll and powerup id0
+                        if (userValue1 < (1 + playerEntityList.size())) {
+                            Matrix4 m = new Matrix4();
+                            Vector3 tmpVec = new Vector3(0, -100, 0);
+                            world.entities.get(userValue0).body.setWorldTransform(m.setToTranslation(tmpVec));
+                        }
+                        else{
+                            Matrix4 m = new Matrix4();
+                            Vector3 tmpVec = new Vector3(0, -100, 0);
+                            world.entities.get(userValue1).body.setWorldTransform(m.setToTranslation(tmpVec));
+                        }
+                    }
 
 
                 Gdx.app.log("HEJ!", "Contact commence.");
@@ -387,6 +387,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
             }
             playerPosOffset += 50.f;
         }
+
+
         playerCreated = true;
         if (USE_CONTACT_CACHE) {
             contactCache = new TestContactCache();
@@ -454,10 +456,14 @@ public class GameScreen extends BaseBulletTest implements Screen {
         disposables.add(gemModel);
 //        randomModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
         world.addConstructor("gem", new BulletConstructor(gemModel, 50, new btSphereShape(0.8f)));
-        gemEntity = world.add("gem", 5, 110, 1);
+
+        Vector3 currentGemPos = PropertiesSingleton.getInstance().getCoinPosition();
+//        gemEntity = world.add("gem",currentGemPos.x,currentGemPos.y,currentGemPos.z);
+        gemEntity = world.add("gem", 5, 70, 1);
         gemEntity.body.setContactCallbackFilter(1);
         ((btRigidBody) gemEntity.body).setGravity(new Vector3(0, 0, 0));
         gemEntityList.add(gemEntity);
+
     }
 
     @Override

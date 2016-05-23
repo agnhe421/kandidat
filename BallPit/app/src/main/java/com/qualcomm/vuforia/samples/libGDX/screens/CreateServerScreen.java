@@ -100,6 +100,9 @@ public class CreateServerScreen implements Screen{
         initButtons();
         initScrollMenu();
 
+        PropertiesSingleton.getInstance().initRandomCoinPosition();
+        PropertiesSingleton.getInstance().setRandomCoinPosition();
+
     }
 
     @Override
