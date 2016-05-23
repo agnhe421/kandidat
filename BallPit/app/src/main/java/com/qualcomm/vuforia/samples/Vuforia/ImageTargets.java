@@ -114,7 +114,7 @@ public class ImageTargets extends AndroidApplication implements SampleApplicatio
         vuforiaAppSession = new SampleApplicationSession(this);
 
         startLoadingAnimation();
-        mDatasetStrings.add("StonesAndChips.xml");
+        mDatasetStrings.add("BallpitTracking.xml");
 //        mDatasetStrings.add("Tarmac.xml");
 //        mDatasetStrings.add("Test.xml");
 

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
+import com.qualcomm.vuforia.samples.libGDX.screens.GameScreen;
+import com.qualcomm.vuforia.samples.singletons.DataHolder;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
 import java.io.BufferedInputStream;
@@ -100,7 +102,6 @@ public class JoinServer extends Thread
                 {
                     break;
                 }
-                //Gdx.app.log("HEJ!", "Data received. Message: " + strConv.get(0));
                 //Receive string containing user data, such as ID and score.
                 if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
@@ -138,7 +139,6 @@ public class JoinServer extends Thread
                 {
                     for(int idu = 0; idu <= playerList.size(); ++idu)
                     {
-                        Gdx.app.log("HEJ!", "Setting ball: " + strConv.get(idu + 1) + " for player " + (idu + 1));
                         PropertiesSingleton.getInstance().setChosenBall(idu, strConv.get(idu + 1));
                     }
                     ballsChosen = true;
@@ -157,9 +157,9 @@ public class JoinServer extends Thread
                 {
                     PropertiesSingleton.getInstance().setGameMode(strConv.get(1));
                 }
-                else if(strConv.get(0).equals("ROUND_OVER"))
+                else if(strConv.get(0).equals("NEW_ROUND"))
                 {
-                    app.gameScreen.setToScoreScreen();
+                    app.scoreScreen.startNewRound();
                 }
                 else if(strConv.get(0).equals("SCORE_INCOMING"))
                 {
@@ -311,6 +311,8 @@ public class JoinServer extends Thread
     {
         sendMessage("BALL_CHOSEN|" + choice);
     }
+
+    public void sendRoundCheck() { sendMessage("READY_NEXT_ROUND");}
     //Send message via output stream.
     private void sendMessage(String msg)
     {

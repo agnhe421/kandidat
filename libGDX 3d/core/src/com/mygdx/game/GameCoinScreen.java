@@ -119,9 +119,16 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
             final int userValue0 = manifold.getBody0().getUserValue();
             final int userValue1 = manifold.getBody1().getUserValue();
 
+
+//            ((btRigidBody) manifold.getBody0()).setGravity(new Vector3(0,5,0));
+
             collisionHappened = true;
 
             if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0))) {
+
+
+
+
 
                 // Give the score timers a value to the ones that have collided.
 //

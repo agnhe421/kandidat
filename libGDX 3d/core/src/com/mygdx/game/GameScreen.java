@@ -106,7 +106,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactStarted (btPersistentManifold manifold, boolean match0, boolean match1) {
             final int userValue0 = manifold.getBody0().getUserValue();
             final int userValue1 = manifold.getBody1().getUserValue();
-
             // Take the positions of the colliding balls. Used in the handling of sounds.
             Vector3 p1 = ((btRigidBody) manifold.getBody0()).getCenterOfMassPosition();
             Vector3 p2 = ((btRigidBody) manifold.getBody1()).getCenterOfMassPosition();
@@ -265,7 +264,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         if (USE_CONTACT_CACHE) {
             contactCache = new TestContactCache();
             contactCache.entities = world.entities;
-            // contactCache.setCacheTime(contactTime); // Change the contact time
+             contactCache.setCacheTime(0.02f); // Change the contact time
         }
         // Sound
         gameSound = new GameSound();
@@ -550,13 +549,13 @@ public class GameScreen extends BaseBulletTest implements Screen {
         return result;
     }
 
-    /*@Override
+    @Override
     public void update () {
         float delta = Gdx.graphics.getRawDeltaTime();
         time += delta;
         super.update();
         if (contactCache != null) contactCache.update(delta);
-    }*/
+    }
 
     @Override
     public void show() {

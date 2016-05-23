@@ -32,13 +32,14 @@ public class CreateServer extends Thread
     private String serverName = "";
     private Boolean threadRun;
     private Boolean allReady;
-    private volatile Boolean allIslandChosen, allBallsChosen, switchScreen;
+    private volatile Boolean allIslandChosen, allBallsChosen, allReadyNextRound, switchScreen;
     private Vector<User> userList;
     private int currentListSize;
     public User serverUser;
     BaseGame app;
     private IslandVote islandVote;
     private BallDistribute ballDistribute;
+    private NextRoundCall nextRoundCall;
 
     //Constructor
     public CreateServer(final BaseGame app)
@@ -47,10 +48,12 @@ public class CreateServer extends Thread
         switchScreen = false;
         serverUser = new User();
         serverUser.setName("Player 1");
+        serverUser.setReadyNextRound(false);
         islandVote = new IslandVote();
         ballDistribute = new BallDistribute();
         allIslandChosen = false;
         allBallsChosen = false;
+        allReadyNextRound = false;
         PropertiesSingleton.getInstance().setGameMode("");
     }
 
@@ -154,6 +157,11 @@ public class CreateServer extends Thread
         {
             this.notify();
         }
+    }
+
+    public void stopListener()
+    {
+        receiver.stopCatch();
     }
 
     public void stopServer()
@@ -435,6 +443,77 @@ public class CreateServer extends Thread
         }
     }
 
+    public void startNextRoundCall()
+    {
+        nextRoundCall = new NextRoundCall();
+        nextRoundCall.start();
+    }
+
+    private class NextRoundCall extends Thread
+    {
+        @Override
+        public void run()
+        {
+            Boolean running = true;
+            Boolean checkAllReady = false;
+            allReadyNextRound = false;
+            while(running)
+            {
+                try
+                {
+                    synchronized (this)
+                    {
+                        this.wait();
+                    }
+                }catch(InterruptedException e)
+                {
+                    e.printStackTrace();
+                    error = "Exception: " + e.toString();
+                }
+                for(int idu = 0; idu <= userList.size(); ++idu)
+                {
+                    if(idu == 0)
+                    {
+                        if(!serverUser.readyNextRound)
+                        {
+                            checkAllReady = false;
+                            break;
+                        }
+                        checkAllReady = true;
+                    }
+                    else
+                    {
+                        if(!userList.get(idu - 1).readyNextRound)
+                        {
+                            checkAllReady = false;
+                            break;
+                        }
+                        checkAllReady = true;
+                    }
+                }
+                if(checkAllReady)
+                {
+                    String msg = "NEW_ROUND";
+                    for(int idu = 0; idu < userList.size(); ++idu)
+                    {
+                        userList.get(idu).conThread.sendMessage(msg);
+                    }
+                    allReadyNextRound = true;
+                    running = false;
+                }
+            }
+        }
+    }
+
+    public void resetNextRoundState()
+    {
+        serverUser.setReadyNextRound(false);
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).setReadyNextRound(false);
+        }
+    }
+
     public Boolean getSwitchScreen() {return switchScreen;}
 
     //Send user info to clients.
@@ -513,6 +592,7 @@ public class CreateServer extends Thread
             user = usr;
             user.setReadyState(false);
             user.setChosen(false);
+            user.setReadyNextRound(false);
             user.socket = socket;
             try
             {
@@ -684,6 +764,11 @@ public class CreateServer extends Thread
                     else if(strConv.get(0).equals("NAME_CHANGE"))
                     {
                         msgsend = user.id;
+                    }
+                    else if(strConv.get(0).equals("READY_NEXT_ROUND"))
+                    {
+                        user.setReadyNextRound(true);
+                        notifyRoundCall();
                     }
                     //If a clients ready message is received, set the ready state to true.
                     else if(strConv.get(0).equals("READY_CHECK"))
@@ -864,6 +949,14 @@ public class CreateServer extends Thread
             ballDistribute.notify();
         }
     }
+    public Boolean checkAllReadyNextRound() {return allReadyNextRound;}
+    public void notifyRoundCall()
+    {
+        synchronized (nextRoundCall)
+        {
+            nextRoundCall.notify();
+        }
+    }
     //Send the all clear message to let all clients know that the games can begin.
     public void sendReadyMsg()
     {
@@ -882,9 +975,10 @@ public class CreateServer extends Thread
         public ConnectThread conThread;
         private Boolean readyState;
         private String islandChoice, ballChoice;
-        private Boolean chosen;
+        private Boolean chosen, readyNextRound;
 
         public void setChosen(Boolean state) {chosen = state;}
+        public void setReadyNextRound(Boolean state) {readyNextRound = state;}
         public void setIslandChoice(String choice) {islandChoice = choice;}
         public void setBallChoice(String choice) {ballChoice = choice;}
         public void setName(String id) {this.id = id;}                          //Set new name.
