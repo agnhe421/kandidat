@@ -3,36 +3,31 @@ Buttons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-notvoted
-  rotate: false
-  xy: 1, 259
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
 notready
   rotate: false
-  xy: 1, 1
-  size: 512, 256
-  orig: 512, 256
-  offset: 0, 0
-  index: -1
-
-Buttons2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-voted
-  rotate: false
-  xy: 1, 259
-  size: 512, 512
-  orig: 512, 512
+  xy: 1, 558
+  size: 789, 164
+  orig: 789, 164
   offset: 0, 0
   index: -1
 ready
   rotate: false
+  xy: 1, 392
+  size: 789, 164
+  orig: 789, 164
+  offset: 0, 0
+  index: -1
+notvoted
+  rotate: false
   xy: 1, 1
-  size: 512, 256
-  orig: 512, 256
+  size: 388, 389
+  orig: 388, 389
+  offset: 0, 0
+  index: -1
+voted
+  rotate: false
+  xy: 391, 1
+  size: 388, 389
+  orig: 388, 389
   offset: 0, 0
   index: -1
