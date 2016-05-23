@@ -51,7 +51,7 @@ public class PropertiesSingleton {
     }
 
     public void setRound(int round) {
-        this.round = round + 1;
+        this.round = round;
     }
 
     // Scores.

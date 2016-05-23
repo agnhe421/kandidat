@@ -17,6 +17,7 @@ import com.qualcomm.vuforia.samples.libGDX.screens.HelpScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.JoinServerScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.LoadingScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.MainMenyScreen;
+import com.qualcomm.vuforia.samples.libGDX.screens.ScoreScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.SettingScreen;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
@@ -33,6 +34,7 @@ public class BaseGame extends Game {
     public JoinServerScreen joinServerScreen;
     public CreateServerScreen createServerScreen;
     public GameScreen gameScreen;
+    public ScoreScreen scoreScreen;
     public HelpScreen helpScreen;
 
     public AssetManager GameAssets;

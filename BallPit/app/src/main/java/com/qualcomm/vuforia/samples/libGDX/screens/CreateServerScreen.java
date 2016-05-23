@@ -78,12 +78,10 @@ public class CreateServerScreen implements Screen{
             IPad = create.getIpAddress();
             msg = create.getMsg();
             error = create.getError();
-            //app.setScreen(app.pickScreen);
         } else {
             //Further clicks will only update the text.
             msg = create.getMsg();
             error = create.getError();
-            //app.setScreen(app.pickScreen);
         }
 
         this.skin = new Skin();
@@ -99,9 +97,6 @@ public class CreateServerScreen implements Screen{
 
         initButtons();
         initScrollMenu();
-
-        PropertiesSingleton.getInstance().initRandomCoinPosition();
-        PropertiesSingleton.getInstance().setRandomCoinPosition();
 
     }
 
@@ -257,7 +252,7 @@ public class CreateServerScreen implements Screen{
                         create.sendReadyMsg();
                         PropertiesSingleton.getInstance().setNrPlayers(create.getConnections() + 1);
                         //app.gameScreen = new GameScreen(app);
-
+                        create.stopListener();
                         DataHolder.getInstance().setActivateCamera(true);
                         app.setScreen(new ChooseIslandScreen(app));
                     }

@@ -258,6 +258,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 //                    default:
 //                        break;
 //                }
+                PropertiesSingleton.getInstance().setRound(1);
                 app.gameScreen = new GameScreen(app);
                 app.setScreen(app.gameScreen);
             }
@@ -291,6 +292,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 //                    default:
 //                        break;
 //                }
+                PropertiesSingleton.getInstance().setRound(1);
                 app.gameScreen = new GameScreen(app);
                 app.setScreen(app.gameScreen);
             }
