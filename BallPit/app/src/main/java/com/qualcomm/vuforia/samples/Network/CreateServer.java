@@ -54,7 +54,7 @@ public class CreateServer extends Thread
         allIslandChosen = false;
         allBallsChosen = false;
         allReadyNextRound = false;
-        PropertiesSingleton.getInstance().setGameMode("");
+        PropertiesSingleton.getInstance().setGameMode("standard");
     }
 
 
@@ -238,19 +238,8 @@ public class CreateServer extends Thread
             else
                 posTotal += charRot.get(idu).toString();
         }
-        for(int idu = 0; idu < userList.size(); ++idu)
-        {
-            userList.get(idu).conThread.sendMessage("POSITION_INCOMING|" + posTotal);
-        }
-    }
-    //Send new score to clients.
-    public void sendScoresToClients(int index)
-    {
-        String msg = "SCORE_INCOMING|" + index + "|" + PropertiesSingleton.getInstance().getScore(index);
-        for(int idu = 0; idu < userList.size(); ++idu)
-        {
-            userList.get(idu).conThread.sendMessage(msg);
-        }
+        String msg = "POSITION_INCOMING|" + posTotal;
+        distributeMessage(msg);
     }
     //Commence island voting process.
     public void startIslandVote()
@@ -526,30 +515,33 @@ public class CreateServer extends Thread
     public void sendSoundPrompt(Vector3 pos, String m1, String m2)
     {
         String msg = "SOUND_PROMPT|" + pos.toString() + "|" + m1 + "|" + m2;
-        for(int idu = 0; idu < userList.size(); ++idu)
-        {
-            userList.get(idu).conThread.sendMessage(msg);
-        }
+        distributeMessage(msg);
     }
 
-    private void sendGameMode()
+    public void sendGameMode()
     {
         String msg = "GAME_MODE|" + PropertiesSingleton.getInstance().getGameMode();
-        for(int idu = 0; idu < userList.size(); ++idu)
-        {
-            userList.get(idu).conThread.sendMessage(msg);
-        }
+        distributeMessage(msg);
     }
 
-    public void sendRoundOverPrompt()
+    public void sendGemPosition(Vector3 pos)
     {
-        String msg = "ROUND_OVER";
-        for(int idu = 0; idu < userList.size(); ++idu)
-        {
-            userList.get(idu).conThread.sendMessage(msg);
-        }
+        Gdx.app.log("HEJ!", "Sending gem position.");
+        String msg = "GEM_POSITION_INCOMING|" + pos.toString();
+        distributeMessage(msg);
     }
 
+    public void sendPowerupPosition(Vector3 pos)
+    {
+        String msg = "POWERUP_POSITION_INCOMING|" + pos.toString();
+        distributeMessage(msg);
+    }
+    //Send the all clear message to let all clients know that the games can begin.
+    public void sendReadyMsg()
+    {
+        String msg = "ALL_READY_NOW";
+        distributeMessage(msg);
+    }
     //Update the playerlists of other users whenever a new client connects.
     private void updateOtherUsers(int thisIndex, String name, int score)
     {
@@ -957,14 +949,6 @@ public class CreateServer extends Thread
             nextRoundCall.notify();
         }
     }
-    //Send the all clear message to let all clients know that the games can begin.
-    public void sendReadyMsg()
-    {
-        for(int idu = 0; idu < userList.size(); ++idu)
-        {
-            userList.get(idu).conThread.sendMessage("ALL_READY_NOW");
-        }
-    }
 
     public class User
     {
@@ -986,6 +970,13 @@ public class CreateServer extends Thread
     }
 
     public String getServerName() {return serverUser.id;}                           //Return user name.
+    private void distributeMessage(String msg)
+    {
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).conThread.sendMessage(msg);
+        }
+    }
 
     public Vector3 fromString (String v) {
         int s0 = v.indexOf(',', 1);

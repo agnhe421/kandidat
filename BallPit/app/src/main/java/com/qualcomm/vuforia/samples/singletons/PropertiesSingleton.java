@@ -1,5 +1,6 @@
 package com.qualcomm.vuforia.samples.singletons;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector3;
 
@@ -13,7 +14,6 @@ public class PropertiesSingleton {
     private String[] chosenBalls;
     public String getChosenBall(int index) {return chosenBalls[index];}
     public void setChosenBall(int index, String chosenBall) {chosenBalls[index] = chosenBall;}
-
     public String[] getBallNames(){
         return chosenBalls;
     }
@@ -75,10 +75,9 @@ public class PropertiesSingleton {
     private Vector3 coinPosition;
     private Vector3[] coinPositions = new Vector3[5];
 
-    public void initRandomCoinPosition(String choosenIsland)
+    public void initRandomCoinPosition(String chosenIsland)
     {
-
-        if(choosenIsland == "island")
+        if(chosenIsland.equals("island"))
         {
             coinPositions[0] = new Vector3(0,0,0);
             coinPositions[1] = new Vector3(0,0,0);
@@ -86,7 +85,7 @@ public class PropertiesSingleton {
             coinPositions[3] = new Vector3(0,0,0);
             coinPositions[4] = new Vector3(0,0,0);
         }
-        else if(choosenIsland == "greek")
+        else if(chosenIsland.equals("greek"))
         {
             coinPositions[0] = new Vector3(-37.96f,206.5f,37.7f);
             coinPositions[1] = new Vector3(-0.7f,206.5f,16.8f);
@@ -94,7 +93,7 @@ public class PropertiesSingleton {
             coinPositions[3] = new Vector3(23.4f,206.27f,31.56f);
             coinPositions[4] = new Vector3(-30.9f,207.1f,8.9f);
         }
-        else if(choosenIsland == "darkice")
+        else if(chosenIsland.equals("darkice"))
         {
             coinPositions[0] = new Vector3(0,0,0);
             coinPositions[1] = new Vector3(0,0,0);
@@ -102,7 +101,12 @@ public class PropertiesSingleton {
             coinPositions[3] = new Vector3(0,0,0);
             coinPositions[4] = new Vector3(0,0,0);
         }
+    }
 
+    public void setSpecialCoinPosition(Vector3 pos)
+    {
+        Gdx.app.log("HEJ!", "Setting coin position.");
+        coinPosition = pos;
     }
 
     public void setRandomCoinPosition()
@@ -110,7 +114,7 @@ public class PropertiesSingleton {
 
         Random rand = new Random();
 
-        int  rnd = rand.nextInt(6);
+        int  rnd = rand.nextInt(5);
         coinPosition = coinPositions[rnd];
     }
 
@@ -127,22 +131,22 @@ public class PropertiesSingleton {
     private Vector3[] powerupPositions = new Vector3[3];
     private String powerupType;
 
-    public void initRandomPowerupPosition(String choosenIsland)
+    public void initRandomPowerupPosition(String chosenIsland)
     {
 
-        if(choosenIsland == "island")
+        if(chosenIsland == "island")
         {
             powerupPositions[0] = new Vector3(0,0,0);
             powerupPositions[1] = new Vector3(0,0,0);
             powerupPositions[2] = new Vector3(0,0,0);
         }
-        else if(choosenIsland == "greek")
+        else if(chosenIsland == "greek")
         {
             powerupPositions[0] = new Vector3(0,0,0);
             powerupPositions[1] = new Vector3(0,0,0);
             powerupPositions[2] = new Vector3(0,0,0);
         }
-        else if(choosenIsland == "darkice")
+        else if(chosenIsland == "darkice")
         {
             powerupPositions[0] = new Vector3(0,0,0);
             powerupPositions[1] = new Vector3(0,0,0);
@@ -156,8 +160,13 @@ public class PropertiesSingleton {
 
         Random rand = new Random();
 
-        int  rnd = rand.nextInt(6);
+        int  rnd = rand.nextInt(5);
         powerupPosition = powerupPositions[rnd];
+    }
+
+    public void setSpecialPowerupPosition(Vector3 pos)
+    {
+        powerupPosition = pos;
     }
 
     public Vector3 getPowerupPosition()

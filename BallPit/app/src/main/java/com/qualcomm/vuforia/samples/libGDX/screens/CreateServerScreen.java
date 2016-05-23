@@ -96,8 +96,6 @@ public class CreateServerScreen implements Screen{
 
 
         initButtons();
-        initScrollMenu();
-
     }
 
     @Override
@@ -221,7 +219,7 @@ public class CreateServerScreen implements Screen{
 
         buttonDisconnect = new TextButton("Disconnect", skin, "default8");
         stage.addActor(buttonDisconnect);
-        buttonDisconnect.setSize(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/6);
+        buttonDisconnect.setSize(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 6);
         buttonDisconnect.setPosition(Gdx.graphics.getWidth() / 6, (Gdx.graphics.getHeight() / 3));
         buttonDisconnect.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 0.5f, Interpolation.pow5Out))));
         buttonDisconnect.addListener(new ClickListener() {
@@ -240,7 +238,7 @@ public class CreateServerScreen implements Screen{
 
         buttonReady = new TextButton("Ready", skin, "default8");
         stage.addActor(buttonReady);
-        buttonReady.setSize(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/6);
+        buttonReady.setSize(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 6);
         buttonReady.setPosition((Gdx.graphics.getWidth() / 6) * 3, (Gdx.graphics.getHeight() / 3));
         buttonReady.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 0.5f, Interpolation.pow5Out))));
         buttonReady.addListener(new ClickListener() {
@@ -264,34 +262,43 @@ public class CreateServerScreen implements Screen{
 
         buttonStandard = new TextButton("Standard", skin, "default8");
         stage.addActor(buttonStandard);
-        buttonStandard.setSize((Gdx.graphics.getWidth()/24)*5, Gdx.graphics.getHeight()/7);
+        buttonStandard.setSize((Gdx.graphics.getWidth() / 24) * 5, Gdx.graphics.getHeight() / 7);
         buttonStandard.setPosition((Gdx.graphics.getWidth() / 24) * 4, (Gdx.graphics.getHeight() / 6));
         buttonStandard.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 1.5f, Interpolation.pow5Out))));
         buttonStandard.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stage.getRoot().addAction(Actions.sequence(Actions.delay(0.0f), Actions.parallel(fadeOut(0.1f), moveBy(-150, 0, 0.5f, Interpolation.pow5Out)),
-                        Actions.run(new Runnable() {
-                            public void run() {
-                                app.setScreen(new MainMenyScreen(app));
-
-                            }
-                        })));
+                PropertiesSingleton.getInstance().setGameMode("standard");
+                create.sendGameMode();
             }
         });
 
 
         buttonZombie = new TextButton("Zombie", skin, "default8");
         stage.addActor(buttonZombie);
-        buttonZombie.setSize((Gdx.graphics.getWidth()/24)*5, Gdx.graphics.getHeight()/7);
+        buttonZombie.setSize((Gdx.graphics.getWidth() / 24) * 5, Gdx.graphics.getHeight() / 7);
         buttonZombie.setPosition((Gdx.graphics.getWidth() / 48) * 19, (Gdx.graphics.getHeight() / 6));
         buttonZombie.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 1.5f, Interpolation.pow5Out))));
+        buttonZombie.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PropertiesSingleton.getInstance().setGameMode("zombieMode");
+                create.sendGameMode();
+            }
+        });
 
         buttonTeam = new TextButton("Team", skin, "default8");
         stage.addActor(buttonTeam);
-        buttonTeam.setSize((Gdx.graphics.getWidth()/24)*5, Gdx.graphics.getHeight()/7);
+        buttonTeam.setSize((Gdx.graphics.getWidth() / 24) * 5, Gdx.graphics.getHeight() / 7);
         buttonTeam.setPosition((Gdx.graphics.getWidth() / 24) * 15, (Gdx.graphics.getHeight() / 6));
         buttonTeam.addAction(sequence(alpha(0), parallel(fadeIn(1.0f), moveBy(0, -1, 1.5f, Interpolation.pow5Out))));
+        buttonTeam.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PropertiesSingleton.getInstance().setGameMode("team");
+                create.sendGameMode();
+            }
+        });
 
 
         table.add(labelServer).top();
@@ -302,13 +309,6 @@ public class CreateServerScreen implements Screen{
         table.row();
 
         stage.addActor(table);
-
-    }
-
-
-    private void initScrollMenu(){
-
-
 
     }
 

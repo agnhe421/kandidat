@@ -107,6 +107,11 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
             app.createServerScreen.create.resetUserChoiceState();
             app.createServerScreen.create.startBallsDistribute();
         }
+        else if(app.joinServerScreen.join != null)
+        {
+            PropertiesSingleton.getInstance().initRandomCoinPosition(PropertiesSingleton.getInstance().getChosenIsland());
+            //PropertiesSingleton.getInstance().initRandomPowerupPosition(PropertiesSingleton.getInstance().getChosenIsland());
+        }
 
         modelBatch = new ModelBatch();
 
@@ -242,7 +247,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
                 }
 //                switch(PropertiesSingleton.getInstance().getGameMode())
 //                {
-//                    case "gameScreen":
+//                    case "standard":
 //                        app.gameScreen = new GameScreen(app);
 //                        app.setScreen(app.gameScreen);
 //                        break;
@@ -252,7 +257,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 //                    case "coinRain":
 //
 //                        break;
-//                    case "2v2":
+//                    case "team":
 //
 //                        break;
 //                    default:
@@ -276,7 +281,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
                 }
 //                switch(PropertiesSingleton.getInstance().getGameMode())
 //                {
-//                    case "gameScreen":
+//                    case "standard":
 //                        app.gameScreen = new GameScreen(app);
 //                        app.setScreen(app.gameScreen);
 //                        break;
@@ -286,7 +291,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 //                    case "coinRain":
 //
 //                        break;
-//                    case "2v2":
+//                    case "team":
 //
 //                        break;
 //                    default:

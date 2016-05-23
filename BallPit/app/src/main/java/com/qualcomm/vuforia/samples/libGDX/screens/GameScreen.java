@@ -147,100 +147,101 @@ public class GameScreen extends BaseBulletTest implements Screen {
             final int userValue0 = manifold.getBody0().getUserValue();
             final int userValue1 = manifold.getBody1().getUserValue();
 
-
             collisionHappened = true;
 
             if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0))) {
-
-                //POWERUPS
-                    if (userValue1 >= (playerEntityList.size() + 1) && userValue1 <= (playerEntityList.size() + 1 + powerupEntityList.size()) ||
-                            (userValue0 >= (playerEntityList.size() + 1) && userValue0 <= (playerEntityList.size() + 1 + powerupEntityList.size()))) {
-                        // Check if the id1 is boll and powerup id0
-                        if (userValue1 < (1 + playerEntityList.size())) {
-                            Matrix4 m = new Matrix4();
-                            Vector3 tmpVec = new Vector3(0, -100, 0);
-                            world.entities.get(userValue0).body.setWorldTransform(m.setToTranslation(tmpVec));
-                        }
-                        else{
-                            Matrix4 m = new Matrix4();
-                            Vector3 tmpVec = new Vector3(0, -100, 0);
-                            world.entities.get(userValue1).body.setWorldTransform(m.setToTranslation(tmpVec));
-                        }
-                    }
-
-                String model1 = PropertiesSingleton.getInstance().getChosenBall(userValue0 - 1);
-                String model2 = PropertiesSingleton.getInstance().getChosenBall(userValue1 - 1);
-
-                GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), model1, model2, camera.position);
-                //GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
-                if(app.createServerScreen.create != null)
+                if((userValue0 < (playerEntityList.size() + 1) && userValue1 < (playerEntityList.size() + 1)))
                 {
-                    app.createServerScreen.create.sendSoundPrompt(((btRigidBody)world.entities.get(userValue0).body)
-                            .getCenterOfMassPosition(), model1, model2);
-                }
-                for (int i = 0; i < PropertiesSingleton.getInstance().getNrPlayers(); i++)
-                {
-                    scoreTimers[userValue0-1][i] = 0;
-                    scoreTimers[userValue1-1][i] = 0;
-                }
-
-                scoreTimers[userValue0 - 1][userValue1 - 1] = 210f; // 210/30 = 7 seconds
-                scoreTimers[userValue1 - 1][userValue0 - 1] = 210f;
-                Gdx.app.log("HALLÅ STARTEEEED", "Contact started 0 " + userValue0);
-
-                GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
-
-                if (entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0)) {
-
-                    Vector3 p1 = new Vector3();
-                    ((btRigidBody) world.entities.get(userValue0).body).getWorldTransform().getTranslation(p1);
-
-                    Vector3 p2 = new Vector3();
-                    ((btRigidBody) world.entities.get(userValue1).body).getWorldTransform().getTranslation(p2);
-
-                    Vector3 vec;
-
-                    if (((btRigidBody) world.entities.get(userValue0).body).getLinearVelocity().len() < ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len()) {
-
-                        vec = new Vector3((p1.x - p2.x), 0, (p1.z - p2.z));
-
-                        float normFactor = 20000 * 6 / vec.len();
-                        Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
-                        ((btRigidBody) entities.get(userValue0).body).applyCentralImpulse(normVec);
-                    } else {
-                        vec = new Vector3((p2.x - p1.x), 0, (p2.z - p1.z));
-
-                        float normFactor = 20000 * 6 / vec.len();
-                        Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
-                        ((btRigidBody) entities.get(userValue1).body).applyCentralImpulse(normVec);
-                    }
-
-//
-//                if ((entities.get(userValue0) != entities.get(0))) {
-//                    if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
-//                        if (match0) {
-//                            final BulletEntity e = (BulletEntity) (entities.get(userValue0));
-//                            e.setColor(Color.BLUE);
-//                            //Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
-//                            collisionUserId0 = userValue0;
-//                            move = false;
+                    //POWERUPS
+//                    if (userValue1 >= (playerEntityList.size() + 1) && userValue1 <= (playerEntityList.size() + 1 + powerupEntityList.size()) ||
+//                            (userValue0 >= (playerEntityList.size() + 1) && userValue0 <= (playerEntityList.size() + 1 + powerupEntityList.size()))) {
+//                        // Check if the id1 is boll and powerup id0
+//                        if (userValue1 < (1 + playerEntityList.size())) {
+//                            Matrix4 m = new Matrix4();
+//                            Vector3 tmpVec = new Vector3(0, -100, 0);
+//                            world.entities.get(userValue0).body.setWorldTransform(m.setToTranslation(tmpVec));
 //                        }
-//                        if (match1) {
-//                            final BulletEntity e = (BulletEntity) (entities.get(userValue1));
-//                            e.setColor(Color.RED);
-//                            //Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
-//                            collisionUserId1 = userValue1;
-//                            move = false;
-//                        }
-//
-//                        // Play the collision sound if colliding with a ball.
-//                        if (userValue0 <= playerList.size() && userValue1 <= playerList.size()) {
-//                            gameSound.playCollisionSound(p1, playerList.get(userValue0 - 1).getModelName(), playerList.get(userValue1 - 1).getModelName());
-//                            Gdx.app.log("userValue0 = ", "" + playerList.get(userValue0 - 1).getModelName());
-//                            Gdx.app.log("userValue1 = ", "" + playerList.get(userValue1 - 1).getModelName());
+//                        else{
+//                            Matrix4 m = new Matrix4();
+//                            Vector3 tmpVec = new Vector3(0, -100, 0);
+//                            world.entities.get(userValue1).body.setWorldTransform(m.setToTranslation(tmpVec));
 //                        }
 //                    }
-//                }
+
+                    String model1 = PropertiesSingleton.getInstance().getChosenBall(userValue0 - 1);
+                    String model2 = PropertiesSingleton.getInstance().getChosenBall(userValue1 - 1);
+
+                    GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), model1, model2, camera.position);
+                    //GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
+                    if(app.createServerScreen.create != null)
+                    {
+                        app.createServerScreen.create.sendSoundPrompt(((btRigidBody)world.entities.get(userValue0).body)
+                                .getCenterOfMassPosition(), model1, model2);
+                    }
+                    for (int i = 0; i < PropertiesSingleton.getInstance().getNrPlayers(); i++)
+                    {
+                        scoreTimers[userValue0-1][i] = 0;
+                        scoreTimers[userValue1-1][i] = 0;
+                    }
+
+                    scoreTimers[userValue0 - 1][userValue1 - 1] = 210f; // 210/30 = 7 seconds
+                    scoreTimers[userValue1 - 1][userValue0 - 1] = 210f;
+                    Gdx.app.log("HALLÅ STARTEEEED", "Contact started 0 " + userValue0);
+
+                    GameSound.getInstance().playCollisionSound(((btRigidBody) world.entities.get(userValue0).body).getCenterOfMassPosition(), "football", "football", camera.position);
+
+                    if (entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0)) {
+
+                        Vector3 p1 = new Vector3();
+                        ((btRigidBody) world.entities.get(userValue0).body).getWorldTransform().getTranslation(p1);
+
+                        Vector3 p2 = new Vector3();
+                        ((btRigidBody) world.entities.get(userValue1).body).getWorldTransform().getTranslation(p2);
+
+                        Vector3 vec;
+
+                        if (((btRigidBody) world.entities.get(userValue0).body).getLinearVelocity().len() < ((btRigidBody) world.entities.get(userValue1).body).getLinearVelocity().len()) {
+
+                            vec = new Vector3((p1.x - p2.x), 0, (p1.z - p2.z));
+
+                            float normFactor = 20000 * 6 / vec.len();
+                            Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+                            ((btRigidBody) entities.get(userValue0).body).applyCentralImpulse(normVec);
+                        } else {
+                            vec = new Vector3((p2.x - p1.x), 0, (p2.z - p1.z));
+
+                            float normFactor = 20000 * 6 / vec.len();
+                            Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
+                            ((btRigidBody) entities.get(userValue1).body).applyCentralImpulse(normVec);
+                        }
+
+//
+        //                if ((entities.get(userValue0) != entities.get(0))) {
+        //                    if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
+        //                        if (match0) {
+        //                            final BulletEntity e = (BulletEntity) (entities.get(userValue0));
+        //                            e.setColor(Color.BLUE);
+        //                            //Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
+        //                            collisionUserId0 = userValue0;
+        //                            move = false;
+        //                        }
+        //                        if (match1) {
+        //                            final BulletEntity e = (BulletEntity) (entities.get(userValue1));
+        //                            e.setColor(Color.RED);
+        //                            //Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
+        //                            collisionUserId1 = userValue1;
+        //                            move = false;
+        //                        }
+        //
+        //                        // Play the collision sound if colliding with a ball.
+        //                        if (userValue0 <= playerList.size() && userValue1 <= playerList.size()) {
+        //                            gameSound.playCollisionSound(p1, playerList.get(userValue0 - 1).getModelName(), playerList.get(userValue1 - 1).getModelName());
+        //                            Gdx.app.log("userValue0 = ", "" + playerList.get(userValue0 - 1).getModelName());
+        //                            Gdx.app.log("userValue1 = ", "" + playerList.get(userValue1 - 1).getModelName());
+        //                        }
+        //                    }
+        //                }
+                    }
                 }
             }
         }
@@ -413,41 +414,41 @@ public class GameScreen extends BaseBulletTest implements Screen {
         gemEntityList = new ArrayList<BulletEntity>(10);
 
         // Create powerups
-        Model speedModel = app.assets.get("3d/powerup/powerup_speed.g3db", Model.class);
-        disposables.add(speedModel);
-//        speedModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
-        world.addConstructor("speed", new BulletConstructor(speedModel, 50, new btSphereShape(0.8f)));
-        powerupSpeed = world.add("speed", -6, 1, 4);
-        powerupSpeed.body.setContactCallbackFilter(1);
-        ((btRigidBody) powerupSpeed.body).setGravity(new Vector3(0, 0, 0));
-        powerupEntityList.add(powerupSpeed);
-
-        Model strengthModel = app.assets.get("3d/powerup/powerup_strength.g3db", Model.class);
-        disposables.add(strengthModel);
-//        strengthModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
-        world.addConstructor("strength", new BulletConstructor(strengthModel, 50, new btSphereShape(0.8f)));
-        powerupStrength = world.add("strength", -10, 20, -2);
-        powerupStrength.body.setContactCallbackFilter(1);
-        ((btRigidBody) powerupStrength.body).setGravity(new Vector3(0, 0, 0));
-        powerupEntityList.add(powerupStrength);
-
-        Model ghostModel = app.assets.get("3d/powerup/powerup_ghost.g3db", Model.class);
-        disposables.add(ghostModel);
-//        ghostModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
-        world.addConstructor("ghost", new BulletConstructor(ghostModel, 50, new btSphereShape(0.8f)));
-        powerupGhost = world.add("ghost", -12, 45, -8);
-        powerupGhost.body.setContactCallbackFilter(1);
-        ((btRigidBody) powerupGhost.body).setGravity(new Vector3(0, 0, 0));
-        powerupEntityList.add(powerupGhost);
-
-        Model randomModel = app.assets.get("3d/powerup/powerup_random.g3db", Model.class);
-        disposables.add(randomModel);
-//        randomModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
-        world.addConstructor("random", new BulletConstructor(randomModel, 50, new btSphereShape(0.8f)));
-        powerupRandom = world.add("random", 5, 70, 1);
-        powerupRandom.body.setContactCallbackFilter(1);
-        ((btRigidBody) powerupRandom.body).setGravity(new Vector3(0, 0, 0));
-        powerupEntityList.add(powerupRandom);
+//        Model speedModel = app.assets.get("3d/powerup/powerup_speed.g3db", Model.class);
+//        disposables.add(speedModel);
+////        speedModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+//        world.addConstructor("speed", new BulletConstructor(speedModel, 50, new btSphereShape(0.8f)));
+//        powerupSpeed = world.add("speed", -6, 1, 4);
+//        powerupSpeed.body.setContactCallbackFilter(1);
+//        ((btRigidBody) powerupSpeed.body).setGravity(new Vector3(0, 0, 0));
+//        powerupEntityList.add(powerupSpeed);
+//
+//        Model strengthModel = app.assets.get("3d/powerup/powerup_strength.g3db", Model.class);
+//        disposables.add(strengthModel);
+////        strengthModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+//        world.addConstructor("strength", new BulletConstructor(strengthModel, 50, new btSphereShape(0.8f)));
+//        powerupStrength = world.add("strength", -10, 20, -2);
+//        powerupStrength.body.setContactCallbackFilter(1);
+//        ((btRigidBody) powerupStrength.body).setGravity(new Vector3(0, 0, 0));
+//        powerupEntityList.add(powerupStrength);
+//
+//        Model ghostModel = app.assets.get("3d/powerup/powerup_ghost.g3db", Model.class);
+//        disposables.add(ghostModel);
+////        ghostModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+//        world.addConstructor("ghost", new BulletConstructor(ghostModel, 50, new btSphereShape(0.8f)));
+//        powerupGhost = world.add("ghost", -12, 45, -8);
+//        powerupGhost.body.setContactCallbackFilter(1);
+//        ((btRigidBody) powerupGhost.body).setGravity(new Vector3(0, 0, 0));
+//        powerupEntityList.add(powerupGhost);
+//
+//        Model randomModel = app.assets.get("3d/powerup/powerup_random.g3db", Model.class);
+//        disposables.add(randomModel);
+////        randomModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+//        world.addConstructor("random", new BulletConstructor(randomModel, 50, new btSphereShape(0.8f)));
+//        powerupRandom = world.add("random", 5, 70, 1);
+//        powerupRandom.body.setContactCallbackFilter(1);
+//        ((btRigidBody) powerupRandom.body).setGravity(new Vector3(0, 0, 0));
+//        powerupEntityList.add(powerupRandom);
 
         Model gemModel = app.assets.get("3d/misc/gem.g3db", Model.class);
         disposables.add(gemModel);
@@ -455,12 +456,11 @@ public class GameScreen extends BaseBulletTest implements Screen {
         world.addConstructor("gem", new BulletConstructor(gemModel, 50, new btSphereShape(0.8f)));
 
         Vector3 currentGemPos = PropertiesSingleton.getInstance().getCoinPosition();
-//        gemEntity = world.add("gem",currentGemPos.x,currentGemPos.y,currentGemPos.z);
-        gemEntity = world.add("gem", 5, 70, 1);
-        gemEntity.body.setContactCallbackFilter(1);
+        gemEntity = world.add("gem",currentGemPos.x,currentGemPos.y,currentGemPos.z);
+        //gemEntity = world.add("gem", 5, 70, 1);
+        //gemEntity.body.setContactCallbackFilter(1);
         ((btRigidBody) gemEntity.body).setGravity(new Vector3(0, 0, 0));
         gemEntityList.add(gemEntity);
-
     }
 
     @Override
@@ -601,21 +601,14 @@ public class GameScreen extends BaseBulletTest implements Screen {
         ((btRigidBody)playerEntityList.get(playerID).body).applyCentralImpulse(newImpulseVector);
     }
 
-    public void setToScoreScreen()
-    {
-
-    }
-
     public void updatePositions(Vector<Vector3> checkCharPos, Vector<Vector3> checkCharRot)
     {
 //        Gdx.app.log("UPDATING POS", "HALLÅ ELLER");
 
-        if(playerCreated)
-        {
+        if(playerCreated) {
             Matrix4 tmp;
             Quaternion tmpq;
-            for (int ide = 1; ide <= playerEntityList.size(); ++ide)
-            {
+            for (int ide = 1; ide <= playerEntityList.size(); ++ide) {
                 tmpq = new Quaternion().setEulerAngles(checkCharRot.get(ide - 1).x, checkCharRot.get(ide - 1).y, checkCharRot.get(ide - 1).z);
                 tmp = new Matrix4().set(tmpq);
                 playerEntityList.get(ide - 1).body.activate();
@@ -623,16 +616,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 //((btRigidBody)world.entities.get(ide).body).setAngularVelocity(checkCharRot.get(ide - 1));
             }
         }
+        //TODO world.entities.get(GemIndex).body.setWorldTransform(CoinPosition);
     }
-
-    /*public void updatePosition(Vector3 checkCharPos, int PlayerID)
-    {
-        if(playerCreated)
-        {
-            Matrix4 tmp = new Matrix4();
-            world.entities.get(PlayerID).body.setWorldTransform(tmp.setToTranslation(checkCharPos));
-        }
-    }*/
 
     @Override
     public void render () {
@@ -801,7 +786,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
             // Count the score timer down
             for (int i = 0; i < PropertiesSingleton.getInstance().getNrPlayers(); i++) {
 
-                labelScorePlayers.get(i).setText("Score player " + (i+1) + ": " + PropertiesSingleton.getInstance().getScore(i));
+                //labelScorePlayers.get(i).setText("Score player " + (i+1) + ": " + PropertiesSingleton.getInstance().getScore(i));
 
                 if ((((btRigidBody) playerEntityList.get(i).body).getCenterOfMassPosition().y < 0)
                         && playerList.get(i).getHasFallen() == false

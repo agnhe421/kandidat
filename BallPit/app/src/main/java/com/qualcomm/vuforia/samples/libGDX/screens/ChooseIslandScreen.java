@@ -263,8 +263,18 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
                 app.setScreen(new ChooseBallScreen(app));
         }
         if(app.createServerScreen.create != null)
-            if(app.createServerScreen.create.checkIslandChosen() && app.createServerScreen.create.getSwitchScreen())
+        {
+            if (app.createServerScreen.create.checkIslandChosen() && app.createServerScreen.create.getSwitchScreen())
+            {
+                PropertiesSingleton.getInstance().initRandomCoinPosition(PropertiesSingleton.getInstance().getChosenIsland());
+                PropertiesSingleton.getInstance().setRandomCoinPosition();
+                app.createServerScreen.create.sendGemPosition(PropertiesSingleton.getInstance().getCoinPosition());
+//                PropertiesSingleton.getInstance().initRandomPowerupPosition(PropertiesSingleton.getInstance().getChosenIsland());
+//                PropertiesSingleton.getInstance().setRandomPowerupPosition();
+//                app.createServerScreen.create.sendPowerupPosition(PropertiesSingleton.getInstance().getPowerupPosition());
                 app.setScreen(new ChooseBallScreen(app));
+            }
+        }
 
         fps.log();
         Gdx.gl.glClearColor(0, 0, 0, 0f);
