@@ -19,9 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
 
 import java.util.Collections;
 import java.util.List;
@@ -81,7 +79,7 @@ public class ScoreScreen implements Screen{
         this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
-        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/scorebg1.png"))));
+        Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/darkice1.jpg"))));
         scoreActor.setPosition(0, 0);
         scoreActor.setSize((stage.getWidth()), stage.getHeight());
         scoreStage.addActor(scoreActor);
@@ -157,8 +155,8 @@ public class ScoreScreen implements Screen{
 
         buttonPlay = new TextButton("Next round",skin, "default8");
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonPlay.setSize(buttonSizeX, buttonSizeY);
-        buttonPlay.setPosition(Gdx.graphics.getWidth() / 4 - buttonPlay.getWidth() / 2, Gdx.graphics.getHeight() / 6 - buttonPlay.getHeight() / 2);
+        buttonPlay.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 9);
+        buttonPlay.setPosition(Gdx.graphics.getWidth() / 3 , Gdx.graphics.getHeight() / 6 - buttonPlay.getHeight() / 2);
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -182,8 +180,8 @@ public class ScoreScreen implements Screen{
 
         buttonPlayAgain = new TextButton("Play again",skin, "default8");
         buttonPlayAgain.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonPlayAgain.setSize(buttonSizeX, buttonSizeY);
-        buttonPlayAgain.setPosition(Gdx.graphics.getWidth() / 4 - buttonPlayAgain.getWidth() / 2, Gdx.graphics.getHeight() / 6);
+        buttonPlayAgain.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 9);
+        buttonPlayAgain.setPosition(Gdx.graphics.getWidth() - buttonPlayAgain.getWidth(), Gdx.graphics.getHeight() / 6);
         buttonPlayAgain.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -202,8 +200,8 @@ public class ScoreScreen implements Screen{
 
         buttonMainMenu = new TextButton("Main menu",skin, "default8");
         buttonMainMenu.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonMainMenu.setSize(buttonSizeX, buttonSizeY);
-        buttonMainMenu.setPosition(Gdx.graphics.getWidth() / 4 - buttonMainMenu.getWidth() / 2, Gdx.graphics.getHeight() / 6 - buttonPlayAgain.getHeight());
+        buttonMainMenu.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 9);
+        buttonMainMenu.setPosition(Gdx.graphics.getWidth() - buttonMainMenu.getWidth(), Gdx.graphics.getHeight() / 6);
         buttonMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -228,13 +226,17 @@ public class ScoreScreen implements Screen{
         if(createTable) {
             table = new Table(skin);
             stage.addActor(table);
-            table.setDebug(true);
+          //  table.setDebug(true);
             table.setFillParent(true);
+            table.left();
+            table.padTop(Gdx.graphics.getHeight() / 10);
+            table.padLeft(Gdx.graphics.getWidth() / 25);
 
             labelStyle = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(app.font40, Color.BLACK);
             highscoreLable = new Label(stringHeadlinte, labelStyle);
-
-            table.add(highscoreLable).align(Align.top);
+            highscoreLable.setPosition(Gdx.graphics.getWidth()/25, Gdx.graphics.getHeight()-(highscoreLable.getHeight()*3));
+            scoreStage.addActor(highscoreLable);
+          //  table.add(highscoreLable).align(Align.top);
             table.row();
 
             createTable = false;
@@ -249,7 +251,7 @@ public class ScoreScreen implements Screen{
             footballScoreLable = new Label(Integer.toString(playerInfoList.get(i).getScore()), labelStyle);
 
             table.row();
-            table.add(footballPortrait).size(100, 100);
+            table.add(footballPortrait).padTop(10).size(Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 5);
             table.add(footballNameLable).uniform();
             table.add(footballScoreLable).uniform();
             scoreStage.addActor(table);
@@ -262,7 +264,7 @@ public class ScoreScreen implements Screen{
         // Add all of the player info into a vector.
         for(int i = 0; i < n_players ; i++) {
             PlayerInfo playerInfo = new PlayerInfo(playerScores[i], new Image(new Sprite(new Texture(
-                    Gdx.files.internal("img/" + ballNamesArray[i] + ".png")))), ballNamesArray[i]);
+                    Gdx.files.internal("3d/balls/apple.jpg")))), ballNamesArray[i]);
 
             playerInfoList.add(playerInfo);
         }
