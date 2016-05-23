@@ -80,11 +80,11 @@ public class PropertiesSingleton {
 
         if(choosenIsland == "island")
         {
-            coinPositions[0] = new Vector3(0,0,0);
-            coinPositions[1] = new Vector3(0,0,0);
-            coinPositions[2] = new Vector3(0,0,0);
-            coinPositions[3] = new Vector3(0,0,0);
-            coinPositions[4] = new Vector3(0,0,0);
+            coinPositions[0] = new Vector3(38.9f,217,-74.2f);
+            coinPositions[1] = new Vector3(-39.7f,283.6f,42.8f);
+            coinPositions[2] = new Vector3(117,191.8f,128.3f);
+            coinPositions[3] = new Vector3(-130.6f,188.3f,157.1f);
+            coinPositions[4] = new Vector3(-169.6f,202.7f,-136.7f);
         }
         else if(choosenIsland == "greek")
         {
@@ -96,11 +96,11 @@ public class PropertiesSingleton {
         }
         else if(choosenIsland == "darkice")
         {
-            coinPositions[0] = new Vector3(0,0,0);
-            coinPositions[1] = new Vector3(0,0,0);
-            coinPositions[2] = new Vector3(0,0,0);
-            coinPositions[3] = new Vector3(0,0,0);
-            coinPositions[4] = new Vector3(0,0,0);
+            coinPositions[0] = new Vector3(141,164.1f,230);
+            coinPositions[1] = new Vector3(-34.5f,201.2f,-232.6f);
+            coinPositions[2] = new Vector3(94.7f,230.1f,-71.7f);
+            coinPositions[3] = new Vector3(-34.7f,274,-104);
+            coinPositions[4] = new Vector3(-183.9f,187.5f,-71.2f);
         }
 
     }
@@ -132,21 +132,21 @@ public class PropertiesSingleton {
 
         if(choosenIsland == "island")
         {
-            powerupPositions[0] = new Vector3(0,0,0);
-            powerupPositions[1] = new Vector3(0,0,0);
-            powerupPositions[2] = new Vector3(0,0,0);
+            powerupPositions[0] = new Vector3(-51.1f,231.9f,-44.5f);
+            powerupPositions[1] = new Vector3(-25.2f,235,116.9f);
+            powerupPositions[2] = new Vector3(194.9f,180.3f,134);
         }
         else if(choosenIsland == "greek")
         {
-            powerupPositions[0] = new Vector3(0,0,0);
-            powerupPositions[1] = new Vector3(0,0,0);
-            powerupPositions[2] = new Vector3(0,0,0);
+            powerupPositions[0] = new Vector3(-222.3f,206.2f,66.6f);
+            powerupPositions[1] = new Vector3(21.8f,206.3f,122.6f);
+            powerupPositions[2] = new Vector3(-12.1f,206.7f,-134.8f);
         }
         else if(choosenIsland == "darkice")
         {
-            powerupPositions[0] = new Vector3(0,0,0);
-            powerupPositions[1] = new Vector3(0,0,0);
-            powerupPositions[2] = new Vector3(0,0,0);
+            powerupPositions[0] = new Vector3(99.3f,174.7f,133.4f);
+            powerupPositions[1] = new Vector3(-154,199.8f,-168);
+            powerupPositions[2] = new Vector3(111.2f,201.4f,-143.8f);
         }
 
     }

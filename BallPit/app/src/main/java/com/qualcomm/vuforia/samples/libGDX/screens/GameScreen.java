@@ -152,22 +152,24 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
             if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0))) {
 
-                //POWERUPS
-                    if (userValue1 >= (playerEntityList.size() + 1) && userValue1 <= (playerEntityList.size() + 1 + powerupEntityList.size()) ||
-                            (userValue0 >= (playerEntityList.size() + 1) && userValue0 <= (playerEntityList.size() + 1 + powerupEntityList.size()))) {
-                        // Check if the id1 is boll and powerup id0
-                        if (userValue1 < (1 + playerEntityList.size())) {
-                            Matrix4 m = new Matrix4();
-                            Vector3 tmpVec = new Vector3(0, -100, 0);
-                            world.entities.get(userValue0).body.setWorldTransform(m.setToTranslation(tmpVec));
-                        }
-                        else{
-                            Matrix4 m = new Matrix4();
-                            Vector3 tmpVec = new Vector3(0, -100, 0);
-                            world.entities.get(userValue1).body.setWorldTransform(m.setToTranslation(tmpVec));
-                        }
-                    }
+//                //POWERUPS
+//                    if (userValue1 >= (playerEntityList.size() + 1) && userValue1 <= (playerEntityList.size() + 1 + powerupEntityList.size()) ||
+//                            (userValue0 >= (playerEntityList.size() + 1) && userValue0 <= (playerEntityList.size() + 1 + powerupEntityList.size()))) {
+//                        // Check if the id1 is boll and powerup id0
+//                        if (userValue1 < (1 + playerEntityList.size())) {
+//                            Matrix4 m = new Matrix4();
+//                            Vector3 tmpVec = new Vector3(0, -100, 0);
+//                            world.entities.get(userValue0).body.setWorldTransform(m.setToTranslation(tmpVec));
+//                        }
+//                        else{
+//                            Matrix4 m = new Matrix4();
+//                            Vector3 tmpVec = new Vector3(0, -100, 0);
+//                            world.entities.get(userValue1).body.setWorldTransform(m.setToTranslation(tmpVec));
+//                        }
+//                    }
 
+
+                Gdx.app.log("HEJ!", "Contact commence.");
                 String model1 = PropertiesSingleton.getInstance().getChosenBall(userValue0 - 1);
                 String model2 = PropertiesSingleton.getInstance().getChosenBall(userValue1 - 1);
 
@@ -249,6 +251,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactEnded (btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
             final int userValue0 = colObj0.getUserValue();
             final int userValue1 = colObj1.getUserValue();
+            Gdx.app.log("HEJ!", "Contact ended.");
 //            if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
 //                   if (match0) {
 //                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
@@ -308,10 +311,9 @@ public class GameScreen extends BaseBulletTest implements Screen {
         // Init Score lables
         labelStyle = new Label.LabelStyle(app.font40, Color.PINK);
 
-
-        Label.LabelStyle labelStyle = new Label.LabelStyle(app.font120, Color.WHITE);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(app.font40, Color.WHITE);
         labelTitle = new Label("NOT TRACKING ", labelStyle);
-        labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, Gdx.graphics.getHeight() - labelTitle.getHeight() * 2);
+        labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, - labelTitle.getHeight() * 2);
 
         stage.addActor(labelTitle);
 
@@ -384,8 +386,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             }
             playerPosOffset += 50.f;
         }
-
-
         playerCreated = true;
         if (USE_CONTACT_CACHE) {
             contactCache = new TestContactCache();
@@ -453,14 +453,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
         disposables.add(gemModel);
 //        randomModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
         world.addConstructor("gem", new BulletConstructor(gemModel, 50, new btSphereShape(0.8f)));
-
-        Vector3 currentGemPos = PropertiesSingleton.getInstance().getCoinPosition();
-//        gemEntity = world.add("gem",currentGemPos.x,currentGemPos.y,currentGemPos.z);
-        gemEntity = world.add("gem", 5, 70, 1);
+        gemEntity = world.add("gem", 5, 110, 1);
         gemEntity.body.setContactCallbackFilter(1);
         ((btRigidBody) gemEntity.body).setGravity(new Vector3(0, 0, 0));
         gemEntityList.add(gemEntity);
-
     }
 
     @Override
@@ -835,7 +831,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
         if(DataHolder.getInstance().getIsTracking() == false)
         {
-            labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, labelTitle.getHeight() * 2);
+            labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, labelTitle.getHeight() * 4);
         }
         else
         {
@@ -927,8 +923,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 Actions.run(new Runnable() {
                     public void run() {
                         DataHolder.getInstance().setActivateCamera(false);
-                        app.scoreScreen = new ScoreScreen(app);
-                        app.setScreen(app.scoreScreen);
+                        app.setScreen(new ScoreScreen(app));
                     }
                 })));
 

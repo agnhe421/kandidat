@@ -79,12 +79,12 @@ public class BaseGame extends Game {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/copyfonts.com_gulim.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        params.size = 60;
-        params.color = Color.BLACK;
+        params.size = 40;
+        params.color = Color.WHITE;
         font40 = generator.generateFont(params);
 
         params.size = 160;
-        params.color = Color.BLACK;
+        params.color = Color.WHITE;
         font120 = generator.generateFont(params);
         generator.dispose();
     }

@@ -267,6 +267,13 @@ public class GameCoinScreen extends BaseBulletTest implements Screen {
         // Init Score lables
         labelStyle = new Label.LabelStyle(font, Color.PINK);
 
+        Label.LabelStyle labelStyle = new Label.LabelStyle(app.font40, Color.WHITE);
+        Label labelTitle = new Label("NOT TRACKING ", labelStyle);
+        labelTitle.setPosition(Gdx.graphics.getHeight() / 2 - labelTitle.getWidth() / 2, labelTitle.getHeight() * 4);
+
+        stage.addActor(labelTitle);
+
+
 
         Actor scoreActor = new Image(new Sprite(new Texture(Gdx.files.internal("img/scorebg1.png"))));
         scoreActor.setPosition(0, 0);

@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 public class BaseGame extends Game {
 
     public SpriteBatch batch;
-    public BitmapFont font40, font120;
+    public BitmapFont font40, font60, font120;
     //public OrthographicCamera camera;
     public AssetManager assets;
     public LoadingScreen loadingScreen;
@@ -58,13 +58,18 @@ public class BaseGame extends Game {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/copyfonts.com_gulim.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        params.size = 60;
+        params.size = 40;
         params.color = Color.BLACK;
         font40 = generator.generateFont(params);
 
-        params.size = 160;
+        params.size = 120;
         params.color = Color.BLACK;
         font120 = generator.generateFont(params);
+
+        params.size = 60;
+        params.color = Color.BLACK;
+        font60 = generator.generateFont(params);
+
         generator.dispose();
     }
 
