@@ -19,12 +19,11 @@ import com.qualcomm.vuforia.samples.libGDX.screens.LoadingScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.MainMenyScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.ScoreScreen;
 import com.qualcomm.vuforia.samples.libGDX.screens.SettingScreen;
-import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
 public class BaseGame extends Game {
 
     public SpriteBatch batch;
-    public BitmapFont font40, font120;
+    public BitmapFont font40, font120, font60;
     //public OrthographicCamera camera;
     public AssetManager assets;
     public LoadingScreen loadingScreen;
@@ -83,10 +82,16 @@ public class BaseGame extends Game {
         params.color = Color.BLACK;
         font40 = generator.generateFont(params);
 
+        params.size = 60;
+        params.color = Color.WHITE;
+        font60 = generator.generateFont(params);
+
         params.size = 160;
         params.color = Color.BLACK;
         font120 = generator.generateFont(params);
         generator.dispose();
+
+
     }
 
 }

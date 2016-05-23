@@ -9,26 +9,20 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalShadowLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.DepthShaderProvider;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -39,29 +33,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.qualcomm.vuforia.samples.Vuforia.VuforiaCamera;
+import com.qualcomm.vuforia.samples.libGDX.BaseGame;
+import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
+
 /*******************************************************************************
  * Copyright 2011 See AUTHORS file.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
-
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.qualcomm.vuforia.samples.Network.CreateServer;
-import com.qualcomm.vuforia.samples.libGDX.BaseGame;
-import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
-import com.qualcomm.vuforia.samples.Vuforia.VuforiaCamera;
-import com.qualcomm.vuforia.samples.libGDX.LaunchGame;
 
 public class ChooseIslandScreen extends InputAdapter implements ApplicationListener, GestureDetector.GestureListener, Screen {
 
@@ -143,8 +134,8 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
 
         initFonts();
 //        BitmapFont font = new BitmapFont();
-        Label.LabelStyle labelStyle = new Label.LabelStyle(fontH1, Color.WHITE);
-        Label.LabelStyle labelStyle2 = new Label.LabelStyle(fontH3, Color.WHITE);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(app.font60, Color.WHITE);
+        Label.LabelStyle labelStyle2 = new Label.LabelStyle(app.font60, Color.WHITE);
         Label labelTitle = new Label("CHOOSE ISLAND ", labelStyle);
         LabelScore = new Label("forest", labelStyle2);
 //        labelTitle.setScale(Gdx.graphics.getWidth() / 10, Gdx.graphics.getHeight() / 10);
@@ -177,7 +168,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
 
         ImageButton.ImageButtonStyle voteButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
         voteButtonStyle.up = voteSkin.getDrawable("notvoted");  //Set image for not pressed button
-        voteButtonStyle.imageChecked = voteSkin.getDrawable("voted");  //Set image for pressed
+        voteButtonStyle.checked = voteSkin.getDrawable("voted");  //Set image for pressed
 
 
         for(int i = 0; i<islandNames.size; i++)
@@ -194,7 +185,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         int numberOfIslands = islandNames.size;
         for(int i = 0; i < numberOfIslands; i++) {
             ImageButton item1Button = new ImageButton(voteButtonStyle);
-            item1Button.setSize((stage.getWidth()) / 10, stage.getHeight() / 10);
+            item1Button.setSize((stage.getWidth()) / 10, stage.getWidth() / 6);
 
 //        Gdx.input.setInputProcessor(stage);
 
@@ -234,6 +225,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
             voteButtons.add(item1Button);
             stage.addActor(voteButtons.get(i));
         }
+
         voteButtons.get(currentIsland).setPosition(Gdx.graphics.getHeight() / 2 - accept.getWidth() / 2, accept.getHeight());
 
 

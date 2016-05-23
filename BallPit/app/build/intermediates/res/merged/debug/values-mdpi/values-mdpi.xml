@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <!-- From: file:/D:/Program/TNM094Master/BallPit/app/src/main/res/values-mdpi/dimens.xml -->
+=======
+    <!-- From: file:/C:/Users/Agnes/Documents/tnm094/kandidat/BallPit/app/src/main/res/values-mdpi/dimens.xml -->
+>>>>>>> 4514aaaedb927396eb7b4966eaa07e504a4ea498
     <eat-comment/>
     <dimen name="menu_entries_text">20sp</dimen>
     <dimen name="menu_entries_title">16sp</dimen>

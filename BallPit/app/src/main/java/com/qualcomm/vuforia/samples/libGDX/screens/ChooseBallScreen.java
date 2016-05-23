@@ -145,8 +145,8 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
 
         initFonts();
 //        BitmapFont font = new BitmapFont();
-        Label.LabelStyle labelStyle = new Label.LabelStyle(fontH1, Color.WHITE);
-        Label.LabelStyle labelStyle2 = new Label.LabelStyle(fontH3, Color.WHITE);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(app.font60, Color.WHITE);
+        Label.LabelStyle labelStyle2 = new Label.LabelStyle(app.font60, Color.WHITE);
         Label labelTitle = new Label("CHOOSE BALL ", labelStyle);
         LabelScore = new Label("apple", labelStyle2);
 //        labelTitle.setScale(Gdx.graphics.getWidth() / 10, Gdx.graphics.getHeight() / 10);
@@ -179,8 +179,8 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
         Skin voteSkin = new Skin(atlasVote);
 
         ImageButton.ImageButtonStyle voteButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
-        voteButtonStyle.up = voteSkin.getDrawable("notready");  //Set image for not pressed button
-        voteButtonStyle.checked = voteSkin.getDrawable("ready");  //Set image for not pressed button
+        voteButtonStyle.up = voteSkin.getDrawable("ready");  //Set image for not pressed button
+        voteButtonStyle.checked = voteSkin.getDrawable("notready");  //Set image for not pressed button
 
         readyButton = new ImageButton(voteButtonStyle);
 
@@ -198,7 +198,7 @@ public class ChooseBallScreen extends InputAdapter implements ApplicationListene
             }
         });
 
-        readyButton.setSize((stage.getWidth()) / 6, stage.getWidth() / 6);
+        readyButton.setSize((stage.getWidth()) / 5, stage.getWidth() / 10);
 
         readyButton.setPosition(Gdx.graphics.getHeight() / 2 - readyButton.getWidth() / 2, 0);
         stage.addActor(readyButton);
