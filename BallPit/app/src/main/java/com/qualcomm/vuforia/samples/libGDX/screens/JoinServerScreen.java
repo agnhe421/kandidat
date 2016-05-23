@@ -380,12 +380,9 @@ public class JoinServerScreen implements Screen{
 
 
         table.row();
-        table.add(buttonConnect).size(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/7);
-        table.add(buttonBack).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
-        table.row();
-        table.add(buttonRefresh).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
-        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
-
+        table.add(buttonRefresh).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7).bottom().expandY().padBottom(Gdx.graphics.getHeight()/4);
+        table.add(buttonDisconnect).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7).bottom().padBottom(Gdx.graphics.getHeight() / 4);
+        table.add(buttonBack).size(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7).bottom().padBottom(Gdx.graphics.getHeight() / 4);
         stage.addActor(table);
     }
 
@@ -411,8 +408,8 @@ public class JoinServerScreen implements Screen{
     {
         final TextButton buttonServer = new TextButton(ipAddress, skin, "default8");
         float offset = (buttonSizeY + 15)*buttonID;
-        buttonServer.setPosition(w/2 - (w*(2.0f/3.0f)/2), h/2 + 150 - offset);
-        buttonServer.setSize(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 7);
+        buttonServer.setPosition((Gdx.graphics.getWidth()/7), (Gdx.graphics.getHeight() / 2));
+        buttonServer.setSize((Gdx.graphics.getWidth() / 4)*3, Gdx.graphics.getHeight() / 7);
         buttonServer.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonServer.addListener(new ClickListener() {
             @Override

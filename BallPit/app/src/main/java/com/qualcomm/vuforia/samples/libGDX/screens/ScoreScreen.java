@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.qualcomm.vuforia.Prop;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.singletons.DataHolder;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
@@ -51,7 +52,7 @@ public class ScoreScreen implements Screen{
     private com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle labelStyle;
 
     List<PlayerInfo> playerInfoList;
-    private int n_players;
+    private int n_players, nextRoundNumber;
     String [] ballNamesArray;
     int [] playerScores;
 
@@ -76,12 +77,8 @@ public class ScoreScreen implements Screen{
     public void show() {
         Gdx.app.log("HEJ!", "Scorescreen.");
         if(app.createServerScreen.create != null)
-        {
-            Gdx.app.log("HEJ!", "This is a server.");
             app.createServerScreen.create.startNextRoundCall();
-        }
-        if(app.joinServerScreen.join != null)
-            Gdx.app.log("HEJ!", "This is a client.");
+
 
         Gdx.input.setInputProcessor(scoreStage);
         Gdx.app.log("SHOW", "SCORE");
@@ -184,8 +181,8 @@ public class ScoreScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Clicked", "Play");
-                if(app.createServerScreen.create != null) {
-                    Gdx.app.log("HEJ!", "Notifying nextRoundCall from server.");
+                nextRoundNumber = PropertiesSingleton.getInstance().getRound() + 1;
+                if (app.createServerScreen.create != null) {
                     app.createServerScreen.create.serverUser.setReadyNextRound(true);
                     app.createServerScreen.create.notifyRoundCall();
                 } else if (app.joinServerScreen.join != null)
@@ -198,13 +195,16 @@ public class ScoreScreen implements Screen{
 
     public void startNewRound()
     {
+        if(nextRoundNumber == 1)
+            for(int idu = 0; idu < PropertiesSingleton.getInstance().getNrPlayers(); ++idu)
+                PropertiesSingleton.getInstance().setScore(idu, 0);
+        PropertiesSingleton.getInstance().setRound(nextRoundNumber);
         if(app.createServerScreen.create != null)
             app.createServerScreen.create.resetNextRoundState();
         scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 1000, 0.5f), Actions.delay(1),
                 Actions.run(new Runnable() {
                     public void run() {
                         // Gdx.app.log("done", "done");
-                        Gdx.app.log("HEJ!", "Starting new round.");
                         DataHolder.getInstance().setActivateCamera(true);
                         app.gameScreen = new GameScreen(app);
                         app.setScreen(app.gameScreen);
@@ -224,15 +224,12 @@ public class ScoreScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Clicked", "Play again");
-
-                scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(0.9f), Actions.moveTo(0, 1000, 0.5f),
-                        Actions.run(new Runnable() {
-                            public void run() {
-                                // Gdx.app.log("done", "done");
-                                app.setScreen(new GameScreen(app));
-                                dispose();
-                            }
-                        })));
+                nextRoundNumber = 1;
+                if(app.createServerScreen.create != null) {
+                    app.createServerScreen.create.serverUser.setReadyNextRound(true);
+                    app.createServerScreen.create.notifyRoundCall();
+                } else if (app.joinServerScreen.join != null)
+                    app.joinServerScreen.join.sendRoundCheck();
             }
         });
 
@@ -249,6 +246,11 @@ public class ScoreScreen implements Screen{
                         Actions.run(new Runnable() {
                             public void run() {
                                 // Gdx.app.log("done", "done");
+                                if(app.createServerScreen.create != null)
+                                    app.createServerScreen.create = null;
+                                if(app.joinServerScreen.join != null)
+                                    app.joinServerScreen.join = null;
+                                app.mainMenyScreen = new MainMenyScreen(app);
                                 app.setScreen(app.mainMenyScreen);
                                 dispose();
                             }

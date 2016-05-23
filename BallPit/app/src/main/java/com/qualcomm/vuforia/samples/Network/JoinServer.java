@@ -102,7 +102,6 @@ public class JoinServer extends Thread
                 {
                     break;
                 }
-                //Gdx.app.log("HEJ!", "Data received. Message: " + strConv.get(0));
                 //Receive string containing user data, such as ID and score.
                 if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
@@ -140,7 +139,6 @@ public class JoinServer extends Thread
                 {
                     for(int idu = 0; idu <= playerList.size(); ++idu)
                     {
-                        Gdx.app.log("HEJ!", "Setting ball: " + strConv.get(idu + 1) + " for player " + (idu + 1));
                         PropertiesSingleton.getInstance().setChosenBall(idu, strConv.get(idu + 1));
                     }
                     ballsChosen = true;
@@ -161,7 +159,6 @@ public class JoinServer extends Thread
                 }
                 else if(strConv.get(0).equals("NEW_ROUND"))
                 {
-                    Gdx.app.log("HEJ!", "Starting new round.");
                     app.scoreScreen.startNewRound();
                 }
                 else if(strConv.get(0).equals("SCORE_INCOMING"))
@@ -302,7 +299,6 @@ public class JoinServer extends Thread
     public void setJoinName(String id) {unitUser.setId(id);}
     public void sendClickPosVector(Vector3 normVec)
     {
-        Gdx.app.log("HEJ!", "Sending click position.");
         sendMessage("CLICK_POS_INCOMING|" + normVec.toString());
     }
 

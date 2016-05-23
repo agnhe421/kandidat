@@ -2,6 +2,12 @@
 <project version="4">
   <component name="AndroidLogFilters">
 <<<<<<< HEAD
+<<<<<<< HEAD
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="089cfaee-d6f1-4d3d-ba26-431e81a4e0ed" name="Default" comment="" />
+=======
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="HEJ!" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
 =======
@@ -10,6 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da7afa53-ce53-4104-a847-3cad70b451c7" name="Default" comment="" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
 =======
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
@@ -44,6 +51,20 @@
   <component name="FileEditorManager">
     <leaf>
 <<<<<<< HEAD
+<<<<<<< HEAD
+      <file leaf-file-name="MainMenyScreen.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/MainMenyScreen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.66096866">
+              <caret line="153" column="29" selection-start-line="153" selection-start-column="29" selection-end-line="153" selection-end-column="29" />
+              <folding>
+                <element signature="e#4081#4617#0" expanded="true" />
+                <element signature="e#4616#4617#0" expanded="true" />
+                <element signature="e#4846#5370#0" expanded="true" />
+                <element signature="e#5369#5370#0" expanded="true" />
+                <element signature="e#5587#6113#0" expanded="true" />
+                <element signature="e#6112#6113#0" expanded="true" />
+=======
       <file leaf-file-name="GameScreen.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -58,6 +79,7 @@
                 <element signature="e#34313#34314#0" expanded="true" />
                 <element signature="e#35007#35239#0" expanded="true" />
                 <element signature="e#35238#35239#0" expanded="true" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
               </folding>
 =======
       <file leaf-file-name="CreateServer.java" pinned="false" current-in-tab="false">
@@ -74,6 +96,20 @@
 <<<<<<< HEAD
       <file leaf-file-name="CreateServerScreen.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java">
+<<<<<<< HEAD
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.2413793">
+              <caret line="277" column="20" selection-start-line="277" selection-start-column="20" selection-end-line="277" selection-end-column="20" />
+              <folding>
+                <element signature="e#6904#6905#0" expanded="true" />
+                <element signature="e#6931#6932#0" expanded="true" />
+                <element signature="e#7904#8319#0" expanded="true" />
+                <element signature="e#8318#8319#0" expanded="true" />
+                <element signature="e#8540#9094#0" expanded="true" />
+                <element signature="e#9093#9094#0" expanded="true" />
+                <element signature="e#9331#9861#0" expanded="true" />
+                <element signature="e#9860#9861#0" expanded="true" />
+=======
 =======
 <<<<<<< HEAD
       <file leaf-file-name="ScoreScreen.java" pinned="false" current-in-tab="false">
@@ -83,6 +119,7 @@
               <caret line="169" column="81" selection-start-line="169" selection-start-column="81" selection-end-line="169" selection-end-column="81" />
               <folding>
                 <element signature="imports" expanded="true" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
               </folding>
 =======
       <file leaf-file-name="GameSound.java" pinned="false" current-in-tab="false">
@@ -97,8 +134,37 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+      <file leaf-file-name="ChooseBallScreen.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseBallScreen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.9166665">
+              <caret line="229" column="16" selection-start-line="229" selection-start-column="16" selection-end-line="229" selection-end-column="49" />
+              <folding />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name="ConnectionMenuScreen.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ConnectionMenuScreen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="45" column="59" selection-start-line="45" selection-start-column="59" selection-end-line="45" selection-end-column="59" />
+              <folding>
+                <element signature="e#8166#8696#0" expanded="true" />
+                <element signature="e#8475#8668#0" expanded="true" />
+                <element signature="e#8667#8668#0" expanded="true" />
+                <element signature="e#8695#8696#0" expanded="true" />
+              </folding>
+=======
+      <file leaf-file-name="CreateServerScreen.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java">
+=======
       <file leaf-file-name="GameSound.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/GameSound.java">
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
             <state vertical-scroll-proportion="3.1819854">
@@ -117,28 +183,53 @@
               <caret line="173" column="9" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
               <folding />
+<<<<<<< HEAD
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+=======
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
             </state>
           </provider>
         </entry>
       </file>
 <<<<<<< HEAD
+<<<<<<< HEAD
+      <file leaf-file-name="Buttons.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/assets/ui/Buttons.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+=======
       <file leaf-file-name="LoadingScreen.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-2.1388888">
               <caret line="53" column="34" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="34" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
 =======
       <file leaf-file-name="JoinServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/JoinServer.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state vertical-scroll-proportion="0.0">
+              <caret line="234" column="9" selection-start-line="234" selection-start-column="9" selection-end-line="234" selection-end-column="9" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+=======
             <state vertical-scroll-proportion="-9.138889">
               <caret line="129" column="89" selection-start-line="129" selection-start-column="89" selection-end-line="129" selection-end-column="89" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+      <file leaf-file-name="Buttons.pack" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/assets/ui/Buttons.pack">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+=======
       <file leaf-file-name="GameScreen.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -198,6 +289,7 @@
               </folding>
 =======
               <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
               <folding />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
@@ -206,6 +298,12 @@
         </entry>
       </file>
 <<<<<<< HEAD
+<<<<<<< HEAD
+      <file leaf-file-name="peach.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/peach.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+=======
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/Player.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -219,6 +317,7 @@
                 <element signature="e#2389#2390#0" expanded="true" />
                 <element signature="e#2417#2418#0" expanded="true" />
               </folding>
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
 =======
       <file leaf-file-name="BaseGame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/BaseGame.java">
@@ -258,6 +357,7 @@
               <caret line="262" column="57" selection-start-line="262" selection-start-column="57" selection-end-line="262" selection-end-column="57" />
               <folding />
             </state>
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
           </provider>
         </entry>
       </file>
@@ -295,6 +395,9 @@
     </leaf>
   </component>
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -302,8 +405,11 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
   <component name="GradleLocalSettings">
     <option name="availableProjects">
       <map>
@@ -1406,7 +1512,11 @@
     <option name="modificationStamps">
       <map>
 <<<<<<< HEAD
+<<<<<<< HEAD
+        <entry key="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit" value="4390154571162" />
+=======
         <entry key="D:\Git\kandidat\BallPit" value="4363134626000" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
 =======
         <entry key="D:\Program\TNM094Master\BallPit" value="4390918420148" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
@@ -1742,6 +1852,16 @@
     <option name="CHANGED_PATHS">
       <list>
 <<<<<<< HEAD
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/app/src/main/assets/ui/Buttons.pack" />
+        <option value="$PROJECT_DIR$/app/src/main/assets/ui/Buttons.json" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/MainMenyScreen.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ConnectionMenuScreen.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/HelpScreen.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameModeScreen.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/BaseGame.java" />
+=======
 =======
 <<<<<<< HEAD
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BaseBulletTest.java" />
@@ -1750,6 +1870,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ScoreScreen.java" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
 =======
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/CreateServer.java" />
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
@@ -1760,6 +1881,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java" />
 <<<<<<< HEAD
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+=======
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/JoinServer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/CreateServer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/GameSound.java" />
@@ -1767,6 +1891,7 @@
 =======
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
       </list>
     </option>
   </component>
@@ -1774,6 +1899,12 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
+<<<<<<< HEAD
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
+=======
 <<<<<<< HEAD
     <option name="x" value="-142" />
     <option name="y" value="40" />
@@ -1785,6 +1916,7 @@
     <option name="width" value="1938" />
     <option name="height" value="1050" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -1800,8 +1932,12 @@
 <<<<<<< HEAD
     <navigator currentView="AndroidView" proportions="" version="1">
 =======
+<<<<<<< HEAD
+    <navigator currentView="AndroidView" proportions="" version="1">
+=======
     <navigator currentView="ProjectPane" proportions="" version="1">
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -1814,9 +1950,15 @@
     </navigator>
     <panes>
 <<<<<<< HEAD
+<<<<<<< HEAD
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
+=======
       <pane id="Scope" />
       <pane id="ProjectPane" />
       <pane id="Scratches" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
       <pane id="AndroidView">
 =======
       <pane id="ProjectPane">
@@ -1832,6 +1974,8 @@
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
             </PATH_ELEMENT>
           </PATH>
+<<<<<<< HEAD
+=======
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="BallPit" />
@@ -1932,9 +2076,17 @@
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
             </PATH_ELEMENT>
           </PATH>
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="BallPit" />
+<<<<<<< HEAD
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+=======
 <<<<<<< HEAD
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
@@ -1976,6 +2128,7 @@
               <option name="myItemId" value="samples" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="singletons" />
@@ -1987,6 +2140,9 @@
               <option name="myItemId" value="BallPit" />
 <<<<<<< HEAD
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+=======
+<<<<<<< HEAD
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
@@ -2005,35 +2161,35 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="BallPit" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="samples" />
+<<<<<<< HEAD
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+=======
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Network" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="BallPit" />
+<<<<<<< HEAD
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+=======
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -2089,27 +2245,24 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="BallPit" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="samples" />
+<<<<<<< HEAD
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+=======
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="libGDX" />
@@ -2125,6 +2278,9 @@
               <option name="myItemId" value="BallPit" />
 <<<<<<< HEAD
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+=======
+<<<<<<< HEAD
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
@@ -2143,27 +2299,24 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="BallPit" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="samples" />
+<<<<<<< HEAD
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+=======
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="libGDX" />
@@ -2293,6 +2446,9 @@
           </PATH>
         </subPane>
       </pane>
+<<<<<<< HEAD
+      <pane id="ProjectPane" />
+=======
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2307,11 +2463,32 @@
       <pane id="Scope" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
       <pane id="PackagesPane" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+<<<<<<< HEAD
+    <property name="android.project.structure.last.selected" value="SDK Location" />
+    <property name="android.project.structure.proportion" value="0.15" />
+    <property name="recentsLimit" value="5" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="1015faf3ed2f3b02" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="KOMA" />
+    <property name="FullScreen" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\src\main\assets\img" />
+      <recent name="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\src\main\assets\img\Knappar" />
+      <recent name="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\src\main\assets\ui" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\src\main\assets\img" />
+    </key>
+=======
     <property name="recentsLimit" value="5" />
 <<<<<<< HEAD
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="001dbfe3" />
@@ -2323,6 +2500,7 @@
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_23_x86" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
   </component>
   <component name="RunManager" selected="Android Application.app">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -2503,6 +2681,12 @@
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
+      <changelist id="089cfaee-d6f1-4d3d-ba26-431e81a4e0ed" name="Default" comment="" />
+      <created>1463385131834</created>
+      <option name="number" value="Default" />
+      <updated>1463385131834</updated>
+=======
       <changelist id="26d5a6f4-5e0e-4ec3-8d9b-fdfb4a832e61" name="Default" comment="" />
       <created>1463639610760</created>
       <option name="number" value="Default" />
@@ -2513,12 +2697,41 @@
   </component>
   <component name="ToolWindowManager">
 <<<<<<< HEAD
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+=======
+<<<<<<< HEAD
     <frame x="-142" y="40" width="1932" height="1048" extended-state="1" />
 =======
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
     <editor active="true" />
     <layout>
+<<<<<<< HEAD
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35434413" sideWeight="0.49394855" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29471892" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35434413" sideWeight="0.5060514" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.4969743" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.4969743" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+=======
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -2553,14 +2766,50 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23339012" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+=======
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32879046" sideWeight="0.4969743" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32879046" sideWeight="0.5030257" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.4969743" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.4969743" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -2571,6 +2820,12 @@
   </component>
   <component name="editorHistoryManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/BaseGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/bullet/BaseBulletTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.5">
@@ -2590,15 +2845,49 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.5">
           <caret line="247" column="27" selection-start-line="247" selection-start-column="20" selection-end-line="247" selection-end-column="27" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
 =======
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-22/android/os/Looper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33272058">
           <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/MainMenyScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#4081#4617#0" expanded="true" />
+            <element signature="e#4616#4617#0" expanded="true" />
+            <element signature="e#4846#5370#0" expanded="true" />
+            <element signature="e#5369#5370#0" expanded="true" />
+            <element signature="e#5587#6113#0" expanded="true" />
+            <element signature="e#6112#6113#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/HelpScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="157" column="89" selection-start-line="157" selection-start-column="89" selection-end-line="157" selection-end-column="89" />
+          <folding>
+            <element signature="e#5326#5853#0" expanded="true" />
+            <element signature="e#5852#5853#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/ui/Buttons.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/Player.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2655,26 +2944,92 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="211" column="0" selection-start-line="211" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/ui/Buttons.pack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/JoinServerScreen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="75" column="24" selection-start-line="75" selection-start-column="24" selection-end-line="75" selection-end-column="24" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/peach.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/GameSound.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="262" column="57" selection-start-line="262" selection-start-column="57" selection-end-line="262" selection-end-column="57" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/GameSound.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseBallScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.9166665">
+          <caret line="229" column="16" selection-start-line="229" selection-start-column="16" selection-end-line="229" selection-end-column="49" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+          <folding />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/Coin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/SettingScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0123076">
+          <caret line="199" column="20" selection-start-line="199" selection-start-column="20" selection-end-line="199" selection-end-column="20" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ChooseIslandScreen.java">
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2693,6 +3048,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java">
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
@@ -2713,12 +3069,61 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/BaseGame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+<<<<<<< HEAD
+          <caret line="31" column="41" selection-start-line="31" selection-start-column="41" selection-end-line="31" selection-end-column="41" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+=======
           <caret line="56" column="40" selection-start-line="56" selection-start-column="40" selection-end-line="56" selection-end-column="40" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
           <folding />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/apple.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/greek.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/yarn.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/scorebg1.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/blurr.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/scorebg1.psd">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/img/peach.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/ui/Buttons.pack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/LoadingScreen.java">
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/CreateServer.java">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -2735,26 +3140,65 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ScoreScreen.java">
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.0833333">
           <caret line="169" column="81" selection-start-line="169" selection-start-column="81" selection-end-line="169" selection-end-column="81" />
 =======
         <state vertical-scroll-proportion="0.0">
           <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
+<<<<<<< HEAD
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+=======
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/Buttons.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23351648">
+          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/assets/ui/Buttons.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/JoinServer.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state vertical-scroll-proportion="0.0">
+          <caret line="234" column="9" selection-start-line="234" selection-start-column="9" selection-end-line="234" selection-end-column="9" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+=======
         <state vertical-scroll-proportion="-9.138889">
           <caret line="129" column="89" selection-start-line="129" selection-start-column="89" selection-end-line="129" selection-end-column="89" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/ConnectionMenuScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="59" selection-start-line="45" selection-start-column="59" selection-end-line="45" selection-end-column="59" />
+          <folding>
+            <element signature="e#8166#8696#0" expanded="true" />
+            <element signature="e#8475#8668#0" expanded="true" />
+            <element signature="e#8667#8668#0" expanded="true" />
+            <element signature="e#8695#8696#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java">
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/Network/ReceivePacket.java">
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
         <state vertical-scroll-proportion="0.0">
@@ -2766,12 +3210,57 @@
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
           <folding>
             <element signature="imports" expanded="true" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
           </folding>
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
         </state>
       </provider>
     </entry>
 <<<<<<< HEAD
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/HelpScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.5769231">
+          <caret line="76" column="25" selection-start-line="76" selection-start-column="25" selection-end-line="76" selection-end-column="25" />
+          <folding>
+            <element signature="e#5326#5853#0" expanded="true" />
+            <element signature="e#5852#5853#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.2413793">
+          <caret line="277" column="20" selection-start-line="277" selection-start-column="20" selection-end-line="277" selection-end-column="20" />
+          <folding>
+            <element signature="e#6904#6905#0" expanded="true" />
+            <element signature="e#6931#6932#0" expanded="true" />
+            <element signature="e#7904#8319#0" expanded="true" />
+            <element signature="e#8318#8319#0" expanded="true" />
+            <element signature="e#8540#9094#0" expanded="true" />
+            <element signature="e#9093#9094#0" expanded="true" />
+            <element signature="e#9331#9861#0" expanded="true" />
+            <element signature="e#9860#9861#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.048433047">
+          <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+          <folding>
+            <element signature="e#2721#2729#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/BaseGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+=======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
@@ -2785,6 +3274,7 @@
             <element signature="e#34313#34314#0" expanded="true" />
             <element signature="e#35007#35239#0" expanded="true" />
             <element signature="e#35238#35239#0" expanded="true" />
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
 =======
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/CreateServerScreen.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -2796,6 +3286,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/GameScreen.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state vertical-scroll-proportion="-9.138889">
+          <caret line="223" column="87" selection-start-line="223" selection-start-column="87" selection-end-line="223" selection-end-column="87" />
+>>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+          <folding />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/screens/MainMenyScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.66096866">
+          <caret line="153" column="29" selection-start-line="153" selection-start-column="29" selection-end-line="153" selection-end-column="29" />
+          <folding>
+            <element signature="e#4081#4617#0" expanded="true" />
+            <element signature="e#4616#4617#0" expanded="true" />
+            <element signature="e#4846#5370#0" expanded="true" />
+            <element signature="e#5369#5370#0" expanded="true" />
+            <element signature="e#5587#6113#0" expanded="true" />
+            <element signature="e#6112#6113#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/singletons/PropertiesSingleton.java">
+=======
         <state vertical-scroll-proportion="49.833332">
           <caret line="218" column="46" selection-start-line="218" selection-start-column="46" selection-end-line="218" selection-end-column="46" />
           <folding>
@@ -2807,6 +3320,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/qualcomm/vuforia/samples/libGDX/classes/GameSound.java">
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.1819854">
           <caret line="93" column="9" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="9" />
@@ -2825,7 +3339,10 @@
             <element signature="e#1768#1769#0" expanded="true" />
             <element signature="e#1812#1813#0" expanded="true" />
 >>>>>>> d80ca08ab940ff0c0a58b9379b972acacc7c285a
+<<<<<<< HEAD
+=======
 >>>>>>> 4dc40511093dd2044b452bbc7263a0a49a85ceb7
+>>>>>>> 8e6a90be9b57d84fe50595a1b60c698908a53a01
           </folding>
         </state>
       </provider>

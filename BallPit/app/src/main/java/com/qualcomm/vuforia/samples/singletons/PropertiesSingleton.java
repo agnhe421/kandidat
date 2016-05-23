@@ -1,6 +1,7 @@
 package com.qualcomm.vuforia.samples.singletons;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.Vector3;
 
 public class PropertiesSingleton {
     private String chosenIsland;
@@ -48,7 +49,7 @@ public class PropertiesSingleton {
     }
 
     public void setRound(int round) {
-        this.round = round + 1;
+        this.round = round;
     }
 
     // Scores.
@@ -65,6 +66,29 @@ public class PropertiesSingleton {
     }
 
     public int getScore(int index) {return playerScores[index];}
+
+
+    private Vector3 coinPosition;
+    private Vector3[] coinPositions = new Vector3[6];
+//    coinPositions[0] = new Vector3(1,1,1);
+
+
+
+    public void setRandomCoinPosition()
+    {
+
+
+//        coinPosition = new Vector3(pos);
+    }
+
+    public Vector3 getCoinPosition()
+    {
+        return coinPosition;
+    }
+
+
+
+
 
 
 

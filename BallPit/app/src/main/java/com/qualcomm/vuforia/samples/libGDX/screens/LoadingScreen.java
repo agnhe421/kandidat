@@ -58,6 +58,12 @@ public class
         app.assets.load("ui/TextUI.pack", TextureAtlas.class);
         app.assets.load("ui/Buttons.pack", TextureAtlas.class);
 
+        app.assets.load("3d/misc/gem.g3db", Model.class);
+        app.assets.load("3d/powerup/powerup_speed.g3db", Model.class);
+        app.assets.load("3d/powerup/powerup_ghost.g3db", Model.class);
+        app.assets.load("3d/powerup/powerup_strength.g3db", Model.class);
+        app.assets.load("3d/powerup/powerup_random.g3db", Model.class);
+
         app.islandNames.add("island");
         app.islandNames.add("greek");
         app.islandNames.add("darkice");

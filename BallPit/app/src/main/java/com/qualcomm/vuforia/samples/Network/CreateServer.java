@@ -454,7 +454,6 @@ public class CreateServer extends Thread
         @Override
         public void run()
         {
-            Gdx.app.log("HEJ!", "NextRoundCall has been started.");
             Boolean running = true;
             Boolean checkAllReady = false;
             allReadyNextRound = false;
@@ -471,14 +470,12 @@ public class CreateServer extends Thread
                     e.printStackTrace();
                     error = "Exception: " + e.toString();
                 }
-                Gdx.app.log("HEJ!", "Notified.");
                 for(int idu = 0; idu <= userList.size(); ++idu)
                 {
                     if(idu == 0)
                     {
                         if(!serverUser.readyNextRound)
                         {
-                            Gdx.app.log("HEJ!", "Server is not ready.");
                             checkAllReady = false;
                             break;
                         }
@@ -488,7 +485,6 @@ public class CreateServer extends Thread
                     {
                         if(!userList.get(idu - 1).readyNextRound)
                         {
-                            Gdx.app.log("HEJ!", "Player " + (idu + 1) + " is not ready.");
                             checkAllReady = false;
                             break;
                         }
@@ -771,10 +767,7 @@ public class CreateServer extends Thread
                     }
                     else if(strConv.get(0).equals("READY_NEXT_ROUND"))
                     {
-                        Gdx.app.log("HEJ!", "Notifying nextRoundCall from " + user.id + ".");
                         user.setReadyNextRound(true);
-                        if(user.readyNextRound)
-                            Gdx.app.log("HEJ!", user.id +  " ready for next round.");
                         notifyRoundCall();
                     }
                     //If a clients ready message is received, set the ready state to true.

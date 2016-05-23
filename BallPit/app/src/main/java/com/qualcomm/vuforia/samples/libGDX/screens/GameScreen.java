@@ -48,6 +48,7 @@ import com.qualcomm.vuforia.samples.libGDX.classes.Player;
 import com.qualcomm.vuforia.samples.singletons.DataHolder;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
 
@@ -119,6 +120,10 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     private volatile float[][] scoreTimers;
 
+    private ArrayList<BulletEntity> powerupEntityList;
+    private ArrayList<BulletEntity> gemEntityList;
+    private BulletEntity coin, powerupSpeed, powerupStrength, powerupGhost, powerupRandom, gemEntity;
+
 
     public GameScreen(final BaseGame app)
     {
@@ -146,6 +151,23 @@ public class GameScreen extends BaseBulletTest implements Screen {
             collisionHappened = true;
 
             if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0))) {
+
+//                //POWERUPS
+//                    if (userValue1 >= (playerEntityList.size() + 1) && userValue1 <= (playerEntityList.size() + 1 + powerupEntityList.size()) ||
+//                            (userValue0 >= (playerEntityList.size() + 1) && userValue0 <= (playerEntityList.size() + 1 + powerupEntityList.size()))) {
+//                        // Check if the id1 is boll and powerup id0
+//                        if (userValue1 < (1 + playerEntityList.size())) {
+//                            Matrix4 m = new Matrix4();
+//                            Vector3 tmpVec = new Vector3(0, -100, 0);
+//                            world.entities.get(userValue0).body.setWorldTransform(m.setToTranslation(tmpVec));
+//                        }
+//                        else{
+//                            Matrix4 m = new Matrix4();
+//                            Vector3 tmpVec = new Vector3(0, -100, 0);
+//                            world.entities.get(userValue1).body.setWorldTransform(m.setToTranslation(tmpVec));
+//                        }
+//                    }
+
                 String model1 = PropertiesSingleton.getInstance().getChosenBall(userValue0 - 1);
                 String model2 = PropertiesSingleton.getInstance().getChosenBall(userValue1 - 1);
 
@@ -384,6 +406,55 @@ public class GameScreen extends BaseBulletTest implements Screen {
         //-------------------------------------------------------------------
 
         scoreTimers = new float[PropertiesSingleton.getInstance().getNrPlayers()][PropertiesSingleton.getInstance().getNrPlayers()];
+
+        powerupEntityList = new ArrayList<BulletEntity>(10);
+        gemEntityList = new ArrayList<BulletEntity>(10);
+
+        // Create powerups
+        Model speedModel = app.assets.get("3d/powerup/powerup_speed.g3db", Model.class);
+        disposables.add(speedModel);
+//        speedModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+        world.addConstructor("speed", new BulletConstructor(speedModel, 50, new btSphereShape(0.8f)));
+        powerupSpeed = world.add("speed", -6, 1, 4);
+        powerupSpeed.body.setContactCallbackFilter(1);
+        ((btRigidBody) powerupSpeed.body).setGravity(new Vector3(0, 0, 0));
+        powerupEntityList.add(powerupSpeed);
+
+        Model strengthModel = app.assets.get("3d/powerup/powerup_strength.g3db", Model.class);
+        disposables.add(strengthModel);
+//        strengthModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+        world.addConstructor("strength", new BulletConstructor(strengthModel, 50, new btSphereShape(0.8f)));
+        powerupStrength = world.add("strength", -10, 20, -2);
+        powerupStrength.body.setContactCallbackFilter(1);
+        ((btRigidBody) powerupStrength.body).setGravity(new Vector3(0, 0, 0));
+        powerupEntityList.add(powerupStrength);
+
+        Model ghostModel = app.assets.get("3d/powerup/powerup_ghost.g3db", Model.class);
+        disposables.add(ghostModel);
+//        ghostModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+        world.addConstructor("ghost", new BulletConstructor(ghostModel, 50, new btSphereShape(0.8f)));
+        powerupGhost = world.add("ghost", -12, 45, -8);
+        powerupGhost.body.setContactCallbackFilter(1);
+        ((btRigidBody) powerupGhost.body).setGravity(new Vector3(0, 0, 0));
+        powerupEntityList.add(powerupGhost);
+
+        Model randomModel = app.assets.get("3d/powerup/powerup_random.g3db", Model.class);
+        disposables.add(randomModel);
+//        randomModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+        world.addConstructor("random", new BulletConstructor(randomModel, 50, new btSphereShape(0.8f)));
+        powerupRandom = world.add("random", 5, 70, 1);
+        powerupRandom.body.setContactCallbackFilter(1);
+        ((btRigidBody) powerupRandom.body).setGravity(new Vector3(0, 0, 0));
+        powerupEntityList.add(powerupRandom);
+
+        Model gemModel = app.assets.get("3d/misc/gem.g3db", Model.class);
+        disposables.add(gemModel);
+//        randomModel.meshes.get(0).scale(0.05f, 0.05f, 0.05f);
+        world.addConstructor("gem", new BulletConstructor(gemModel, 50, new btSphereShape(0.8f)));
+        gemEntity = world.add("gem", 5, 110, 1);
+        gemEntity.body.setContactCallbackFilter(1);
+        ((btRigidBody) gemEntity.body).setGravity(new Vector3(0, 0, 0));
+        gemEntityList.add(gemEntity);
     }
 
     @Override
@@ -434,7 +505,7 @@ public class GameScreen extends BaseBulletTest implements Screen {
         {
             rayTestCB.getHitPointWorld(tmpV1);
 
-            Gdx.app.log("BANG", "BANG");
+            Gdx.app.log("BANG", tmpV1+"");
 //            Model model;
 //            ModelBuilder modelBuilder = new ModelBuilder();
 //            modelBuilder.begin();
