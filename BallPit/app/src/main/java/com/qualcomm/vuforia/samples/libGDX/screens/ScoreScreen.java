@@ -74,6 +74,14 @@ public class ScoreScreen implements Screen{
 
     @Override
     public void show() {
+        Gdx.app.log("HEJ!", "Scorescreen.");
+        if(app.createServerScreen.create != null)
+        {
+            Gdx.app.log("HEJ!", "This is a server.");
+            app.createServerScreen.create.startNextRoundCall();
+        }
+        if(app.joinServerScreen.join != null)
+            Gdx.app.log("HEJ!", "This is a client.");
 
         Gdx.input.setInputProcessor(scoreStage);
         Gdx.app.log("SHOW", "SCORE");
@@ -117,6 +125,16 @@ public class ScoreScreen implements Screen{
 
     @Override
     public void render(float delta) {
+        if(app.createServerScreen.create != null)
+            if(app.createServerScreen.create.checkAllReadyNextRound())
+                startNewRound();
+        if(app.joinServerScreen.join != null)
+            if(!app.joinServerScreen.join.isAlive())
+            {
+                app.joinServerScreen.join = null;
+                app.mainMenyScreen = new MainMenyScreen(app);
+                app.setScreen(app.mainMenyScreen);
+            }
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -166,19 +184,33 @@ public class ScoreScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Clicked", "Play");
+                if(app.createServerScreen.create != null) {
+                    Gdx.app.log("HEJ!", "Notifying nextRoundCall from server.");
+                    app.createServerScreen.create.serverUser.setReadyNextRound(true);
+                    app.createServerScreen.create.notifyRoundCall();
+                } else if (app.joinServerScreen.join != null)
+                    app.joinServerScreen.join.sendRoundCheck();
 
-                scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 1000, 0.5f), Actions.delay(1),
-                        Actions.run(new Runnable() {
-                            public void run() {
-                                // Gdx.app.log("done", "done");
-                                DataHolder.getInstance().setActivateCamera(true);
-                                app.setScreen(new GameScreen(app));
-//                                dispose();
-                            }
-                        })));
             }
         });
         scoreStage.addActor(buttonPlay);
+    }
+
+    public void startNewRound()
+    {
+        if(app.createServerScreen.create != null)
+            app.createServerScreen.create.resetNextRoundState();
+        scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 1000, 0.5f), Actions.delay(1),
+                Actions.run(new Runnable() {
+                    public void run() {
+                        // Gdx.app.log("done", "done");
+                        Gdx.app.log("HEJ!", "Starting new round.");
+                        DataHolder.getInstance().setActivateCamera(true);
+                        app.gameScreen = new GameScreen(app);
+                        app.setScreen(app.gameScreen);
+//                                dispose();
+                    }
+                })));
     }
 
     private void initButtonsFinalScore(){

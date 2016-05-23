@@ -146,7 +146,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
             collisionHappened = true;
 
             if((entities.get(userValue0) != entities.get(0) && entities.get(userValue1) != entities.get(0))) {
-                Gdx.app.log("HEJ!", "Contact commence.");
                 String model1 = PropertiesSingleton.getInstance().getChosenBall(userValue0 - 1);
                 String model2 = PropertiesSingleton.getInstance().getChosenBall(userValue1 - 1);
 
@@ -228,7 +227,6 @@ public class GameScreen extends BaseBulletTest implements Screen {
         public void onContactEnded (btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
             final int userValue0 = colObj0.getUserValue();
             final int userValue1 = colObj1.getUserValue();
-            Gdx.app.log("HEJ!", "Contact ended.");
 //            if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
 //                   if (match0) {
 //                    final BulletEntity e = (BulletEntity) (entities.get(userValue0));
@@ -852,7 +850,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 Actions.run(new Runnable() {
                     public void run() {
                         DataHolder.getInstance().setActivateCamera(false);
-                        app.setScreen(new ScoreScreen(app));
+                        app.scoreScreen = new ScoreScreen(app);
+                        app.setScreen(app.scoreScreen);
                     }
                 })));
 

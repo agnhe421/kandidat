@@ -62,7 +62,7 @@ public class MainMenyScreen implements Screen {
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/Buttons.pack", TextureAtlas.class));
-        this.skin.add("default-font", app.font40); // Sätter defaulf font som vår ttf font
+        this.skin.add("default-font", app.font40); // Sätter default font som vår ttf font
         this.skin.load(Gdx.files.internal("ui/Buttons.json"));
 
         Actor background = new Image(new Sprite(new Texture(Gdx.files.internal("img/Background.jpg"))));
@@ -72,7 +72,7 @@ public class MainMenyScreen implements Screen {
 
         initButtons();
 
-        GameSound.getInstance().playMusic("menu");
+        //GameSound.getInstance().playMusic("menu");
     }
 
     @Override
