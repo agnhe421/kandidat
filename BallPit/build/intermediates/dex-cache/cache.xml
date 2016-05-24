@@ -2,6 +2,7 @@
 <items version="2" >
 
     <item
+<<<<<<< HEAD
         jar="D:\Program\TNM094Master\BallPit\app\libs\gdx.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -38,24 +39,70 @@
     </item>
     <item
         jar="D:\Program\TNM094Master\BallPit\app\libs\gdx-backend-android.jar"
+=======
+        jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\libs\gdx-backend-android.jar"
+>>>>>>> 0e16e1c4a68a6ea5f7f36dda39731da1968a43cd
         jumboMode="false"
         revision="22.0.1"
         sha1="dd459f86946ba712fd473d09ef5c7f1ac8bff629">
-        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\gdx-backend-android-8647f378179c46481974f6768a21bc956fd936cf.jar" />
+        <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\gdx-backend-android-e158bfa5a4db04d40d3b6429320fd76333092a12.jar" />
     </item>
     <item
-        jar="D:\Program\TNM094Master\BallPit\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\libs\internal_impl-22.0.0.jar"
+        jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\java\vuforia\Vuforia.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
-        <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-fd1faa50ea80f46212e34fdf621115bfc1309924.jar" />
+        sha1="5649f0a8a49ca49701dc36af60f6c593ba4b3c2d">
+        <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\Vuforia-21ee912a288c5d247773592092760bdd99b19a79.jar" />
     </item>
     <item
+<<<<<<< HEAD
         jar="D:\Program\TNM094Master\BallPit\app\libs\gdx-freetype.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="7a389b111c748796d7057a5fc288ee506d0fdea8">
         <dex dex="D:\Program\TNM094Master\BallPit\app\build\intermediates\pre-dexed\debug\gdx-freetype-dd7e6998bd018a91b7993ee57955372ab515e75b.jar" />
+=======
+        jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\libs\gdx.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="10469e4371df07b778bcc0fa14205e4625b85d72">
+        <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\gdx-c224fd110e61b3aef322f084923b5b1e1b7ef92b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Agnes\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-f559e1ce604034bf3bb4a017d18b023c1aaf5919.jar" />
+    </item>
+    <item
+        jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\libs\gdx-freetype.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7a389b111c748796d7057a5fc288ee506d0fdea8">
+        <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\gdx-freetype-afc401820f784b1643839b594ddef9c7c047b4e1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-f1470ddf3f51b8cf724beb75e622b4d7498cbf27.jar" />
+    </item>
+    <item
+        jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\libs\gdx-bullet.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="07155cc662ff0bdabe0e5af99d8f722eb6553a77">
+        <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\gdx-bullet-f8dfe0d241c0571548f373c0f376b6481f998411.jar" />
+    </item>
+    <item
+        jar="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="C:\Users\Agnes\Documents\tnm094\kandidat\BallPit\app\build\intermediates\pre-dexed\debug\classes-49db95c0e50529fcc7bfb56f3033aaf498ee15b1.jar" />
+>>>>>>> 0e16e1c4a68a6ea5f7f36dda39731da1968a43cd
     </item>
 
 </items>
