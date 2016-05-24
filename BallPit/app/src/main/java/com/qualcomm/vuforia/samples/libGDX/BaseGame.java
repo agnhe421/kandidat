@@ -79,15 +79,15 @@ public class BaseGame extends Game {
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         params.size = 40;
-        params.color = Color.WHITE;
+        params.color = Color.BLACK;
         font40 = generator.generateFont(params);
 
         params.size = 60;
-        params.color = Color.WHITE;
+        params.color = Color.BLACK;
         font60 = generator.generateFont(params);
 
         params.size = 160;
-        params.color = Color.WHITE;
+        params.color = Color.BLACK;
         font120 = generator.generateFont(params);
         generator.dispose();
 
