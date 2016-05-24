@@ -943,6 +943,14 @@ public class CreateServer extends Thread
     {
         return allIslandChosen;
     }
+    public void resetAllLoaded()
+    {
+        serverUser.setGameLoaded(false);
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            userList.get(idu).setGameLoaded(false);
+        }
+    }
     public Boolean checkAllLoaded()
     {
         Boolean allLoaded = false;

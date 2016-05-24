@@ -199,7 +199,10 @@ public class ScoreScreen implements Screen{
                 PropertiesSingleton.getInstance().setScore(idu, 0);
         PropertiesSingleton.getInstance().setRound(nextRoundNumber);
         if(app.createServerScreen.create != null)
+        {
             app.createServerScreen.create.resetNextRoundState();
+            app.createServerScreen.create.resetAllLoaded();
+        }
         scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 1000, 0.5f), Actions.delay(1),
                 Actions.run(new Runnable() {
                     public void run() {
