@@ -134,10 +134,10 @@ public class SettingScreen implements Screen {
     }
 
     public void initMusic(){
-       // music = Gdx.audio.newMusic(Gdx.files.internal("sound/theReef.mp3")); //read in the file
-       // music.setLooping(true);
-      //  music.setVolume(soundVolume); //when it start set volume = 0.5f.
-      //  music.play();
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound/theReef.mp3")); //read in the file
+        music.setLooping(true);
+        music.setVolume(soundVolume); //when it start set volume = 0.5f.
+        music.play();
 
     }
     //TODO: music ch soundeffects text, och backknappen?

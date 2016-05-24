@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<<<<<<< HEAD
     <!-- From: file:/D:/Program/TNM094Master/BallPit/app/src/main/res/values-v13/styles.xml -->
-=======
-    <!-- From: file:/C:/Users/Agnes/Documents/tnm094/kandidat/BallPit/app/src/main/res/values-v13/styles.xml -->
->>>>>>> 0e16e1c4a68a6ea5f7f36dda39731da1968a43cd
     <eat-comment/>
     <style name="SampleAppsTheme" parent="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
         <item name="android:windowNoTitle">true</item>
