@@ -19,12 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.singletons.DataHolder;
 import com.qualcomm.vuforia.samples.singletons.PropertiesSingleton;
-
 
 import java.util.Collections;
 import java.util.List;
@@ -170,12 +168,10 @@ public class ScoreScreen implements Screen{
     }
 
     private void initButtonsTotalScore(){
-        float buttonSizeX = 250, buttonSizeY = 50;
 
         buttonPlay = new TextButton("Next round",skin, "default8");
-        buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonPlay.setSize(buttonSizeX, buttonSizeY);
-        buttonPlay.setPosition(Gdx.graphics.getWidth() / 4 - buttonPlay.getWidth() / 2, Gdx.graphics.getHeight() / 6 - buttonPlay.getHeight() / 2);
+        buttonPlay.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 9);
+        buttonPlay.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 6 - buttonPlay.getHeight() / 2);
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -199,7 +195,10 @@ public class ScoreScreen implements Screen{
                 PropertiesSingleton.getInstance().setScore(idu, 0);
         PropertiesSingleton.getInstance().setRound(nextRoundNumber);
         if(app.createServerScreen.create != null)
+        {
             app.createServerScreen.create.resetNextRoundState();
+            app.createServerScreen.create.resetAllLoaded();
+        }
         scoreStage.getRoot().addAction(Actions.sequence(Actions.delay(1.2f), Actions.moveTo(0, 1000, 0.5f), Actions.delay(1),
                 Actions.run(new Runnable() {
                     public void run() {
@@ -217,8 +216,8 @@ public class ScoreScreen implements Screen{
 
         buttonPlayAgain = new TextButton("Play again",skin, "default8");
         buttonPlayAgain.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonPlayAgain.setSize(buttonSizeX, buttonSizeY);
-        buttonPlayAgain.setPosition(Gdx.graphics.getWidth() / 4 - buttonPlayAgain.getWidth() / 2, Gdx.graphics.getHeight() / 6);
+        buttonPlayAgain.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 9);
+        buttonPlayAgain.setPosition(Gdx.graphics.getWidth() - buttonPlayAgain.getWidth(), Gdx.graphics.getHeight() / 6);
         buttonPlayAgain.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -234,9 +233,8 @@ public class ScoreScreen implements Screen{
 
         buttonMainMenu = new TextButton("Main menu",skin, "default8");
         buttonMainMenu.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonMainMenu.setSize(buttonSizeX, buttonSizeY);
-        buttonMainMenu.setPosition(Gdx.graphics.getWidth() / 4 - buttonMainMenu.getWidth() / 2, Gdx.graphics.getHeight() / 6 - buttonPlayAgain.getHeight());
-        buttonMainMenu.addListener(new ClickListener() {
+        buttonMainMenu.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 9);
+        buttonMainMenu.setPosition(Gdx.graphics.getWidth() - buttonMainMenu.getWidth(), Gdx.graphics.getHeight() / 6); buttonMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Clicked", "Main");
@@ -265,14 +263,19 @@ public class ScoreScreen implements Screen{
         if(createTable) {
             table = new Table(skin);
             stage.addActor(table);
-            table.setDebug(true);
+         //   table.setDebug(true);
             table.setFillParent(true);
 
+            table.left();
+            table.padTop(Gdx.graphics.getHeight() / 10);
+            table.padLeft(Gdx.graphics.getWidth() / 35);
+            table.row();
             labelStyle = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(app.font40, Color.BLACK);
             highscoreLable = new Label(stringHeadlinte, labelStyle);
 
-            table.add(highscoreLable).align(Align.top);
-            table.row();
+            highscoreLable.setPosition(Gdx.graphics.getWidth()/25, Gdx.graphics.getHeight()-(highscoreLable.getHeight()*3));
+            scoreStage.addActor(highscoreLable);
+
 
             createTable = false;
         }
@@ -286,7 +289,7 @@ public class ScoreScreen implements Screen{
             footballScoreLable = new Label(Integer.toString(playerInfoList.get(i).getScore()), labelStyle);
 
             table.row();
-            table.add(footballPortrait).size(100, 100);
+            table.add(footballPortrait).padTop(10).size(Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 5);
             table.add(footballNameLable).uniform();
             table.add(footballScoreLable).uniform();
             scoreStage.addActor(table);

@@ -157,9 +157,8 @@ public class ScoreScreen implements Screen{
 
         buttonPlay = new TextButton("Next round",skin, "default8");
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(20, -20, .5f, Interpolation.pow5Out))));
-        buttonPlay.setSize(buttonSizeX, buttonSizeY);
-        buttonPlay.setPosition(Gdx.graphics.getWidth() / 4 - buttonPlay.getWidth() / 2, Gdx.graphics.getHeight() / 6 - buttonPlay.getHeight() / 2);
-        buttonPlay.addListener(new ClickListener() {
+        buttonPlay.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 9);
+        buttonPlay.setPosition(Gdx.graphics.getWidth() / 3 , Gdx.graphics.getHeight() / 6 - buttonPlay.getHeight() / 2);buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Clicked", "Play");

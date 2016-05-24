@@ -6,6 +6,11 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0-sources.jar!/" />
+<<<<<<< HEAD
+=======
+      <root url="jar://$PROJECT_DIR$/../../Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0-sources.jar!/" />
+>>>>>>> 546d29025f0574f1dd6478805cf9ae0ba6821536
     </SOURCES>
   </library>
 </component>

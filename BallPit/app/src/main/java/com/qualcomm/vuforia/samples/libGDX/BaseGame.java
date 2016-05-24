@@ -83,7 +83,7 @@ public class BaseGame extends Game {
         font40 = generator.generateFont(params);
 
         params.size = 60;
-        params.color = Color.BLACK;
+        params.color = Color.WHITE;
         font60 = generator.generateFont(params);
 
         params.size = 160;
