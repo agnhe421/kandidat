@@ -85,6 +85,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
 
     String voted;
     Array<ImageButton> voteButtons;
+    public boolean responseReceived;
 
     private final BaseGame app;
 
@@ -92,7 +93,7 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         this.app = app;
         this.islandNames = app.islandNames;
         this.ballNames = app.ballNames;
-
+        responseReceived = false;
         this.assets = PropertiesSingleton.getInstance().getAssets();
 
         Gdx.app.log("CHOOSE ISLANNNNDDDDDDD","CHOOOOOSSEEEE ISLAAAAND");
@@ -237,9 +238,6 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
 
 
 
-
-
-
     @Override
     public void render () {
 
@@ -256,7 +254,9 @@ public class ChooseIslandScreen extends InputAdapter implements ApplicationListe
         }
         if(app.createServerScreen.create != null)
         {
-            if (app.createServerScreen.create.checkIslandChosen() && app.createServerScreen.create.getSwitchScreen())
+            if (app.createServerScreen.create.checkIslandChosen() &&
+                    app.createServerScreen.create.getSwitchScreen() &&
+                    app.createServerScreen.create.checkResponseReceived())
             {
                 PropertiesSingleton.getInstance().initRandomCoinPosition(PropertiesSingleton.getInstance().getChosenIsland());
                 PropertiesSingleton.getInstance().setRandomCoinPosition();

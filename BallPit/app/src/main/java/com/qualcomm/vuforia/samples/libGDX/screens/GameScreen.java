@@ -79,7 +79,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
     boolean collisionHappened = false;
     boolean gameOverGameScreen = false;
     boolean playerCreated = false;
-    boolean loading = false;
+    public boolean loading;
+    public boolean play;
 
 
     // Control
@@ -127,7 +128,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     public GameScreen(final BaseGame app)
     {
-
+        play = false;
+        loading = true;
         this.app = app;
         this.assets = PropertiesSingleton.getInstance().getAssets();
         if(app.createServerScreen.create != null)
@@ -218,33 +220,33 @@ public class GameScreen extends BaseBulletTest implements Screen {
                             Vector3 normVec = new Vector3(normFactor * vec.x, normFactor * vec.y, normFactor * vec.z);
                             ((btRigidBody) entities.get(userValue1).body).applyCentralImpulse(normVec);
                         }
+                    }
+                    else if(userValue0 < (playerEntityList.size() + 1) || userValue1 < (playerEntityList.size() + 1))
+                    {
+                        Gdx.app.log("FATAL", "");
+                        if(app.createServerScreen.create != null)
+                        {
+                            PropertiesSingleton.getInstance().setRandomCoinPosition();
 
-//
-        //                if ((entities.get(userValue0) != entities.get(0))) {
-        //                    if (entities.get(userValue0) == entities.get(1) || entities.get(userValue1) == entities.get(1)) {
-        //                        if (match0) {
-        //                            final BulletEntity e = (BulletEntity) (entities.get(userValue0));
-        //                            e.setColor(Color.BLUE);
-        //                            //Gdx.app.log(Float.toString(time), "Contact started 0 " + userValue0);
-        //                            collisionUserId0 = userValue0;
-        //                            move = false;
-        //                        }
-        //                        if (match1) {
-        //                            final BulletEntity e = (BulletEntity) (entities.get(userValue1));
-        //                            e.setColor(Color.RED);
-        //                            //Gdx.app.log(Float.toString(time), "Contact started 1 " + userValue1);
-        //                            collisionUserId1 = userValue1;
-        //                            move = false;
-        //                        }
-        //
-        //                        // Play the collision sound if colliding with a ball.
-        //                        if (userValue0 <= playerList.size() && userValue1 <= playerList.size()) {
-        //                            gameSound.playCollisionSound(p1, playerList.get(userValue0 - 1).getModelName(), playerList.get(userValue1 - 1).getModelName());
-        //                            Gdx.app.log("userValue0 = ", "" + playerList.get(userValue0 - 1).getModelName());
-        //                            Gdx.app.log("userValue1 = ", "" + playerList.get(userValue1 - 1).getModelName());
-        //                        }
-        //                    }
-        //                }
+                            if(userValue0 < playerEntityList.size() + 1)
+                            {
+                                PropertiesSingleton.getInstance().setScore(userValue0,
+                                        PropertiesSingleton.getInstance().getScore(userValue0));
+                                world.entities.get(userValue1).body.setWorldTransform(
+                                        new Matrix4().setToTranslation(
+                                                PropertiesSingleton.getInstance().getCoinPosition()));
+                                app.createServerScreen.create.sendGemScore(PropertiesSingleton.getInstance().getCoinPosition(), userValue1);
+                            }
+                            else if(userValue1 < playerEntityList.size() + 1)
+                            {
+                                PropertiesSingleton.getInstance().setScore(userValue1,
+                                        PropertiesSingleton.getInstance().getScore(userValue1));
+                                world.entities.get(userValue0).body.setWorldTransform(
+                                        new Matrix4().setToTranslation(
+                                                PropertiesSingleton.getInstance().getCoinPosition()));
+                                app.createServerScreen.create.sendGemScore(PropertiesSingleton.getInstance().getCoinPosition(), userValue0);
+                            }
+                        }
                     }
                 }
             }
@@ -466,6 +468,14 @@ public class GameScreen extends BaseBulletTest implements Screen {
         //gemEntity.body.setContactCallbackFilter(1);
         ((btRigidBody) gemEntity.body).setGravity(new Vector3(0, 0, 0));
         gemEntityList.add(gemEntity);
+        if(app.joinServerScreen.join != null)
+        {
+            app.joinServerScreen.join.sendGameLoaded();
+        }
+        else if(app.createServerScreen.create != null)
+        {
+            app.createServerScreen.create.serverUser.setGameLoaded(true);
+        }
     }
 
     @Override
@@ -606,6 +616,12 @@ public class GameScreen extends BaseBulletTest implements Screen {
         ((btRigidBody)playerEntityList.get(playerID).body).applyCentralImpulse(newImpulseVector);
     }
 
+    public void updateGemPosition(Vector3 pos, int index)
+    {
+        world.entities.get(index).body.setWorldTransform(
+                new Matrix4().setToTranslation(pos));
+    }
+
     public void updatePositions(Vector<Vector3> checkCharPos, Vector<Vector3> checkCharRot)
     {
 //        Gdx.app.log("UPDATING POS", "HALLÅ ELLER");
@@ -626,6 +642,25 @@ public class GameScreen extends BaseBulletTest implements Screen {
 
     @Override
     public void render () {
+        while(loading)
+        {
+            if(app.createServerScreen.create != null)
+            {
+                if(app.createServerScreen.create.checkAllLoaded())
+                {
+                    loading = false;
+                    break;
+                }
+            }
+            try
+            {
+                synchronized (this)
+                {
+                    this.wait();
+                }
+            }catch(InterruptedException e){}
+
+        }
 
         if(app.joinServerScreen.join != null)
             if(!app.joinServerScreen.join.isAlive())
@@ -917,7 +952,8 @@ public class GameScreen extends BaseBulletTest implements Screen {
                 Actions.run(new Runnable() {
                     public void run() {
                         DataHolder.getInstance().setActivateCamera(false);
-                        app.setScreen(new ScoreScreen(app));
+                        app.scoreScreen = new ScoreScreen(app);
+                        app.setScreen(app.scoreScreen);
                     }
                 })));
 

@@ -3,6 +3,7 @@ package com.qualcomm.vuforia.samples.Network;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.qualcomm.vuforia.Prop;
 import com.qualcomm.vuforia.samples.libGDX.BaseGame;
 import com.qualcomm.vuforia.samples.libGDX.screens.GameScreen;
 import com.qualcomm.vuforia.samples.singletons.DataHolder;
@@ -103,7 +104,6 @@ public class JoinServer extends Thread
                 {
                     break;
                 }
-                Gdx.app.log("HEJ!", "Receiving: " + strConv.get(0));
                 //Receive string containing user data, such as ID and score.
                 if(strConv.get(0).equals("USER_DATA_INCOMING"))
                 {
@@ -113,7 +113,18 @@ public class JoinServer extends Thread
                 }
                 else if(strConv.get(0).equals("GEM_POSITION_INCOMING"))
                 {
+                    Gdx.app.log("HEJ!", "Gem position received.");
                     PropertiesSingleton.getInstance().setSpecialCoinPosition(fromString(strConv.get(1)));
+                    islandChosen = true;
+                }
+                else if(strConv.get(0).equals("GEM_POSITION_AND_INDEX"))
+                {
+                    PropertiesSingleton.getInstance().setSpecialCoinPosition(fromString(strConv.get(1)));
+                    PropertiesSingleton.getInstance().setScore(Integer.parseInt(strConv.get(2)),
+                            PropertiesSingleton.getInstance().getScore(Integer.parseInt(strConv.get(2))) + 5);
+                    if(app.gameScreen != null)
+                        app.gameScreen.updateGemPosition(fromString(strConv.get(1)), Integer.parseInt(strConv.get(2)));
+
                 }
                 else if(strConv.get(0).equals("POWERUP_POSITION_INCOMING"))
                 {
@@ -143,7 +154,7 @@ public class JoinServer extends Thread
                 else if(strConv.get(0).equals("ISLAND_VOTE_RESULT"))
                 {
                     PropertiesSingleton.getInstance().setChosenIsland(strConv.get(1));
-                    islandChosen = true;
+                    sendMessage("ISLAND_GOT");
                 }
                 else if(strConv.get(0).equals("ALL_BALLS_CHOSEN"))
                 {
@@ -170,6 +181,15 @@ public class JoinServer extends Thread
                 else if(strConv.get(0).equals("NEW_ROUND"))
                 {
                     app.scoreScreen.startNewRound();
+                }
+                else if(strConv.get(0).equals("GAME_LOADED"))
+                {
+                    app.gameScreen.play = true;
+                    app.gameScreen.loading = false;
+                    synchronized (app.gameScreen)
+                    {
+                        app.gameScreen.notify();
+                    }
                 }
                 else if(strConv.get(0).equals("SCORE_INCOMING"))
                 {
@@ -265,6 +285,7 @@ public class JoinServer extends Thread
                 else
                 {
                     String temp = new String(buff).trim();
+                    Gdx.app.log("HEJ!", "Full message: " + temp);
                     for(int idt = 0; idt < temp.length(); ++idt)
                     {
                         //Stop at logical terminator '/'.
@@ -316,6 +337,8 @@ public class JoinServer extends Thread
     {
         sendMessage("ISLAND_CHOSEN|" + choice);
     }
+
+    public void sendGameLoaded() {sendMessage("GAME_IS_LOADED");}
 
     public void sendBallChoice(String choice)
     {

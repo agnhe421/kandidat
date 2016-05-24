@@ -531,6 +531,12 @@ public class CreateServer extends Thread
         distributeMessage(msg);
     }
 
+    public void sendGemScore(Vector3 pos, int index)
+    {
+        String msg = "GEM_POSITION_AND_INDEX|" + pos.toString() + "|" + index;
+        distributeMessage(msg);
+    }
+
     public void sendPowerupPosition(Vector3 pos)
     {
         String msg = "POWERUP_POSITION_INCOMING|" + pos.toString();
@@ -585,6 +591,8 @@ public class CreateServer extends Thread
             user.setReadyState(false);
             user.setChosen(false);
             user.setReadyNextRound(false);
+            user.setGameLoaded(false);
+            user.setResponseReceived(false);
             user.socket = socket;
             try
             {
@@ -757,6 +765,15 @@ public class CreateServer extends Thread
                     {
                         msgsend = user.id;
                     }
+                    else if(strConv.get(0).equals("GAME_IS_LOADED"))
+                    {
+                        user.setGameLoaded(true);
+                        if(app.gameScreen != null)
+                            synchronized (app.gameScreen)
+                            {
+                                app.gameScreen.notify();
+                            }
+                    }
                     else if(strConv.get(0).equals("READY_NEXT_ROUND"))
                     {
                         user.setReadyNextRound(true);
@@ -770,6 +787,10 @@ public class CreateServer extends Thread
                         user.setIslandChoice(strConv.get(1));
                         user.setChosen(true);
                         notifyIsland();
+                    }
+                    else if(strConv.get(0).equals("ISLAND_GOT"))
+                    {
+                        user.setResponseReceived(true);
                     }
                     else if(strConv.get(0).equals("BALL_CHOSEN"))
                     {
@@ -922,12 +943,57 @@ public class CreateServer extends Thread
     {
         return allIslandChosen;
     }
+    public Boolean checkAllLoaded()
+    {
+        Boolean allLoaded = false;
+        for(int idu = 0; idu <= userList.size(); ++idu)
+        {
+            if(idu == 0)
+            {
+                if(!serverUser.gameLoaded)
+                {
+                    allLoaded = false;
+                    break;
+                }
+            }
+            else
+            {
+                if(!userList.get(idu - 1).gameLoaded)
+                {
+                    allLoaded = false;
+                    break;
+                }
+            }
+            allLoaded = true;
+        }
+        if(allLoaded)
+        {
+            String msg = "GAME_LOADED";
+            distributeMessage(msg);
+        }
+        return allLoaded;
+    }
     public void notifyIsland()
     {
         synchronized (islandVote)
         {
             islandVote.notify();
         }
+    }
+
+    public Boolean checkResponseReceived()
+    {
+        Boolean respRec = false;
+        for(int idu = 0; idu < userList.size(); ++idu)
+        {
+            if(!userList.get(idu).responseReceived)
+            {
+                respRec = false;
+                break;
+            }
+            respRec = true;
+        }
+        return respRec;
     }
 
     public Boolean checkBallChosen()
@@ -957,9 +1023,9 @@ public class CreateServer extends Thread
         private String id;
         public Socket socket;
         public ConnectThread conThread;
-        private Boolean readyState;
+        private Boolean readyState, gameLoaded;
         private String islandChoice, ballChoice;
-        private Boolean chosen, readyNextRound;
+        private Boolean chosen, readyNextRound, responseReceived;
 
         public void setChosen(Boolean state) {chosen = state;}
         public void setReadyNextRound(Boolean state) {readyNextRound = state;}
@@ -967,6 +1033,8 @@ public class CreateServer extends Thread
         public void setBallChoice(String choice) {ballChoice = choice;}
         public void setName(String id) {this.id = id;}                          //Set new name.
         public void setReadyState(Boolean rdy) {readyState = rdy;}              //Set the ready state of user.
+        public void setGameLoaded(Boolean state) {gameLoaded = state;}
+        public void setResponseReceived(Boolean state) {responseReceived = state;}
     }
 
     public String getServerName() {return serverUser.id;}                           //Return user name.
